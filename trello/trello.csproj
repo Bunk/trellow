@@ -27,6 +27,7 @@
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <ExpressionBlendVersion>5.0.31017.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -95,38 +96,52 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Bootstrapper.cs" />
     <Compile Include="Caliburn.Micro\ContainerExtensions.cs" />
     <Compile Include="Caliburn.Micro\ExtensionMethods.cs" />
     <Compile Include="Caliburn.Micro\SimpleContainer.cs" />
-    <Compile Include="Infrastructure\Serialization\JsonDeserializer.cs" />
+    <Compile Include="Caliburn.Micro\TelerikConventions.cs" />
     <Compile Include="LocalizedStrings.cs" />
-    <Compile Include="MainPage.xaml.cs">
-      <DependentUpon>MainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="netfx\System\Guard.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\AppResources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
     </Compile>
+    <Compile Include="SampleData\SampleDataSource\SampleDataSource.xaml.cs">
+      <DependentUpon>SampleDataSource.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\Models\Board.cs" />
     <Compile Include="Services\BoardService.cs" />
     <Compile Include="Services\IBoardService.cs" />
+    <Compile Include="Services\Models\Invitation.cs" />
+    <Compile Include="Services\Models\Preferences.cs" />
     <Compile Include="Services\TrelloOAuthClient.cs" />
     <Compile Include="Services\RestClientExtensions.cs" />
     <Compile Include="Services\ServiceBase.cs" />
-    <Compile Include="Services\ServiceResult.cs" />
+    <Compile Include="Services\Models\Membership.cs" />
     <Compile Include="Services\TrelloRequestException.cs" />
+    <Compile Include="ViewModels\BoardListViewModel.cs" />
+    <Compile Include="ViewModels\IProgressService.cs" />
+    <Compile Include="ViewModels\ProgressResult.cs" />
+    <Compile Include="ViewModels\ProgressService.cs" />
+    <Compile Include="ViewModels\ResultBase.cs" />
+    <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\BoardListView.xaml.cs">
+      <DependentUpon>BoardListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Converters\BitmapImageConverter.cs" />
+    <Compile Include="Views\Converters\VisibilityConverter.cs" />
+    <Compile Include="Views\ShellView.xaml.cs">
+      <DependentUpon>ShellView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Page Include="MainPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -141,6 +156,70 @@
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Icons\dark\appbar.add.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.back.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.basecircle.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.cancel.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.check.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.close.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.delete.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.download.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.edit.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.favs.addto.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.favs.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.feature.camera.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.feature.email.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.feature.search.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.feature.settings.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.feature.video.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.folder.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.minus.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.new.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.next.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.overflowdots.png" />
+    <Content Include="Assets\Icons\dark\appbar.questionmark.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.refresh.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.save.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.share.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.stop.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.sync.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.transport.ff.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.transport.pause.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.transport.play.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.transport.rew.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.upload.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.add.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.back.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.basecircle.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.cancel.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.check.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.close.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.delete.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.download.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.edit.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.favs.addto.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.favs.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.feature.camera.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.feature.email.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.feature.search.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.feature.settings.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.feature.video.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.folder.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.minus.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.new.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.next.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.overflowdots.png" />
+    <Content Include="Assets\Icons\light\appbar.questionmark.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.refresh.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.save.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.share.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.stop.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.sync.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.transport.ff.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.transport.pause.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.transport.play.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.transport.rew.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.upload.rest.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -174,6 +253,9 @@
       <HintPath>..\packages\Strilanc.Value.May.1.0.2\lib\portable-net4+sl4+wp7+win8\May.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Phone.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Phone.Controls.Toolkit">
+      <HintPath>..\packages\WPtoolkit.4.2012.10.30\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\sl3-wp\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -183,9 +265,33 @@
     <Reference Include="System.Windows.Interactivity, Version=3.9.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Caliburn.Micro.1.4\lib\wp8\System.Windows.Interactivity.dll</HintPath>
     </Reference>
+    <Reference Include="Telerik.Windows.Controls.Primitives, Version=2012.3.1211.3040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.Windows.Core, Version=2012.3.1211.3040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+  </ItemGroup>
+  <ItemGroup>
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </DesignTimeOnly>
+    <Page Include="Views\BoardListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ShellView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource.xsd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Icons\fugue\lock.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

@@ -1,10 +1,11 @@
-using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using trello.Services.Models;
 
 namespace trello.Services
 {
     public interface IBoardService
     {
-        IObservable<IEnumerable<Board>> Mine();
+        Task<IEnumerable<Board>> Mine();
     }
 }
