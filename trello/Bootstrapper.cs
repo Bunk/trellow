@@ -27,9 +27,11 @@ namespace trello
             _container.Singleton<IBoardService, BoardService>();
             _container.Singleton<IOAuthClient, TrelloOAuthClient>();
 
-            _container.PerRequest<BoardListViewModel>();
-            _container.PerRequest<ShellViewModel>();
-
+            _container.Singleton<ShellViewModel>();
+            _container.Singleton<BoardListViewModel>();
+            _container.Singleton<CardListViewModel>();
+            _container.Singleton<MessageListViewModel>();
+            
             TelerikConventions.Install();
         }
 

@@ -2,11 +2,36 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using Caliburn.Micro;
+using Microsoft.Phone.Shell;
 
 namespace trello.ViewModels
 {
     public abstract class ViewModelBase : Screen
     {
+        protected ApplicationBar _defaultAppBar;
+
+        public ApplicationBar DefaultAppBar
+        {
+            get { return _defaultAppBar; }
+            set
+            {
+                _defaultAppBar = value;
+                NotifyOfPropertyChange(() => DefaultAppBar);
+            }
+        }
+
+        public ViewModelBase()
+        {
+            SetUpDefaultAppBar();
+        }
+
+        private void SetUpDefaultAppBar()
+        {
+            var bar = new ApplicationBar {IsVisible = true, IsMenuEnabled = true, Opacity = 1};
+
+            DefaultAppBar = bar;
+        }
+
         protected override void OnViewReady(object view)
         {
             if (!(view is DependencyObject))

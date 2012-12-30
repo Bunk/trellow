@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using trello.Services;
 using trello.Services.Models;
@@ -20,6 +18,7 @@ namespace trello.ViewModels
             _progressService = progressService;
             _boardService = boardService;
 
+            DisplayName = "boards";
             Boards = new BindableCollection<BoardViewModel>();
         }
 

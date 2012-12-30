@@ -1,43 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Phone.Controls;
-
-namespace trello.ViewModels
+﻿namespace trello.ViewModels
 {
-    public class ShellViewModel : ViewModelBase
+    public class ShellViewModel : PivotViewModel
     {
         private readonly BoardListViewModel _boards;
-        private BoardListViewModel _boardsPivotContent;
+        private readonly CardListViewModel _cards;
+        private readonly MessageListViewModel _messages;
 
-        public BoardListViewModel BoardsPivotItem
+        public ShellViewModel(BoardListViewModel boards,
+                              CardListViewModel cards,
+                              MessageListViewModel messages)
         {
-            get { return _boardsPivotContent; }
-            set
-            {
-                _boardsPivotContent = value;
-                NotifyOfPropertyChange(() => BoardsPivotItem);
-            }
+            _boards = boards;
+            _cards = cards;
+            _messages = messages;
         }
 
-        public ShellViewModel(BoardListViewModel boards)
+        protected override void OnInitialize()
         {
-            BoardsPivotItem = boards;
-        }
+            base.OnInitialize();
 
-        public void PivotItemLoaded(PivotItemEventArgs e)
-        {
-            switch (e.Item.Name)
-            {
-                case "BoardsPivotItem":
-                {
-                    if (BoardsPivotItem == null)
-                        BoardsPivotItem = _boards;
-                    break;
-                }
-            }
+            Items.Add(_boards);
+            Items.Add(_cards);
+            Items.Add(_messages);
+
+            ActivateItem(_boards);
         }
     }
 }

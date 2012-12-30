@@ -122,7 +122,11 @@
     <Compile Include="Services\Models\Membership.cs" />
     <Compile Include="Services\TrelloRequestException.cs" />
     <Compile Include="ViewModels\BoardListViewModel.cs" />
+    <Compile Include="ViewModels\CardListViewModel.cs" />
     <Compile Include="ViewModels\IProgressService.cs" />
+    <Compile Include="ViewModels\MessageListViewModel.cs" />
+    <Compile Include="ViewModels\PivotFix.cs" />
+    <Compile Include="ViewModels\PivotViewModel.cs" />
     <Compile Include="ViewModels\ProgressResult.cs" />
     <Compile Include="ViewModels\ProgressService.cs" />
     <Compile Include="ViewModels\ResultBase.cs" />
@@ -131,8 +135,14 @@
     <Compile Include="Views\BoardListView.xaml.cs">
       <DependentUpon>BoardListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CardListView.xaml.cs">
+      <DependentUpon>CardListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Converters\BitmapImageConverter.cs" />
     <Compile Include="Views\Converters\VisibilityConverter.cs" />
+    <Compile Include="Views\MessageListView.xaml.cs">
+      <DependentUpon>MessageListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ShellView.xaml.cs">
       <DependentUpon>ShellView.xaml</DependentUpon>
     </Compile>
@@ -279,6 +289,14 @@
     <Page Include="Views\BoardListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardListView.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MessageListView.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ShellView.xaml">
       <SubType>Designer</SubType>

@@ -12,30 +12,18 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"
+    ApplicationBar="{Binding DefaultAppBar}">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
-        <!--Pivot Control-->
-        <phone:Pivot Title="TRELLOW - MINE">
-            <!--Pivot item one-->
-            <phone:PivotItem Header="boards" x:Name="BoardsPivotItem" />
-
-            <!--Pivot item two-->
-            <phone:PivotItem Header="cards">
-                <Grid/>
-            </phone:PivotItem>
-            
-            <phone:PivotItem Header="alerts">
-                <Grid />
-            </phone:PivotItem>
-        </phone:Pivot>
+        <phone:Pivot Title="TRELLOW - MINE" x:Name="Items" SelectedItem="{Binding ActiveItem, Mode=TwoWay}">
+			<phone:Pivot.HeaderTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding DisplayName}" />
+				</DataTemplate>
+			</phone:Pivot.HeaderTemplate>
+		</phone:Pivot>
     </Grid>
-    
-    <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="False">
-            <shell:ApplicationBarIconButton IconUri="/Assets/Icons/dark/appbar.add.rest.png" Text="Add" />
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>
     
 </phone:PhoneApplicationPage>
