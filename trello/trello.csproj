@@ -116,6 +116,8 @@
     <Compile Include="Services\IBoardService.cs" />
     <Compile Include="Services\Models\Invitation.cs" />
     <Compile Include="Services\Models\Preferences.cs" />
+    <Compile Include="Services\ProgressAwareRequestProcessor.cs" />
+    <Compile Include="Services\RequestProcessor.cs" />
     <Compile Include="Services\TrelloOAuthClient.cs" />
     <Compile Include="Services\RestClientExtensions.cs" />
     <Compile Include="Services\ServiceBase.cs" />
@@ -258,6 +260,9 @@
     </Reference>
     <Reference Include="Caliburn.Micro.Extensions">
       <HintPath>..\packages\Caliburn.Micro.1.4\lib\wp8\Caliburn.Micro.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations">
+      <HintPath>..\packages\JetBrains.Annotations.7.0\lib\sl3-wp\JetBrains.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="May">
       <HintPath>..\packages\Strilanc.Value.May.1.0.2\lib\portable-net4+sl4+wp7+win8\May.dll</HintPath>

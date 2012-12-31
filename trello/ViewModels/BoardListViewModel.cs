@@ -1,52 +1,39 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Caliburn.Micro;
+using JetBrains.Annotations;
 using trello.Services;
 using trello.Services.Models;
 
 namespace trello.ViewModels
 {
+    [UsedImplicitly]
     public class BoardListViewModel : ViewModelBase
     {
-        private readonly IProgressService _progressService;
         private readonly IBoardService _boardService;
 
         public IObservableCollection<BoardViewModel> Boards { get; private set; }
 
-        public BoardListViewModel(IProgressService progressService, IBoardService boardService)
+        public BoardListViewModel(IBoardService boardService)
         {
-            _progressService = progressService;
             _boardService = boardService;
 
             DisplayName = "boards";
+
             Boards = new BindableCollection<BoardViewModel>();
         }
 
         protected override void OnViewLoaded(object view)
         {
             UpdateMyBoards();
-
-            //MessageBox.Show("The boards would be loaded here.");
-
-            base.OnViewLoaded(view);
         }
 
-        public void UpdateMyBoards()
+        private async void UpdateMyBoards()
         {
             Boards.Clear();
 
-            _progressService.Show();
+            var boards = await _boardService.Mine();
 
-            //var boards = await _boardService.Mine();
-            var boards = new List<Board>
-            {
-                new Board { Name = "Work @ Home", Desc = "This is a simple description for this board.", Prefs = new Preferences { PermissionLevel = "private" }},
-                new Board { Name = "Trellow", Desc = "This is a short description.", Prefs = new Preferences { PermissionLevel = "private" }},
-                new Board { Name = "Cardboard", Desc = "This should be a really, really, really, really long description for this board.", Prefs = new Preferences { PermissionLevel = "public"}}
-            };
             Boards.AddRange(boards.Select(b => new BoardViewModel(b)));
-
-            _progressService.Hide();
         }
     }
 

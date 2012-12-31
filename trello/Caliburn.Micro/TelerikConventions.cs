@@ -10,6 +10,9 @@ namespace Caliburn.Micro
     {
         public static void Install()
         {
+            ConventionManager.AddElementConvention<RadBusyIndicator>(RadBusyIndicator.IsRunningProperty,
+                                                                     "IsRunning",
+                                                                     "Loaded");
             ConventionManager.AddElementConvention<RadDataBoundListBox>(DataControlBase.ItemsSourceProperty,
                                                                         "SelectedItem",
                                                                         "SelectionChanged")

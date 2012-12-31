@@ -1,6 +1,9 @@
+using System.Windows.Controls.Primitives;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using Telerik.Windows.Controls;
+using trello.Views.ProgressBar;
 
 namespace trello.ViewModels
 {
@@ -12,7 +15,10 @@ namespace trello.ViewModels
         public ProgressService(PhoneApplicationFrame rootFrame)
         {
             _indicator = new ProgressIndicator {Text = DefaultIndicatorText};
+            
             rootFrame.Navigated += RootFrameOnNavigated;
+
+            UpdateProgressBarAttachment(rootFrame.Content);
         }
 
         public void Show()
@@ -33,13 +39,18 @@ namespace trello.ViewModels
             _indicator.IsVisible = false;
         }
 
-        private void RootFrameOnNavigated(object sender, NavigationEventArgs args)
+        private void UpdateProgressBarAttachment(object obj)
         {
-            var content = args.Content as PhoneApplicationPage;
+            var content = obj as PhoneApplicationPage;
             if (content == null)
                 return;
 
             content.SetValue(SystemTray.ProgressIndicatorProperty, _indicator);
+        }
+
+        private void RootFrameOnNavigated(object sender, NavigationEventArgs args)
+        {
+            UpdateProgressBarAttachment(sender);
         }
     }
 }

@@ -24,8 +24,10 @@ namespace trello
             _container.Instance(RootFrame);
 
             _container.Singleton<IProgressService, ProgressService>();
-            _container.Singleton<IBoardService, BoardService>();
             _container.Singleton<IOAuthClient, TrelloOAuthClient>();
+            _container.Singleton<IRequestProcessor, RequestProcessor>();
+
+            _container.Singleton<IBoardService, MockBoardService>();
 
             _container.Singleton<ShellViewModel>();
             _container.Singleton<BoardListViewModel>();

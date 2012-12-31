@@ -19,8 +19,8 @@ namespace tests.integration.Tests.Services
 
             var verifier = "PASTE_ME";
             var token = await factory.GetAccessToken(verifier);
-
-            var repo = new BoardService(factory);
+            var processor = new RequestProcessor(factory);
+            var repo = new BoardService(processor);
 
             var boards = await repo.Mine();
 

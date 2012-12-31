@@ -1,16 +1,15 @@
 using System;
-using System.Threading.Tasks;
 using RestSharp;
 
 namespace trello.Services
 {
     public abstract class ServiceBase
     {
-        private readonly IOAuthClient _factory;
+        protected readonly IRequestProcessor Processor;
 
-        protected ServiceBase(IOAuthClient factory)
+        protected ServiceBase(IRequestProcessor processor)
         {
-            _factory = factory;
+            Processor = processor;
         }
 
         protected IRestRequest Request(string resource)
@@ -23,16 +22,6 @@ namespace trello.Services
             request.AddParameter("r", DateTime.Now.Ticks); // no cache
 
             return request;
-        }
-
-        protected async Task<T> Execute<T>(IRestRequest request)
-        {
-            if (!_factory.ValidateAccessToken())
-                return default(T);
-
-            var client = _factory.GetRestClient();
-            var response = await client.ExecuteAwaitable<T>(request);
-            return response.Data;
         }
     }
 }
