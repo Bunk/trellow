@@ -1,7 +1,8 @@
 using RestSharp;
+using trello.Services.OAuth;
 using trello.ViewModels;
 
-namespace trello.Services
+namespace trello.Services.Data
 {
     public class ProgressAwareRequestProcessor : RequestProcessor
     {

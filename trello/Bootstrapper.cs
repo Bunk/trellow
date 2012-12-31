@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Caliburn.Micro;
 using Microsoft.Phone.Controls;
 using trello.Services;
+using trello.Services.Data;
+using trello.Services.OAuth;
 using trello.ViewModels;
 
 namespace trello
@@ -26,6 +28,7 @@ namespace trello
             _container.Singleton<IProgressService, ProgressService>();
             _container.Singleton<IOAuthClient, TrelloOAuthClient>();
             _container.Singleton<IRequestProcessor, RequestProcessor>();
+            _container.Singleton<ITrelloSettings, TrelloSettings>();
 
             _container.Singleton<IBoardService, MockBoardService>();
 

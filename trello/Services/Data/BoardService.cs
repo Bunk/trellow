@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using trello.Services.Models;
 using trello.ViewModels;
 
-namespace trello.Services
+namespace trello.Services.Data
 {
     public class BoardService : ServiceBase, IBoardService
     {

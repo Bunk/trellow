@@ -111,18 +111,21 @@
     <Compile Include="SampleData\SampleDataSource\SampleDataSource.xaml.cs">
       <DependentUpon>SampleDataSource.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\AppSettingsBase.cs" />
+    <Compile Include="Services\OAuth\Token.cs" />
+    <Compile Include="Services\TrelloSettings.cs" />
     <Compile Include="Services\Models\Board.cs" />
-    <Compile Include="Services\BoardService.cs" />
-    <Compile Include="Services\IBoardService.cs" />
+    <Compile Include="Services\Data\BoardService.cs" />
+    <Compile Include="Services\Data\IBoardService.cs" />
     <Compile Include="Services\Models\Invitation.cs" />
     <Compile Include="Services\Models\Preferences.cs" />
-    <Compile Include="Services\ProgressAwareRequestProcessor.cs" />
-    <Compile Include="Services\RequestProcessor.cs" />
-    <Compile Include="Services\TrelloOAuthClient.cs" />
-    <Compile Include="Services\RestClientExtensions.cs" />
-    <Compile Include="Services\ServiceBase.cs" />
+    <Compile Include="Services\Data\ProgressAwareRequestProcessor.cs" />
+    <Compile Include="Services\Data\RequestProcessor.cs" />
+    <Compile Include="Services\OAuth\TrelloOAuthClient.cs" />
+    <Compile Include="Services\Data\RestClientExtensions.cs" />
+    <Compile Include="Services\Data\ServiceBase.cs" />
     <Compile Include="Services\Models\Membership.cs" />
-    <Compile Include="Services\TrelloRequestException.cs" />
+    <Compile Include="Services\Data\TrelloRequestException.cs" />
     <Compile Include="ViewModels\BoardListViewModel.cs" />
     <Compile Include="ViewModels\CardListViewModel.cs" />
     <Compile Include="ViewModels\IProgressService.cs" />

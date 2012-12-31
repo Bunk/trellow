@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using RestSharp;
+using trello.Services.OAuth;
 
-namespace trello.Services
+namespace trello.Services.Data
 {
     public interface IRequestProcessor
     {

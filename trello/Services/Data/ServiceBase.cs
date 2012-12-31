@@ -1,7 +1,7 @@
 using System;
 using RestSharp;
 
-namespace trello.Services
+namespace trello.Services.Data
 {
     public abstract class ServiceBase
     {

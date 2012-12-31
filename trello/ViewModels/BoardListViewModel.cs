@@ -2,6 +2,7 @@
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using trello.Services;
+using trello.Services.Data;
 using trello.Services.Models;
 
 namespace trello.ViewModels

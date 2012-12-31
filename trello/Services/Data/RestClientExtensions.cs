@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using RestSharp;
 
-namespace trello.Services
+namespace trello.Services.Data
 {
     public static class RestClientExtensions
     {

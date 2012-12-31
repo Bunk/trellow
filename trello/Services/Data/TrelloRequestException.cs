@@ -1,6 +1,6 @@
 using System;
 
-namespace trello.Services
+namespace trello.Services.Data
 {
     public class TrelloRequestException : Exception
     {
