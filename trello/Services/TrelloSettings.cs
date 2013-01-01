@@ -11,6 +11,10 @@ namespace trello.Services
 
         string ApiConsumerSecret { get; }
 
+        string OAuthScope { get; }
+
+        string OAuthExpiration { get; }
+
         Token AccessToken { get; set; }
     }
 
@@ -30,6 +34,16 @@ namespace trello.Services
         public string ApiConsumerSecret
         {
             get { return "1fb29637cc712d8622aeac07fccf2e5caf1a713029032e96b9db2527ab14d65b"; }
+        }
+
+        public string OAuthScope
+        {
+            get { return "read,write"; }
+        }
+
+        public string OAuthExpiration
+        {
+            get { return "never"; }
         }
 
         public Token AccessToken

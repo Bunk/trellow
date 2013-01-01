@@ -39,7 +39,7 @@
 
 								<TextBlock Grid.Row="0" Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" FontFamily="Segoe WP Light" Foreground="{StaticResource PhoneForegroundBrush}" />
 								
-								<TextBlock Grid.Row="1" Text="{Binding Desc}" Foreground="{StaticResource PhoneSubtleBrush}" />
+								<TextBlock Grid.Row="1" Text="{Binding Desc}" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" />
 							</Grid>
                             
 							<StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="0,24,0,0">

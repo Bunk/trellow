@@ -33,17 +33,14 @@ namespace trello.Services.Data
             return completionSource.Task;
         }
 
-        public static Dictionary<string, string> ParseQueryString(this IRestResponse response)
+        public static Dictionary<string, string> ParseQueryString(this string queryString)
         {
-            var content = response.Content;
-            if (content.Length > 0 && content[0] == '?')
-                content = content.Substring(1);
+            if (queryString.Length > 0 && queryString[0] == '?')
+                queryString = queryString.Substring(1);
 
-            var retval = content.Split('&')
+            return queryString.Split('&')
                 .Select(pair => pair.Split('='))
                 .ToDictionary(tuple => tuple[0], tuple => tuple.Length == 2 ? tuple[1] : string.Empty);
-
-            return retval;
         }
     }
 }

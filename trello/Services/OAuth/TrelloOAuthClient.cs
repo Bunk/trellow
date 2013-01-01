@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using RestSharp;
 using RestSharp.Authenticators;
+using Strilanc.Value;
 using trello.Services.Data;
 
 namespace trello.Services.OAuth
@@ -10,9 +12,9 @@ namespace trello.Services.OAuth
     {
         bool ValidateAccessToken();
 
-        Task<Uri> GetLoginUri();
+        Task<May<Uri>> GetLoginUri();
 
-        Task<Token> GetAccessToken(string verifier);
+        Task<May<Token>> GetAccessToken(string verifier);
 
         IRestClient GetRestClient();
     }
@@ -21,7 +23,7 @@ namespace trello.Services.OAuth
     {
         private readonly ITrelloSettings _settings;
 
-        private Token _requestToken;
+        private May<Token> _requestToken = new May<Token>();
 
         public TrelloOAuthClient(ITrelloSettings settings)
         {
@@ -34,53 +36,49 @@ namespace trello.Services.OAuth
                 return false;
 
             // todo: attempt to query something in the API to see if it works
+            // note: we're not expiring the token, so unless something blows up this will work
 
             return true;
         }
 
-        public async Task<Uri> GetLoginUri()
+        public async Task<May<Uri>> GetLoginUri()
         {
             var client = GetRestClient(OAuth1Authenticator.ForRequestToken(_settings.ApiConsumerKey,
                                                                            _settings.ApiConsumerSecret,
                                                                            "http://localhost/oauthcallback"));
 
             var response = await client.ExecuteAwaitable(new RestRequest("OAuthGetRequestToken"));
-            var query = response.ParseQueryString();
-            _requestToken = new Token
-            {
-                Key = query["oauth_token"],
-                Secret = query["oauth_token_secret"],
-                IssuedDate = DateTime.UtcNow
-            };
+            var query = response.Content.ParseQueryString();
+            _requestToken = BuildOAuthToken(query);
 
             // https://trello.com/card/document-all-the-parameters-you-can-pass-to-authorize-aka-oauthauthorizetoken/4ed7e27fe6abb2517a21383d/95
-            var redirectUri = client.BuildUri(new RestRequest("OAuthAuthorizeToken")
-                                                  .AddParameter("oauth_token", _requestToken.Key)
-                                                  .AddParameter("name", _settings.AppName)
-                                                  .AddParameter("scope", "read,write")
-                                                  .AddParameter("expiration", "never")); //never, 30days
-
-            return redirectUri;
+            return _requestToken
+                .Select(token => client.BuildUri(new RestRequest("OAuthAuthorizeToken")
+                                                     .AddParameter("oauth_token", token.Key)
+                                                     .AddParameter("name", _settings.AppName)
+                                                     .AddParameter("scope", _settings.OAuthScope)
+                                                     .AddParameter("expiration", _settings.OAuthExpiration)));
         }
 
-        public async Task<Token> GetAccessToken(string verifier)
+        public async Task<May<Token>> GetAccessToken(string verifier)
         {
+            if (!_requestToken.HasValue)
+                return May<Token>.NoValue;
+
+            var token = _requestToken.ForceGetValue();
             var client = GetRestClient(OAuth1Authenticator.ForAccessToken(_settings.ApiConsumerKey,
                                                                           _settings.ApiConsumerSecret,
-                                                                          _requestToken.Key,
-                                                                          _requestToken.Secret,
+                                                                          token.Key,
+                                                                          token.Secret,
                                                                           verifier));
 
             var response = await client.ExecuteAwaitable(new RestRequest("OAuthGetAccessToken"));
-            var query = response.ParseQueryString();
-            var accessToken = new Token
-            {
-                Key = query["oauth_token"],
-                Secret = query["oauth_token_secret"],
-                IssuedDate = DateTime.UtcNow
-            };
+            var query = response.Content.ParseQueryString();
+            var accessToken = BuildOAuthToken(query);
 
-            return (_settings.AccessToken = accessToken);
+            accessToken.IfHasValueThenDo(t => _settings.AccessToken = t);
+
+            return accessToken;
         }
 
         public IRestClient GetRestClient()
@@ -104,6 +102,24 @@ namespace trello.Services.OAuth
                 Authenticator = authenticator
             };
             return client;
+        }
+
+        private May<Token> BuildOAuthToken(Dictionary<string, string> response)
+        {
+            string token = null;
+            string secret = null;
+            response.TryGetValue("oauth_token", out token);
+            response.TryGetValue("oauth_token_secret", out secret);
+
+            if (string.IsNullOrWhiteSpace(token) || string.IsNullOrWhiteSpace(secret))
+                return May<Token>.NoValue;
+
+            return new Token
+            {
+                Key = token,
+                Secret = secret,
+                IssuedDate = DateTime.UtcNow
+            };
         }
     }
 }

@@ -15,9 +15,9 @@ namespace trello.Services
 
         protected static T GetOrDefault<T>(string key)
         {
-            if (!Exists(key))
+            if (Exists(key))
                 lock(Sync)
-                    if (!Exists(key))
+                    if (Exists(key))
                     {
                         return (T) (Settings[key] ?? default(T));
                     }

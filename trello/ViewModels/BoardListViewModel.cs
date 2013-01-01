@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
-using trello.Services;
 using trello.Services.Data;
 using trello.Services.Models;
 
@@ -40,6 +39,8 @@ namespace trello.ViewModels
 
     public class BoardViewModel : ViewModelBase
     {
+        public string Id { get; set; }
+
         public string Name { get; set; }
 
         public string Desc { get; set; }
@@ -48,6 +49,7 @@ namespace trello.ViewModels
 
         public BoardViewModel(Board board)
         {
+            Id = board.Id;
             Name = board.Name;
             Desc = board.Desc;
             IsPrivate = board.Prefs.PermissionLevel == "private";
