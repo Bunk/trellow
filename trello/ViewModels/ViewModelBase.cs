@@ -29,6 +29,12 @@ namespace trello.ViewModels
         {
             var bar = new ApplicationBar {IsVisible = true, IsMenuEnabled = true, Opacity = 1};
 
+            var accountSettings = new ApplicationBarMenuItem("account");
+            bar.MenuItems.Add(accountSettings);
+
+            var appSettings = new ApplicationBarMenuItem("settings");
+            bar.MenuItems.Add(appSettings);
+
             DefaultAppBar = bar;
         }
 

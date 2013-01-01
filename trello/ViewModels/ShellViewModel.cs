@@ -1,4 +1,6 @@
-﻿using Caliburn.Micro;
+﻿using System.Windows;
+using Caliburn.Micro;
+using Microsoft.Phone.Shell;
 
 namespace trello.ViewModels
 {
@@ -31,6 +33,31 @@ namespace trello.ViewModels
             ActivateItem(_boards);
 
             _navigationService.RemoveBackEntry();
+        }
+
+        protected override ApplicationBar BuildDefaultAppBar()
+        {
+            var bar = base.BuildDefaultAppBar();
+
+            var accountSettings = new ApplicationBarMenuItem("account");
+            accountSettings.Click += (sender, args) => OpenAccount();
+            bar.MenuItems.Add(accountSettings);
+
+            var appSettings = new ApplicationBarMenuItem("settings");
+            appSettings.Click += (sender, args) => OpenSettings();
+            bar.MenuItems.Add(appSettings);
+
+            return bar;
+        }
+
+        public void OpenAccount()
+        {
+            MessageBox.Show("Account");
+        }
+
+        public void OpenSettings()
+        {
+            MessageBox.Show("Settings");
         }
     }
 }

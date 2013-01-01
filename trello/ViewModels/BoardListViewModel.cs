@@ -1,13 +1,15 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
+using Microsoft.Phone.Shell;
 using trello.Services.Data;
 using trello.Services.Models;
 
 namespace trello.ViewModels
 {
     [UsedImplicitly]
-    public class BoardListViewModel : ViewModelBase
+    public class BoardListViewModel : ViewModelBase, ISetupTheAppBar
     {
         private readonly IBoardService _boardService;
 
@@ -24,16 +26,26 @@ namespace trello.ViewModels
 
         protected override void OnViewLoaded(object view)
         {
-            UpdateMyBoards();
+            RefreshBoards();
         }
 
-        private async void UpdateMyBoards()
+        private async void RefreshBoards()
         {
             Boards.Clear();
 
             var boards = await _boardService.Mine();
 
             Boards.AddRange(boards.Select(b => new BoardViewModel(b)));
+        }
+
+        public ApplicationBar SetupTheAppBar(ApplicationBar existing)
+        {
+            var refresh = new ApplicationBarIconButton(new Uri("/Assets/Icons/dark/appbar.refresh.rest.png",
+                                                           UriKind.Relative)) { Text = "refresh" };
+            refresh.Click += (sender, args) => RefreshBoards();
+            existing.Buttons.Add(refresh);
+
+            return existing;
         }
     }
 
