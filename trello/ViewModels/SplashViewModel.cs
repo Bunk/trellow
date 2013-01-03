@@ -43,9 +43,13 @@ namespace trello.ViewModels
         {
             if (args.Uri.Host.Equals("localhost"))
             {
+                args.Cancel = true;
+
                 // We've been redirected back w/ the token
                 UsingView(async view =>
                 {
+                    view.Browser.Visibility = Visibility.Collapsed;
+                    
                     var parms = args.Uri.Query.ParseQueryString();
                     var verifier = parms["oauth_verifier"];
                     var token = await _oauthClient.GetAccessToken(verifier);

@@ -38,7 +38,7 @@ namespace trello.Services
 
         public string OAuthScope
         {
-            get { return "read,write"; }
+            get { return "read,write,account"; }
         }
 
         public string OAuthExpiration

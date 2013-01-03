@@ -18,7 +18,11 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <Image Source="/SplashScreenImage.jpg" Stretch="Fill" />
-        <TextBlock HorizontalAlignment="Left" Margin="199,349,0,0" TextWrapping="Wrap" Text="Loading..." VerticalAlignment="Top"/>
+        <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="Loading..." FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeLarge}" VerticalAlignment="Center">
+        	<TextBlock.Foreground>
+        		<SolidColorBrush Color="#FF25729E"/>
+        	</TextBlock.Foreground>
+        </TextBlock>
         <phone:WebBrowser x:Name="Browser" Visibility="Collapsed" cal:Message.Attach="[Event Navigating] = [Action BrowserNavigating($eventArgs)]" />
     </Grid>
 
