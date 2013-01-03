@@ -1,15 +1,16 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
+using trello.Assets;
 using trello.Services.Data;
 using trello.Services.Models;
+using trello.Services.OAuth;
 
 namespace trello.ViewModels
 {
     [UsedImplicitly]
-    public class BoardListViewModel : ViewModelBase, ISetupTheAppBar
+    public class BoardListViewModel : PivotItemViewModel, IConfigureTheAppBar
     {
         private readonly IBoardService _boardService;
 
@@ -38,10 +39,10 @@ namespace trello.ViewModels
             Boards.AddRange(boards.Select(b => new BoardViewModel(b)));
         }
 
-        public ApplicationBar SetupTheAppBar(ApplicationBar existing)
+        public ApplicationBar ConfigureTheAppBar(ApplicationBar existing)
         {
-            var refresh = new ApplicationBarIconButton(new Uri("/Assets/Icons/dark/appbar.refresh.rest.png",
-                                                           UriKind.Relative)) { Text = "refresh" };
+            var refresh = new ApplicationBarIconButton(new AssetUri("Icons/dark/appbar.refresh.rest.png"))
+            {Text = "refresh"};
             refresh.Click += (sender, args) => RefreshBoards();
             existing.Buttons.Add(refresh);
 
@@ -49,7 +50,7 @@ namespace trello.ViewModels
         }
     }
 
-    public class BoardViewModel : ViewModelBase
+    public class BoardViewModel
     {
         public string Id { get; set; }
 

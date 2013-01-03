@@ -12,6 +12,8 @@ namespace trello.Services.OAuth
     {
         bool ValidateAccessToken();
 
+        void Invalidate();
+
         Task<May<Uri>> GetLoginUri();
 
         Task<May<Token>> GetAccessToken(string verifier);
@@ -39,6 +41,11 @@ namespace trello.Services.OAuth
             // note: we're not expiring the token, so unless something blows up this will work
 
             return true;
+        }
+
+        public void Invalidate()
+        {
+            _settings.AccessToken = null;
         }
 
         public async Task<May<Uri>> GetLoginUri()

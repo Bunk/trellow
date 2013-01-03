@@ -3,53 +3,88 @@ using System.Collections.Generic;
 using System.Windows;
 using Caliburn.Micro;
 using Microsoft.Phone.Shell;
+using trello.Services;
+using trello.Services.OAuth;
 
 namespace trello.ViewModels
 {
     public abstract class ViewModelBase : Screen
     {
-        protected ApplicationBar _defaultAppBar;
+        protected readonly ITrelloSettings Settings;
+        protected readonly INavigationService Navigation;
+        protected ApplicationBar _appBar;
 
-        public ApplicationBar DefaultAppBar
+        public ApplicationBar AppBar
         {
-            get { return _defaultAppBar; }
+            get { return _appBar; }
             set
             {
-                _defaultAppBar = value;
-                NotifyOfPropertyChange(() => DefaultAppBar);
+                _appBar = value;
+                NotifyOfPropertyChange(() => AppBar);
             }
         }
 
-        public ViewModelBase()
+        public ViewModelBase(ITrelloSettings settings, INavigationService navigation)
         {
-            SetUpDefaultAppBar();
+            Settings = settings;
+            Navigation = navigation;
         }
 
-        private void SetUpDefaultAppBar()
+        protected override void OnActivate()
         {
-            var bar = new ApplicationBar {IsVisible = true, IsMenuEnabled = true, Opacity = 1};
+            base.OnActivate();
 
-            var accountSettings = new ApplicationBarMenuItem("account");
+            var appbar = BuildDefaultAppBar();
+
+            var screen = this as IConfigureTheAppBar;
+            if (screen != null)
+            {
+                appbar = screen.ConfigureTheAppBar(appbar);
+            }
+
+            AppBar = appbar;
+        }
+
+        protected virtual ApplicationBar BuildDefaultAppBar()
+        {
+            var bar = new ApplicationBar { IsVisible = true, IsMenuEnabled = true, Opacity = 1 };
+
+            var accountSettings = new ApplicationBarMenuItem("profile");
+            accountSettings.Click += (sender, args) => OpenProfile();
             bar.MenuItems.Add(accountSettings);
 
             var appSettings = new ApplicationBarMenuItem("settings");
+            appSettings.Click += (sender, args) => OpenSettings();
             bar.MenuItems.Add(appSettings);
 
-            DefaultAppBar = bar;
+            var signout = new ApplicationBarMenuItem("sign out");
+            signout.Click += (sender, args) => SignOut();
+            bar.MenuItems.Add(signout);
+
+            return bar;
         }
 
-        protected override void OnViewReady(object view)
+        private void OpenProfile()
         {
-            if (!(view is DependencyObject))
-                throw new InvalidOperationException("The view must be a DependencyObject for ViewModelBase to be " +
-                                                    "use as its ViewModel.");
-
-            Caliburn.Micro.Action.Invoke(this, "OnViewReady", (DependencyObject) view);
+            Navigation.Navigate(new Uri("/Views/ProfileView.xaml", UriKind.Relative));
         }
 
-        public virtual IEnumerable<IResult> OnViewReady()
+        private void OpenSettings()
         {
-            yield break;
+            MessageBox.Show("Settings");
+        }
+
+        private void SignOut()
+        {
+            var result = MessageBox.Show(
+                "All cached data will be removed from your phone and must be loaded again next time you sign in.\n\n" +
+                "Do you really want to sign out?",
+                "confirm sign out", MessageBoxButton.OKCancel);
+            if (result == MessageBoxResult.OK)
+            {
+                Settings.AccessToken = null;
+                Navigation.Navigate(new Uri("/Views/SplashView.xaml", UriKind.Relative));
+            }
         }
     }
 }

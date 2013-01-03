@@ -1,6 +1,6 @@
 ﻿namespace trello.ViewModels
 {
-    public class MessageListViewModel : ViewModelBase
+    public class MessageListViewModel : PivotItemViewModel
     {
         public MessageListViewModel()
         {

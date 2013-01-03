@@ -1,6 +1,6 @@
 ﻿namespace trello.ViewModels
 {
-    public class CardListViewModel : ViewModelBase
+    public class CardListViewModel : PivotItemViewModel
     {
         public CardListViewModel()
         {

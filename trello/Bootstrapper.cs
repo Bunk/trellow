@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Caliburn.Micro;
 using Microsoft.Phone.Controls;
 using trello.Services;
@@ -24,19 +25,21 @@ namespace trello
             _container.RegisterPhoneServices();
 
             _container.Instance(RootFrame);
-
+            
             _container.Singleton<IProgressService, ProgressService>();
             _container.Singleton<IOAuthClient, TrelloOAuthClient>();
             _container.Singleton<IRequestProcessor, ProgressAwareRequestProcessor>();
             _container.Singleton<ITrelloSettings, TrelloSettings>();
 
             _container.Singleton<IBoardService, BoardService>();
+            _container.Singleton<IProfileService, ProfileService>();
 
             _container.Singleton<SplashViewModel>();
             _container.Singleton<ShellViewModel>();
             _container.Singleton<BoardListViewModel>();
             _container.Singleton<CardListViewModel>();
             _container.Singleton<MessageListViewModel>();
+            _container.Singleton<ProfileViewModel>();
             
             TelerikConventions.Install();
         }
@@ -63,6 +66,12 @@ namespace trello
         protected override void BuildUp(object instance)
         {
             _container.BuildUp(instance);
+        }
+
+        protected override void OnUnhandledException(object sender, System.Windows.ApplicationUnhandledExceptionEventArgs e)
+        {
+            Debugger.Break();
+            base.OnUnhandledException(sender, e);
         }
     }
 

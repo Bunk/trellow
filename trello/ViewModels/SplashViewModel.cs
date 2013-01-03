@@ -22,7 +22,7 @@ namespace trello.ViewModels
             _oauthClient = oauthClient;
         }
 
-        protected override void OnInitialize()
+        protected override void OnViewLoaded(object view)
         {
             // this is where we check for being logged in
             var loggedin = _oauthClient.ValidateAccessToken();
@@ -71,10 +71,14 @@ namespace trello.ViewModels
 
         private void LoadLogin(Uri uri)
         {
-            UsingView(view =>
+            UsingView(async view =>
             {
-                view.Browser.Visibility = Visibility.Visible;
+                // clear the browser cookies so that we can re-login
+                await view.Browser.ClearCookiesAsync();
+
                 view.Browser.Navigate(uri);
+
+                view.Browser.Visibility = Visibility.Visible;
             });
         }
 

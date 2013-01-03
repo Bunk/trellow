@@ -1,17 +1,29 @@
+using System;
+using System.Windows;
 using Caliburn.Micro;
 using Microsoft.Phone.Shell;
+using trello.Services;
 
 namespace trello.ViewModels
 {
-    public interface ISetupTheAppBar
+    public interface IConfigureTheAppBar
     {
-        ApplicationBar SetupTheAppBar(ApplicationBar existing);
+        ApplicationBar ConfigureTheAppBar(ApplicationBar existing);
+    }
+
+    public abstract class PivotItemViewModel : Screen
+    {
     }
 
     public abstract class PivotViewModel : Conductor<IScreen>.Collection.OneActive
     {
         private readonly PivotFix<IScreen> _pivotFix;
+        
         private ApplicationBar _appBar;
+
+        protected readonly ITrelloSettings Settings;
+        
+        protected readonly INavigationService Navigation;
 
         public ApplicationBar AppBar
         {
@@ -23,11 +35,11 @@ namespace trello.ViewModels
             }
         }
 
-        public PivotViewModel()
+        public PivotViewModel(ITrelloSettings settings, INavigationService navigation)
         {
+            Settings = settings;
+            Navigation = navigation;
             _pivotFix = new PivotFix<IScreen>(this);
-
-            AppBar = new ApplicationBar {IsVisible = true, IsMenuEnabled = true, Opacity = 1};
         }
 
         protected override void OnViewLoaded(object view)
@@ -37,8 +49,8 @@ namespace trello.ViewModels
 
         protected override void ChangeActiveItem(IScreen newItem, bool closePrevious)
         {
-            AppBar.IsVisible = false;
-            NotifyOfPropertyChange(() => AppBar);
+            if (AppBar != null)
+                AppBar.IsVisible = false;
 
             _pivotFix.ChangeActiveItem(newItem, closePrevious, base.ChangeActiveItem);
         }
@@ -49,10 +61,10 @@ namespace trello.ViewModels
 
             var appbar = BuildDefaultAppBar();
 
-            var screen = item as ISetupTheAppBar;
+            var screen = item as IConfigureTheAppBar;
             if (screen != null)
             {
-                appbar = screen.SetupTheAppBar(appbar);
+                appbar = screen.ConfigureTheAppBar(appbar);
             }
 
             AppBar = appbar;
@@ -60,9 +72,44 @@ namespace trello.ViewModels
 
         protected virtual ApplicationBar BuildDefaultAppBar()
         {
-            var bar = new ApplicationBar { IsVisible = true, IsMenuEnabled = true, Opacity = 1 };
+            var bar = new ApplicationBar {IsVisible = true, IsMenuEnabled = true, Opacity = 1};
+
+            var accountSettings = new ApplicationBarMenuItem("profile");
+            accountSettings.Click += (sender, args) => OpenProfile();
+            bar.MenuItems.Add(accountSettings);
+
+            var appSettings = new ApplicationBarMenuItem("settings");
+            appSettings.Click += (sender, args) => OpenSettings();
+            bar.MenuItems.Add(appSettings);
+
+            var signout = new ApplicationBarMenuItem("sign out");
+            signout.Click += (sender, args) => SignOut();
+            bar.MenuItems.Add(signout);
 
             return bar;
+        }
+
+        private void OpenProfile()
+        {
+            Navigation.Navigate(new Uri("/Views/ProfileView.xaml", UriKind.Relative));
+        }
+
+        private void OpenSettings()
+        {
+            MessageBox.Show("Settings");
+        }
+
+        private void SignOut()
+        {
+            var result = MessageBox.Show(
+                "All cached data will be removed from your phone and must be loaded again next time you sign in.\n\n" +
+                "Do you really want to sign out?",
+                "confirm sign out", MessageBoxButton.OKCancel);
+            if (result == MessageBoxResult.OK)
+            {
+                Settings.AccessToken = null;
+                Navigation.Navigate(new Uri("/Views/SplashView.xaml", UriKind.Relative));
+            }
         }
     }
 }
