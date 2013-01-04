@@ -5,7 +5,6 @@ using Microsoft.Phone.Shell;
 using trello.Assets;
 using trello.Services.Data;
 using trello.Services.Models;
-using trello.Services.OAuth;
 
 namespace trello.ViewModels
 {

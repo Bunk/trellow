@@ -288,6 +288,7 @@
     <Content Include="Assets\Icons\light\appbar.transport.play.rest.png" />
     <Content Include="Assets\Icons\light\appbar.transport.rew.rest.png" />
     <Content Include="Assets\Icons\light\appbar.upload.rest.png" />
+    <Content Include="Assets\Icons\lock.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

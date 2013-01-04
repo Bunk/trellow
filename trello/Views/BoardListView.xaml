@@ -36,12 +36,13 @@
 
 								<TextBlock Grid.Row="0" Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="Segoe WP Light" Foreground="{StaticResource PhoneForegroundBrush}" />
 								
-								<TextBlock Grid.Row="1" Text="{Binding Desc}" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" />
+								<TextBlock Grid.Row="1" Text="{Binding Desc}" Foreground="{StaticResource PhoneSubtleBrush}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}" TextWrapping="Wrap" />
 							</Grid>
                             
-							<StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="0,24,0,0">
-								<Image Source="/Assets/Icons/fugue/lock.png" Visibility="{Binding IsPrivate, Converter={StaticResource VisibilityConverter}}" Margin="5,0,0,0" Stretch="None" />
-							</StackPanel>
+							<Grid Grid.Column="1" VerticalAlignment="Top" Margin="0,7,0,0" Visibility="{Binding IsPrivate, Converter={StaticResource VisibilityConverter}}">
+								<Ellipse Width="28" Height="28" Fill="{StaticResource PhoneAccentBrush}" />
+								<Image Source="/Assets/Icons/lock.png" Visibility="{Binding IsPrivate, Converter={StaticResource VisibilityConverter}}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
+							</Grid>
 							
 						</Grid>
                     </Border>

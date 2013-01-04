@@ -9,6 +9,6 @@
 		<Setter Property="Margin" Value="0,0,10,0" />
 		<Setter Property="Background" Value="{StaticResource PhoneAccentBrush}"/>
 		<Setter Property="TextElement.FontSize" Value="15" />
-		<Setter Property="TextElement.Foreground" Value="{StaticResource PhoneSubtleBrush}" />
+		<Setter Property="TextElement.Foreground" Value="{StaticResource PhoneForegroundBrush}" />
 	</Style>
 </ResourceDictionary>

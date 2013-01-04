@@ -14,7 +14,7 @@ namespace trello.Services.Data
         {
             return await Processor.Execute<List<Card>>(
                 Request("members/my/cards/open")
-                    .AddParameter("members", "true"));
+                    .AddParameter("members", "false"));
         }
     }
 }
