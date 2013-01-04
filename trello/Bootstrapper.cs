@@ -32,6 +32,7 @@ namespace trello
             _container.Singleton<ITrelloSettings, TrelloSettings>();
 
             _container.Singleton<IBoardService, BoardService>();
+            _container.Singleton<ICardService, CardService>();
             _container.Singleton<IProfileService, ProfileService>();
 
             _container.Singleton<SplashViewModel>();

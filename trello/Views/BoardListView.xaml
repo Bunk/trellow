@@ -5,16 +5,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
-    xmlns:Converters="clr-namespace:trello.Views.Converters" mc:Ignorable="d"
+	mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
     
     <Grid x:Name="LayoutRoot" Background="Transparent" d:DataContext="{Binding Source={StaticResource SampleDataSource}}">
-        <Grid.Resources>
-			<Converters:VisibilityConverter x:Key="VisibilityConverter" />
-		</Grid.Resources>
         <telerikPrimitives:RadDataBoundListBox x:Name="Boards"
                                                Margin="12,0,0,0"
                                                telerikCore:InteractionEffectManager.IsInteractionEnabled="True" ItemsSource="{Binding Boards}">
@@ -25,7 +22,7 @@
 			</telerikPrimitives:RadContextMenu.ContextMenu>
             <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderThickness="0,0,0,0" BorderBrush="#3291C8" Margin="0,0,0,15">
+                    <Border BorderThickness="0,0,0,0" BorderBrush="#3291C8" Margin="0,10,0,10">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
@@ -37,7 +34,7 @@
 									<RowDefinition />
 								</Grid.RowDefinitions>
 
-								<TextBlock Grid.Row="0" Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" FontFamily="Segoe WP Light" Foreground="{StaticResource PhoneForegroundBrush}" />
+								<TextBlock Grid.Row="0" Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="Segoe WP Light" Foreground="{StaticResource PhoneForegroundBrush}" />
 								
 								<TextBlock Grid.Row="1" Text="{Binding Desc}" Foreground="{StaticResource PhoneSubtleBrush}" TextWrapping="Wrap" />
 							</Grid>

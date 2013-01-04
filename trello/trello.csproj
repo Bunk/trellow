@@ -113,7 +113,10 @@
       <DependentUpon>SampleDataSource.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\AppSettingsBase.cs" />
+    <Compile Include="Services\Data\CardService.cs" />
+    <Compile Include="Services\Data\ICardService.cs" />
     <Compile Include="Services\Data\ProfileService.cs" />
+    <Compile Include="Services\Models\Card.cs" />
     <Compile Include="Services\Models\Profile.cs" />
     <Compile Include="Services\OAuth\Token.cs" />
     <Compile Include="Services\TrelloSettings.cs" />
@@ -217,6 +220,42 @@
     <Content Include="Assets\Icons\dark\appbar.transport.play.rest.png" />
     <Content Include="Assets\Icons\dark\appbar.transport.rew.rest.png" />
     <Content Include="Assets\Icons\dark\appbar.upload.rest.png" />
+    <Content Include="Assets\Icons\dark\icon-alert.png" />
+    <Content Include="Assets\Icons\dark\icon-arrow.png" />
+    <Content Include="Assets\Icons\dark\icon-attachment.png" />
+    <Content Include="Assets\Icons\dark\icon-board.png" />
+    <Content Include="Assets\Icons\dark\icon-card.png" />
+    <Content Include="Assets\Icons\dark\icon-check.png" />
+    <Content Include="Assets\Icons\dark\icon-clock.png" />
+    <Content Include="Assets\Icons\dark\icon-close.png" />
+    <Content Include="Assets\Icons\dark\icon-cog.png" />
+    <Content Include="Assets\Icons\dark\icon-comment.png" />
+    <Content Include="Assets\Icons\dark\icon-dot.png" />
+    <Content Include="Assets\Icons\dark\icon-download.png" />
+    <Content Include="Assets\Icons\dark\icon-filecabinet.png" />
+    <Content Include="Assets\Icons\dark\icon-info.png" />
+    <Content Include="Assets\Icons\dark\icon-kiwi.png" />
+    <Content Include="Assets\Icons\dark\icon-list.png" />
+    <Content Include="Assets\Icons\dark\icon-lock-color.png" />
+    <Content Include="Assets\Icons\dark\icon-locked.png" />
+    <Content Include="Assets\Icons\dark\icon-magifier.png" />
+    <Content Include="Assets\Icons\dark\icon-minus.png" />
+    <Content Include="Assets\Icons\dark\icon-people.png" />
+    <Content Include="Assets\Icons\dark\icon-person-plus.png" />
+    <Content Include="Assets\Icons\dark\icon-person.png" />
+    <Content Include="Assets\Icons\dark\icon-play.png" />
+    <Content Include="Assets\Icons\dark\icon-plus.png" />
+    <Content Include="Assets\Icons\dark\icon-pushpin.png" />
+    <Content Include="Assets\Icons\dark\icon-replay.png" />
+    <Content Include="Assets\Icons\dark\icon-reverse.png" />
+    <Content Include="Assets\Icons\dark\icon-rocket.png" />
+    <Content Include="Assets\Icons\dark\icon-rss.png" />
+    <Content Include="Assets\Icons\dark\icon-tag.png" />
+    <Content Include="Assets\Icons\dark\icon-trello.png" />
+    <Content Include="Assets\Icons\dark\icon-trophy.png" />
+    <Content Include="Assets\Icons\dark\icon-vote.png" />
+    <Content Include="Assets\Icons\dark\icon-watch.png" />
+    <Content Include="Assets\Icons\dark\icon-pencil.png" />
     <Content Include="Assets\Icons\light\appbar.add.rest.png" />
     <Content Include="Assets\Icons\light\appbar.back.rest.png" />
     <Content Include="Assets\Icons\light\appbar.basecircle.rest.png" />
@@ -325,6 +364,10 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Converters\Converters.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\MessageListView.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
@@ -345,6 +388,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Styles\StyleResources.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource.xsd" />
@@ -353,6 +400,68 @@
     <Content Include="Assets\Icons\fugue\lock.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\image01.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\image02.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\image03.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\image04.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\image05.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\lock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.add.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.back.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.basecircle.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.cancel.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.check.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.close.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.delete.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.download.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.edit.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.favs.addto.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.favs.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.feature.camera.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.feature.email.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.feature.search.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.feature.settings.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.feature.video.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.folder.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.minus.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.new.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.next.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.overflowdots.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.questionmark.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.refresh.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.save.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.share.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.stop.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.sync.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.transport.ff.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.transport.pause.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.transport.play.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.transport.rew.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\appbar.upload.rest.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-alert.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-arrow.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-attachment.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-board.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-card.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-check.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-clock.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-close.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-cog.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-comment.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-dot.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-download.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-filecabinet.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-info.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-kiwi.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-list.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-lock-color.png" />
+    <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-locked.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

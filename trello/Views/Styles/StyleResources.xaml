@@ -1,0 +1,14 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Style x:Key="BadgeBorder" TargetType="Border">
+		<Setter Property="CornerRadius" Value="5"/>
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="Padding" Value="5,3" />
+		<!--<Setter Property="Background" Value="#FF164B69"/>-->
+		<Setter Property="Margin" Value="0,0,10,0" />
+		<Setter Property="Background" Value="{StaticResource PhoneAccentBrush}"/>
+		<Setter Property="TextElement.FontSize" Value="15" />
+		<Setter Property="TextElement.Foreground" Value="{StaticResource PhoneSubtleBrush}" />
+	</Style>
+</ResourceDictionary>

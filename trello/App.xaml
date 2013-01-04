@@ -7,8 +7,16 @@
 
     <!--Application Resources-->
     <Application.Resources>
-    	<SampleData:SampleDataSource x:Key="SampleDataSource" d:IsDataSource="True"/>
-        <app:Bootstrapper x:Key="Bootstrapper" />
+    	<ResourceDictionary>
+    		<ResourceDictionary.MergedDictionaries>
+    			<ResourceDictionary Source="Views/Styles/StyleResources.xaml"/>
+    			<ResourceDictionary Source="Views/Converters/Converters.xaml"/>
+    		</ResourceDictionary.MergedDictionaries>
+
+    		<SampleData:SampleDataSource x:Key="SampleDataSource" d:IsDataSource="True"/>
+
+    		<app:Bootstrapper x:Key="Bootstrapper" />
+    	</ResourceDictionary>
     </Application.Resources>
 
 </Application>

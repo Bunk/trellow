@@ -31,4 +31,166 @@
     <SampleData:BoardsItem Id="551278" Desc="Vitae varius torquent blandit sed dis commodo aenean ultrices mauris est conubia" Name="Sollicitudin dignissim vehicula" IsPrivate="True" Pinned="False" />
     <SampleData:BoardsItem Id="530771" Desc="Nullam hac urna class cras curae duis volutpat donec cubilia aptent etiam" Name="Vestibulum pellentesque consectetuer" IsPrivate="True" Pinned="False" />
   </SampleData:SampleDataSource.Boards>
+  <SampleData:SampleDataSource.Cards>
+    <SampleData:CardsItem Id="869497" Desc="Aliquam class nam maecenas sed aenean mauris integer cras curae duis donec nunc quisque nullam praesent accumsan etiam dis aptent est fusce vivamus" Name="Aenean cras mauris nullam nam aptent duis" Votes="97" Voted="True" CheckItems="7" CheckItemsChecked="7" Due="November 5, 2003">
+      <SampleData:CardsItem.Labels>
+        <SampleData:LabelsItem Name="Class" Color="Cras nam aliquam" />
+        <SampleData:LabelsItem Name="Curae" Color="Class duis" />
+        <SampleData:LabelsItem Name="Aliquam" Color="Maecenas praesent" />
+        <SampleData:LabelsItem Name="Integer" Color="Nunc curae aenean donec" />
+        <SampleData:LabelsItem Name="Aenean" Color="Amet accumsan etiam sed" />
+      </SampleData:CardsItem.Labels>
+      <SampleData:CardsItem.Members>
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.add.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.back.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.basecircle.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.cancel.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.check.rest.png" />
+      </SampleData:CardsItem.Members>
+    </SampleData:CardsItem>
+    <SampleData:CardsItem Id="518858" Desc="Lorem auctor bibendum aliquam aliquet congue morbi cursus nulla dictumst blandit hac proin amet eleifend ante dictum leo commodo augue conubia cubilia mus dolor fames dapibus" Name="Auctor maecenas congue nunc amet sed class dis praesent est accumsan ante" Votes="52" Voted="False" CheckItems="5" CheckItemsChecked="3" Due="December 29, 2006">
+      <SampleData:CardsItem.Labels>
+        <SampleData:LabelsItem Name="Nam" Color="Ante integer mauris nullam" />
+        <SampleData:LabelsItem Name="Quisque" Color="Dis quisque vivamus arcu" />
+        <SampleData:LabelsItem Name="Sed" Color="Est fusce aptent hac" />
+        <SampleData:LabelsItem Name="Vivamus" Color="Aliquam leo bibendum lorem" />
+        <SampleData:LabelsItem Name="Maecenas" Color="Morbi nulla mus" />
+      </SampleData:CardsItem.Labels>
+      <SampleData:CardsItem.Members>
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.close.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.delete.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.download.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.edit.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.favs.addto.rest.png" />
+      </SampleData:CardsItem.Members>
+    </SampleData:CardsItem>
+    <SampleData:CardsItem Id="292607" Desc="Egestas nec lectus felis non ipsum justo libero euismod lacus arcu facilisi faucibus diam habitant feugiat gravida ligula litora iaculis per lacinia inceptos eget" Name="Curae aliquam bibendum dictumst donec eleifend hac" Votes="39" Voted="True" CheckItems="1" CheckItemsChecked="4" Due="January 19, 2004">
+      <SampleData:CardsItem.Labels>
+        <SampleData:LabelsItem Name="Praesent" Color="Dictumst proin diam" />
+        <SampleData:LabelsItem Name="Dis" Color="Eleifend facilisi auctor" />
+        <SampleData:LabelsItem Name="Donec" Color="Eget faucibus aliquet elit" />
+        <SampleData:LabelsItem Name="Mauris" Color="Congue augue" />
+        <SampleData:LabelsItem Name="Accumsan" Color="Habitant dolor blandit nec" />
+      </SampleData:CardsItem.Labels>
+      <SampleData:CardsItem.Members>
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.favs.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.feature.camera.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.feature.email.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.feature.search.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.feature.settings.rest.png" />
+      </SampleData:CardsItem.Members>
+    </SampleData:CardsItem>
+    <SampleData:CardsItem Id="219103" Desc="Luctus magnis elit sed sem mattis lorem magna massa interdum laoreet metus sit lobortis natoque enim mauris posuere morbi neque" Name="Integer leo mus facilisi arcu cursus dictum faucibus habitant etiam" Votes="55" Voted="False" CheckItems="7" CheckItemsChecked="3" Due="December 22, 2007">
+      <SampleData:CardsItem.Labels>
+        <SampleData:LabelsItem Name="Etiam" Color="Commodo enim inceptos fames" />
+        <SampleData:LabelsItem Name="Fusce" Color="Conubia felis cubilia" />
+        <SampleData:LabelsItem Name="Cras" Color="Dapibus interdum cursus" />
+        <SampleData:LabelsItem Name="Est" Color="Egestas erat non ipsum" />
+        <SampleData:LabelsItem Name="Lorem" Color="Per lobortis euismod feugiat" />
+      </SampleData:CardsItem.Labels>
+      <SampleData:CardsItem.Members>
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.feature.video.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.folder.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.minus.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.new.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.next.rest.png" />
+      </SampleData:CardsItem.Members>
+    </SampleData:CardsItem>
+    <SampleData:CardsItem Id="576058" Desc="Vel potenti erat mollis montes nascetur pharetra nostra placerat ornare pretium nam sed eros pulvinar platea dis nibh" Name="Inceptos nec lectus interdum diam non" Votes="86" Voted="True" CheckItems="8" CheckItemsChecked="7" Due="February 2, 2006">
+      <SampleData:CardsItem.Labels>
+        <SampleData:LabelsItem Name="Morbi" Color="Justo dictum nascetur pharetra" />
+        <SampleData:LabelsItem Name="Bibendum" Color="Gravida placerat pulvinar" />
+        <SampleData:LabelsItem Name="Aliquam" Color="Sagittis senectus" />
+        <SampleData:LabelsItem Name="Aliquet" Color="Sed lacus sem" />
+        <SampleData:LabelsItem Name="Hac" Color="Iaculis lacinia sociosqu suscipit" />
+      </SampleData:CardsItem.Labels>
+      <SampleData:CardsItem.Members>
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.overflowdots.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.questionmark.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.refresh.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.save.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.share.rest.png" />
+      </SampleData:CardsItem.Members>
+    </SampleData:CardsItem>
+    <SampleData:CardsItem Id="916510" Desc="Primis est hac sagittis rutrum senectus netus sapien rhoncus sodales viverra nisi leo nisl nunc semper mus sociosqu nulla aliquam" Name="Fusce per sed eget quisque lobortis sem lorem sit vivamus libero ligula" Votes="14" Voted="False" CheckItems="9" CheckItemsChecked="4" Due="August 23, 2003">
+      <SampleData:CardsItem.Labels>
+        <SampleData:LabelsItem Name="Dictumst" Color="Eros nibh lectus" />
+        <SampleData:LabelsItem Name="Blandit" Color="Sit nisi lorem libero" />
+        <SampleData:LabelsItem Name="Commodo" Color="Ligula torquent" />
+        <SampleData:LabelsItem Name="Duis" Color="Magna laoreet" />
+        <SampleData:LabelsItem Name="Nulla" Color="Ultrices natoque" />
+      </SampleData:CardsItem.Labels>
+      <SampleData:CardsItem.Members>
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.stop.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.sync.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.transport.ff.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.transport.pause.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.transport.play.rest.png" />
+      </SampleData:CardsItem.Members>
+    </SampleData:CardsItem>
+    <SampleData:CardsItem Id="431432" Desc="Porta nec integer quisque purus vivamus odio aliquam orci aliquet non pede per quam quis risus urna cras sed velit duis suscipit sem nunc torquent sociis vitae class blandit" Name="Elit litora morbi enim aliquam nascetur pharetra erat luctus placerat nulla" Votes="77" Voted="True" CheckItems="1" CheckItemsChecked="6" Due="May 27, 2007">
+      <SampleData:CardsItem.Labels>
+        <SampleData:LabelsItem Name="Nunc" Color="Massa vel litora luctus" />
+        <SampleData:LabelsItem Name="Eleifend" Color="Nam vehicula" />
+        <SampleData:LabelsItem Name="Amet" Color="Nisl nunc volutpat" />
+        <SampleData:LabelsItem Name="Conubia" Color="Magnis maecenas" />
+        <SampleData:LabelsItem Name="Cubilia" Color="Metus praesent" />
+      </SampleData:CardsItem.Labels>
+      <SampleData:CardsItem.Members>
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.transport.rew.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.upload.rest.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/icon-alert.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/icon-arrow.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/icon-attachment.png" />
+      </SampleData:CardsItem.Members>
+    </SampleData:CardsItem>
+    <SampleData:CardsItem Id="428466" Desc="Curae amet sit ante donec commodo taciti etiam fusce lorem conubia tellus tempor arcu vel cubilia morbi diam dapibus nam ultrices eget vehicula egestas sed nulla tempus volutpat tortor maecenas euismod" Name="Magnis mattis eros mauris mollis vel nam proin augue" Votes="85" Voted="False" CheckItems="6" CheckItemsChecked="4" Due="May 24, 2006">
+      <SampleData:CardsItem.Labels>
+        <SampleData:LabelsItem Name="Proin" Color="Mattis posuere" />
+        <SampleData:LabelsItem Name="Facilisi" Color="Odio accumsan potenti" />
+        <SampleData:LabelsItem Name="Ante" Color="Sed morbi orci pede" />
+        <SampleData:LabelsItem Name="Nullam" Color="Bibendum neque pretium" />
+        <SampleData:LabelsItem Name="Arcu" Color="Mauris dictumst" />
+      </SampleData:CardsItem.Labels>
+      <SampleData:CardsItem.Members>
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/icon-board.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/icon-card.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/icon-check.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/icon-clock.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/icon-close.png" />
+      </SampleData:CardsItem.Members>
+    </SampleData:CardsItem>
+    <SampleData:CardsItem Id="127397" Desc="Elit praesent accumsan feugiat turpis bibendum dis varius proin gravida dictumst eleifend iaculis augue lacinia aenean laoreet est mauris dolor fames natoque enim facilisi hac erat felis eros leo nibh" Name="Sed aliquet montes blandit nibh nostra nisi" Votes="93" Voted="True" CheckItems="3" CheckItemsChecked="5" Due="September 19, 2004">
+      <SampleData:CardsItem.Labels>
+        <SampleData:LabelsItem Name="Aptent" Color="Eleifend quam facilisi quis" />
+        <SampleData:LabelsItem Name="Augue" Color="Urna faucibus" />
+        <SampleData:LabelsItem Name="Dapibus" Color="Dis mollis" />
+        <SampleData:LabelsItem Name="Leo" Color="Est rhoncus" />
+        <SampleData:LabelsItem Name="Mus" Color="Netus sodales viverra montes" />
+      </SampleData:CardsItem.Labels>
+      <SampleData:CardsItem.Members>
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/icon-cog.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/icon-comment.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/icon-dot.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/icon-download.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/icon-filecabinet.png" />
+      </SampleData:CardsItem.Members>
+    </SampleData:CardsItem>
+    <SampleData:CardsItem Id="847206" Desc="Nullam faucibus ipsum posuere justo aptent auctor lacus congue potenti lorem cursus nisi magna habitant massa nisl nunc odio pretium rhoncus inceptos mus" Name="Commodo pulvinar conubia sagittis dolor dis est ornare fames" Votes="60" Voted="False" CheckItems="9" CheckItemsChecked="4" Due="August 10, 2003">
+      <SampleData:CardsItem.Labels>
+        <SampleData:LabelsItem Name="Faucibus" Color="Aliquam cras nostra ornare" />
+        <SampleData:LabelsItem Name="Diam" Color="Platea duis habitant inceptos" />
+        <SampleData:LabelsItem Name="Nec" Color="Nunc interdum primis" />
+        <SampleData:LabelsItem Name="Eget" Color="Rutrum sapien" />
+        <SampleData:LabelsItem Name="Elit" Color="Semper hac leo amet" />
+      </SampleData:CardsItem.Labels>
+      <SampleData:CardsItem.Members>
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/icon-info.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/icon-kiwi.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/icon-list.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/icon-lock-color.png" />
+        <SampleData:MembersItem ImageUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/icon-locked.png" />
+      </SampleData:CardsItem.Members>
+    </SampleData:CardsItem>
+  </SampleData:SampleDataSource.Cards>
 </SampleData:SampleDataSource>

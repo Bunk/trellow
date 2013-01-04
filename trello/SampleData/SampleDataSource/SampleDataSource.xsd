@@ -9,6 +9,7 @@
   <xs:complexType name="SampleDataSource">
     <xs:sequence>
       <xs:element name="Boards" type="tns:Boards" />
+      <xs:element name="Cards" type="tns:Cards" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="Boards">
@@ -23,4 +24,43 @@
     <xs:attribute name="IsPrivate" type="xs:boolean" />
     <xs:attribute name="Pinned" type="xs:boolean" />
   </xs:complexType>
+  <xs:complexType name="Cards">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="CardsItem" type="tns:CardsItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CardsItem">
+    <xs:sequence>
+      <xs:element name="Labels" type="tns:Labels" />
+      <xs:element name="Members" type="tns:Members" />
+    </xs:sequence>
+    <xs:attribute blend:FormatParameters="6" name="Id" type="xs:double" />
+    <xs:attribute blend:FormatParameters="32,8" name="Desc" type="xs:string" />
+    <xs:attribute blend:FormatParameters="12,8" name="Name" type="xs:string" />
+    <xs:attribute name="Votes" type="xs:double" />
+    <xs:attribute name="Voted" type="xs:boolean" />
+    <xs:attribute blend:FormatParameters="1" name="CheckItems" type="xs:double" />
+    <xs:attribute blend:FormatParameters="1" name="CheckItemsChecked" type="xs:double" />
+    <xs:attribute blend:Format="Date" name="Due" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="Labels">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="LabelsItem" type="tns:LabelsItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="LabelsItem">
+    <xs:attribute blend:FormatParameters="1,8" name="Name" type="xs:string" />
+    <xs:attribute name="Color" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="Members">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="MembersItem" type="tns:MembersItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MembersItem">
+    <xs:attribute blend:FormatParameters="Assets\Icons\dark" name="ImageUri" type="tns:Basic-Image" />
+  </xs:complexType>
+  <xs:simpleType name="Basic-Image">
+    <xs:restriction base="xs:anyURI" />
+  </xs:simpleType>
 </xs:schema>

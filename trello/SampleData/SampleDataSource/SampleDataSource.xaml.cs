@@ -47,6 +47,16 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				return this._Boards;
 			}
 		}
+
+		private Cards _Cards = new Cards();
+
+		public Cards Cards
+		{
+			get
+			{
+				return this._Cards;
+			}
+		}
 	}
 
 	public class Boards : System.Collections.ObjectModel.ObservableCollection<BoardsItem>
@@ -159,6 +169,286 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				}
 			}
 		}
+	}
+
+	public class Cards : System.Collections.ObjectModel.ObservableCollection<CardsItem>
+	{ 
+	}
+
+	public class CardsItem : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private Labels _Labels = new Labels();
+
+		public Labels Labels
+		{
+			get
+			{
+				return this._Labels;
+			}
+		}
+
+		private double _Id = 0;
+
+		public double Id
+		{
+			get
+			{
+				return this._Id;
+			}
+
+			set
+			{
+				if (this._Id != value)
+				{
+					this._Id = value;
+					this.OnPropertyChanged("Id");
+				}
+			}
+		}
+
+		private string _Desc = string.Empty;
+
+		public string Desc
+		{
+			get
+			{
+				return this._Desc;
+			}
+
+			set
+			{
+				if (this._Desc != value)
+				{
+					this._Desc = value;
+					this.OnPropertyChanged("Desc");
+				}
+			}
+		}
+
+		private string _Name = string.Empty;
+
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+
+			set
+			{
+				if (this._Name != value)
+				{
+					this._Name = value;
+					this.OnPropertyChanged("Name");
+				}
+			}
+		}
+
+		private double _Votes = 0;
+
+		public double Votes
+		{
+			get
+			{
+				return this._Votes;
+			}
+
+			set
+			{
+				if (this._Votes != value)
+				{
+					this._Votes = value;
+					this.OnPropertyChanged("Votes");
+				}
+			}
+		}
+
+		private bool _Voted = false;
+
+		public bool Voted
+		{
+			get
+			{
+				return this._Voted;
+			}
+
+			set
+			{
+				if (this._Voted != value)
+				{
+					this._Voted = value;
+					this.OnPropertyChanged("Voted");
+				}
+			}
+		}
+
+		private double _CheckItems = 0;
+
+		public double CheckItems
+		{
+			get
+			{
+				return this._CheckItems;
+			}
+
+			set
+			{
+				if (this._CheckItems != value)
+				{
+					this._CheckItems = value;
+					this.OnPropertyChanged("CheckItems");
+				}
+			}
+		}
+
+		private double _CheckItemsChecked = 0;
+
+		public double CheckItemsChecked
+		{
+			get
+			{
+				return this._CheckItemsChecked;
+			}
+
+			set
+			{
+				if (this._CheckItemsChecked != value)
+				{
+					this._CheckItemsChecked = value;
+					this.OnPropertyChanged("CheckItemsChecked");
+				}
+			}
+		}
+
+		private string _Due = string.Empty;
+
+		public string Due
+		{
+			get
+			{
+				return this._Due;
+			}
+
+			set
+			{
+				if (this._Due != value)
+				{
+					this._Due = value;
+					this.OnPropertyChanged("Due");
+				}
+			}
+		}
+
+		private Members _Members = new Members();
+
+		public Members Members
+		{
+			get
+			{
+				return this._Members;
+			}
+		}
+	}
+
+	public class Labels : System.Collections.ObjectModel.ObservableCollection<LabelsItem>
+	{ 
+	}
+
+	public class LabelsItem : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private string _Name = string.Empty;
+
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+
+			set
+			{
+				if (this._Name != value)
+				{
+					this._Name = value;
+					this.OnPropertyChanged("Name");
+				}
+			}
+		}
+
+		private string _Color = string.Empty;
+
+		public string Color
+		{
+			get
+			{
+				return this._Color;
+			}
+
+			set
+			{
+				if (this._Color != value)
+				{
+					this._Color = value;
+					this.OnPropertyChanged("Color");
+				}
+			}
+		}
+	}
+
+	public class MembersItem : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private System.Windows.Media.ImageSource _ImageUri = null;
+
+		public System.Windows.Media.ImageSource ImageUri
+		{
+			get
+			{
+				return this._ImageUri;
+			}
+
+			set
+			{
+				if (this._ImageUri != value)
+				{
+					this._ImageUri = value;
+					this.OnPropertyChanged("ImageUri");
+				}
+			}
+		}
+	}
+
+	public class Members : System.Collections.ObjectModel.ObservableCollection<MembersItem>
+	{ 
 	}
 #endif
 }
