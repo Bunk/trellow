@@ -77,9 +77,6 @@ namespace trello.ViewModels
 
             InitializeWith(board);
 
-            var lists = board.Lists.Select(BuildListViewModel);
-            Items.AddRange(lists);
-
             ActivateItem(Items[0]);
         }
 
@@ -89,6 +86,10 @@ namespace trello.ViewModels
             Name = board.Name;
             Desc = board.Desc;
             IsPrivate = board.Prefs.PermissionLevel == "private";
+
+            var lists = board.Lists.Select(BuildListViewModel);
+            Items.Clear();
+            Items.AddRange(lists);
         }
 
         private BoardListViewModel BuildListViewModel(List list)

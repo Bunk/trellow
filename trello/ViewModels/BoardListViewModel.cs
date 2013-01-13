@@ -1,10 +1,12 @@
 using System.Linq;
 using Caliburn.Micro;
+using Microsoft.Phone.Shell;
+using trello.Assets;
 using trello.Services.Data;
 
 namespace trello.ViewModels
 {
-    public class BoardListViewModel : PivotItemViewModel
+    public class BoardListViewModel : PivotItemViewModel, IConfigureTheAppBar
     {
         private readonly ICardService _cardService;
         private string _name;
@@ -54,12 +56,29 @@ namespace trello.ViewModels
             Cards = new BindableCollection<CardViewModel>();
         }
 
+        public async void AddCard()
+        {
+            
+        }
+
         protected override async void OnInitialize()
         {
             Cards.Clear();
 
             var cards = await _cardService.InList(Id);
             Cards.AddRange(cards.Select(c => new CardViewModel(c)));
+        }
+
+        public ApplicationBar ConfigureTheAppBar(ApplicationBar existing)
+        {
+            var addButton = new ApplicationBarIconButton(new AssetUri("Icons/dark/appbar.add.rest.png"))
+            {
+                Text = "add card"
+            };
+            addButton.Click += (sender, args) => AddCard();
+            existing.Buttons.Add(addButton);
+
+            return existing;
         }
     }
 }

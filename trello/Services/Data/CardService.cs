@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using trello.Services.Models;
@@ -27,6 +26,13 @@ namespace trello.Services.Data
                     .AddUrlSegment("id", listId)
                     .AddParameter("attachments", "true")
                     .AddParameter("attachments_fields", "previews"));
+        }
+
+        public async Task<Card> WithId(string id)
+        {
+            return await Processor.Execute<Card>(
+                Request("cards/{id}")
+                    .AddUrlSegment("id", id));
         }
     }
 
@@ -87,6 +93,22 @@ namespace trello.Services.Data
             };
 
             return Run(() => cards);
-        } 
+        }
+
+        public Task<Card> WithId(string id)
+        {
+            return Run(() => new Card
+            {
+                Id = "CARD-1",
+                Desc = "Finalize Trellow work",
+                Name = "Finalize Trellow work",
+                Badges = new Badges
+                {
+                    CheckItems = 5,
+                    CheckItemsChecked = 3,
+                    Due = new DateTime(2013, 2, 1)
+                }
+            });
+        }
     }
 }

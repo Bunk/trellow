@@ -8,5 +8,6 @@ namespace trello.Services.Data
     {
         Task<IEnumerable<Card>> Mine();
         Task<IEnumerable<Card>> InList(string listId);
+        Task<Card> WithId(string id);
     }
 }

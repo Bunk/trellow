@@ -1,8 +1,10 @@
 ﻿using Caliburn.Micro;
+using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using trello.Services;
 using trello.Services.Data;
+using trello.Services.Models;
 
 namespace trello.ViewModels
 {
@@ -80,19 +82,33 @@ namespace trello.ViewModels
             _profileService = profileService;
         }
 
+        [UsedImplicitly]
         public void EmailUser()
         {
             _eventAggregator.RequestTask<EmailComposeTask>(task => { task.To = Email; });
         }
 
+        protected override async void OnInitialize()
+        {
+            var profile = await _profileService.Mine();
+            InitializeWith(profile);
+        }
+
         protected override async void OnActivate()
         {
             var profile = await _profileService.Mine();
+            InitializeWith(profile);
+        }
+
+        private void InitializeWith(Profile profile)
+        {
+            const string profileImageFormat =
+                "https://trello-avatars.s3.amazonaws.com/{0}/{1}.png";
 
             Username = "@" + profile.Username;
             FullName = profile.FullName;
             Email = profile.Email;
-            ImageUri = "https://secure.gravatar.com/avatar/" + profile.GravatarHash + ".png?s=100&r=PG&d=404";
+            ImageUri = string.Format(profileImageFormat, profile.AvatarHash, 170);
             Bio = profile.Bio;
         }
 
