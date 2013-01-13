@@ -3,52 +3,49 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+    xmlns:cm="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+	xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
-	mc:Ignorable="d"
+    xmlns:converters="clr-namespace:trello.Views.Converters"
+    mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
     
-    <Grid x:Name="LayoutRoot" Background="Transparent" d:DataContext="{Binding Source={StaticResource SampleDataSource}}">
-        <telerikPrimitives:RadDataBoundListBox x:Name="Boards"
-                                               Margin="12,0,0,0"
-                                               telerikCore:InteractionEffectManager.IsInteractionEnabled="True" ItemsSource="{Binding Boards}">
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+		<!--<Grid.RowDefinitions>
+			<RowDefinition Height="55" />
+			<RowDefinition />
+		</Grid.RowDefinitions>
+
+		<Grid Margin="12,0">
+			<Grid.RowDefinitions>
+				<RowDefinition />
+			</Grid.RowDefinitions>
+
+			<TextBlock VerticalAlignment="Center" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilySemiLight}">
+				<Run Text="{Binding Cards.Count}" />
+				<Run Text=" cards" />
+			</TextBlock>
+		</Grid>-->
+
+		<telerikPrimitives:RadDataBoundListBox x:Name="Cards"
+                                               Margin="12,0,12,0"
+                                               telerikCore:InteractionEffectManager.IsInteractionEnabled="True">
 			<telerikPrimitives:RadContextMenu.ContextMenu>
 				<telerikPrimitives:RadContextMenu x:Name="BoardsMenu">
 					<telerikPrimitives:RadContextMenuItem Content="remove" />
 				</telerikPrimitives:RadContextMenu>
 			</telerikPrimitives:RadContextMenu.ContextMenu>
-            <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border BorderThickness="0,0,0,0" BorderBrush="#3291C8" Margin="0,10,0,10">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition />
-								<ColumnDefinition Width="48" />
-                            </Grid.ColumnDefinitions>
-							<Grid>
-								<Grid.RowDefinitions>
-									<RowDefinition />
-									<RowDefinition />
-								</Grid.RowDefinitions>
-
-								<TextBlock Grid.Row="0" Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="Segoe WP Light" Foreground="{StaticResource PhoneForegroundBrush}" />
-								
-								<TextBlock Grid.Row="1" Text="{Binding Desc}" Foreground="{StaticResource PhoneSubtleBrush}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}" TextWrapping="Wrap" />
-							</Grid>
-                            
-							<Grid Grid.Column="1" VerticalAlignment="Top" Margin="0,7,0,0" Visibility="{Binding IsPrivate, Converter={StaticResource VisibilityConverter}}">
-								<Ellipse Width="28" Height="28" Fill="{StaticResource PhoneAccentBrush}" />
-								<Image Source="/Assets/Icons/lock.png" Visibility="{Binding IsPrivate, Converter={StaticResource VisibilityConverter}}" Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center" />
-							</Grid>
-							
-						</Grid>
-                    </Border>
-                </DataTemplate>
-            </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+			<telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+				<DataTemplate>
+					<ContentControl cm:View.Model="{Binding}" 
+					VerticalContentAlignment="Stretch" 
+					HorizontalContentAlignment="Stretch" />
+				</DataTemplate>
+			</telerikPrimitives:RadDataBoundListBox.ItemTemplate>
         </telerikPrimitives:RadDataBoundListBox>
-
+		
     </Grid>
 </UserControl>

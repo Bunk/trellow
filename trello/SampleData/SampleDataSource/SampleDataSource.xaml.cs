@@ -57,6 +57,25 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				return this._Cards;
 			}
 		}
+
+		private BoardCard _BoardCard = new BoardCard();
+
+		public BoardCard BoardCard
+		{
+			get
+			{
+				return this._BoardCard;
+			}
+
+			set
+			{
+				if (this._BoardCard != value)
+				{
+					this._BoardCard = value;
+					this.OnPropertyChanged("BoardCard");
+				}
+			}
+		}
 	}
 
 	public class Boards : System.Collections.ObjectModel.ObservableCollection<BoardsItem>
@@ -194,6 +213,16 @@ namespace Expression.Blend.SampleData.SampleDataSource
 			get
 			{
 				return this._Labels;
+			}
+		}
+
+		private Members _Members = new Members();
+
+		public Members Members
+		{
+			get
+			{
+				return this._Members;
 			}
 		}
 
@@ -348,16 +377,6 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				}
 			}
 		}
-
-		private Members _Members = new Members();
-
-		public Members Members
-		{
-			get
-			{
-				return this._Members;
-			}
-		}
 	}
 
 	public class Labels : System.Collections.ObjectModel.ObservableCollection<LabelsItem>
@@ -415,6 +434,10 @@ namespace Expression.Blend.SampleData.SampleDataSource
 		}
 	}
 
+	public class Members : System.Collections.ObjectModel.ObservableCollection<MembersItem>
+	{ 
+	}
+
 	public class MembersItem : System.ComponentModel.INotifyPropertyChanged
 	{
 		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -447,8 +470,112 @@ namespace Expression.Blend.SampleData.SampleDataSource
 		}
 	}
 
-	public class Members : System.Collections.ObjectModel.ObservableCollection<MembersItem>
-	{ 
+	public class BoardCard : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private string _Name = string.Empty;
+
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+
+			set
+			{
+				if (this._Name != value)
+				{
+					this._Name = value;
+					this.OnPropertyChanged("Name");
+				}
+			}
+		}
+
+		private double _Votes = 0;
+
+		public double Votes
+		{
+			get
+			{
+				return this._Votes;
+			}
+
+			set
+			{
+				if (this._Votes != value)
+				{
+					this._Votes = value;
+					this.OnPropertyChanged("Votes");
+				}
+			}
+		}
+
+		private double _CheckItems = 0;
+
+		public double CheckItems
+		{
+			get
+			{
+				return this._CheckItems;
+			}
+
+			set
+			{
+				if (this._CheckItems != value)
+				{
+					this._CheckItems = value;
+					this.OnPropertyChanged("CheckItems");
+				}
+			}
+		}
+
+		private double _CheckItemsChecked = 0;
+
+		public double CheckItemsChecked
+		{
+			get
+			{
+				return this._CheckItemsChecked;
+			}
+
+			set
+			{
+				if (this._CheckItemsChecked != value)
+				{
+					this._CheckItemsChecked = value;
+					this.OnPropertyChanged("CheckItemsChecked");
+				}
+			}
+		}
+
+		private string _Due = string.Empty;
+
+		public string Due
+		{
+			get
+			{
+				return this._Due;
+			}
+
+			set
+			{
+				if (this._Due != value)
+				{
+					this._Due = value;
+					this.OnPropertyChanged("Due");
+				}
+			}
+		}
 	}
 #endif
 }

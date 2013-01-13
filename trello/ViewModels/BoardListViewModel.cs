@@ -1,70 +1,65 @@
-﻿using System.Linq;
+using System.Linq;
 using Caliburn.Micro;
-using JetBrains.Annotations;
-using Microsoft.Phone.Shell;
-using trello.Assets;
 using trello.Services.Data;
-using trello.Services.Models;
 
 namespace trello.ViewModels
 {
-    [UsedImplicitly]
-    public class BoardListViewModel : PivotItemViewModel, IConfigureTheAppBar
+    public class BoardListViewModel : PivotItemViewModel
     {
-        private readonly IBoardService _boardService;
+        private readonly ICardService _cardService;
+        private string _name;
+        private bool _subscribed;
+        private string _id;
 
-        public IObservableCollection<BoardViewModel> Boards { get; private set; }
-
-        public BoardListViewModel(IBoardService boardService)
+        public string Id
         {
-            _boardService = boardService;
-
-            DisplayName = "boards";
-
-            Boards = new BindableCollection<BoardViewModel>();
+            get { return _id; }
+            set
+            {
+                if (value == _id) return;
+                _id = value;
+                NotifyOfPropertyChange(() => Id);
+            }
         }
 
-        protected override void OnViewLoaded(object view)
+        public string Name
         {
-            RefreshBoards();
+            get { return _name; }
+            set
+            {
+                if (value == _name) return;
+                _name = value;
+                NotifyOfPropertyChange(() => Name);
+
+                DisplayName = _name;
+            }
         }
 
-        private async void RefreshBoards()
+        public bool Subscribed
         {
-            Boards.Clear();
-
-            var boards = await _boardService.Mine();
-
-            Boards.AddRange(boards.Select(b => new BoardViewModel(b)));
+            get { return _subscribed; }
+            set
+            {
+                if (value.Equals(_subscribed)) return;
+                _subscribed = value;
+                NotifyOfPropertyChange(() => Subscribed);
+            }
         }
 
-        public ApplicationBar ConfigureTheAppBar(ApplicationBar existing)
-        {
-            var refresh = new ApplicationBarIconButton(new AssetUri("Icons/dark/appbar.refresh.rest.png"))
-            {Text = "refresh"};
-            refresh.Click += (sender, args) => RefreshBoards();
-            existing.Buttons.Add(refresh);
+        public IObservableCollection<CardViewModel> Cards { get; set; }
 
-            return existing;
+        public BoardListViewModel(ICardService cardService)
+        {
+            _cardService = cardService;
+            Cards = new BindableCollection<CardViewModel>();
         }
-    }
 
-    public class BoardViewModel
-    {
-        public string Id { get; set; }
-
-        public string Name { get; set; }
-
-        public string Desc { get; set; }
-
-        public bool IsPrivate { get; set; }
-
-        public BoardViewModel(Board board)
+        protected override async void OnInitialize()
         {
-            Id = board.Id;
-            Name = board.Name;
-            Desc = board.Desc;
-            IsPrivate = board.Prefs.PermissionLevel == "private";
+            Cards.Clear();
+
+            var cards = await _cardService.InList(Id);
+            Cards.AddRange(cards.Select(c => new CardViewModel(c)));
         }
     }
 }

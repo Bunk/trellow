@@ -10,6 +10,7 @@
     <xs:sequence>
       <xs:element name="Boards" type="tns:Boards" />
       <xs:element name="Cards" type="tns:Cards" />
+      <xs:element name="BoardCard" type="tns:BoardCard" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="Boards">
@@ -63,4 +64,11 @@
   <xs:simpleType name="Basic-Image">
     <xs:restriction base="xs:anyURI" />
   </xs:simpleType>
+  <xs:complexType name="BoardCard">
+    <xs:attribute blend:FormatParameters="6,8" name="Name" type="xs:string" />
+    <xs:attribute blend:FormatParameters="2" name="Votes" type="xs:double" />
+    <xs:attribute blend:FormatParameters="1" name="CheckItems" type="xs:double" />
+    <xs:attribute blend:FormatParameters="2" name="CheckItemsChecked" type="xs:double" />
+    <xs:attribute blend:Format="Date" name="Due" type="xs:string" />
+  </xs:complexType>
 </xs:schema>

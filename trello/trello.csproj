@@ -115,6 +115,8 @@
     <Compile Include="Services\AppSettingsBase.cs" />
     <Compile Include="Services\Data\CardService.cs" />
     <Compile Include="Services\Data\ICardService.cs" />
+    <Compile Include="Services\Data\MockBoardService.cs" />
+    <Compile Include="Services\Data\MockServiceBase.cs" />
     <Compile Include="Services\Data\ProfileService.cs" />
     <Compile Include="Services\Models\Card.cs" />
     <Compile Include="Services\Models\Profile.cs" />
@@ -133,7 +135,10 @@
     <Compile Include="Services\Models\Membership.cs" />
     <Compile Include="Services\Data\TrelloRequestException.cs" />
     <Compile Include="ViewModels\BoardListViewModel.cs" />
+    <Compile Include="ViewModels\BoardsViewModel.cs" />
+    <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="ViewModels\CardListViewModel.cs" />
+    <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="ViewModels\IProgressService.cs" />
     <Compile Include="ViewModels\MessageListViewModel.cs" />
     <Compile Include="ViewModels\PivotFix.cs" />
@@ -145,11 +150,23 @@
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\SplashViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\BoardsView.xaml.cs">
+      <DependentUpon>BoardsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BoardListView.xaml.cs">
       <DependentUpon>BoardListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BoardView.xaml.cs">
+      <DependentUpon>BoardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BoardCardView.xaml.cs">
+      <DependentUpon>BoardCardView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CardListView.xaml.cs">
       <DependentUpon>CardListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardView.xaml.cs">
+      <DependentUpon>CardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Converters\BitmapImageConverter.cs" />
     <Compile Include="Views\Converters\VisibilityConverter.cs" />
@@ -350,6 +367,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="ViewModels\Boards\" />
     <Folder Include="Views\Boards\" />
   </ItemGroup>
   <ItemGroup>
@@ -357,13 +375,29 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </DesignTimeOnly>
+    <Page Include="Views\BoardsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\BoardListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BoardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BoardCardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CardListView.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Converters\Converters.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>

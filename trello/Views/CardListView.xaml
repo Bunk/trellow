@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:cm="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
 	xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
     xmlns:converters="clr-namespace:trello.Views.Converters"
@@ -29,70 +30,9 @@
 			</telerikPrimitives:RadContextMenu.ContextMenu>
             <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderThickness="0,0,0,0" Margin="0,15" Padding="10,0" BorderBrush="{StaticResource PhoneBorderBrush}">
-                        <Grid>
-							<Grid.RowDefinitions>
-								<RowDefinition />
-								<RowDefinition />
-								<RowDefinition />
-							</Grid.RowDefinitions>
-
-							<TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="Segoe WP Light" Foreground="{StaticResource PhoneForegroundBrush}" TextWrapping="Wrap" />
-								
-							<Grid Grid.Row="1" Margin="0,5,0,0">
-								<StackPanel Orientation="Horizontal">
-									<!-- Votes -->
-									<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Votes, Converter={StaticResource VisibilityConverter}}">
-										<StackPanel Orientation="Horizontal">
-											<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-vote.png" Margin="0,1,3,0" />
-											<TextBlock Text="">
-												<Run Text="{Binding Votes}"></Run>
-												<Run> votes</Run>
-											</TextBlock>
-										</StackPanel>
-									</Border>
-									<!-- Checklists -->
-									<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding CheckItems, Converter={StaticResource VisibilityConverter}}">
-										<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-											<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-list.png" Margin="0,1,3,0" />
-											<TextBlock Text="">
-												<Run Text="{Binding CheckItemsChecked}"></Run>
-												<Run>/</Run>
-												<Run Text="{Binding CheckItems}"></Run>
-											</TextBlock>
-										</StackPanel>
-									</Border>
-									<!-- Due Dates -->
-									<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Due, Converter={StaticResource VisibilityConverter}}">
-										<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-											<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-clock.png" Margin="0,1,3,0" />
-											<TextBlock Text="{Binding Due}" />
-										</StackPanel>
-									</Border>
-								</StackPanel>
-							</Grid>
-
-							<!--<ListBox x:Name="Members" Grid.Row="2" ItemsSource="{Binding Members}" Visibility="{Binding Members, Converter={StaticResource VisibilityConverter}}" BorderThickness="0,10,0,0" HorizontalAlignment="Right">
-								<ListBox.ItemsPanel>
-									<ItemsPanelTemplate>
-										<StackPanel Orientation="Horizontal" />
-									</ItemsPanelTemplate>
-								</ListBox.ItemsPanel>
-								<ListBox.ItemTemplate>
-									<DataTemplate>
-										<Border Margin="0,0,3,0">
-											<Image Source="{Binding ImageUri}" Width="30" Height="30" />
-										</Border>
-									</DataTemplate>
-								</ListBox.ItemTemplate>
-							</ListBox>-->
-
-							<StackPanel Grid.Row="2" Orientation="Horizontal">
-								
-							</StackPanel>
-
-						</Grid>
-                    </Border>
+                    <ContentControl cm:View.Model="{Binding}"
+						HorizontalContentAlignment="Stretch"
+						VerticalContentAlignment="Stretch" />
                 </DataTemplate>
             </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
         </telerikPrimitives:RadDataBoundListBox>

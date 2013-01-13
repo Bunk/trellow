@@ -193,4 +193,7 @@
       </SampleData:CardsItem.Members>
     </SampleData:CardsItem>
   </SampleData:SampleDataSource.Cards>
+  <SampleData:SampleDataSource.BoardCard>
+    <SampleData:BoardCard Name="Cras class duis" Votes="33" CheckItems="9" CheckItemsChecked="34" Due="November 5, 2003" />
+  </SampleData:SampleDataSource.BoardCard>
 </SampleData:SampleDataSource>

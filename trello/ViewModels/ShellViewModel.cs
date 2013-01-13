@@ -6,12 +6,12 @@ namespace trello.ViewModels
 {
     public class ShellViewModel : PivotViewModel
     {
-        private readonly BoardListViewModel _boards;
+        private readonly BoardsViewModel _boards;
         private readonly CardListViewModel _cards;
         private readonly MessageListViewModel _messages;
 
         public ShellViewModel(ITrelloSettings settings,
-                              INavigationService navigation, BoardListViewModel boards,
+                              INavigationService navigation, BoardsViewModel boards,
                               CardListViewModel cards,
                               MessageListViewModel messages)
             : base(settings, navigation)
@@ -31,6 +31,7 @@ namespace trello.ViewModels
 
             ActivateItem(_boards);
 
+            // remove back navigation to the splash page
             Navigation.RemoveBackEntry();
         }
 

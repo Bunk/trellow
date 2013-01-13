@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.ServiceModel;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using RestSharp;
 using RestSharp.Authenticators;
 using Strilanc.Value;
@@ -21,6 +24,7 @@ namespace trello.Services.OAuth
         IRestClient GetRestClient();
     }
 
+    [UsedImplicitly]
     public class TrelloOAuthClient : IOAuthClient
     {
         private readonly ITrelloSettings _settings;
@@ -55,6 +59,12 @@ namespace trello.Services.OAuth
                                                                            "http://localhost/oauthcallback"));
 
             var response = await client.ExecuteAwaitable(new RestRequest("OAuthGetRequestToken"));
+            if (response.ResponseStatus != ResponseStatus.Completed ||
+                response.StatusCode != HttpStatusCode.OK)
+                throw new EndpointNotFoundException("Trello could not be contacted.  This application requires a " +
+                                                    "valid internet connection, are you sure that you have internet " +
+                                                    "connectivity?");
+
             var query = response.Content.ParseQueryString();
             _requestToken = BuildOAuthToken(query);
 
@@ -127,6 +137,35 @@ namespace trello.Services.OAuth
                 Secret = secret,
                 IssuedDate = DateTime.UtcNow
             };
+        }
+    }
+
+    [UsedImplicitly]
+    public class MockOAuthClient : IOAuthClient
+    {
+        public bool ValidateAccessToken()
+        {
+            return true;
+        }
+
+        public void Invalidate()
+        {
+            
+        }
+
+        public Task<May<Uri>> GetLoginUri()
+        {
+            throw new NotSupportedException();
+        }
+
+        public Task<May<Token>> GetAccessToken(string verifier)
+        {
+            throw new NotSupportedException();
+        }
+
+        public IRestClient GetRestClient()
+        {
+            return new RestClient("https://api.trello.com/1");
         }
     }
 }

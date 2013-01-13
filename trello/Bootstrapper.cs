@@ -27,22 +27,42 @@ namespace trello
             _container.Instance(RootFrame);
             
             _container.Singleton<IProgressService, ProgressService>();
-            _container.Singleton<IOAuthClient, TrelloOAuthClient>();
+            
             _container.Singleton<IRequestProcessor, ProgressAwareRequestProcessor>();
             _container.Singleton<ITrelloSettings, TrelloSettings>();
 
-            _container.Singleton<IBoardService, BoardService>();
-            _container.Singleton<ICardService, CardService>();
-            _container.Singleton<IProfileService, ProfileService>();
-
             _container.Singleton<SplashViewModel>();
             _container.Singleton<ShellViewModel>();
-            _container.Singleton<BoardListViewModel>();
+            _container.Singleton<BoardsViewModel>();
             _container.Singleton<CardListViewModel>();
             _container.Singleton<MessageListViewModel>();
             _container.Singleton<ProfileViewModel>();
-            
+
+            _container.PerRequest<BoardViewModel>();
+            _container.PerRequest<BoardListViewModel>();
+            _container.PerRequest<CardViewModel>();
+
+            RegisterRepository(_container);
+
             TelerikConventions.Install();
+        }
+
+        private static void RegisterMockRepository(PhoneContainer container)
+        {
+            container.Singleton<IOAuthClient, MockOAuthClient>();
+            
+            container.Singleton<IBoardService, MockBoardService>();
+            container.Singleton<ICardService, MockCardService>();
+            container.Singleton<IProfileService, MockProfileService>();
+        }
+
+        private static void RegisterRepository(PhoneContainer container)
+        {
+            container.Singleton<IOAuthClient, TrelloOAuthClient>();
+            
+            container.Singleton<IBoardService, BoardService>();
+            container.Singleton<ICardService, CardService>();
+            container.Singleton<IProfileService, ProfileService>();
         }
 
         protected override PhoneApplicationFrame CreatePhoneApplicationFrame()
@@ -71,7 +91,9 @@ namespace trello
 
         protected override void OnUnhandledException(object sender, System.Windows.ApplicationUnhandledExceptionEventArgs e)
         {
+            // TODO: Handle these a little better.
             Debugger.Break();
+
             base.OnUnhandledException(sender, e);
         }
     }

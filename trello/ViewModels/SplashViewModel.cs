@@ -69,6 +69,7 @@ namespace trello.ViewModels
 
         private async void Login()
         {
+            // todo: Handle exceptions here so that we can give a good message to the user
             var loginUri = await _oauthClient.GetLoginUri();
             loginUri.IfHasValueThenDo(LoadLogin);
         }
