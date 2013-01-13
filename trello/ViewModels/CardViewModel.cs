@@ -27,12 +27,22 @@ namespace trello.ViewModels
 
         public bool HasDescription { get; set; }
 
+        public bool HasCover { get; set; }
+
+        public string CoverUri { get; set; }
+
+        public int CoverHeight { get; set; }
+
+        public int CoverWidth { get; set; }
+
         public IObservableCollection<MemberViewModel> Members { get; set; }
 
         public IObservableCollection<LabelViewModel> Labels { get; set; }
 
         public CardViewModel(Card card)
         {
+            var cover = card.Attachments.SingleOrDefault(x => x.Id == card.IdAttachmentCover);
+
             Id = card.Id;
             Name = card.Name;
             Desc = card.Desc;
@@ -43,6 +53,10 @@ namespace trello.ViewModels
             CheckItemsChecked = card.Badges.CheckItemsChecked;
             Attachments = card.Badges.Attachments;
             HasDescription = card.Badges.Description;
+            HasCover = !string.IsNullOrWhiteSpace(card.IdAttachmentCover);
+            CoverUri = cover != null ? cover.Previews[0].Url : null;
+            CoverHeight = cover != null ? cover.Previews[0].Height : 0;
+            CoverWidth = cover != null ? cover.Previews[0].Width : 0;
             Members = new BindableCollection<MemberViewModel>(card.Members.Select(m => new MemberViewModel(m)));
             Labels = new BindableCollection<LabelViewModel>(card.Labels.Select(l => new LabelViewModel(l)));
         }

@@ -29,7 +29,9 @@ namespace trello.Services.Models
 
         public List<Label> Labels { get; set; }
 
-        public List<Member> Members { get; set; } 
+        public List<Member> Members { get; set; }
+
+        public List<Attachment> Attachments { get; set; }
 
         public Badges Badges { get; set; }
 
@@ -39,6 +41,28 @@ namespace trello.Services.Models
             Labels = new List<Label>();
             IdChecklists = new List<string>();
             Members = new List<Member>();
+            Attachments = new List<Attachment>();
+        }
+    }
+
+    public class Attachment
+    {
+        public string Id { get; set; }
+
+        public List<Preview> Previews { get; set; }
+
+        public Attachment()
+        {
+            Previews = new List<Preview>();
+        }
+
+        public class Preview
+        {
+            public int Width { get; set; }
+
+            public int Height { get; set; }
+
+            public string Url { get; set; }
         }
     }
 

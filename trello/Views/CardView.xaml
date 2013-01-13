@@ -17,6 +17,7 @@
 					<RowDefinition />
 					<RowDefinition />
 					<RowDefinition />
+					<RowDefinition />
 				</Grid.RowDefinitions>
 
 				<Grid Grid.Row="0">
@@ -38,11 +39,17 @@
 					</ItemsControl>
 				</Grid>
 
-				<Grid Grid.Row="1" Margin="0,5">
+				<Grid Grid.Row="1" Margin="0">
+					<Image x:Name="CoverUri" Source="{Binding CoverUri}" HorizontalAlignment="Center" VerticalAlignment="Center"
+						Height="{Binding CoverHeight}" Width="{Binding CoverWidth}"
+						Visibility="{Binding CoverUri, Converter={StaticResource VisibilityConverter}}" />
+				</Grid>
+
+				<Grid Grid.Row="2" Margin="0,5">
 					<TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="Segoe WP Light" Foreground="{StaticResource PhoneForegroundBrush}" TextWrapping="Wrap" />
 				</Grid>
 								
-				<Grid Grid.Row="2" Margin="0,5">
+				<Grid Grid.Row="3" Margin="0,5">
 					<StackPanel Orientation="Horizontal">
 						<!-- Votes -->
 						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Votes, Converter={StaticResource VisibilityConverter}}">

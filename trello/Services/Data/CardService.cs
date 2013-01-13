@@ -24,7 +24,9 @@ namespace trello.Services.Data
         {
             return await Processor.Execute<List<Card>>(
                 Request("lists/{id}/cards")
-                    .AddUrlSegment("id", listId));
+                    .AddUrlSegment("id", listId)
+                    .AddParameter("attachments", "true")
+                    .AddParameter("attachments_fields", "previews"));
         }
     }
 
