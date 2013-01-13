@@ -194,6 +194,19 @@
     </SampleData:CardsItem>
   </SampleData:SampleDataSource.Cards>
   <SampleData:SampleDataSource.BoardCard>
-    <SampleData:BoardCard Name="Cras class duis" Votes="33" CheckItems="9" CheckItemsChecked="34" Due="November 5, 2003" />
+    <SampleData:BoardCard Name="Cras class duis" Votes="33" CheckItems="9" CheckItemsChecked="34" Due="November 5, 2003">
+      <SampleData:BoardCard.Labels>
+        <SampleData:LabelsItem1 Color="#FF8DD3C7" Name="Maecenas" />
+        <SampleData:LabelsItem1 Color="#FFFFFFB3" Name="Nam" />
+        <SampleData:LabelsItem1 Color="#FFBEBADA" Name="Aliquam" />
+        <SampleData:LabelsItem1 Color="#FFFB8072" Name="Sed" />
+        <SampleData:LabelsItem1 Color="#FF80B1D3" Name="Class" />
+        <SampleData:LabelsItem1 Color="#FFFDB462" Name="Cras" />
+        <SampleData:LabelsItem1 Color="#FFB3DE69" Name="Dis" />
+        <SampleData:LabelsItem1 Color="#FFFCCDE5" Name="Praesent" />
+        <SampleData:LabelsItem1 Color="#FFD9D9D9" Name="Aenean" />
+        <SampleData:LabelsItem1 Color="#FFBC80BD" Name="Integer" />
+      </SampleData:BoardCard.Labels>
+    </SampleData:BoardCard>
   </SampleData:SampleDataSource.BoardCard>
 </SampleData:SampleDataSource>

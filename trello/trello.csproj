@@ -169,6 +169,7 @@
       <DependentUpon>CardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Converters\BitmapImageConverter.cs" />
+    <Compile Include="Views\Converters\CaseConverter.cs" />
     <Compile Include="Views\Converters\VisibilityConverter.cs" />
     <Compile Include="Views\MessageListView.xaml.cs">
       <DependentUpon>MessageListView.xaml</DependentUpon>
@@ -367,8 +368,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="ViewModels\Boards\" />
-    <Folder Include="Views\Boards\" />
   </ItemGroup>
   <ItemGroup>
     <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource.xaml">

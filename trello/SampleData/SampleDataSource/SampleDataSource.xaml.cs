@@ -576,6 +576,71 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				}
 			}
 		}
+
+		private Labels1 _Labels = new Labels1();
+
+		public Labels1 Labels
+		{
+			get
+			{
+				return this._Labels;
+			}
+		}
+	}
+
+	public class LabelsItem1 : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private string _Color = string.Empty;
+
+		public string Color
+		{
+			get
+			{
+				return this._Color;
+			}
+
+			set
+			{
+				if (this._Color != value)
+				{
+					this._Color = value;
+					this.OnPropertyChanged("Color");
+				}
+			}
+		}
+
+		private string _Name = string.Empty;
+
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+
+			set
+			{
+				if (this._Name != value)
+				{
+					this._Name = value;
+					this.OnPropertyChanged("Name");
+				}
+			}
+		}
+	}
+
+	public class Labels1 : System.Collections.ObjectModel.ObservableCollection<LabelsItem1>
+	{ 
 	}
 #endif
 }

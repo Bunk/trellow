@@ -18,7 +18,7 @@
         <phone:Pivot Title="{Binding Name}" x:Name="Items" SelectedItem="{Binding ActiveItem, Mode=TwoWay}">
 			<phone:Pivot.HeaderTemplate>
 				<DataTemplate>
-					<TextBlock Text="{Binding DisplayName}" />
+					<TextBlock Text="{Binding DisplayName, Converter={StaticResource CaseConverter}}" />
 				</DataTemplate>
 			</phone:Pivot.HeaderTemplate>
 		</phone:Pivot>

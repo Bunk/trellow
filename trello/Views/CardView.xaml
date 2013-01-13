@@ -1,34 +1,56 @@
-﻿<UserControl x:Class="trello.Views.CardView"
+﻿<UserControl
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives" x:Class="trello.Views.CardView"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="480" d:DesignWidth="480">
+    d:DesignHeight="480" d:DesignWidth="480" d:DataContext="{Binding BoardCard, Source={StaticResource SampleDataSource}}">
     
     <Grid x:Name="LayoutRoot" Background="Transparent">
-		<Border BorderThickness="0" Margin="0,15" Padding="10,0" BorderBrush="{StaticResource PhoneBorderBrush}">
-            <Grid>
+		<Border BorderThickness="1" Margin="0,15" Padding="10,0" BorderBrush="{StaticResource PhoneChromeBrush}" Background="{StaticResource PhoneChromeBrush}" CornerRadius="10">
+			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition />
 					<RowDefinition />
 					<RowDefinition />
 				</Grid.RowDefinitions>
 
-				<TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="Segoe WP Light" Foreground="{StaticResource PhoneForegroundBrush}" TextWrapping="Wrap" />
+				<Grid Grid.Row="0">
+					<ItemsControl x:Name="Labels" ItemsSource="{Binding Labels}">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Rectangle Width="75" Height="8" VerticalAlignment="Stretch" Margin="0,0,5,0">
+									<Rectangle.Fill>
+										<SolidColorBrush Color="{Binding Color}" />
+									</Rectangle.Fill>
+								</Rectangle>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<StackPanel Orientation="Horizontal" />
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+					</ItemsControl>
+				</Grid>
+
+				<Grid Grid.Row="1" Margin="0,5">
+					<TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="Segoe WP Light" Foreground="{StaticResource PhoneForegroundBrush}" TextWrapping="Wrap" />
+				</Grid>
 								
-				<Grid Grid.Row="1" Margin="0,5,0,0">
+				<Grid Grid.Row="2" Margin="0,5">
 					<StackPanel Orientation="Horizontal">
 						<!-- Votes -->
 						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Votes, Converter={StaticResource VisibilityConverter}}">
 							<StackPanel Orientation="Horizontal">
 								<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-vote.png" Margin="0,1,3,0" />
 								<TextBlock Text="">
-									<Run Text="{Binding Votes}"></Run>
-									<Run> votes</Run>
+									<Run Text="{Binding Votes}"/>
+									<Run Text="votes"/>
 								</TextBlock>
 							</StackPanel>
 						</Border>
@@ -37,9 +59,9 @@
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 								<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-list.png" Margin="0,1,3,0" />
 								<TextBlock Text="">
-									<Run Text="{Binding CheckItemsChecked}"></Run>
-									<Run>/</Run>
-									<Run Text="{Binding CheckItems}"></Run>
+									<Run Text="{Binding CheckItemsChecked}"/>
+									<Run Text="/"/>
+									<Run Text="{Binding CheckItems}"/>
 								</TextBlock>
 							</StackPanel>
 						</Border>
@@ -47,7 +69,27 @@
 						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Due, Converter={StaticResource VisibilityConverter}}">
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 								<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-clock.png" Margin="0,1,3,0" />
-								<TextBlock Text="{Binding Due}" />
+								<TextBlock Text="{Binding Due, StringFormat='\{0:d MMM\}'}" />
+							</StackPanel>
+						</Border>
+						<!-- Comments -->
+						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Comments, Converter={StaticResource VisibilityConverter}}">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+								<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-comment.png" Margin="0,1,3,0" />
+								<TextBlock Text="{Binding Comments}" />
+							</StackPanel>
+						</Border>
+						<!-- Attachments -->
+						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Attachments, Converter={StaticResource VisibilityConverter}}">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+								<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-attachment.png" Margin="0,1,3,0" />
+								<TextBlock Text="{Binding Attachments}" />
+							</StackPanel>
+						</Border>
+						<!-- Description -->
+						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding HasDescription, Converter={StaticResource VisibilityConverter}}">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+								<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-pencil.png" Margin="0,1,3,0" />
 							</StackPanel>
 						</Border>
 					</StackPanel>
@@ -68,9 +110,7 @@
 					</ListBox.ItemTemplate>
 				</ListBox>-->
 
-				<StackPanel Grid.Row="2" Orientation="Horizontal">
-								
-				</StackPanel>
+				<StackPanel Grid.Row="2" Orientation="Horizontal"/>
 
 			</Grid>
         </Border>
