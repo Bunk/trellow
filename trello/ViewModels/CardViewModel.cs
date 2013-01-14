@@ -7,6 +7,8 @@ namespace trello.ViewModels
 {
     public class CardViewModel : Screen
     {
+        private readonly INavigationService _navigationService;
+
         public string Id { get; set; }
 
         public string Name { get; set; }
@@ -25,10 +27,6 @@ namespace trello.ViewModels
 
         public int Attachments { get; set; }
 
-        public bool HasDescription { get; set; }
-
-        public bool HasCover { get; set; }
-
         public string CoverUri { get; set; }
 
         public int CoverHeight { get; set; }
@@ -39,7 +37,14 @@ namespace trello.ViewModels
 
         public IObservableCollection<LabelViewModel> Labels { get; set; }
 
-        public CardViewModel(Card card)
+        public CardViewModel(INavigationService navigationService)
+        {
+            _navigationService = navigationService;
+            Members = new BindableCollection<MemberViewModel>();
+            Labels = new BindableCollection<LabelViewModel>();
+        }
+
+        public CardViewModel InitializeWith(Card card)
         {
             var cover = card.Attachments.SingleOrDefault(x => x.Id == card.IdAttachmentCover);
 
@@ -52,13 +57,24 @@ namespace trello.ViewModels
             CheckItems = card.Badges.CheckItems;
             CheckItemsChecked = card.Badges.CheckItemsChecked;
             Attachments = card.Badges.Attachments;
-            HasDescription = card.Badges.Description;
-            HasCover = !string.IsNullOrWhiteSpace(card.IdAttachmentCover);
             CoverUri = cover != null ? cover.Previews[0].Url : null;
             CoverHeight = cover != null ? cover.Previews[0].Height : 0;
             CoverWidth = cover != null ? cover.Previews[0].Width : 0;
-            Members = new BindableCollection<MemberViewModel>(card.Members.Select(m => new MemberViewModel(m)));
-            Labels = new BindableCollection<LabelViewModel>(card.Labels.Select(l => new LabelViewModel(l)));
+
+            Members.Clear();
+            Members.AddRange(card.Members.Select(x => new MemberViewModel(x)));
+            
+            Labels.Clear();
+            Labels.AddRange(card.Labels.Select(x => new LabelViewModel(x)));
+
+            return this;
+        }
+
+        public void Open(CardViewModel context)
+        {
+            _navigationService.UriFor<CardDetailViewModel>()
+                .WithParam(vm => vm.Id, context.Id)
+                .Navigate();
         }
     }
 

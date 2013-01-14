@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Caliburn.Micro;
 using Microsoft.Phone.Shell;
@@ -9,6 +10,7 @@ namespace trello.ViewModels
     public class BoardListViewModel : PivotItemViewModel, IConfigureTheAppBar
     {
         private readonly ICardService _cardService;
+        private readonly Func<CardViewModel> _cardFactory;
         private string _name;
         private bool _subscribed;
         private string _id;
@@ -50,9 +52,10 @@ namespace trello.ViewModels
 
         public IObservableCollection<CardViewModel> Cards { get; set; }
 
-        public BoardListViewModel(ICardService cardService)
+        public BoardListViewModel(ICardService cardService, Func<CardViewModel> cardFactory)
         {
             _cardService = cardService;
+            _cardFactory = cardFactory;
             Cards = new BindableCollection<CardViewModel>();
         }
 
@@ -66,7 +69,7 @@ namespace trello.ViewModels
             Cards.Clear();
 
             var cards = await _cardService.InList(Id);
-            Cards.AddRange(cards.Select(c => new CardViewModel(c)));
+            Cards.AddRange(cards.Select(c => _cardFactory().InitializeWith(c)));
         }
 
         public ApplicationBar ConfigureTheAppBar(ApplicationBar existing)

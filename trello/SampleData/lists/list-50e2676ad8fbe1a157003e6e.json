@@ -1,0 +1,261 @@
+﻿[
+   {
+      "id":"50e2676ad8fbe1a157003e7d",
+      "badges":{
+         "votes":0,
+         "viewingMemberVoted":false,
+         "subscribed":false,
+         "fogbugz":"",
+         "checkItems":0,
+         "checkItemsChecked":0,
+         "comments":0,
+         "attachments":0,
+         "description":false,
+         "due":null
+      },
+      "checkItemStates":[
+
+      ],
+      "closed":false,
+      "desc":"",
+      "due":null,
+      "idBoard":"50e2676ad8fbe1a157003e63",
+      "idChecklists":[
+
+      ],
+      "idList":"50e2676ad8fbe1a157003e6d",
+      "idMembers":[
+
+      ],
+      "idShort":7,
+      "idAttachmentCover":null,
+      "manualCoverAttachment":false,
+      "labels":[
+
+      ],
+      "name":"Invite your team to this board using the Add Members button",
+      "pos":65536,
+      "subscribed":false,
+      "url":"https://trello.com/card/invite-your-team-to-this-board-using-the-add-members-button/50e2676ad8fbe1a157003e63/7",
+      "attachments":[
+
+      ]
+   },
+   {
+      "id":"50e2676ad8fbe1a157003e7e",
+      "badges":{
+         "votes":0,
+         "viewingMemberVoted":false,
+         "subscribed":false,
+         "fogbugz":"",
+         "checkItems":0,
+         "checkItemsChecked":0,
+         "comments":0,
+         "attachments":0,
+         "description":false,
+         "due":null
+      },
+      "checkItemStates":[
+
+      ],
+      "closed":false,
+      "desc":"",
+      "due":null,
+      "idBoard":"50e2676ad8fbe1a157003e63",
+      "idChecklists":[
+
+      ],
+      "idList":"50e2676ad8fbe1a157003e6d",
+      "idMembers":[
+         "4e6a7fad05d98b02ba00845c"
+      ],
+      "idShort":8,
+      "idAttachmentCover":null,
+      "manualCoverAttachment":false,
+      "labels":[
+
+      ],
+      "name":"Drag people onto a card to indicate that they're responsible for it.",
+      "pos":131072,
+      "subscribed":false,
+      "url":"https://trello.com/card/drag-people-onto-a-card-to-indicate-that-they-re-responsible-for-it/50e2676ad8fbe1a157003e63/8",
+      "attachments":[
+
+      ]
+   },
+   {
+      "id":"50e2676ad8fbe1a157003e7f",
+      "badges":{
+         "votes":0,
+         "viewingMemberVoted":false,
+         "subscribed":false,
+         "fogbugz":"",
+         "checkItems":0,
+         "checkItemsChecked":0,
+         "comments":0,
+         "attachments":0,
+         "description":false,
+         "due":null
+      },
+      "checkItemStates":[
+
+      ],
+      "closed":false,
+      "desc":"",
+      "due":null,
+      "idBoard":"50e2676ad8fbe1a157003e63",
+      "idChecklists":[
+
+      ],
+      "idList":"50e2676ad8fbe1a157003e6d",
+      "idMembers":[
+
+      ],
+      "idShort":9,
+      "idAttachmentCover":null,
+      "manualCoverAttachment":false,
+      "labels":[
+         {
+            "color":"green",
+            "name":""
+         },
+         {
+            "color":"red",
+            "name":""
+         }
+      ],
+      "name":"Use color-coded labels for organization",
+      "pos":196608,
+      "subscribed":false,
+      "url":"https://trello.com/card/use-color-coded-labels-for-organization/50e2676ad8fbe1a157003e63/9",
+      "attachments":[
+
+      ]
+   },
+   {
+      "id":"50e2676ad8fbe1a157003e80",
+      "badges":{
+         "votes":0,
+         "viewingMemberVoted":false,
+         "subscribed":false,
+         "fogbugz":"",
+         "checkItems":0,
+         "checkItemsChecked":0,
+         "comments":0,
+         "attachments":0,
+         "description":true,
+         "due":null
+      },
+      "checkItemStates":[
+
+      ],
+      "closed":false,
+      "desc":"Just use the 'Add List' button in the sidebar or board menu (click the icon by the board title).",
+      "due":null,
+      "idBoard":"50e2676ad8fbe1a157003e63",
+      "idChecklists":[
+
+      ],
+      "idList":"50e2676ad8fbe1a157003e6d",
+      "idMembers":[
+
+      ],
+      "idShort":10,
+      "idAttachmentCover":null,
+      "manualCoverAttachment":false,
+      "labels":[
+
+      ],
+      "name":"Make as many lists as you need!",
+      "pos":262144,
+      "subscribed":false,
+      "url":"https://trello.com/card/make-as-many-lists-as-you-need/50e2676ad8fbe1a157003e63/10",
+      "attachments":[
+
+      ]
+   },
+   {
+      "id":"50e2676ad8fbe1a157003e81",
+      "badges":{
+         "votes":0,
+         "viewingMemberVoted":false,
+         "subscribed":false,
+         "fogbugz":"",
+         "checkItems":0,
+         "checkItemsChecked":0,
+         "comments":0,
+         "attachments":0,
+         "description":false,
+         "due":null
+      },
+      "checkItemStates":[
+
+      ],
+      "closed":false,
+      "desc":"",
+      "due":null,
+      "idBoard":"50e2676ad8fbe1a157003e63",
+      "idChecklists":[
+
+      ],
+      "idList":"50e2676ad8fbe1a157003e6d",
+      "idMembers":[
+
+      ],
+      "idShort":11,
+      "idAttachmentCover":null,
+      "manualCoverAttachment":false,
+      "labels":[
+
+      ],
+      "name":"Try dragging cards anywhere.",
+      "pos":327680,
+      "subscribed":false,
+      "url":"https://trello.com/card/try-dragging-cards-anywhere/50e2676ad8fbe1a157003e63/11",
+      "attachments":[
+
+      ]
+   },
+   {
+      "id":"50e2676ad8fbe1a157003e82",
+      "badges":{
+         "votes":0,
+         "viewingMemberVoted":false,
+         "subscribed":false,
+         "fogbugz":"",
+         "checkItems":0,
+         "checkItemsChecked":0,
+         "comments":0,
+         "attachments":0,
+         "description":true,
+         "due":null
+      },
+      "checkItemStates":[
+
+      ],
+      "closed":false,
+      "desc":"From the *front* of the card, archive it using the menu in the top right corner.\n\nFrom the *back* of the card, archive it using the **Archived Items** button at the bottom right.\n\nWant to bring it back to the board? Click 'View Archived Items' in the sidebar or board menu.",
+      "due":null,
+      "idBoard":"50e2676ad8fbe1a157003e63",
+      "idChecklists":[
+
+      ],
+      "idList":"50e2676ad8fbe1a157003e6d",
+      "idMembers":[
+
+      ],
+      "idShort":12,
+      "idAttachmentCover":null,
+      "manualCoverAttachment":false,
+      "labels":[
+
+      ],
+      "name":"Finished with a card? Archive it.",
+      "pos":393216,
+      "subscribed":false,
+      "url":"https://trello.com/card/finished-with-a-card-archive-it/50e2676ad8fbe1a157003e63/12",
+      "attachments":[
+
+      ]
+   }
+]

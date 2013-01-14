@@ -35,6 +35,10 @@ namespace trello.Services.Models
 
         public Badges Badges { get; set; }
 
+        public InnerBoard Board { get; set; }
+
+        public InnerList List { get; set; }
+
         public Card()
         {
             Badges = new Badges();
@@ -42,6 +46,28 @@ namespace trello.Services.Models
             IdChecklists = new List<string>();
             Members = new List<Member>();
             Attachments = new List<Attachment>();
+        }
+
+        public class InnerBoard
+        {
+            public string Id { get; set; }
+
+            public string Name { get; set; }
+
+            public string Desc { get; set; }
+
+            public bool Pinned { get; set; }
+
+            public bool Closed { get; set; }
+        }
+
+        public class InnerList
+        {
+            public string Id { get; set; }
+
+            public string Name { get; set; }
+
+            public bool Closed { get; set; }
         }
     }
 

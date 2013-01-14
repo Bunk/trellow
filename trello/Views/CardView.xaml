@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:micro="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives" x:Class="trello.Views.CardView"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -11,7 +12,9 @@
     d:DesignHeight="480" d:DesignWidth="480" d:DataContext="{Binding BoardCard, Source={StaticResource SampleDataSource}}">
     
     <Grid x:Name="LayoutRoot" Background="Transparent">
-		<Border BorderThickness="1" Margin="0,15" Padding="10,0" BorderBrush="{StaticResource PhoneChromeBrush}" Background="{StaticResource PhoneChromeBrush}" CornerRadius="10">
+		<Border BorderThickness="1" Margin="0,15" Padding="10,0" CornerRadius="10"
+			BorderBrush="{StaticResource PhoneChromeBrush}" Background="{StaticResource PhoneChromeBrush}"
+			micro:Message.Attach="[Event MouseLeftButtonUp] = [Action Open($dataContext)]">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition />

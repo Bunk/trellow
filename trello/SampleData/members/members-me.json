@@ -1,0 +1,50 @@
+﻿{
+   "id":"50e26769d8fbe1a157003e62",
+   "avatarHash":"bd87c7f087b80197e41e65374e65a443",
+   "bio":"This is a test board built by the creator of Trellow for Windows Phone 8.  Mostly built to learn the language(s) implied, but also to deliver something useful to those folks brandishing a windows phone.  VIva la WP8!",
+   "fullName":"jcourtoy",
+   "initials":"JD",
+   "memberType":"normal",
+   "status":"active",
+   "url":"https://trello.com/jcourtoy",
+   "username":"jcourtoy",
+   "avatarSource":"gravatar",
+   "confirmed":true,
+   "email":"jcourtoy@pressganey.com",
+   "gravatarHash":"8b6febe0c2844854abd0eb7003d6257c",
+   "idBoards":[
+      "50e2676ad8fbe1a157003e63",
+      "50e349854fe3a7266b001207",
+      "50e349d3fd6ecef00d00409b"
+   ],
+   "idBoardsInvited":[
+
+   ],
+   "idBoardsPinned":[
+      "50e2676ad8fbe1a157003e63",
+      "50e349854fe3a7266b001207",
+      "50e349d3fd6ecef00d00409b"
+   ],
+   "idOrganizations":[
+
+   ],
+   "idOrganizationsInvited":[
+
+   ],
+   "idPremOrgsAdmin":[
+
+   ],
+   "loginTypes":[
+      "password"
+   ],
+   "prefs":{
+      "sendSummaries":true,
+      "minutesBetweenSummaries":60,
+      "minutesBeforeDeadlineToNotify":1440,
+      "colorBlind":false
+   },
+   "trophies":[
+
+   ],
+   "uploadedAvatarHash":null
+}

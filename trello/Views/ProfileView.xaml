@@ -12,6 +12,7 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
+	Style="{StaticResource TransitionPageStyle}"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True"
 	ApplicationBar="{Binding AppBar}">

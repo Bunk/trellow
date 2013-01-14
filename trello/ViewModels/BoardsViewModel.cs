@@ -33,7 +33,6 @@ namespace trello.ViewModels
         {
             var id = context.Id;
             _navigationService.UriFor<BoardViewModel>().WithParam(vm => vm.Id, id).Navigate();
-            //_navigationService.Navigate(new Uri("/Views/Boards/BoardView.xaml", UriKind.Relative));
         }
 
         protected override void OnViewLoaded(object view)
@@ -47,7 +46,8 @@ namespace trello.ViewModels
 
             var boards = await _boardService.Mine();
 
-            Boards.AddRange(boards.Select(BuildBoard));
+            if (boards != null)
+                Boards.AddRange(boards.Select(BuildBoard));
         }
 
         private BoardViewModel BuildBoard(Board board)

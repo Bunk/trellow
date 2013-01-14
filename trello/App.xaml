@@ -15,7 +15,7 @@
 
     		<SampleData:SampleDataSource x:Key="SampleDataSource" d:IsDataSource="True"/>
 
-    		<app:Bootstrapper x:Key="Bootstrapper" />
+    		<app:ApplicationBootstrapper x:Key="Bootstrapper" />
     	</ResourceDictionary>
     </Application.Resources>
 

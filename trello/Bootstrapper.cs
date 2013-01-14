@@ -41,19 +41,21 @@ namespace trello
             _container.PerRequest<BoardViewModel>();
             _container.PerRequest<BoardListViewModel>();
             _container.PerRequest<CardViewModel>();
+            _container.PerRequest<CardDetailViewModel>();
+            _container.PerRequest<CardDetailOverviewViewModel>();
 
-            RegisterRepository(_container);
+            RegisterJsonRepository(_container);
 
             TelerikConventions.Install();
         }
 
-        private static void RegisterMockRepository(PhoneContainer container)
+        private static void RegisterJsonRepository(PhoneContainer container)
         {
             container.Singleton<IOAuthClient, MockOAuthClient>();
-            
-            container.Singleton<IBoardService, MockBoardService>();
-            container.Singleton<ICardService, MockCardService>();
-            container.Singleton<IProfileService, MockProfileService>();
+
+            container.Singleton<IBoardService, JsonBoardService>();
+            container.Singleton<ICardService, JsonCardService>();
+            container.Singleton<IProfileService, JsonProfileService>();
         }
 
         private static void RegisterRepository(PhoneContainer container)
@@ -96,9 +98,5 @@ namespace trello
 
             base.OnUnhandledException(sender, e);
         }
-    }
-
-    public class Bootstrapper : ApplicationBootstrapper
-    {
     }
 }

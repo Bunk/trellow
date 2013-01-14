@@ -1,0 +1,126 @@
+﻿{
+   "id":"50e2676ad8fbe1a157003e7b",
+   "badges":{
+      "votes":0,
+      "viewingMemberVoted":false,
+      "subscribed":false,
+      "fogbugz":"",
+      "checkItems":6,
+      "checkItemsChecked":1,
+      "comments":0,
+      "attachments":0,
+      "description":false,
+      "due":null
+   },
+   "checkItemStates":[
+      {
+         "idCheckItem":"50e2676ad8fbe1a157003e69",
+         "state":"complete",
+         "_id":"50e2676ad8fbe1a157003e7c"
+      }
+   ],
+   "closed":false,
+   "desc":"",
+   "due":null,
+   "idBoard":"50e2676ad8fbe1a157003e63",
+   "idChecklists":[
+      "50e2676ad8fbe1a157003e68",
+      "50f446e0e524b2810d007dab"
+   ],
+   "idList":"50e2676ad8fbe1a157003e6c",
+   "idMembers":[
+
+   ],
+   "idShort":6,
+   "idAttachmentCover":null,
+   "manualCoverAttachment":false,
+   "labels":[
+
+   ],
+   "name":"... or checklists.",
+   "pos":393216,
+   "url":"https://trello.com/card/or-checklists/50e2676ad8fbe1a157003e63/6",
+   "attachments":[
+
+   ],
+   "members":[
+
+   ],
+   "checklists":[
+      {
+         "id":"50e2676ad8fbe1a157003e68",
+         "name":"Checklist",
+         "idBoard":"50e2676ad8fbe1a157003e63",
+         "checkItems":[
+            {
+               "id":"50e2676ad8fbe1a157003e69",
+               "name":"Make your own boards",
+               "type":"check",
+               "pos":16481
+            },
+            {
+               "id":"50e2676ad8fbe1a157003e6a",
+               "name":"Invite your team",
+               "type":"check",
+               "pos":33232
+            },
+            {
+               "id":"50e2676ad8fbe1a157003e6b",
+               "name":"Enjoy an ice-cold lemonade",
+               "type":"check",
+               "pos":49687
+            }
+         ]
+      },
+      {
+         "id":"50f446e0e524b2810d007dab",
+         "name":"To Do",
+         "idBoard":"50e2676ad8fbe1a157003e63",
+         "checkItems":[
+            {
+               "id":"50f446e0e524b2810d007dac",
+               "name":"Make your own boards",
+               "type":"check",
+               "pos":16481
+            },
+            {
+               "id":"50f446e0e524b2810d007dad",
+               "name":"Invite your team",
+               "type":"check",
+               "pos":33232
+            },
+            {
+               "id":"50f446e0e524b2810d007dae",
+               "name":"Enjoy an ice-cold lemonade",
+               "type":"check",
+               "pos":49687
+            }
+         ]
+      }
+   ],
+   "list":{
+      "id":"50e2676ad8fbe1a157003e6c",
+      "name":"Basics",
+      "closed":false,
+      "idBoard":"50e2676ad8fbe1a157003e63",
+      "pos":16384,
+      "subscribed":false
+   },
+   "board":{
+      "id":"50e2676ad8fbe1a157003e63",
+      "name":"Welcome Board",
+      "desc":"This is the default welcome board that gets created for all new Trello users.",
+      "closed":false,
+      "idOrganization":null,
+      "pinned":true,
+      "url":"https://trello.com/board/welcome-board/50e2676ad8fbe1a157003e63",
+      "prefs":{
+         "permissionLevel":"private",
+         "voting":"members",
+         "comments":"members",
+         "invitations":"members",
+         "selfJoin":false,
+         "cardCovers":true
+      }
+   }
+}

@@ -13,12 +13,14 @@ namespace trello.ViewModels
     public class CardListViewModel : PivotItemViewModel, IConfigureTheAppBar
     {
         private readonly ICardService _cards;
+        private readonly Func<CardViewModel> _cardFactory;
 
         public IObservableCollection<CardViewModel> Cards { get; set; }
 
-        public CardListViewModel(ICardService cards)
+        public CardListViewModel(ICardService cards, Func<CardViewModel> cardFactory)
         {
             _cards = cards;
+            _cardFactory = cardFactory;
 
             DisplayName = "cards";
 
@@ -35,8 +37,8 @@ namespace trello.ViewModels
             Cards.Clear();
 
             var cards = await _cards.Mine();
-
-            Cards.AddRange(cards.Select(c => new CardViewModel(c)));
+            if (cards != null)
+                Cards.AddRange(cards.Select(c => _cardFactory().InitializeWith(c)));
         }
 
         public ApplicationBar ConfigureTheAppBar(ApplicationBar existing)

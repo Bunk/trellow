@@ -1,11 +1,11 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using trello.Services.Models;
-using trello.ViewModels;
 
 namespace trello.Services.Data
 {
+    [UsedImplicitly]
     public class CardService : ServiceBase, ICardService
     {
         public CardService(IRequestProcessor processor) : base(processor)
@@ -36,79 +36,25 @@ namespace trello.Services.Data
         }
     }
 
-    public class MockCardService : MockServiceBase, ICardService
+    [UsedImplicitly]
+    public class JsonCardService : JsonServiceBase, ICardService
     {
-        public MockCardService(IProgressService progressService) : base(progressService)
+        public async Task<IEnumerable<Card>> Mine()
         {
+            const string file = "SampleData/cards/cards-mine.json";
+            return await ReadFile<IEnumerable<Card>>(file);
         }
 
-        public Task<IEnumerable<Card>> Mine()
+        public async Task<IEnumerable<Card>> InList(string listId)
         {
-            return Execute(() => Task.Run(() =>
-            {
-                var cards = new List<Card>
-                {
-                    new Card
-                    {
-                        Id = "CARD-1",
-                        IdBoard = "BOARD-1",
-                        IdList = "TODO",
-                        Desc = "Description for Card 1",
-                        Badges = new Badges
-                        {
-                            Attachments = 1,
-                            CheckItems = 2,
-                            CheckItemsChecked = 1,
-                            Comments = 3,
-                            Description = true,
-                            Due = DateTime.UtcNow,
-                            Subscribed = true,
-                            ViewingMemberVoted = true,
-                            Votes = 4
-                        }
-                    }
-                };
-                return (IEnumerable<Card>) cards;
-            }));
+            var file = string.Format("SampleData/lists/list-{0}.json", listId);
+            return await ReadFile<IEnumerable<Card>>(file);
         }
 
-        public Task<IEnumerable<Card>> InList(string listId)
+        public async Task<Card> WithId(string id)
         {
-            IEnumerable<Card> cards = new List<Card>
-            {
-                new Card
-                {
-                    Id = "CARD-1",
-                    IdList = listId,
-                    Desc = "Finalize Trellow work",
-                    Name = "Finalize Trellow work",
-                    Due = new DateTime(2013, 2, 1),
-                    Badges = new Badges
-                    {
-                        CheckItems = 5,
-                        CheckItemsChecked = 3,
-                        Due = new DateTime(2013, 2, 1)
-                    }
-                }
-            };
-
-            return Run(() => cards);
-        }
-
-        public Task<Card> WithId(string id)
-        {
-            return Run(() => new Card
-            {
-                Id = "CARD-1",
-                Desc = "Finalize Trellow work",
-                Name = "Finalize Trellow work",
-                Badges = new Badges
-                {
-                    CheckItems = 5,
-                    CheckItemsChecked = 3,
-                    Due = new DateTime(2013, 2, 1)
-                }
-            });
+            var file = string.Format("SampleData/cards/card-{0}.json", id);
+            return await ReadFile<Card>(file);
         }
     }
 }

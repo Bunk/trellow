@@ -1,14 +1,8 @@
 ﻿using System.Threading.Tasks;
 using trello.Services.Models;
-using trello.ViewModels;
 
 namespace trello.Services.Data
 {
-    public interface IProfileService
-    {
-        Task<Profile> Mine();
-    }
-
     public class ProfileService : ServiceBase, IProfileService
     {
         public ProfileService(IRequestProcessor processor) : base(processor)
@@ -23,21 +17,11 @@ namespace trello.Services.Data
         }
     }
 
-    public class MockProfileService : MockServiceBase, IProfileService
+    public class JsonProfileService : JsonServiceBase, IProfileService
     {
-        public MockProfileService(IProgressService progressService) : base(progressService)
-        {
-        }
-
         public Task<Profile> Mine()
         {
-            return Execute(() => Task.Run(() => new Profile
-            {
-                Bio = "This is some person's mock profile information.  It could be quite long.",
-                FullName = "Mock User",
-                Username = "mockuser",
-                Email = "mocked@mock.com"
-            }));
+            return ReadFile<Profile>("SampleData/members/members-me.json");
         }
     }
 }

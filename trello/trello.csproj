@@ -115,8 +115,8 @@
     <Compile Include="Services\AppSettingsBase.cs" />
     <Compile Include="Services\Data\CardService.cs" />
     <Compile Include="Services\Data\ICardService.cs" />
-    <Compile Include="Services\Data\MockBoardService.cs" />
-    <Compile Include="Services\Data\MockServiceBase.cs" />
+    <Compile Include="Services\Data\IProfileService.cs" />
+    <Compile Include="Services\Data\JsonServiceBase.cs" />
     <Compile Include="Services\Data\ProfileService.cs" />
     <Compile Include="Services\Models\Card.cs" />
     <Compile Include="Services\Models\Profile.cs" />
@@ -137,6 +137,8 @@
     <Compile Include="ViewModels\BoardListViewModel.cs" />
     <Compile Include="ViewModels\BoardsViewModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
+    <Compile Include="ViewModels\CardDetailOverviewViewModel.cs" />
+    <Compile Include="ViewModels\CardDetailViewModel.cs" />
     <Compile Include="ViewModels\CardListViewModel.cs" />
     <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="ViewModels\IProgressService.cs" />
@@ -161,6 +163,12 @@
     </Compile>
     <Compile Include="Views\BoardCardView.xaml.cs">
       <DependentUpon>BoardCardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardDetailOverviewView.xaml.cs">
+      <DependentUpon>CardDetailOverviewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardDetailView.xaml.cs">
+      <DependentUpon>CardDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CardListView.xaml.cs">
       <DependentUpon>CardListView.xaml</DependentUpon>
@@ -200,6 +208,15 @@
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="SampleData\boards\boards-mine.json" />
+    <Content Include="SampleData\boards\board-50e2676ad8fbe1a157003e63.json" />
+    <Content Include="SampleData\cards\cards-mine.json" />
+    <Content Include="SampleData\lists\list-50e2676ad8fbe1a157003e6d.json" />
+    <Content Include="SampleData\lists\list-50e2676ad8fbe1a157003e6e.json" />
+    <Content Include="SampleData\lists\list-50e2676ad8fbe1a157003e6c.json" />
+    <Content Include="SampleData\members\members-me.json" />
+    <Content Include="SampleData\cards\card-50e2676ad8fbe1a157003e70.json" />
+    <Content Include="SampleData\cards\card-50e2676ad8fbe1a157003e7b.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\AlignmentGrid.png" />
@@ -368,7 +385,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="Views\Cards\" />
   </ItemGroup>
   <ItemGroup>
     <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource.xaml">
@@ -388,6 +404,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BoardCardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardDetailOverviewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
