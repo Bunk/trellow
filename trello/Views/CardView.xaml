@@ -24,7 +24,7 @@
 					<ItemsControl x:Name="Labels" ItemsSource="{Binding Labels}">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
-								<Rectangle Width="75" Height="8" VerticalAlignment="Stretch" Margin="0,0,5,0">
+								<Rectangle Width="50" Height="5" VerticalAlignment="Stretch" Margin="0,0,8,0">
 									<Rectangle.Fill>
 										<SolidColorBrush Color="{Binding Color}" />
 									</Rectangle.Fill>

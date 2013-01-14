@@ -4,16 +4,32 @@ using System.Windows.Data;
 
 namespace trello.Views.Converters
 {
-    public class CaseConverter : IValueConverter 
+    public enum Casing
     {
-        public bool Uppercase { get; set; }
+        Lower,
+        Upper
+    }
 
+    public class CaseConverter : IValueConverter
+    {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null)
                 return null;
 
-            return Uppercase ? value.ToString().ToUpperInvariant() : value.ToString().ToLowerInvariant();
+            var casing = Casing.Lower;
+            if (parameter != null)
+                casing = (Casing) Enum.Parse(typeof (Casing), parameter.ToString());
+
+            switch (casing)
+            {
+                case Casing.Lower:
+                    return value.ToString().ToLowerInvariant();
+                case Casing.Upper:
+                    return value.ToString().ToUpperInvariant();
+                default:
+                    return value.ToString();
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

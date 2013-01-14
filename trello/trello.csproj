@@ -368,6 +368,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
+    <Folder Include="Views\Cards\" />
   </ItemGroup>
   <ItemGroup>
     <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource.xaml">
