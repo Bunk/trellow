@@ -137,6 +137,11 @@
     <Compile Include="ViewModels\BoardListViewModel.cs" />
     <Compile Include="ViewModels\BoardsViewModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
+    <Compile Include="ViewModels\CardDetailActivityViewModel.cs" />
+    <Compile Include="ViewModels\CardDetailAttachmentsViewModel.cs" />
+    <Compile Include="ViewModels\CardDetailChecklistsViewModel.cs" />
+    <Compile Include="ViewModels\CardDetailCommentsViewModel.cs" />
+    <Compile Include="ViewModels\CardDetailMembersViewModel.cs" />
     <Compile Include="ViewModels\CardDetailOverviewViewModel.cs" />
     <Compile Include="ViewModels\CardDetailViewModel.cs" />
     <Compile Include="ViewModels\CardListViewModel.cs" />
@@ -163,6 +168,21 @@
     </Compile>
     <Compile Include="Views\BoardCardView.xaml.cs">
       <DependentUpon>BoardCardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardDetailActivityView.xaml.cs">
+      <DependentUpon>CardDetailActivityView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardDetailAttachmentsView.xaml.cs">
+      <DependentUpon>CardDetailAttachmentsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardDetailChecklistsView.xaml.cs">
+      <DependentUpon>CardDetailChecklistsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardDetailCommentsView.xaml.cs">
+      <DependentUpon>CardDetailCommentsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardDetailMembersView.xaml.cs">
+      <DependentUpon>CardDetailMembersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CardDetailOverviewView.xaml.cs">
       <DependentUpon>CardDetailOverviewView.xaml</DependentUpon>
@@ -404,6 +424,26 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BoardCardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardDetailActivityView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardDetailAttachmentsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardDetailChecklistsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardDetailCommentsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardDetailMembersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
