@@ -11,7 +11,8 @@ namespace trello.ViewModels
         private readonly MessageListViewModel _messages;
 
         public ShellViewModel(ITrelloSettings settings,
-                              INavigationService navigation, BoardsViewModel boards,
+                              INavigationService navigation,
+                              BoardsViewModel boards,
                               CardListViewModel cards,
                               MessageListViewModel messages)
             : base(settings, navigation)

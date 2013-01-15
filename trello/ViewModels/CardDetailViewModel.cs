@@ -51,7 +51,7 @@ namespace trello.ViewModels
             Name = card.Name;
             BoardName = card.Board.Name;
 
-            var details = new CardDetailOverviewViewModel().InitializeWith(card);
+            var details = _overviewFactory().InitializeWith(card);
             var checklists = new CardDetailChecklistsViewModel();
             var comments = new CardDetailCommentsViewModel();
             var attachments = new CardDetailAttachmentsViewModel();

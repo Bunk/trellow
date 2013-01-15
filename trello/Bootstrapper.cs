@@ -44,7 +44,8 @@ namespace trello
             _container.PerRequest<CardDetailViewModel>();
             _container.PerRequest<CardDetailOverviewViewModel>();
 
-            RegisterJsonRepository(_container);
+            //RegisterJsonRepository(_container);
+            RegisterRepository(_container);
 
             TelerikConventions.Install();
         }

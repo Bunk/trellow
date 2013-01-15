@@ -13,8 +13,7 @@
     
     <Grid x:Name="LayoutRoot" Background="Transparent">
 		<Border BorderThickness="1" Margin="0,15" Padding="10,0" CornerRadius="10"
-			BorderBrush="{StaticResource PhoneChromeBrush}" Background="{StaticResource PhoneChromeBrush}"
-			micro:Message.Attach="[Event MouseLeftButtonUp] = [Action Open($dataContext)]">
+			BorderBrush="{StaticResource PhoneChromeBrush}" Background="{StaticResource PhoneChromeBrush}">
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition />

@@ -64,11 +64,17 @@ namespace trello.ViewModels
             
         }
 
-        protected override async void OnInitialize()
+        protected override void OnViewLoaded(object view)
+        {
+            RefreshLists();
+        }
+
+        private async void RefreshLists()
         {
             Cards.Clear();
 
             var cards = await _cardService.InList(Id);
+
             Cards.AddRange(cards.Select(c => _cardFactory().InitializeWith(c)));
         }
 

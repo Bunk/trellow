@@ -69,13 +69,6 @@ namespace trello.ViewModels
 
             return this;
         }
-
-        public void Open(CardViewModel context)
-        {
-            _navigationService.UriFor<CardDetailViewModel>()
-                .WithParam(vm => vm.Id, context.Id)
-                .Navigate();
-        }
     }
 
     public class LabelViewModel

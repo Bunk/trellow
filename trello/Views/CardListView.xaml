@@ -6,7 +6,7 @@
 	xmlns:cm="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
 	xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
-    xmlns:converters="clr-namespace:trello.Views.Converters"
+    xmlns:micro="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -14,15 +14,13 @@
     d:DesignHeight="480" d:DesignWidth="480">
     
     <Grid x:Name="LayoutRoot">
-		<Grid.Resources>
-			<converters:VisibilityConverter x:Key="VisibilityConverter" />
-		</Grid.Resources>
     	<d:DataContext>
     		<Binding Source="{StaticResource SampleDataSource}"/>
     	</d:DataContext>
         <telerikPrimitives:RadDataBoundListBox x:Name="Cards"
                                                Margin="12,0,12,0"
-                                               telerikCore:InteractionEffectManager.IsInteractionEnabled="True" ItemsSource="{Binding Cards}">
+                                               telerikCore:InteractionEffectManager.IsInteractionEnabled="True" ItemsSource="{Binding Cards}"
+											   micro:Message.Attach="[Event ItemTap] = [Action Open($eventArgs)]">
 			<telerikPrimitives:RadContextMenu.ContextMenu>
 				<telerikPrimitives:RadContextMenu x:Name="BoardsMenu">
 					<telerikPrimitives:RadContextMenuItem Content="remove" />

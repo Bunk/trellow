@@ -6,7 +6,7 @@ namespace trello.Services.Data
 {
     public interface IBoardService
     {
-        Task<IEnumerable<Board>> Mine();
+        Task<List<Board>> Mine();
 
         Task<Board> WithId(string id);
     }

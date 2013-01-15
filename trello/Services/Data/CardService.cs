@@ -12,49 +12,54 @@ namespace trello.Services.Data
         {
         }
 
-        public async Task<IEnumerable<Card>> Mine()
+        public Task<List<Card>> Mine()
         {
-            return await Processor.Execute<List<Card>>(
+            return Processor.Execute<List<Card>>(
                 Request("members/my/cards/open")
                     .AddParameter("members", "false"));
         }
 
-        public async Task<IEnumerable<Card>> InList(string listId)
+        public Task<List<Card>> InList(string listId)
         {
-            return await Processor.Execute<List<Card>>(
+            return Processor.Execute<List<Card>>(
                 Request("lists/{id}/cards")
                     .AddUrlSegment("id", listId)
                     .AddParameter("attachments", "true")
                     .AddParameter("attachments_fields", "previews"));
         }
 
-        public async Task<Card> WithId(string id)
+        public Task<Card> WithId(string id)
         {
-            return await Processor.Execute<Card>(
+            return Processor.Execute<Card>(
                 Request("cards/{id}")
-                    .AddUrlSegment("id", id));
+                    .AddUrlSegment("id", id)
+                    .AddParameter("attachments", "true")
+                    .AddParameter("members", "true")
+                    .AddParameter("checklists", "all")
+                    .AddParameter("board", "true")
+                    .AddParameter("list", "true"));
         }
     }
 
     [UsedImplicitly]
     public class JsonCardService : JsonServiceBase, ICardService
     {
-        public async Task<IEnumerable<Card>> Mine()
+        public Task<List<Card>> Mine()
         {
             const string file = "SampleData/cards/cards-mine.json";
-            return await ReadFile<IEnumerable<Card>>(file);
+            return ReadFile<List<Card>>(file);
         }
 
-        public async Task<IEnumerable<Card>> InList(string listId)
+        public Task<List<Card>> InList(string listId)
         {
             var file = string.Format("SampleData/lists/list-{0}.json", listId);
-            return await ReadFile<IEnumerable<Card>>(file);
+            return ReadFile<List<Card>>(file);
         }
 
-        public async Task<Card> WithId(string id)
+        public Task<Card> WithId(string id)
         {
             var file = string.Format("SampleData/cards/card-{0}.json", id);
-            return await ReadFile<Card>(file);
+            return ReadFile<Card>(file);
         }
     }
 }

@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
@@ -8,6 +9,7 @@ namespace trello.ViewModels
     {
         private const string DefaultIndicatorText = "Loading";
         private readonly ProgressIndicator _indicator;
+        private int _count;
 
         public ProgressService(PhoneApplicationFrame rootFrame)
         {
@@ -25,6 +27,8 @@ namespace trello.ViewModels
 
         public void Show(string text)
         {
+            Interlocked.Increment(ref _count);
+
             _indicator.Text = text;
             _indicator.IsVisible = true;
             _indicator.IsIndeterminate = true;
@@ -32,6 +36,10 @@ namespace trello.ViewModels
 
         public void Hide()
         {
+            Interlocked.Decrement(ref _count);
+
+            if (_count != 0) return;
+
             _indicator.IsIndeterminate = false;
             _indicator.IsVisible = false;
         }
@@ -47,7 +55,7 @@ namespace trello.ViewModels
 
         private void RootFrameOnNavigated(object sender, NavigationEventArgs args)
         {
-            UpdateProgressBarAttachment(sender);
+            UpdateProgressBarAttachment(args.Content);
         }
     }
 }

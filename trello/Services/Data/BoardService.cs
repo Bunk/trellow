@@ -12,16 +12,16 @@ namespace trello.Services.Data
         {
         }
 
-        public async Task<IEnumerable<Board>> Mine()
+        public Task<List<Board>> Mine()
         {
-            return await Processor.Execute<List<Board>>(
+            return Processor.Execute<List<Board>>(
                 Request("members/my/boards")
                     .AddParameter("filter", "open"));
         }
 
-        public async Task<Board> WithId(string id)
+        public Task<Board> WithId(string id)
         {
-            return await Processor.Execute<Board>(
+            return Processor.Execute<Board>(
                 Request("boards/{id}")
                     .AddUrlSegment("id", id)
                     .AddParameter("lists", "open"));
@@ -30,15 +30,15 @@ namespace trello.Services.Data
 
     public class JsonBoardService : JsonServiceBase, IBoardService
     {
-        public async Task<IEnumerable<Board>> Mine()
+        public Task<List<Board>> Mine()
         {
-            return await ReadFile<List<Board>>("SampleData/boards/boards-mine.json");
+            return ReadFile<List<Board>>("SampleData/boards/boards-mine.json");
         }
 
-        public async Task<Board> WithId(string id)
+        public Task<Board> WithId(string id)
         {
             var filename = string.Format("SampleData/boards/board-{0}.json", id);
-            return await ReadFile<Board>(filename);
+            return ReadFile<Board>(filename);
         }
     }
 }

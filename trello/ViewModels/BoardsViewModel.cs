@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
+using Telerik.Windows.Controls;
 using trello.Assets;
 using trello.Services.Data;
 using trello.Services.Models;
@@ -29,10 +31,15 @@ namespace trello.ViewModels
             Boards = new BindableCollection<BoardViewModel>();
         }
 
-        public void OpenBoard(BoardViewModel context)
+        public void Open(ListBoxItemTapEventArgs args)
         {
-            var id = context.Id;
-            _navigationService.UriFor<BoardViewModel>().WithParam(vm => vm.Id, id).Navigate();
+            var context = args.Item.DataContext as BoardViewModel;
+            if (context == null)
+                return;
+
+            _navigationService.UriFor<BoardViewModel>()
+                .WithParam(x => x.Id, context.Id)
+                .Navigate();
         }
 
         protected override void OnViewLoaded(object view)

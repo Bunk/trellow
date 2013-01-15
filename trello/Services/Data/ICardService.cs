@@ -6,8 +6,8 @@ namespace trello.Services.Data
 {
     public interface ICardService
     {
-        Task<IEnumerable<Card>> Mine();
-        Task<IEnumerable<Card>> InList(string listId);
+        Task<List<Card>> Mine();
+        Task<List<Card>> InList(string listId);
         Task<Card> WithId(string id);
     }
 }
