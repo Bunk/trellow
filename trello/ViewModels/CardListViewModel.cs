@@ -17,6 +17,7 @@ namespace trello.ViewModels
         private readonly INavigationService _navigationService;
         private readonly ICardService _cards;
         private readonly Func<CardViewModel> _cardFactory;
+        private readonly Random _randomizer;
 
         public IObservableCollection<CardViewModel> Cards { get; set; }
 
@@ -31,6 +32,7 @@ namespace trello.ViewModels
             DisplayName = "cards";
 
             Cards = new BindableCollection<CardViewModel>();
+            _randomizer = new Random();
         }
 
         protected override void OnViewLoaded(object view)
@@ -60,21 +62,31 @@ namespace trello.ViewModels
             UpdateLiveTile(cards);
         }
 
-        private static void UpdateLiveTile(List<Card> cards)
+        private void UpdateLiveTile(IReadOnlyCollection<Card> cards)
         {
             var tile = ShellTile.ActiveTiles.First();
 
-            var first = cards.FirstOrDefault();
-            var name = first != null && first.Desc != null ? first.Name : "";
-            var desc = first != null && first.Desc != null ? first.Desc : "";
-
-            tile.Update(new FlipTileData
+            var data = new FlipTileData
             {
                 Count = cards.Count,
-                BackTitle = name,
-                BackContent = desc,
-                WideBackContent = desc
-            });
+                BackTitle = "",
+                BackContent = "",
+                WideBackContent = ""
+            };
+
+            if (cards.Any())
+            {
+                var index = _randomizer.Next(0, cards.Count);
+                var first = cards.ElementAt(index);
+                var name = first.Desc != null ? first.Name : "";
+                var desc = first.Desc ?? "";
+
+                data.BackTitle = name;
+                data.BackContent = desc;
+                data.WideBackContent = desc;
+            }
+
+            tile.Update(data);
         }
 
         public ApplicationBar ConfigureTheAppBar(ApplicationBar existing)

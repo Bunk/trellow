@@ -119,7 +119,6 @@
     <Compile Include="ViewModels\CardDetailActivityViewModel.cs" />
     <Compile Include="ViewModels\CardDetailAttachmentsViewModel.cs" />
     <Compile Include="ViewModels\CardDetailChecklistsViewModel.cs" />
-    <Compile Include="ViewModels\CardDetailCommentsViewModel.cs" />
     <Compile Include="ViewModels\CardDetailMembersViewModel.cs" />
     <Compile Include="ViewModels\CardDetailOverviewViewModel.cs" />
     <Compile Include="ViewModels\CardDetailViewModel.cs" />
@@ -155,9 +154,6 @@
     </Compile>
     <Compile Include="Views\CardDetailChecklistsView.xaml.cs">
       <DependentUpon>CardDetailChecklistsView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CardDetailCommentsView.xaml.cs">
-      <DependentUpon>CardDetailCommentsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CardDetailMembersView.xaml.cs">
       <DependentUpon>CardDetailMembersView.xaml</DependentUpon>
@@ -206,6 +202,7 @@
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Assets\Icons\dark\icon-tag-med.png" />
     <Content Include="SampleData\boards\boards-mine.json" />
     <Content Include="SampleData\boards\board-50e2676ad8fbe1a157003e63.json" />
     <Content Include="SampleData\cards\cards-mine.json" />
@@ -414,10 +411,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CardDetailChecklistsView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CardDetailCommentsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

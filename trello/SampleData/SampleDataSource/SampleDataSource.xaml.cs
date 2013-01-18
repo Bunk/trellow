@@ -482,6 +482,16 @@ namespace Expression.Blend.SampleData.SampleDataSource
 			}
 		}
 
+		private Labels1 _Labels = new Labels1();
+
+		public Labels1 Labels
+		{
+			get
+			{
+				return this._Labels;
+			}
+		}
+
 		private string _Name = string.Empty;
 
 		public string Name
@@ -577,15 +587,85 @@ namespace Expression.Blend.SampleData.SampleDataSource
 			}
 		}
 
-		private Labels1 _Labels = new Labels1();
+		private double _Checklists = 0;
 
-		public Labels1 Labels
+		public double Checklists
 		{
 			get
 			{
-				return this._Labels;
+				return this._Checklists;
+			}
+
+			set
+			{
+				if (this._Checklists != value)
+				{
+					this._Checklists = value;
+					this.OnPropertyChanged("Checklists");
+				}
 			}
 		}
+
+		private double _Members = 0;
+
+		public double Members
+		{
+			get
+			{
+				return this._Members;
+			}
+
+			set
+			{
+				if (this._Members != value)
+				{
+					this._Members = value;
+					this.OnPropertyChanged("Members");
+				}
+			}
+		}
+
+		private double _Attachments = 0;
+
+		public double Attachments
+		{
+			get
+			{
+				return this._Attachments;
+			}
+
+			set
+			{
+				if (this._Attachments != value)
+				{
+					this._Attachments = value;
+					this.OnPropertyChanged("Attachments");
+				}
+			}
+		}
+
+		private string _Desc = string.Empty;
+
+		public string Desc
+		{
+			get
+			{
+				return this._Desc;
+			}
+
+			set
+			{
+				if (this._Desc != value)
+				{
+					this._Desc = value;
+					this.OnPropertyChanged("Desc");
+				}
+			}
+		}
+	}
+
+	public class Labels1 : System.Collections.ObjectModel.ObservableCollection<LabelsItem1>
+	{ 
 	}
 
 	public class LabelsItem1 : System.ComponentModel.INotifyPropertyChanged
@@ -637,10 +717,6 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				}
 			}
 		}
-	}
-
-	public class Labels1 : System.Collections.ObjectModel.ObservableCollection<LabelsItem1>
-	{ 
 	}
 #endif
 }

@@ -53,14 +53,12 @@ namespace trello.ViewModels
 
             var details = _overviewFactory().InitializeWith(card);
             var checklists = new CardDetailChecklistsViewModel();
-            var comments = new CardDetailCommentsViewModel();
             var attachments = new CardDetailAttachmentsViewModel();
             var members = new CardDetailMembersViewModel();
             var activity = new CardDetailActivityViewModel();
 
             Items.Add(details);
             Items.Add(checklists);
-            Items.Add(comments);
             Items.Add(attachments);
             Items.Add(members);
             Items.Add(activity);

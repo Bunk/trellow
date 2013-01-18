@@ -73,6 +73,10 @@
     <xs:attribute blend:FormatParameters="1" name="CheckItems" type="xs:double" />
     <xs:attribute name="CheckItemsChecked" type="xs:double" />
     <xs:attribute blend:Format="Date" name="Due" type="xs:string" />
+    <xs:attribute blend:FormatParameters="1" name="Checklists" type="xs:double" />
+    <xs:attribute blend:FormatParameters="1" name="Members" type="xs:double" />
+    <xs:attribute blend:FormatParameters="1" name="Attachments" type="xs:double" />
+    <xs:attribute blend:FormatParameters="64,8" name="Desc" type="xs:string" />
   </xs:complexType>
   <xs:complexType name="Labels1">
     <xs:sequence>
