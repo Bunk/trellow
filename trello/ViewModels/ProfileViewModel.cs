@@ -2,9 +2,9 @@
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
-using trello.Services;
-using trello.Services.Data;
-using trello.Services.Models;
+using trellow.api;
+using trellow.api.Data;
+using trellow.api.Models;
 
 namespace trello.ViewModels
 {
@@ -73,7 +73,7 @@ namespace trello.ViewModels
             }
         }
 
-        public ProfileViewModel(ITrelloSettings settings,
+        public ProfileViewModel(ITrelloApiSettings settings,
                                 INavigationService navigation,
                                 IEventAggregator eventAggregator,
                                 IProfileService profileService) : base(settings, navigation)

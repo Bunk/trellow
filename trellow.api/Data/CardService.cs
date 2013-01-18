@@ -1,0 +1,65 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using JetBrains.Annotations;
+using trellow.api.Models;
+
+namespace trellow.api.Data
+{
+    [UsedImplicitly]
+    public class CardService : ServiceBase, ICardService
+    {
+        public CardService(IRequestProcessor processor) : base(processor)
+        {
+        }
+
+        public Task<List<Card>> Mine()
+        {
+            return Processor.Execute<List<Card>>(
+                Request("members/my/cards/open")
+                    .AddParameter("members", "false"));
+        }
+
+        public Task<List<Card>> InList(string listId)
+        {
+            return Processor.Execute<List<Card>>(
+                Request("lists/{id}/cards")
+                    .AddUrlSegment("id", listId)
+                    .AddParameter("attachments", "true")
+                    .AddParameter("attachments_fields", "previews"));
+        }
+
+        public Task<Card> WithId(string id)
+        {
+            return Processor.Execute<Card>(
+                Request("cards/{id}")
+                    .AddUrlSegment("id", id)
+                    .AddParameter("attachments", "true")
+                    .AddParameter("members", "true")
+                    .AddParameter("checklists", "all")
+                    .AddParameter("board", "true")
+                    .AddParameter("list", "true"));
+        }
+    }
+
+    [UsedImplicitly]
+    public class JsonCardService : JsonServiceBase, ICardService
+    {
+        public Task<List<Card>> Mine()
+        {
+            const string file = "SampleData/cards/cards-mine.json";
+            return ReadFile<List<Card>>(file);
+        }
+
+        public Task<List<Card>> InList(string listId)
+        {
+            var file = string.Format("SampleData/lists/list-{0}.json", listId);
+            return ReadFile<List<Card>>(file);
+        }
+
+        public Task<Card> WithId(string id)
+        {
+            var file = string.Format("SampleData/cards/card-{0}.json", id);
+            return ReadFile<Card>(file);
+        }
+    }
+}

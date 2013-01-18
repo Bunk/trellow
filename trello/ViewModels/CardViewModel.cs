@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 using Caliburn.Micro;
-using trello.Services.Models;
+using trellow.api.Models;
 
 namespace trello.ViewModels
 {
@@ -60,7 +60,7 @@ namespace trello.ViewModels
 
             Members.Clear();
             Members.AddRange(card.Members.Select(x => new MemberViewModel(x)));
-            
+
             Labels.Clear();
             Labels.AddRange(card.Labels.Select(x => new LabelViewModel(x)));
 

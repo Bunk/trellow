@@ -1,16 +1,14 @@
 using System;
-using System.Collections.Generic;
 using System.Windows;
 using Caliburn.Micro;
 using Microsoft.Phone.Shell;
-using trello.Services;
-using trello.Services.OAuth;
+using trellow.api;
 
 namespace trello.ViewModels
 {
     public abstract class ViewModelBase : Screen
     {
-        protected readonly ITrelloSettings Settings;
+        protected readonly ITrelloApiSettings Settings;
         protected readonly INavigationService Navigation;
         protected ApplicationBar _appBar;
 
@@ -24,7 +22,7 @@ namespace trello.ViewModels
             }
         }
 
-        public ViewModelBase(ITrelloSettings settings, INavigationService navigation)
+        public ViewModelBase(ITrelloApiSettings settings, INavigationService navigation)
         {
             Settings = settings;
             Navigation = navigation;
@@ -47,7 +45,7 @@ namespace trello.ViewModels
 
         protected virtual ApplicationBar BuildDefaultAppBar()
         {
-            var bar = new ApplicationBar { IsVisible = true, IsMenuEnabled = true, Opacity = 1 };
+            var bar = new ApplicationBar {IsVisible = true, IsMenuEnabled = true, Opacity = 1};
 
             var accountSettings = new ApplicationBarMenuItem("profile");
             accountSettings.Click += (sender, args) => OpenProfile();

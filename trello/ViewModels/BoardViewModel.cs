@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Caliburn.Micro;
-using trello.Services;
-using trello.Services.Data;
-using trello.Services.Models;
+using trellow.api;
+using trellow.api.Data;
+using trellow.api.Models;
 
 namespace trello.ViewModels
 {
@@ -60,7 +60,7 @@ namespace trello.ViewModels
             }
         }
 
-        public BoardViewModel(ITrelloSettings settings,
+        public BoardViewModel(ITrelloApiSettings settings,
                               INavigationService navigation,
                               IBoardService boardService,
                               Func<BoardListViewModel> listFactory) : base(settings, navigation)

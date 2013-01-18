@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
 using trello.Assets;
-using trello.Services.Data;
-using trello.Services.Models;
+using trellow.api.Data;
+using trellow.api.Models;
 
 namespace trello.ViewModels
 {
@@ -20,7 +19,8 @@ namespace trello.ViewModels
 
         public IObservableCollection<BoardViewModel> Boards { get; private set; }
 
-        public BoardsViewModel(INavigationService navigationService, IBoardService boardService, Func<BoardViewModel> boardFactory)
+        public BoardsViewModel(INavigationService navigationService, IBoardService boardService,
+                               Func<BoardViewModel> boardFactory)
         {
             _navigationService = navigationService;
             _boardService = boardService;

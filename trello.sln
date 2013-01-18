@@ -12,6 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AFD383
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "trello.livetile", "trello.livetile\trello.livetile.csproj", "{95C9D6DD-02F9-4416-9DAA-A14748A382E4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "trellow.api", "trellow.api\trellow.api.csproj", "{4211725E-1F26-45B3-8695-1124F065BCEA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +62,30 @@ Global
 		{06701B72-518A-4701-A75F-5BE7BBA1B98D}.Release|x86.ActiveCfg = Release|x86
 		{06701B72-518A-4701-A75F-5BE7BBA1B98D}.Release|x86.Build.0 = Release|x86
 		{06701B72-518A-4701-A75F-5BE7BBA1B98D}.Release|x86.Deploy.0 = Release|x86
+		{95C9D6DD-02F9-4416-9DAA-A14748A382E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95C9D6DD-02F9-4416-9DAA-A14748A382E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95C9D6DD-02F9-4416-9DAA-A14748A382E4}.Debug|ARM.ActiveCfg = Debug|ARM
+		{95C9D6DD-02F9-4416-9DAA-A14748A382E4}.Debug|ARM.Build.0 = Debug|ARM
+		{95C9D6DD-02F9-4416-9DAA-A14748A382E4}.Debug|x86.ActiveCfg = Debug|x86
+		{95C9D6DD-02F9-4416-9DAA-A14748A382E4}.Debug|x86.Build.0 = Debug|x86
+		{95C9D6DD-02F9-4416-9DAA-A14748A382E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95C9D6DD-02F9-4416-9DAA-A14748A382E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95C9D6DD-02F9-4416-9DAA-A14748A382E4}.Release|ARM.ActiveCfg = Release|ARM
+		{95C9D6DD-02F9-4416-9DAA-A14748A382E4}.Release|ARM.Build.0 = Release|ARM
+		{95C9D6DD-02F9-4416-9DAA-A14748A382E4}.Release|x86.ActiveCfg = Release|x86
+		{95C9D6DD-02F9-4416-9DAA-A14748A382E4}.Release|x86.Build.0 = Release|x86
+		{4211725E-1F26-45B3-8695-1124F065BCEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4211725E-1F26-45B3-8695-1124F065BCEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4211725E-1F26-45B3-8695-1124F065BCEA}.Debug|ARM.ActiveCfg = Debug|ARM
+		{4211725E-1F26-45B3-8695-1124F065BCEA}.Debug|ARM.Build.0 = Debug|ARM
+		{4211725E-1F26-45B3-8695-1124F065BCEA}.Debug|x86.ActiveCfg = Debug|x86
+		{4211725E-1F26-45B3-8695-1124F065BCEA}.Debug|x86.Build.0 = Debug|x86
+		{4211725E-1F26-45B3-8695-1124F065BCEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4211725E-1F26-45B3-8695-1124F065BCEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4211725E-1F26-45B3-8695-1124F065BCEA}.Release|ARM.ActiveCfg = Release|ARM
+		{4211725E-1F26-45B3-8695-1124F065BCEA}.Release|ARM.Build.0 = Release|ARM
+		{4211725E-1F26-45B3-8695-1124F065BCEA}.Release|x86.ActiveCfg = Release|x86
+		{4211725E-1F26-45B3-8695-1124F065BCEA}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

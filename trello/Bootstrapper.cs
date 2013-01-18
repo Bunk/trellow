@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Windows;
 using Caliburn.Micro;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Scheduler;
+using Microsoft.Phone.Shell;
 using trello.Services;
-using trello.Services.Data;
-using trello.Services.OAuth;
 using trello.ViewModels;
+using trellow.api;
+using trellow.api.Data;
+using trellow.api.OAuth;
 
 namespace trello
 {
@@ -14,22 +18,17 @@ namespace trello
     {
         private PhoneContainer _container;
 
-        public PhoneContainer Container
-        {
-            get { return _container; }
-        }
-
         protected override void Configure()
         {
             _container = new PhoneContainer(RootFrame);
             _container.RegisterPhoneServices();
 
             _container.Instance(RootFrame);
-            
+
             _container.Singleton<IProgressService, ProgressService>();
-            
+
             _container.Singleton<IRequestProcessor, ProgressAwareRequestProcessor>();
-            _container.Singleton<ITrelloSettings, TrelloSettings>();
+            _container.Singleton<ITrelloApiSettings, TrelloSettings>();
 
             _container.Singleton<SplashViewModel>();
             _container.Singleton<ShellViewModel>();
@@ -48,6 +47,50 @@ namespace trello
             RegisterRepository(_container);
 
             TelerikConventions.Install();
+
+            //PhoneApplicationService.Current.Launching += (sender, args) => ConfigureLiveTile();
+        }
+
+        private static void ConfigureLiveTile()
+        {
+            const string taskName = "trello.livetile";
+            var task = ScheduledActionService.Find(taskName) as PeriodicTask;
+            if (task != null)
+            {
+                ScheduledActionService.Remove(taskName);
+                return;
+            }
+
+            task = new PeriodicTask(taskName)
+            {
+                Description = "Trellow Tile Updater"
+            };
+
+            try
+            {
+                ScheduledActionService.Add(task);
+#if DEBUG
+                ScheduledActionService.LaunchForTest(taskName, TimeSpan.FromSeconds(10));
+#endif
+            }
+            catch (InvalidOperationException e)
+            {
+                if (e.Message.Contains("BNS Error: The action is disabled"))
+                {
+                    MessageBox.Show("Background agents for this application have been disabled by the user.");
+                }
+
+                if (
+                    e.Message.Contains(
+                        "BNS Error: The maximum number of ScheduledActions of this type have already been added."))
+                {
+                    // No user action required. The system prompts the user when the hard limit of periodic tasks has been reached.
+                }
+            }
+            catch (SchedulerServiceException)
+            {
+                // No user action required.
+            }
         }
 
         private static void RegisterJsonRepository(PhoneContainer container)
@@ -62,7 +105,7 @@ namespace trello
         private static void RegisterRepository(PhoneContainer container)
         {
             container.Singleton<IOAuthClient, TrelloOAuthClient>();
-            
+
             container.Singleton<IBoardService, BoardService>();
             container.Singleton<ICardService, CardService>();
             container.Singleton<IProfileService, ProfileService>();
@@ -92,7 +135,7 @@ namespace trello
             _container.BuildUp(instance);
         }
 
-        protected override void OnUnhandledException(object sender, System.Windows.ApplicationUnhandledExceptionEventArgs e)
+        protected override void OnUnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
             // TODO: Handle these a little better.
             Debugger.Break();

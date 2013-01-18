@@ -2,7 +2,7 @@ using System;
 using System.Windows;
 using Caliburn.Micro;
 using Microsoft.Phone.Shell;
-using trello.Services;
+using trellow.api;
 
 namespace trello.ViewModels
 {
@@ -18,11 +18,11 @@ namespace trello.ViewModels
     public abstract class PivotViewModel : Conductor<IScreen>.Collection.OneActive
     {
         private readonly PivotFix<IScreen> _pivotFix;
-        
+
         private ApplicationBar _appBar;
 
-        protected readonly ITrelloSettings Settings;
-        
+        protected readonly ITrelloApiSettings Settings;
+
         protected readonly INavigationService Navigation;
 
         public ApplicationBar AppBar
@@ -35,7 +35,7 @@ namespace trello.ViewModels
             }
         }
 
-        public PivotViewModel(ITrelloSettings settings, INavigationService navigation)
+        public PivotViewModel(ITrelloApiSettings settings, INavigationService navigation)
         {
             Settings = settings;
             Navigation = navigation;

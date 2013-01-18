@@ -1,7 +1,7 @@
 ﻿using System;
 using Caliburn.Micro;
-using trello.Services;
-using trello.Services.Data;
+using trellow.api;
+using trellow.api.Data;
 
 namespace trello.ViewModels
 {
@@ -36,7 +36,7 @@ namespace trello.ViewModels
             }
         }
 
-        public CardDetailViewModel(ITrelloSettings settings,
+        public CardDetailViewModel(ITrelloApiSettings settings,
                                    INavigationService navigation,
                                    ICardService cardService,
                                    Func<CardDetailOverviewViewModel> overviewFactory) : base(settings, navigation)

@@ -4,9 +4,9 @@ using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Controls;
 using Strilanc.Value;
-using trello.Services.Data;
-using trello.Services.OAuth;
 using trello.Views;
+using trellow.api.Data;
+using trellow.api.OAuth;
 
 namespace trello.ViewModels
 {
@@ -49,7 +49,7 @@ namespace trello.ViewModels
                 UsingView(async view =>
                 {
                     view.Browser.Visibility = Visibility.Collapsed;
-                    
+
                     var parms = args.Uri.Query.ParseQueryString();
                     var verifier = parms["oauth_verifier"];
                     var token = await _oauthClient.GetAccessToken(verifier);
@@ -93,7 +93,7 @@ namespace trello.ViewModels
             if (view == null)
             {
                 MessageBox.Show("There was a problem with logging into Trello.  " +
-                                    "Please verify that you can browse the internet.");
+                                "Please verify that you can browse the internet.");
                 return;
             }
             action(view);

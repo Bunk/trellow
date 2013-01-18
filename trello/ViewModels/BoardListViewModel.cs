@@ -4,7 +4,7 @@ using Caliburn.Micro;
 using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
 using trello.Assets;
-using trello.Services.Data;
+using trellow.api.Data;
 
 namespace trello.ViewModels
 {

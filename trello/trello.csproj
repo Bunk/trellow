@@ -112,28 +112,7 @@
     <Compile Include="SampleData\SampleDataSource\SampleDataSource.xaml.cs">
       <DependentUpon>SampleDataSource.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\AppSettingsBase.cs" />
-    <Compile Include="Services\Data\CardService.cs" />
-    <Compile Include="Services\Data\ICardService.cs" />
-    <Compile Include="Services\Data\IProfileService.cs" />
-    <Compile Include="Services\Data\JsonServiceBase.cs" />
-    <Compile Include="Services\Data\ProfileService.cs" />
-    <Compile Include="Services\Models\Card.cs" />
-    <Compile Include="Services\Models\Profile.cs" />
-    <Compile Include="Services\OAuth\Token.cs" />
-    <Compile Include="Services\TrelloSettings.cs" />
-    <Compile Include="Services\Models\Board.cs" />
-    <Compile Include="Services\Data\BoardService.cs" />
-    <Compile Include="Services\Data\IBoardService.cs" />
-    <Compile Include="Services\Models\Invitation.cs" />
-    <Compile Include="Services\Models\Preferences.cs" />
-    <Compile Include="Services\Data\ProgressAwareRequestProcessor.cs" />
-    <Compile Include="Services\Data\RequestProcessor.cs" />
-    <Compile Include="Services\OAuth\TrelloOAuthClient.cs" />
-    <Compile Include="Services\Data\RestClientExtensions.cs" />
-    <Compile Include="Services\Data\ServiceBase.cs" />
-    <Compile Include="Services\Models\Membership.cs" />
-    <Compile Include="Services\Data\TrelloRequestException.cs" />
+    <Compile Include="Services\ProgressAwareRequestProcessor.cs" />
     <Compile Include="ViewModels\BoardListViewModel.cs" />
     <Compile Include="ViewModels\BoardsViewModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
@@ -146,13 +125,12 @@
     <Compile Include="ViewModels\CardDetailViewModel.cs" />
     <Compile Include="ViewModels\CardListViewModel.cs" />
     <Compile Include="ViewModels\CardViewModel.cs" />
-    <Compile Include="ViewModels\IProgressService.cs" />
+    <Compile Include="Services\IProgressService.cs" />
     <Compile Include="ViewModels\MessageListViewModel.cs" />
     <Compile Include="ViewModels\PivotFix.cs" />
     <Compile Include="ViewModels\PivotViewModel.cs" />
     <Compile Include="ViewModels\ProfileViewModel.cs" />
-    <Compile Include="ViewModels\ProgressResult.cs" />
-    <Compile Include="ViewModels\ProgressService.cs" />
+    <Compile Include="Services\ProgressService.cs" />
     <Compile Include="ViewModels\ResultBase.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\SplashViewModel.cs" />
@@ -561,6 +539,16 @@
     <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-list.png" />
     <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-lock-color.png" />
     <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-locked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\trello.livetile\trello.livetile.csproj">
+      <Project>{95C9D6DD-02F9-4416-9DAA-A14748A382E4}</Project>
+      <Name>trello.livetile</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\trellow.api\trellow.api.csproj">
+      <Project>{4211725E-1F26-45B3-8695-1124F065BCEA}</Project>
+      <Name>trellow.api</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

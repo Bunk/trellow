@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
 using Microsoft.Phone.Shell;
-using trello.Services;
+using trellow.api;
 
 namespace trello.ViewModels
 {
@@ -10,7 +10,7 @@ namespace trello.ViewModels
         private readonly CardListViewModel _cards;
         private readonly MessageListViewModel _messages;
 
-        public ShellViewModel(ITrelloSettings settings,
+        public ShellViewModel(ITrelloApiSettings settings,
                               INavigationService navigation,
                               BoardsViewModel boards,
                               CardListViewModel cards,

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using trello.Services.Models;
+﻿using trellow.api.Models;
 
 namespace trello.ViewModels
 {
@@ -12,6 +7,7 @@ namespace trello.ViewModels
         private string _boardName;
 
         public string Id { get; set; }
+
         public string BoardName
         {
             get { return _boardName; }
@@ -37,7 +33,6 @@ namespace trello.ViewModels
 
         protected override void OnInitialize()
         {
-
         }
     }
 }

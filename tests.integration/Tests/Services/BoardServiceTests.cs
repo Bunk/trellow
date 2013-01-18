@@ -1,10 +1,5 @@
-﻿using System.Diagnostics;
-using System.Linq;
-using Microsoft.Phone.Testing;
-using trello.Services;
+﻿using Microsoft.Phone.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using trello.Services.Data;
-using trello.Services.OAuth;
 
 namespace tests.integration.Tests.Services
 {
