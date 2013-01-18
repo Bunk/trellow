@@ -534,10 +534,6 @@
     <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource_Files\icon-locked.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\trello.livetile\trello.livetile.csproj">
-      <Project>{95C9D6DD-02F9-4416-9DAA-A14748A382E4}</Project>
-      <Name>trello.livetile</Name>
-    </ProjectReference>
     <ProjectReference Include="..\trellow.api\trellow.api.csproj">
       <Project>{4211725E-1F26-45B3-8695-1124F065BCEA}</Project>
       <Name>trellow.api</Name>

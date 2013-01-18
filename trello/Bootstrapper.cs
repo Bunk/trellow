@@ -43,54 +43,10 @@ namespace trello
             _container.PerRequest<CardDetailViewModel>();
             _container.PerRequest<CardDetailOverviewViewModel>();
 
-            //RegisterJsonRepository(_container);
-            RegisterRepository(_container);
+            RegisterJsonRepository(_container);
+            //RegisterRepository(_container);
 
             TelerikConventions.Install();
-
-            //PhoneApplicationService.Current.Launching += (sender, args) => ConfigureLiveTile();
-        }
-
-        private static void ConfigureLiveTile()
-        {
-            const string taskName = "trello.livetile";
-            var task = ScheduledActionService.Find(taskName) as PeriodicTask;
-            if (task != null)
-            {
-                ScheduledActionService.Remove(taskName);
-                return;
-            }
-
-            task = new PeriodicTask(taskName)
-            {
-                Description = "Trellow Tile Updater"
-            };
-
-            try
-            {
-                ScheduledActionService.Add(task);
-#if DEBUG
-                ScheduledActionService.LaunchForTest(taskName, TimeSpan.FromSeconds(10));
-#endif
-            }
-            catch (InvalidOperationException e)
-            {
-                if (e.Message.Contains("BNS Error: The action is disabled"))
-                {
-                    MessageBox.Show("Background agents for this application have been disabled by the user.");
-                }
-
-                if (
-                    e.Message.Contains(
-                        "BNS Error: The maximum number of ScheduledActions of this type have already been added."))
-                {
-                    // No user action required. The system prompts the user when the hard limit of periodic tasks has been reached.
-                }
-            }
-            catch (SchedulerServiceException)
-            {
-                // No user action required.
-            }
         }
 
         private static void RegisterJsonRepository(PhoneContainer container)
