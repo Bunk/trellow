@@ -68,7 +68,7 @@
     <xs:sequence>
       <xs:element name="Labels" type="tns:Labels1" />
     </xs:sequence>
-    <xs:attribute blend:FormatParameters="6,8" name="Name" type="xs:string" />
+    <xs:attribute blend:FormatParameters="2" name="Name" type="xs:double" />
     <xs:attribute name="Votes" type="xs:double" />
     <xs:attribute blend:FormatParameters="1" name="CheckItems" type="xs:double" />
     <xs:attribute name="CheckItemsChecked" type="xs:double" />
@@ -77,6 +77,7 @@
     <xs:attribute blend:FormatParameters="1" name="Members" type="xs:double" />
     <xs:attribute blend:FormatParameters="1" name="Attachments" type="xs:double" />
     <xs:attribute blend:FormatParameters="64,8" name="Desc" type="xs:string" />
+    <xs:attribute blend:FormatParameters="2" name="Comments" type="xs:double" />
   </xs:complexType>
   <xs:complexType name="Labels1">
     <xs:sequence>

@@ -7,10 +7,12 @@ namespace trello.Views.Converters
 {
     public class VisibilityConverter : IValueConverter
     {
-        public bool Invert { get; set; }
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            bool invert = false;
+            if (parameter != null)
+                bool.TryParse(parameter.ToString(), out invert);
+
             var visible = true;
             if (value is bool)
                 visible = (bool)value;
@@ -21,7 +23,7 @@ namespace trello.Views.Converters
             else if (value == null)
                 visible = false;
 
-            if (Invert)
+            if (invert)
                 visible = !visible;
 
             return visible ? Visibility.Visible : Visibility.Collapsed;

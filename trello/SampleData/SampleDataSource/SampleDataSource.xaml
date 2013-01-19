@@ -194,7 +194,7 @@
     </SampleData:CardsItem>
   </SampleData:SampleDataSource.Cards>
   <SampleData:SampleDataSource.BoardCard>
-    <SampleData:BoardCard Name="Cras class duis" Votes="33" CheckItems="9" CheckItemsChecked="34" Due="November 5, 2003" Checklists="8" Members="3" Attachments="2" Desc="Nam maecenas cras praesent accumsan bibendum class aliquam integer aenean dictumst eleifend quisque mauris duis curae nullam sed facilisi nunc vivamus donec etiam aliquam dis aptent aliquet fusce auctor lorem est congue faucibus morbi blandit habitant nulla hac leo commodo cursus proin mus amet augue dolor fames felis ante ipsum justo lacus arcu lorem diam dictum lectus libero">
+    <SampleData:BoardCard Name="12" Votes="33" CheckItems="9" CheckItemsChecked="34" Due="November 5, 2003" Checklists="8" Members="3" Attachments="2" Desc="Nam maecenas cras praesent accumsan bibendum class aliquam integer aenean dictumst eleifend quisque mauris duis curae nullam sed facilisi nunc vivamus donec etiam aliquam dis aptent aliquet fusce auctor lorem est congue faucibus morbi blandit habitant nulla hac leo commodo cursus proin mus amet augue dolor fames felis ante ipsum justo lacus arcu lorem diam dictum lectus libero" Comments="53">
       <SampleData:BoardCard.Labels>
         <SampleData:LabelsItem1 Color="#FF8DD3C7" Name="Maecenas" />
         <SampleData:LabelsItem1 Color="#FFFFFFB3" Name="Nam" />

@@ -9,17 +9,17 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="480" d:DesignWidth="480" d:DataContext="{Binding BoardCard, Source={StaticResource SampleDataSource}}">
+    d:DesignHeight="280" d:DesignWidth="480" d:DataContext="{Binding BoardCard, Source={StaticResource SampleDataSource}}">
     
     <Grid x:Name="LayoutRoot" Background="Transparent">
 		<Border BorderThickness="1" Margin="0,15" Padding="10,0" CornerRadius="10"
 			BorderBrush="{StaticResource PhoneChromeBrush}" Background="{StaticResource PhoneChromeBrush}">
 			<Grid>
 				<Grid.RowDefinitions>
-					<RowDefinition />
-					<RowDefinition />
-					<RowDefinition />
-					<RowDefinition />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
 				<Grid Grid.Row="0">
@@ -96,9 +96,9 @@
 							</StackPanel>
 						</Border>
 						<!-- Description -->
-						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding HasDescription, Converter={StaticResource VisibilityConverter}}">
+						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}">
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-								<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-pencil.png" Margin="0,1,3,0" />
+								<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-pencil.png" Margin="0,1,0,0" />
 							</StackPanel>
 						</Border>
 					</StackPanel>

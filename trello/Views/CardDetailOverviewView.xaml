@@ -3,7 +3,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+	xmlns:micro="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
 	xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+	xmlns:local="clr-namespace:trello.Views.Triggers;assembly=trello"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -22,37 +26,77 @@
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
 						<RowDefinition Height="Auto" />
+						<RowDefinition Height="Auto" />
 					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
 
-					<telerikPrimitives:RadTextBox x:Name="radTextBox" Text="{Binding Desc}" 
-						TextWrapping="Wrap" ActionButtonVisibility="Collapsed" Header="Description" />
+					<Image Grid.Row="0" Grid.Column="0" Width="48" Height="48" Source="/Assets/Icons/dark/icon-pencil-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
 
-					<Grid Grid.Row="1">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition />
-						</Grid.ColumnDefinitions>
+					<TextBlock Grid.Row="0" Grid.Column="1" x:Name="Desc" Text="{Binding Desc}" TextWrapping="Wrap" Margin="12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}">
+						<i:Interaction.Triggers>
+							<local:GestureServiceTrigger Gesture="Tap">
+								<micro:ActionMessage MethodName="EditDesc">
+									<micro:Parameter Value="$eventArgs" />
+								</micro:ActionMessage>
+							</local:GestureServiceTrigger>
+						</i:Interaction.Triggers>
+					</TextBlock>
+
+					<TextBlock Grid.Row="0" Grid.Column="1" Text="No Description" Margin="12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}, ConverterParameter='true'}" Foreground="{StaticResource PhoneSubtleBrush}" FontStyle="Italic">
+						<i:Interaction.Triggers>
+							<local:GestureServiceTrigger Gesture="Tap">
+								<micro:ActionMessage MethodName="EditDesc">
+									<micro:Parameter Value="$eventArgs" />
+								</micro:ActionMessage>
+							</local:GestureServiceTrigger>
+						</i:Interaction.Triggers>
+					</TextBlock>
 					
-						<Image Source="/Assets/Icons/dark/icon-tag-med.png" Margin="8,0,3,0" HorizontalAlignment="Center" VerticalAlignment="Center" />
+					<telerikPrimitives:RadWindow x:Name="DescWindow" IsFullScreen="True" IsOpen="{Binding EditingDesc}">
+						<Border Background="{StaticResource PhoneChromeBrush}">
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
 
-						<ItemsControl Grid.Column="1" x:Name="Labels" ItemsSource="{Binding Labels}" Margin="0,0,11,0" Height="55">
-							<ItemsControl.ItemTemplate>
-								<DataTemplate>
-									<Border Margin="0,0,8,0" Height="35" Padding="5" CornerRadius="5" BorderThickness="1" MinWidth="75">
-										<Border.Background>
-											<SolidColorBrush Color="{Binding Color}" />
-										</Border.Background>
-										<TextBlock x:Name="Name" Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
-									</Border>
-								</DataTemplate>
-							</ItemsControl.ItemTemplate>
-							<ItemsControl.ItemsPanel>
-								<ItemsPanelTemplate>
-									<StackPanel Orientation="Horizontal" />
-								</ItemsPanelTemplate>
-							</ItemsControl.ItemsPanel>
-						</ItemsControl>
-					</Grid>
+								<telerikPrimitives:RadTextBox x:Name="radTextBox" Text="{Binding Path=Desc, Mode=TwoWay}" TextWrapping="Wrap" ActionButtonVisibility="Collapsed" Header="Description" />
+								
+								<StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+									<HyperlinkButton micro:Message.Attach="[Event Click] = [Action CancelDesc]" Foreground="{StaticResource PhoneSubtleBrush}">Cancel</HyperlinkButton>
+									<Button micro:Message.Attach="[Event Click] = [Action UpdateDesc]" Background="#FF6FBE46" Foreground="#FFFFFF">Update</Button>
+								</StackPanel>
+							</Grid>
+						</Border>
+					</telerikPrimitives:RadWindow>
+
+					<Image Grid.Row="1" Grid.Column="0" Source="/Assets/Icons/dark/icon-tag-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
+
+					<ItemsControl Grid.Row="1" Grid.Column="1" x:Name="Labels" ItemsSource="{Binding Labels}" Margin="12">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Border Margin="0,0,8,0" Height="35" Padding="5" CornerRadius="5" BorderThickness="1" MinWidth="75">
+									<Border.Background>
+										<SolidColorBrush Color="{Binding Color}" />
+									</Border.Background>
+									<TextBlock x:Name="Name" Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
+								</Border>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<StackPanel Orientation="Horizontal" />
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+					</ItemsControl>
+
+					<Image Grid.Row="2" Grid.Column="0" Source="/Assets/Icons/dark/icon-clock-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
+
+					<TextBlock Grid.Row="2" Grid.Column="1" x:Name="Due" Text="{Binding Due, StringFormat='\{0:d MMMM\} at \{0:hh\:mm tt\}'}" Margin="12" VerticalAlignment="Center" />
+
 				</Grid>
 			</Border>
 
@@ -63,25 +107,25 @@
 					<ColumnDefinition />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
-				<Button Padding="0" Background="{StaticResource PhoneChromeBrush}">
+				<Button Grid.Column="2" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
 					<StackPanel>
 						<TextBlock x:Name="Members" Text="{Binding Members}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
 						<TextBlock Text="members" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyLight}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource PhoneSubtleBrush}" />
 					</StackPanel>
 				</Button>
-				<Button Grid.Column="1" Padding="0" Background="{StaticResource PhoneChromeBrush}">
+				<Button Grid.Column="1" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
 					<StackPanel>
 						<TextBlock x:Name="Attachments" Text="{Binding Attachments}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
 						<TextBlock Text="attached" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyLight}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource PhoneSubtleBrush}" FontStretch="UltraCondensed" />
 					</StackPanel>
 				</Button>
-				<Button Grid.Column="2" Padding="0" Background="{StaticResource PhoneChromeBrush}">
+				<Button Grid.Column="0" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
 					<StackPanel>
 						<TextBlock x:Name="Checklists" Text="{Binding Checklists}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
 						<TextBlock Text="checklists" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyLight}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource PhoneSubtleBrush}" />
 					</StackPanel>
 				</Button>
-				<Button Grid.Column="3" Padding="0" Background="{StaticResource PhoneChromeBrush}">
+				<Button Grid.Column="3" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
 					<StackPanel>
 						<TextBlock x:Name="Votes" Text="{Binding Votes}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
 						<TextBlock Text="votes" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyLight}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource PhoneSubtleBrush}" />

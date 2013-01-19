@@ -492,9 +492,9 @@ namespace Expression.Blend.SampleData.SampleDataSource
 			}
 		}
 
-		private string _Name = string.Empty;
+		private double _Name = 0;
 
-		public string Name
+		public double Name
 		{
 			get
 			{
@@ -659,6 +659,25 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				{
 					this._Desc = value;
 					this.OnPropertyChanged("Desc");
+				}
+			}
+		}
+
+		private double _Comments = 0;
+
+		public double Comments
+		{
+			get
+			{
+				return this._Comments;
+			}
+
+			set
+			{
+				if (this._Comments != value)
+				{
+					this._Comments = value;
+					this.OnPropertyChanged("Comments");
 				}
 			}
 		}
