@@ -74,7 +74,7 @@ namespace trello.ViewModels
             if (context == null)
                 return;
 
-            _navigationService.UriFor<CardDetailViewModel>()
+            _navigationService.UriFor<CardDetailShellViewModel>()
                 .WithParam(x => x.Id, context.Id)
                 .Navigate();
         }

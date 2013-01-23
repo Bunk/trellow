@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="trello.Views.CardDetailOverviewView"
+﻿<UserControl x:Class="trello.Views.CardDetail.Overview"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -109,19 +109,19 @@
 				</Grid.ColumnDefinitions>
 				<Button Grid.Column="2" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
 					<StackPanel>
-						<TextBlock x:Name="Members" Text="{Binding Members}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
+						<TextBlock x:Name="Members" Text="{Binding Members.Count}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
 						<TextBlock Text="members" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyLight}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource PhoneSubtleBrush}" />
 					</StackPanel>
 				</Button>
 				<Button Grid.Column="1" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
 					<StackPanel>
-						<TextBlock x:Name="Attachments" Text="{Binding Attachments}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
+						<TextBlock x:Name="Attachments" Text="{Binding Attachments.Count}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
 						<TextBlock Text="attached" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyLight}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource PhoneSubtleBrush}" FontStretch="UltraCondensed" />
 					</StackPanel>
 				</Button>
 				<Button Grid.Column="0" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
 					<StackPanel>
-						<TextBlock x:Name="Checklists" Text="{Binding Checklists}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
+						<TextBlock x:Name="Checklists" Text="{Binding Checklists.Count}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
 						<TextBlock Text="checklists" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyLight}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource PhoneSubtleBrush}" />
 					</StackPanel>
 				</Button>

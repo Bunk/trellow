@@ -10,9 +10,9 @@ using Microsoft.Phone.Shell;
 
 namespace trello.Views
 {
-    public partial class CardDetailView : PhoneApplicationPage
+    public partial class CardDetailShellView : PhoneApplicationPage
     {
-        public CardDetailView()
+        public CardDetailShellView()
         {
             InitializeComponent();
         }

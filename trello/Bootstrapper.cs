@@ -4,8 +4,6 @@ using System.Diagnostics;
 using System.Windows;
 using Caliburn.Micro;
 using Microsoft.Phone.Controls;
-using Microsoft.Phone.Scheduler;
-using Microsoft.Phone.Shell;
 using trello.Services;
 using trello.ViewModels;
 using trellow.api;
@@ -40,8 +38,11 @@ namespace trello
             _container.PerRequest<BoardViewModel>();
             _container.PerRequest<BoardListViewModel>();
             _container.PerRequest<CardViewModel>();
+            _container.PerRequest<CardDetailShellViewModel>();
             _container.PerRequest<CardDetailViewModel>();
-            _container.PerRequest<CardDetailOverviewViewModel>();
+            _container.PerRequest<ChecklistViewModel>();
+            _container.PerRequest<ChecklistItemViewModel>();
+            _container.PerRequest<AttachmentViewModel>();
 
             //RegisterJsonRepository(_container);
             RegisterRepository(_container);

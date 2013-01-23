@@ -194,7 +194,7 @@
     </SampleData:CardsItem>
   </SampleData:SampleDataSource.Cards>
   <SampleData:SampleDataSource.BoardCard>
-    <SampleData:BoardCard Name="12" Votes="33" CheckItems="9" CheckItemsChecked="34" Due="November 5, 2003" Checklists="8" Members="3" Attachments="2" Desc="Nam maecenas cras praesent accumsan bibendum class aliquam integer aenean dictumst eleifend quisque mauris duis curae nullam sed facilisi nunc vivamus donec etiam aliquam dis aptent aliquet fusce auctor lorem est congue faucibus morbi blandit habitant nulla hac leo commodo cursus proin mus amet augue dolor fames felis ante ipsum justo lacus arcu lorem diam dictum lectus libero" Comments="53">
+    <SampleData:BoardCard Name="12" Votes="33" CheckItems="9" CheckItemsChecked="34" Due="November 5, 2003" Desc="Nam maecenas cras praesent accumsan bibendum class aliquam integer aenean dictumst eleifend quisque mauris duis curae nullam sed facilisi nunc vivamus donec etiam aliquam dis aptent aliquet fusce auctor lorem est congue faucibus morbi blandit habitant nulla hac leo commodo cursus proin mus amet augue dolor fames felis ante ipsum justo lacus arcu lorem diam dictum lectus libero" Comments="53">
       <SampleData:BoardCard.Labels>
         <SampleData:LabelsItem1 Color="#FF8DD3C7" Name="Maecenas" />
         <SampleData:LabelsItem1 Color="#FFFFFFB3" Name="Nam" />
@@ -207,6 +207,45 @@
         <SampleData:LabelsItem1 Color="#FFD9D9D9" Name="Aenean" />
         <SampleData:LabelsItem1 Color="#FFBC80BD" Name="Integer" />
       </SampleData:BoardCard.Labels>
+      <SampleData:BoardCard.Checklists>
+        <SampleData:ChecklistsItem Name="Nam cras aliquam maecenas">
+          <SampleData:ChecklistsItem.Items>
+            <SampleData:ItemsItem Checked="True" Name="Class cras maecenas curae donec nam praesent aliquam" />
+            <SampleData:ItemsItem Checked="False" Name="Duis aenean mauris etiam nunc integer nullam aptent auctor accumsan congue sed" />
+            <SampleData:ItemsItem Checked="True" Name="Dis est hac cursus dictum leo quisque amet bibendum dictumst" />
+            <SampleData:ItemsItem Checked="False" Name="Eleifend fusce lorem facilisi morbi mus faucibus habitant vivamus nec aliquam" />
+            <SampleData:ItemsItem Checked="True" Name="Non per ante nulla aliquet inceptos lectus sed arcu" />
+          </SampleData:ChecklistsItem.Items>
+        </SampleData:ChecklistsItem>
+        <SampleData:ChecklistsItem Name="Class sed praesent">
+          <SampleData:ChecklistsItem.Items>
+            <SampleData:ItemsItem Checked="False" Name="Interdum lobortis libero nascetur blandit proin" />
+            <SampleData:ItemsItem Checked="True" Name="Sem diam commodo augue eget ligula conubia" />
+            <SampleData:ItemsItem Checked="False" Name="Elit litora sit pharetra dolor enim luctus cubilia" />
+            <SampleData:ItemsItem Checked="True" Name="Dapibus erat fames felis vel placerat egestas nam euismod sed eros" />
+            <SampleData:ItemsItem Checked="False" Name="Nibh feugiat pulvinar sagittis gravida magnis dis senectus sociosqu iaculis est nisi" />
+          </SampleData:ChecklistsItem.Items>
+        </SampleData:ChecklistsItem>
+        <SampleData:ChecklistsItem Name="Duis dis accumsan integer">
+          <SampleData:ChecklistsItem.Items>
+            <SampleData:ItemsItem Checked="True" Name="Suscipit hac ipsum lacinia mattis nisl torquent mauris" />
+            <SampleData:ItemsItem Checked="False" Name="Nunc justo mollis odio laoreet leo lacus natoque lorem orci" />
+            <SampleData:ItemsItem Checked="True" Name="Mus ultrices pede vehicula magna volutpat massa posuere" />
+            <SampleData:ItemsItem Checked="False" Name="Metus quam quis morbi montes maecenas nostra praesent ornare" />
+            <SampleData:ItemsItem Checked="True" Name="Urna platea nec non accumsan bibendum" />
+          </SampleData:ChecklistsItem.Items>
+        </SampleData:ChecklistsItem>
+      </SampleData:BoardCard.Checklists>
+      <SampleData:BoardCard.Attachments>
+        <SampleData:AttachmentsItem PreviewUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.add.rest.png" Name="Cras aenean class nam sed curae" Date="5-Nov-03" Extension="Nam" Bytes="518164" />
+        <SampleData:AttachmentsItem PreviewUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.back.rest.png" Name="Duis nunc dis amet aliquam" Date="29-Dec-06" Extension="Sed" Bytes="346099" />
+        <SampleData:AttachmentsItem PreviewUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.basecircle.rest.png" Name="Donec ante est" Date="19-Jan-04" Extension="Dis" Bytes="889077" />
+      </SampleData:BoardCard.Attachments>
+      <SampleData:BoardCard.Members>
+        <SampleData:MembersItem1 AvatarHash="Aliquam aenean mauris nam" Username="jaaberg" FullName="Aaberg, Jesper" Active="True" />
+        <SampleData:MembersItem1 AvatarHash="Sed nullam cras integer" Username="eadams" FullName="Adams, Ellen" Active="False" />
+        <SampleData:MembersItem1 AvatarHash="Class dis aptent" Username="tadams" FullName="Adams, Terry" Active="True" />
+      </SampleData:BoardCard.Members>
     </SampleData:BoardCard>
   </SampleData:SampleDataSource.BoardCard>
 </SampleData:SampleDataSource>

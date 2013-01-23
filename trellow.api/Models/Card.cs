@@ -33,6 +33,8 @@ namespace trellow.api.Models
 
         public List<Attachment> Attachments { get; set; }
 
+        public List<CheckList> Checklists { get; set; }
+
         public Badges Badges { get; set; }
 
         public InnerBoard Board { get; set; }
@@ -46,6 +48,7 @@ namespace trellow.api.Models
             IdChecklists = new List<string>();
             Members = new List<Member>();
             Attachments = new List<Attachment>();
+            Checklists = new List<CheckList>();
         }
 
         public class InnerBoard
@@ -71,32 +74,36 @@ namespace trellow.api.Models
         }
     }
 
-    public class Attachment
+    public class CheckList
     {
         public string Id { get; set; }
 
-        public List<Preview> Previews { get; set; }
+        public string IdBoard { get; set; }
 
-        public Attachment()
+        public string Name { get; set; }
+
+        public List<CheckListItem> CheckItems { get; set; }
+
+        public CheckList()
         {
-            Previews = new List<Preview>();
-        }
-
-        public class Preview
-        {
-            public int Width { get; set; }
-
-            public int Height { get; set; }
-
-            public string Url { get; set; }
+            CheckItems = new List<CheckListItem>();
         }
     }
 
-    public class Label
+    public class CheckListItem
     {
-        public string Color { get; set; }
+        public enum CheckState
+        {
+            Incomplete, Complete
+        }
+
+        public string Id { get; set; }
 
         public string Name { get; set; }
+
+        public string Type { get; set; }
+
+        public CheckState State { get; set; }
     }
 
     public class Badges
@@ -118,16 +125,5 @@ namespace trellow.api.Models
         public bool Description { get; set; }
 
         public DateTime? Due { get; set; }
-    }
-
-    public class Member
-    {
-        public string Id { get; set; }
-
-        public string AvatarHash { get; set; }
-
-        public string Username { get; set; }
-
-        public string FullName { get; set; }
     }
 }

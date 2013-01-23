@@ -35,6 +35,9 @@ namespace trellow.api.Data
                     .AddUrlSegment("id", id)
                     .AddParameter("attachments", "true")
                     .AddParameter("members", "true")
+                    .AddParameter("member_fields", "fullName,initials,memberType,username,avatarHash,bio,status")
+                    .AddParameter("actions", "addAttachmentToCard,addChecklistToCard,addMemberToCard,commentCard,copyCommentCard,createCard,copyCard")
+                    .AddParameter("actions_limit", "50")
                     .AddParameter("checklists", "all")
                     .AddParameter("board", "true")
                     .AddParameter("list", "true"));

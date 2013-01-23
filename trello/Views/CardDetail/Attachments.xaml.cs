@@ -8,11 +8,11 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
-namespace trello.Views
+namespace trello.Views.CardDetail
 {
-    public partial class CardDetailOverviewView : UserControl
+    public partial class Attachments : UserControl
     {
-        public CardDetailOverviewView()
+        public Attachments()
         {
             InitializeComponent();
         }

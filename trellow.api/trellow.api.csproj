@@ -97,9 +97,12 @@
     <Compile Include="Data\RestClientExtensions.cs" />
     <Compile Include="Data\ServiceBase.cs" />
     <Compile Include="Data\TrelloRequestException.cs" />
+    <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\Invitation.cs" />
+    <Compile Include="Models\Label.cs" />
+    <Compile Include="Models\Member.cs" />
     <Compile Include="Models\Membership.cs" />
     <Compile Include="Models\Preferences.cs" />
     <Compile Include="Models\Profile.cs" />

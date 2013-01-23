@@ -67,17 +67,17 @@
   <xs:complexType name="BoardCard">
     <xs:sequence>
       <xs:element name="Labels" type="tns:Labels1" />
+      <xs:element name="Checklists" type="tns:Checklists" />
+      <xs:element name="Attachments" type="tns:Attachments" />
+      <xs:element name="Members" type="tns:Members1" />
     </xs:sequence>
-    <xs:attribute blend:FormatParameters="2" name="Name" type="xs:double" />
+    <xs:attribute name="Name" type="xs:double" />
     <xs:attribute name="Votes" type="xs:double" />
     <xs:attribute blend:FormatParameters="1" name="CheckItems" type="xs:double" />
     <xs:attribute name="CheckItemsChecked" type="xs:double" />
     <xs:attribute blend:Format="Date" name="Due" type="xs:string" />
-    <xs:attribute blend:FormatParameters="1" name="Checklists" type="xs:double" />
-    <xs:attribute blend:FormatParameters="1" name="Members" type="xs:double" />
-    <xs:attribute blend:FormatParameters="1" name="Attachments" type="xs:double" />
     <xs:attribute blend:FormatParameters="64,8" name="Desc" type="xs:string" />
-    <xs:attribute blend:FormatParameters="2" name="Comments" type="xs:double" />
+    <xs:attribute name="Comments" type="xs:double" />
   </xs:complexType>
   <xs:complexType name="Labels1">
     <xs:sequence>
@@ -87,5 +87,48 @@
   <xs:complexType name="LabelsItem1">
     <xs:attribute blend:Format="Colors" name="Color" type="xs:string" />
     <xs:attribute blend:FormatParameters="1,8" name="Name" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="Checklists">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="ChecklistsItem" type="tns:ChecklistsItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ChecklistsItem">
+    <xs:sequence>
+      <xs:element name="Items" type="tns:Items" />
+    </xs:sequence>
+    <xs:attribute name="Name" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="Items">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="ItemsItem" type="tns:ItemsItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ItemsItem">
+    <xs:attribute name="Checked" type="xs:boolean" />
+    <xs:attribute blend:FormatParameters="12,8" name="Name" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="Attachments">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="AttachmentsItem" type="tns:AttachmentsItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="AttachmentsItem">
+    <xs:attribute blend:FormatParameters="Assets\Icons\dark" name="PreviewUri" type="tns:Basic-Image" />
+    <xs:attribute blend:FormatParameters="6,8" name="Name" type="xs:string" />
+    <xs:attribute blend:Format="Date" name="Date" type="xs:string" />
+    <xs:attribute blend:FormatParameters="1,3" name="Extension" type="xs:string" />
+    <xs:attribute blend:FormatParameters="6" name="Bytes" type="xs:double" />
+  </xs:complexType>
+  <xs:complexType name="Members1">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="MembersItem1" type="tns:MembersItem1" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MembersItem1">
+    <xs:attribute name="AvatarHash" type="xs:string" />
+    <xs:attribute blend:Format="Username" name="Username" type="xs:string" />
+    <xs:attribute blend:Format="Name" name="FullName" type="xs:string" />
+    <xs:attribute name="Active" type="xs:boolean" />
   </xs:complexType>
 </xs:schema>

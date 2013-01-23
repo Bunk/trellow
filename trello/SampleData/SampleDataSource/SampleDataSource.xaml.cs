@@ -492,6 +492,36 @@ namespace Expression.Blend.SampleData.SampleDataSource
 			}
 		}
 
+		private Checklists _Checklists = new Checklists();
+
+		public Checklists Checklists
+		{
+			get
+			{
+				return this._Checklists;
+			}
+		}
+
+		private Attachments _Attachments = new Attachments();
+
+		public Attachments Attachments
+		{
+			get
+			{
+				return this._Attachments;
+			}
+		}
+
+		private Members1 _Members = new Members1();
+
+		public Members1 Members
+		{
+			get
+			{
+				return this._Members;
+			}
+		}
+
 		private double _Name = 0;
 
 		public double Name
@@ -587,63 +617,6 @@ namespace Expression.Blend.SampleData.SampleDataSource
 			}
 		}
 
-		private double _Checklists = 0;
-
-		public double Checklists
-		{
-			get
-			{
-				return this._Checklists;
-			}
-
-			set
-			{
-				if (this._Checklists != value)
-				{
-					this._Checklists = value;
-					this.OnPropertyChanged("Checklists");
-				}
-			}
-		}
-
-		private double _Members = 0;
-
-		public double Members
-		{
-			get
-			{
-				return this._Members;
-			}
-
-			set
-			{
-				if (this._Members != value)
-				{
-					this._Members = value;
-					this.OnPropertyChanged("Members");
-				}
-			}
-		}
-
-		private double _Attachments = 0;
-
-		public double Attachments
-		{
-			get
-			{
-				return this._Attachments;
-			}
-
-			set
-			{
-				if (this._Attachments != value)
-				{
-					this._Attachments = value;
-					this.OnPropertyChanged("Attachments");
-				}
-			}
-		}
-
 		private string _Desc = string.Empty;
 
 		public string Desc
@@ -733,6 +706,312 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				{
 					this._Name = value;
 					this.OnPropertyChanged("Name");
+				}
+			}
+		}
+	}
+
+	public class Checklists : System.Collections.ObjectModel.ObservableCollection<ChecklistsItem>
+	{ 
+	}
+
+	public class ChecklistsItem : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private Items _Items = new Items();
+
+		public Items Items
+		{
+			get
+			{
+				return this._Items;
+			}
+		}
+
+		private string _Name = string.Empty;
+
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+
+			set
+			{
+				if (this._Name != value)
+				{
+					this._Name = value;
+					this.OnPropertyChanged("Name");
+				}
+			}
+		}
+	}
+
+	public class Items : System.Collections.ObjectModel.ObservableCollection<ItemsItem>
+	{ 
+	}
+
+	public class ItemsItem : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private bool _Checked = false;
+
+		public bool Checked
+		{
+			get
+			{
+				return this._Checked;
+			}
+
+			set
+			{
+				if (this._Checked != value)
+				{
+					this._Checked = value;
+					this.OnPropertyChanged("Checked");
+				}
+			}
+		}
+
+		private string _Name = string.Empty;
+
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+
+			set
+			{
+				if (this._Name != value)
+				{
+					this._Name = value;
+					this.OnPropertyChanged("Name");
+				}
+			}
+		}
+	}
+
+	public class Attachments : System.Collections.ObjectModel.ObservableCollection<AttachmentsItem>
+	{ 
+	}
+
+	public class AttachmentsItem : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private System.Windows.Media.ImageSource _PreviewUri = null;
+
+		public System.Windows.Media.ImageSource PreviewUri
+		{
+			get
+			{
+				return this._PreviewUri;
+			}
+
+			set
+			{
+				if (this._PreviewUri != value)
+				{
+					this._PreviewUri = value;
+					this.OnPropertyChanged("PreviewUri");
+				}
+			}
+		}
+
+		private string _Name = string.Empty;
+
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+
+			set
+			{
+				if (this._Name != value)
+				{
+					this._Name = value;
+					this.OnPropertyChanged("Name");
+				}
+			}
+		}
+
+		private string _Date = string.Empty;
+
+		public string Date
+		{
+			get
+			{
+				return this._Date;
+			}
+
+			set
+			{
+				if (this._Date != value)
+				{
+					this._Date = value;
+					this.OnPropertyChanged("Date");
+				}
+			}
+		}
+
+		private string _Extension = string.Empty;
+
+		public string Extension
+		{
+			get
+			{
+				return this._Extension;
+			}
+
+			set
+			{
+				if (this._Extension != value)
+				{
+					this._Extension = value;
+					this.OnPropertyChanged("Extension");
+				}
+			}
+		}
+
+		private double _Bytes = 0;
+
+		public double Bytes
+		{
+			get
+			{
+				return this._Bytes;
+			}
+
+			set
+			{
+				if (this._Bytes != value)
+				{
+					this._Bytes = value;
+					this.OnPropertyChanged("Bytes");
+				}
+			}
+		}
+	}
+
+	public class Members1 : System.Collections.ObjectModel.ObservableCollection<MembersItem1>
+	{ 
+	}
+
+	public class MembersItem1 : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private string _AvatarHash = string.Empty;
+
+		public string AvatarHash
+		{
+			get
+			{
+				return this._AvatarHash;
+			}
+
+			set
+			{
+				if (this._AvatarHash != value)
+				{
+					this._AvatarHash = value;
+					this.OnPropertyChanged("AvatarHash");
+				}
+			}
+		}
+
+		private string _Username = string.Empty;
+
+		public string Username
+		{
+			get
+			{
+				return this._Username;
+			}
+
+			set
+			{
+				if (this._Username != value)
+				{
+					this._Username = value;
+					this.OnPropertyChanged("Username");
+				}
+			}
+		}
+
+		private string _FullName = string.Empty;
+
+		public string FullName
+		{
+			get
+			{
+				return this._FullName;
+			}
+
+			set
+			{
+				if (this._FullName != value)
+				{
+					this._FullName = value;
+					this.OnPropertyChanged("FullName");
+				}
+			}
+		}
+
+		private bool _Active = false;
+
+		public bool Active
+		{
+			get
+			{
+				return this._Active;
+			}
+
+			set
+			{
+				if (this._Active != value)
+				{
+					this._Active = value;
+					this.OnPropertyChanged("Active");
 				}
 			}
 		}
