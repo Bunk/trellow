@@ -18,7 +18,7 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
 		
-		<phone:Pivot Title="{Binding Name, Converter={StaticResource CaseConverter}, ConverterParameter=Upper}">
+		<phone:Pivot x:Name="DetailPivot" Title="{Binding Name, Converter={StaticResource CaseConverter}, ConverterParameter=Upper}">
 			<phone:PivotItem Header="overview">
 				<ContentControl VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
 								micro:View.Context="Overview"

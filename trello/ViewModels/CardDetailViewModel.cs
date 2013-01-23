@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using Microsoft.Phone.Controls;
@@ -163,6 +164,42 @@ namespace trello.ViewModels
         {
         }
 
+        public void GoToAttachments()
+        {
+            var parent = Parent as CardDetailShellViewModel;
+            if (parent == null)
+                return;
+
+            parent.NavigateToScreen(2);
+        }
+
+        public void GoToChecklists()
+        {
+            var parent = Parent as CardDetailShellViewModel;
+            if (parent == null)
+                return;
+
+            parent.NavigateToScreen(1);
+        }
+
+        public void GoToMembers()
+        {
+            var parent = Parent as CardDetailShellViewModel;
+            if (parent == null)
+                return;
+
+            parent.NavigateToScreen(3);
+        }
+
+        public void GoToActivity()
+        {
+            var parent = Parent as CardDetailShellViewModel;
+            if (parent == null)
+                return;
+
+            parent.NavigateToScreen(4);
+        }
+
         public void EditDesc(GestureEventArgs args)
         {
             OriginalDesc = ((TextBlock) args.OriginalSource).Text;
@@ -180,6 +217,16 @@ namespace trello.ViewModels
         {
             Desc = OriginalDesc;
             EditingDesc = false;
+        }
+
+        public void RemoveAttachment()
+        {
+            
+        }
+
+        public void AddAttachment()
+        {
+            
         }
     }
 }

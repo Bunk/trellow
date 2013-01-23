@@ -1,5 +1,6 @@
 ﻿using System;
 using Caliburn.Micro;
+using trello.Views;
 using trellow.api;
 using trellow.api.Data;
 
@@ -63,8 +64,16 @@ namespace trello.ViewModels
             Name = card.Name;
             BoardName = card.Board.Name;
 
-            var details = _overviewFactory().InitializeWith(card);
-            Details = details;
+            Details = _overviewFactory().InitializeWith(card);
+            Details.Parent = this;
+        }
+
+        public void NavigateToScreen(int index)
+        {
+            UsingView<CardDetailShellView>(view =>
+            {
+                view.DetailPivot.SelectedIndex = index;
+            });
         }
     }
 }

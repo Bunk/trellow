@@ -107,25 +107,25 @@
 					<ColumnDefinition />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
-				<Button Grid.Column="2" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
+				<Button x:Name="GoToMembers" Grid.Column="2" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
 					<StackPanel>
-						<TextBlock x:Name="Members" Text="{Binding Members.Count}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
+						<TextBlock Text="{Binding Members.Count}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
 						<TextBlock Text="members" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyLight}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource PhoneSubtleBrush}" />
 					</StackPanel>
 				</Button>
-				<Button Grid.Column="1" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
+				<Button x:Name="GoToAttachments" Grid.Column="1" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
 					<StackPanel>
-						<TextBlock x:Name="Attachments" Text="{Binding Attachments.Count}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
+						<TextBlock Text="{Binding Attachments.Count}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
 						<TextBlock Text="attached" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyLight}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource PhoneSubtleBrush}" FontStretch="UltraCondensed" />
 					</StackPanel>
 				</Button>
-				<Button Grid.Column="0" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
+				<Button x:Name="GoToChecklists" Grid.Column="0" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
 					<StackPanel>
-						<TextBlock x:Name="Checklists" Text="{Binding Checklists.Count}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
+						<TextBlock Text="{Binding Checklists.Count}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
 						<TextBlock Text="checklists" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyLight}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource PhoneSubtleBrush}" />
 					</StackPanel>
 				</Button>
-				<Button Grid.Column="3" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
+				<Button x:Name="GoToActivity" Grid.Column="3" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
 					<StackPanel>
 						<TextBlock x:Name="Votes" Text="{Binding Votes}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
 						<TextBlock Text="votes" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyLight}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource PhoneSubtleBrush}" />

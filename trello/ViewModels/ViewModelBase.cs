@@ -84,5 +84,16 @@ namespace trello.ViewModels
                 Navigation.Navigate(new Uri("/Views/SplashView.xaml", UriKind.Relative));
             }
         }
+
+        protected void UsingView<T>(Action<T> action) where T : class
+        {
+            var view = base.GetView() as T;
+            if (view == null)
+            {
+                MessageBox.Show("The view could not be found.");
+                return;
+            }
+            action(view);
+        }
     }
 }
