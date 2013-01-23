@@ -3,12 +3,14 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
+using JetBrains.Annotations;
 using Microsoft.Phone.Controls;
 using trellow.api;
 using trellow.api.Models;
 
 namespace trello.ViewModels
 {
+    [UsedImplicitly]
     public class CardDetailViewModel : ViewModelBase
     {
         private readonly Func<ChecklistViewModel> _checkListFactory;

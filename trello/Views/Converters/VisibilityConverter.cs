@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 
@@ -9,7 +11,7 @@ namespace trello.Views.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            bool invert = false;
+            var invert = false;
             if (parameter != null)
                 bool.TryParse(parameter.ToString(), out invert);
 
@@ -22,6 +24,8 @@ namespace trello.Views.Converters
                 visible = !string.IsNullOrWhiteSpace((string)value);
             else if (value == null)
                 visible = false;
+            else if (value is IEnumerable)
+                visible = ((IEnumerable) value).Cast<object>().Any();
 
             if (invert)
                 visible = !visible;

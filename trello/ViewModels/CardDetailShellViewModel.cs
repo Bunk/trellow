@@ -1,11 +1,13 @@
 ﻿using System;
 using Caliburn.Micro;
+using JetBrains.Annotations;
 using trello.Views;
 using trellow.api;
 using trellow.api.Data;
 
 namespace trello.ViewModels
 {
+    [UsedImplicitly]
     public class CardDetailShellViewModel : ViewModelBase
     {
         private readonly ICardService _cardService;

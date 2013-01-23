@@ -1,10 +1,12 @@
 using System;
 using System.IO;
 using System.Linq;
+using JetBrains.Annotations;
 using trellow.api.Models;
 
 namespace trello.ViewModels
 {
+    [UsedImplicitly]
     public class AttachmentViewModel
     {
         public string Id { get; set; }
@@ -26,11 +28,6 @@ namespace trello.ViewModels
         public string Extension { get; set; }
 
         public bool IsCover { get; set; }
-
-        public AttachmentViewModel()
-        {
-            
-        }
 
         public AttachmentViewModel For(Attachment attachment)
         {
