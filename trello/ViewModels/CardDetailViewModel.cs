@@ -164,40 +164,33 @@ namespace trello.ViewModels
         {
         }
 
-        public void GoToAttachments()
-        {
-            var parent = Parent as CardDetailShellViewModel;
-            if (parent == null)
-                return;
-
-            parent.NavigateToScreen(2);
-        }
-
         public void GoToChecklists()
         {
-            var parent = Parent as CardDetailShellViewModel;
-            if (parent == null)
-                return;
+            NavigateToScreen(1);
+        }
 
-            parent.NavigateToScreen(1);
+        public void GoToAttachments()
+        {
+            NavigateToScreen(2);
         }
 
         public void GoToMembers()
         {
-            var parent = Parent as CardDetailShellViewModel;
-            if (parent == null)
-                return;
-
-            parent.NavigateToScreen(3);
+            NavigateToScreen(3);
         }
 
         public void GoToActivity()
+        {
+            NavigateToScreen(4);
+        }
+
+        private void NavigateToScreen(int index)
         {
             var parent = Parent as CardDetailShellViewModel;
             if (parent == null)
                 return;
 
-            parent.NavigateToScreen(4);
+            parent.NavigateToScreen(index);
         }
 
         public void EditDesc(GestureEventArgs args)
