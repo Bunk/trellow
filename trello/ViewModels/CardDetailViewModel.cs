@@ -4,9 +4,10 @@ using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using JetBrains.Annotations;
-using Microsoft.Phone.Controls;
+using Telerik.Windows.Controls;
 using trellow.api;
 using trellow.api.Models;
+using GestureEventArgs = Microsoft.Phone.Controls.GestureEventArgs;
 
 namespace trello.ViewModels
 {
@@ -220,6 +221,11 @@ namespace trello.ViewModels
         }
 
         public void AddAttachment()
+        {
+            
+        }
+
+        public void ShowAttachment(GestureEventArgs args)
         {
             
         }

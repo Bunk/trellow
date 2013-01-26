@@ -3,9 +3,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
 	xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
     xmlns:cm="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+	xmlns:local="clr-namespace:trello.Views.Triggers;assembly=trello"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -25,6 +27,12 @@
 							<ColumnDefinition Width="100" />
 							<ColumnDefinition />
 						</Grid.ColumnDefinitions>
+
+						<i:Interaction.Triggers>
+							<local:GestureServiceTrigger Gesture="Tap">
+								<cm:ActionMessage MethodName="Launch" />
+							</local:GestureServiceTrigger>
+						</i:Interaction.Triggers>
 
 						<Border Grid.Column="0" Width="90" Height="70" Background="{StaticResource PhoneChromeBrush}" CornerRadius="5" BorderBrush="{StaticResource PhoneChromeBrush}" BorderThickness="10" HorizontalAlignment="Left">
 							<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -53,6 +61,21 @@
 								</TextBlock.Inlines>
 							</TextBlock>
 						</Grid>
+
+						<telerikPrimitives:RadWindow x:Name="DescWindow" IsFullScreen="True" IsOpen="{Binding Viewing}">
+							<Border Background="{StaticResource PhoneChromeBrush}">
+								<Grid>
+									<Grid.RowDefinitions>
+										<RowDefinition />
+										<RowDefinition Height="Auto" />
+									</Grid.RowDefinitions>
+
+									<Image>
+						
+									</Image>
+								</Grid>
+							</Border>
+						</telerikPrimitives:RadWindow>
 					</Grid>
 				</DataTemplate>
 			</ListBox.ItemTemplate>

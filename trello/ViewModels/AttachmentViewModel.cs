@@ -1,8 +1,10 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using JetBrains.Annotations;
 using trellow.api.Models;
+using Windows.System;
 
 namespace trello.ViewModels
 {
@@ -53,6 +55,15 @@ namespace trello.ViewModels
                 Extension = extension.Substring(1).ToUpperInvariant();
 
             return this;
+        }
+
+        public async void Launch()
+        {
+            var success = await Launcher.LaunchUriAsync(Uri);
+            if (!success)
+                MessageBox.Show(
+                    "The attachment could not be opened.  Make sure you're still connected to the internet.",
+                    "Connection Problem", MessageBoxButton.OK);
         }
     }
 }
