@@ -25,7 +25,8 @@ namespace trello
 
             _container.Singleton<IProgressService, ProgressService>();
 
-            _container.Singleton<IRequestProcessor, ProgressAwareRequestProcessor>();
+            _container.Singleton<IHandleRequests, ProgressAwareRequestHandler>();
+            _container.Singleton<IRequestProcessor, RequestProcessor>();
             _container.Singleton<ITrelloApiSettings, TrelloSettings>();
 
             _container.Singleton<SplashViewModel>();

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using RestSharp;
 using trellow.api.OAuth;
 
@@ -9,13 +10,23 @@ namespace trellow.api.Data
         Task<T> Execute<T>(IRestRequest request);
     }
 
+    public interface IHandleRequests
+    {
+        void BeforeRequest<T>(IRestRequest request);
+
+        void AfterRequest<T>(IRestRequest request, T result);
+    }
+
     public class RequestProcessor : IRequestProcessor
     {
         private readonly IOAuthClient _factory;
 
-        public RequestProcessor(IOAuthClient factory)
+        private readonly IEnumerable<IHandleRequests> _handlers;
+
+        public RequestProcessor(IOAuthClient factory, IEnumerable<IHandleRequests> requests)
         {
             _factory = factory;
+            _handlers = requests ?? new List<IHandleRequests>();
         }
 
         public async Task<T> Execute<T>(IRestRequest request)
@@ -23,23 +34,27 @@ namespace trellow.api.Data
             if (!_factory.ValidateAccessToken())
                 return default(T);
 
-            OnQueryStart<T>(request);
+            Before<T>(request);
 
             var client = _factory.GetRestClient();
             var response = await client.ExecuteAwaitable<T>(request);
             var data = response.Data;
 
-            OnQueryComplete(request, data);
+            After(request, data);
 
             return data;
         }
 
-        protected virtual void OnQueryStart<T>(IRestRequest request)
+        private void Before<T>(IRestRequest request)
         {
+            foreach (var handler in _handlers)
+                handler.BeforeRequest<T>(request);
         }
 
-        protected virtual void OnQueryComplete<T>(IRestRequest request, T result)
+        private void After<T>(IRestRequest request, T data)
         {
+            foreach (var handler in _handlers)
+                handler.AfterRequest(request, data);
         }
     }
 }

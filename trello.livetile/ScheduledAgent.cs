@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
-using Caliburn.Micro;
 using Microsoft.Phone.Scheduler;
 using Microsoft.Phone.Shell;
 using trellow.api;
@@ -26,7 +25,7 @@ namespace trello.livetile
                 delegate { Application.Current.UnhandledException += UnhandledException; });
 
             OAuth = new TrelloOAuthClient(new TrelloSettings());
-            CardService = new CardService(new RequestProcessor(OAuth));
+            CardService = new CardService(new RequestProcessor(OAuth, null));
         }
 
         /// Code to execute on Unhandled Exceptions

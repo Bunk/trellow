@@ -112,7 +112,7 @@
     <Compile Include="SampleData\SampleDataSource\SampleDataSource.xaml.cs">
       <DependentUpon>SampleDataSource.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\ProgressAwareRequestProcessor.cs" />
+    <Compile Include="Services\ProgressAwareRequestHandler.cs" />
     <Compile Include="ViewModels\AttachmentViewModel.cs" />
     <Compile Include="ViewModels\BoardListViewModel.cs" />
     <Compile Include="ViewModels\BoardsViewModel.cs" />
@@ -127,6 +127,7 @@
     <Compile Include="Services\IProgressService.cs" />
     <Compile Include="ViewModels\CardDetailViewModel.cs" />
     <Compile Include="ViewModels\ChecklistViewModel.cs" />
+    <Compile Include="ViewModels\MemberViewModel.cs" />
     <Compile Include="ViewModels\MessageListViewModel.cs" />
     <Compile Include="ViewModels\PivotFix.cs" />
     <Compile Include="ViewModels\PivotViewModel.cs" />
