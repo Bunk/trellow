@@ -224,10 +224,5 @@ namespace trello.ViewModels
         {
             
         }
-
-        public void ShowAttachment(GestureEventArgs args)
-        {
-            
-        }
     }
 }

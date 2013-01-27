@@ -130,5 +130,6 @@
     <xs:attribute blend:Format="Username" name="Username" type="xs:string" />
     <xs:attribute blend:Format="Name" name="FullName" type="xs:string" />
     <xs:attribute name="Active" type="xs:boolean" />
+    <xs:attribute blend:FormatParameters="32,8" name="Bio" type="xs:string" />
   </xs:complexType>
 </xs:schema>

@@ -242,9 +242,9 @@
         <SampleData:AttachmentsItem PreviewUri="/trello;component/SampleData/SampleDataSource/SampleDataSource_Files/appbar.basecircle.rest.png" Name="Donec ante est" Date="19-Jan-04" Extension="Dis" Bytes="889077" />
       </SampleData:BoardCard.Attachments>
       <SampleData:BoardCard.Members>
-        <SampleData:MembersItem1 AvatarHash="Aliquam aenean mauris nam" Username="jaaberg" FullName="Aaberg, Jesper" Active="True" />
-        <SampleData:MembersItem1 AvatarHash="Sed nullam cras integer" Username="eadams" FullName="Adams, Ellen" Active="False" />
-        <SampleData:MembersItem1 AvatarHash="Class dis aptent" Username="tadams" FullName="Adams, Terry" Active="True" />
+        <SampleData:MembersItem1 AvatarHash="Aliquam aenean mauris nam" Username="jaaberg" FullName="Aaberg, Jesper" Active="True" Bio="Class maecenas nam curae aliquam praesent sed donec integer etiam quisque fusce cras accumsan dis bibendum est dictumst hac lorem aenean mauris eleifend nullam duis morbi nunc amet vivamus facilisi" />
+        <SampleData:MembersItem1 AvatarHash="Sed nullam cras integer" Username="eadams" FullName="Adams, Ellen" Active="False" Bio="Aliquam aptent aliquet leo auctor ante mus blandit faucibus arcu diam habitant nulla inceptos congue commodo eget elit interdum conubia enim lobortis cursus cubilia proin dapibus nascetur augue erat eros dictum egestas" />
+        <SampleData:MembersItem1 AvatarHash="Class dis aptent" Username="tadams" FullName="Adams, Terry" Active="True" Bio="Lectus pharetra libero nibh euismod nec nisi feugiat placerat dolor non pulvinar per gravida nisl sagittis sed fames nunc senectus" />
       </SampleData:BoardCard.Members>
     </SampleData:BoardCard>
   </SampleData:SampleDataSource.BoardCard>

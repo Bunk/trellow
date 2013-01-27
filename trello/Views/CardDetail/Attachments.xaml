@@ -12,9 +12,9 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="480" d:DesignWidth="480">
+    d:DesignHeight="480" d:DesignWidth="480" d:DataContext="{Binding BoardCard, Source={StaticResource SampleDataSource}}">
     
-    <Grid x:Name="LayoutRoot" Background="Transparent" Margin="12,0" d:DataContext="{Binding BoardCard, Source={StaticResource SampleDataSource}}">
+    <Grid x:Name="LayoutRoot" Background="Transparent" Margin="12,0">
 		<Grid.RowDefinitions>
 			<RowDefinition />
 		</Grid.RowDefinitions>

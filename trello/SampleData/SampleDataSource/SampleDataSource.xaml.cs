@@ -1015,6 +1015,25 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				}
 			}
 		}
+
+		private string _Bio = string.Empty;
+
+		public string Bio
+		{
+			get
+			{
+				return this._Bio;
+			}
+
+			set
+			{
+				if (this._Bio != value)
+				{
+					this._Bio = value;
+					this.OnPropertyChanged("Bio");
+				}
+			}
+		}
 	}
 #endif
 }
