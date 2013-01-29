@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
+using Strilanc.Value;
 using trellow.api;
 using trellow.api.Data;
 using trellow.api.Models;
@@ -80,16 +82,20 @@ namespace trello.ViewModels
             ActivateItem(Items[0]);
         }
 
-        public void InitializeWith(Board board)
+        public void InitializeWith(May<Board> board)
         {
-            Id = board.Id;
-            Name = board.Name;
-            Desc = board.Desc;
-            IsPrivate = board.Prefs.PermissionLevel == "private";
+            board.IfHasValueThenDo(x =>
+            {
+                Id = x.Id;
+                Name = x.Name;
+                Desc = x.Desc;
+                IsPrivate = x.Prefs.PermissionLevel == "private";
 
-            var lists = board.Lists.Select(BuildListViewModel);
-            Items.Clear();
-            Items.AddRange(lists);
+                var lists = x.Lists.Select(BuildListViewModel);
+                Items.Clear();
+                Items.AddRange(lists);
+            }).ElseDo(() => MessageBox.Show("The board could not be loaded.  " +
+                                            "Please ensure that you have an active internet connection."));
         }
 
         private BoardListViewModel BuildListViewModel(List list)

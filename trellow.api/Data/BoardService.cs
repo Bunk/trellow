@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Strilanc.Value;
 using trellow.api.Models;
 
 namespace trellow.api.Data
@@ -10,14 +11,14 @@ namespace trellow.api.Data
         {
         }
 
-        public Task<List<Board>> Mine()
+        public Task<May<List<Board>>> Mine()
         {
             return Processor.Execute<List<Board>>(
                 Request("members/my/boards")
                     .AddParameter("filter", "open"));
         }
 
-        public Task<Board> WithId(string id)
+        public Task<May<Board>> WithId(string id)
         {
             return Processor.Execute<Board>(
                 Request("boards/{id}")
@@ -28,15 +29,15 @@ namespace trellow.api.Data
 
     public class JsonBoardService : JsonServiceBase, IBoardService
     {
-        public Task<List<Board>> Mine()
+        public async Task<May<List<Board>>> Mine()
         {
-            return ReadFile<List<Board>>("SampleData/boards/boards-mine.json");
+            return await ReadFile<List<Board>>("SampleData/boards/boards-mine.json");
         }
 
-        public Task<Board> WithId(string id)
+        public async Task<May<Board>> WithId(string id)
         {
             var filename = string.Format("SampleData/boards/board-{0}.json", id);
-            return ReadFile<Board>(filename);
+            return await ReadFile<Board>(filename);
         }
     }
 }

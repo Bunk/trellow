@@ -1,10 +1,11 @@
 using System.Threading.Tasks;
 using trellow.api.Models;
+using Strilanc.Value;
 
 namespace trellow.api.Data
 {
     public interface IProfileService
     {
-        Task<Profile> Mine();
+        Task<May<Profile>> Mine();
     }
 }

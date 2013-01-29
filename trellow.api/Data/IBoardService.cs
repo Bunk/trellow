@@ -1,13 +1,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using trellow.api.Models;
+using Strilanc.Value;
 
 namespace trellow.api.Data
 {
     public interface IBoardService
     {
-        Task<List<Board>> Mine();
+        Task<May<List<Board>>> Mine();
 
-        Task<Board> WithId(string id);
+        Task<May<Board>> WithId(string id);
     }
 }

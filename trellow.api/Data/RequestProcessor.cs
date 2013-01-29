@@ -1,20 +1,60 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using RestSharp;
+using Strilanc.Value;
 using trellow.api.OAuth;
 
 namespace trellow.api.Data
 {
     public interface IRequestProcessor
     {
-        Task<T> Execute<T>(IRestRequest request);
+        Task<May<T>> Execute<T>(IRestRequest request);
     }
 
     public interface IHandleRequests
     {
-        void BeforeRequest<T>(IRestRequest request);
+        RequestContext<T>  BeforeRequest<T>(RequestContext<T> context);
 
-        void AfterRequest<T>(IRestRequest request, T result);
+        ResponseContext<T>  AfterRequest<T>(ResponseContext<T> context);
+    }
+
+    public class RequestContext<T>
+    {
+        public Uri RequestUri { get; set; }
+
+        public IRestRequest Request { get; set; }
+
+        public Exception Exception { get; set; }
+
+        public May<T> Data { get; set; }
+
+        public bool Handled { get; set; }
+
+        public RequestContext()
+        {
+            Data = new May<T>();
+        } 
+    }
+
+    public class ResponseContext<T>
+    {
+        public Uri RequestUri { get; set; }
+
+        public IRestRequest Request { get; set; }
+
+        public IRestResponse<T> Response { get; set; }
+
+        public Exception Exception { get; set; }
+
+        public May<T> Data { get; set; }
+
+        public bool Handled { get; set; }
+
+        public ResponseContext()
+        {
+            Data = new May<T>();
+        } 
     }
 
     public class RequestProcessor : IRequestProcessor
@@ -29,32 +69,55 @@ namespace trellow.api.Data
             _handlers = requests ?? new List<IHandleRequests>();
         }
 
-        public async Task<T> Execute<T>(IRestRequest request)
+        public async Task<May<T>> Execute<T>(IRestRequest request)
         {
             if (!_factory.ValidateAccessToken())
                 return default(T);
 
-            Before<T>(request);
-
             var client = _factory.GetRestClient();
-            var response = await client.ExecuteAwaitable<T>(request);
-            var data = response.Data;
+            var uri = client.BuildUri(request);
 
-            After(request, data);
+            var before = Before(new RequestContext<T> { Request = request, RequestUri = uri });
+            var response = new ResponseContext<T> { Request = request, RequestUri = uri };
+            if (before.Data.HasValue)
+            {
+                response.Data = before.Data.ForceGetValue();
+            }
+            else
+            {
+                var r = await client.ExecuteAwaitable<T>(request);
+                response.Response = r;
+                response.Data = r.Data;
+            }
 
-            return data;
+            var after = After(response);
+            return after.Data;
         }
 
-        private void Before<T>(IRestRequest request)
+        private RequestContext<T> Before<T>(RequestContext<T> context)
         {
+            var current = context;
             foreach (var handler in _handlers)
-                handler.BeforeRequest<T>(request);
+            {
+                if (!current.Handled)
+                {
+                    current = handler.BeforeRequest(current);
+                }
+            }
+            return current;
         }
 
-        private void After<T>(IRestRequest request, T data)
+        private ResponseContext<T> After<T>(ResponseContext<T> context)
         {
+            var current = context;
             foreach (var handler in _handlers)
-                handler.AfterRequest(request, data);
+            {
+                if (!current.Handled)
+                {
+                    current = handler.AfterRequest(current);
+                }
+            }
+            return current;
         }
     }
 }

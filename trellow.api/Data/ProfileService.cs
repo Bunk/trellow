@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using trellow.api.Models;
+using Strilanc.Value;
 
 namespace trellow.api.Data
 {
@@ -8,20 +9,19 @@ namespace trellow.api.Data
         public ProfileService(IRequestProcessor processor) : base(processor)
         {
         }
-
-
-        public async Task<Profile> Mine()
+        
+        public async Task<May<Profile>> Mine()
         {
-            return await Processor.Execute<Profile>(
-                Request("members/me"));
+            return await Processor.Execute<Profile>(Request("members/me"));
         }
     }
 
     public class JsonProfileService : JsonServiceBase, IProfileService
     {
-        public Task<Profile> Mine()
+        public async Task<May<Profile>> Mine()
         {
-            return ReadFile<Profile>("SampleData/members/members-me.json");
+            var value = await ReadFile<Profile>("SampleData/members/members-me.json");
+            return value;
         }
     }
 }

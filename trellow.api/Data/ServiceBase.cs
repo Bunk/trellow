@@ -19,7 +19,7 @@ namespace trellow.api.Data
                 RequestFormat = DataFormat.Json
             };
 
-            request.AddParameter("r", DateTime.Now.Ticks); // no cache
+            //request.AddParameter("r", DateTime.Now.Ticks); // no cache
 
             return request;
         }

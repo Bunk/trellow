@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
+using Strilanc.Value;
 using Telerik.Windows.Controls;
 using trello.Assets;
 using trellow.api.Data;
@@ -52,9 +54,10 @@ namespace trello.ViewModels
             Boards.Clear();
 
             var boards = await _boardService.Mine();
-
-            if (boards != null)
-                Boards.AddRange(boards.Select(BuildBoard));
+            boards
+                .IfHasValueThenDo(x => Boards.AddRange(x.Select(BuildBoard)))
+                .ElseDo(() => MessageBox.Show("Your boards could not be loaded at this time.  " +
+                                              "Please ensure a valid internet connection."));
         }
 
         private BoardViewModel BuildBoard(Board board)

@@ -4,6 +4,7 @@ using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Controls;
 using Strilanc.Value;
+using trello.Services;
 using trello.Views;
 using trellow.api.Data;
 using trellow.api.OAuth;
@@ -15,16 +16,37 @@ namespace trello.ViewModels
     {
         private readonly INavigationService _navigationService;
         private readonly IOAuthClient _oauthClient;
+        private readonly ICache _cache;
+        private string _status;
 
-        public SplashViewModel(INavigationService navigationService, IOAuthClient oauthClient)
+        public string Status
+        {
+            get { return _status; }
+            set
+            {
+                if (value == _status) return;
+                _status = value;
+                NotifyOfPropertyChange(() => Status);
+            }
+        }
+
+        public SplashViewModel(INavigationService navigationService, IOAuthClient oauthClient, ICache cache)
         {
             _navigationService = navigationService;
             _oauthClient = oauthClient;
+            _cache = cache;
         }
 
-        protected override void OnViewLoaded(object view)
+        protected override async void OnViewLoaded(object view)
         {
-            // this is where we check for being logged in
+            Status = "Loading...";
+
+            Status = "Populating Cache...";
+            var success = await _cache.Initialize();
+            if (!success)
+                Status = "Invalidating the cache...";
+
+            Status = "Signing in...";
             var loggedin = _oauthClient.ValidateAccessToken();
             if (!loggedin)
             {
@@ -35,6 +57,8 @@ namespace trello.ViewModels
             {
                 // Already logged in, so let's go to the shell
                 Continue();
+
+                Status = "Signed in...";
             }
         }
 

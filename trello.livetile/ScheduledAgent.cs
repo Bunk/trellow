@@ -51,29 +51,29 @@ namespace trello.livetile
         {
             var tile = ShellTile.ActiveTiles.First();
 
-            if (OAuth.ValidateAccessToken())
-            {
-                // We can access the api
-                var cards = await CardService.Mine();
-                tile.Update(new FlipTileData
-                {
-                    Count = cards.Count(),
-                    BackTitle = cards[0].Name,
-                    BackContent = cards[0].Desc,
-                    WideBackContent = cards[0].Desc
-                });
-            }
-            else
-            {
-                // We need to simply remove the data?
-                tile.Update(new FlipTileData
-                {
-                    Count = 0,
-                    BackTitle = "",
-                    BackContent = "",
-                    WideBackContent = ""
-                });
-            }
+//            if (OAuth.ValidateAccessToken())
+//            {
+//                // We can access the api
+//                var cards = await CardService.Mine();
+//                tile.Update(new FlipTileData
+//                {
+//                    Count = cards.Count(),
+//                    BackTitle = cards[0].Name,
+//                    BackContent = cards[0].Desc,
+//                    WideBackContent = cards[0].Desc
+//                });
+//            }
+//            else
+//            {
+//                // We need to simply remove the data?
+//                tile.Update(new FlipTileData
+//                {
+//                    Count = 0,
+//                    BackTitle = "",
+//                    BackContent = "",
+//                    WideBackContent = ""
+//                });
+//            }
 
 #if DEBUG
             ScheduledActionService.LaunchForTest(task.Name, TimeSpan.FromSeconds(10));

@@ -1,7 +1,9 @@
-﻿using Caliburn.Micro;
+﻿using System.Windows;
+using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
+using Strilanc.Value;
 using trellow.api;
 using trellow.api.Data;
 using trellow.api.Models;
@@ -100,16 +102,19 @@ namespace trello.ViewModels
             InitializeWith(profile);
         }
 
-        private void InitializeWith(Profile profile)
+        private void InitializeWith(May<Profile> profile)
         {
             const string profileImageFormat =
                 "https://trello-avatars.s3.amazonaws.com/{0}/{1}.png";
 
-            Username = "@" + profile.Username;
-            FullName = profile.FullName;
-            Email = profile.Email;
-            ImageUri = string.Format(profileImageFormat, profile.AvatarHash, 170);
-            Bio = profile.Bio;
+            profile.IfHasValueThenDo(x =>
+            {
+                Username = "@" + x.Username;
+                FullName = x.FullName;
+                Email = x.Email;
+                ImageUri = string.Format(profileImageFormat, x.AvatarHash, 170);
+                Bio = x.Bio;
+            }).ElseDo(() => MessageBox.Show("The profile could not be loaded at this time."));
         }
 
         public ApplicationBar ConfigureTheAppBar(ApplicationBar existing)

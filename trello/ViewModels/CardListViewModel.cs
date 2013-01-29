@@ -4,6 +4,7 @@ using System.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
+using Strilanc.Value;
 using Telerik.Windows.Controls;
 using trello.Assets;
 using trellow.api.Data;
@@ -56,10 +57,15 @@ namespace trello.ViewModels
             Cards.Clear();
 
             var cards = await _cards.Mine();
-            if (cards == null) return;
+            cards.IfHasValueThenDo(x =>
+            {
+                Cards.Clear();
 
-            Cards.AddRange(cards.Select(c => _cardFactory().InitializeWith(c)));
-            UpdateLiveTile(cards);
+                var transformed = x.Select(card => _cardFactory().InitializeWith(card));
+                Cards.AddRange(transformed);
+
+                UpdateLiveTile(x);
+            });
         }
 
         private void UpdateLiveTile(IReadOnlyCollection<Card> cards)

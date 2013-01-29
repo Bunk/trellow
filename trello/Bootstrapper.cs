@@ -23,9 +23,13 @@ namespace trello
 
             _container.Instance(RootFrame);
 
+            //var cache = new FileSystemCache((IPhoneService) _container.GetInstance(typeof (IPhoneService), null));
+
+            _container.Singleton<ICache, FileSystemCache>();
             _container.Singleton<IProgressService, ProgressService>();
 
             _container.Singleton<IHandleRequests, ProgressAwareRequestHandler>();
+            _container.Singleton<IHandleRequests, CacheAwareRequestHandler>();
             _container.Singleton<IRequestProcessor, RequestProcessor>();
             _container.Singleton<ITrelloApiSettings, TrelloSettings>();
 

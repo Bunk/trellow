@@ -4,6 +4,7 @@ using JetBrains.Annotations;
 using trello.Views;
 using trellow.api;
 using trellow.api.Data;
+using Strilanc.Value;
 
 namespace trello.ViewModels
 {
@@ -63,11 +64,14 @@ namespace trello.ViewModels
         protected override async void OnInitialize()
         {
             var card = await _cardService.WithId(Id);
-            Name = card.Name;
-            BoardName = card.Board.Name;
+            card.IfHasValueThenDo(x =>
+            {
+                Name = x.Name;
+                BoardName = x.Board.Name;
 
-            Details = _overviewFactory().InitializeWith(card);
-            Details.Parent = this;
+                Details = _overviewFactory().InitializeWith(x);
+                Details.Parent = this;
+            });
         }
 
         public void NavigateToScreen(int index)
