@@ -113,6 +113,10 @@
     <Compile Include="SampleData\SampleDataSource\SampleDataSource.xaml.cs">
       <DependentUpon>SampleDataSource.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\CacheAwareRequestHandler.cs" />
+    <Compile Include="Services\ICache.cs" />
+    <Compile Include="Services\FileSystemCache.cs" />
+    <Compile Include="Services\InMemoryCache.cs" />
     <Compile Include="Services\ProgressAwareRequestHandler.cs" />
     <Compile Include="ViewModels\AttachmentViewModel.cs" />
     <Compile Include="ViewModels\BoardListViewModel.cs" />
