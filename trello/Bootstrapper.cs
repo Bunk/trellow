@@ -30,6 +30,7 @@ namespace trello
 
             _container.Singleton<ICache, FileSystemCache>();
             _container.Singleton<IProgressService, ProgressService>();
+            _container.Singleton<INetworkService, NetworkService>();
 
             _container.Singleton<ProgressIndicatorStage>();
             _container.Singleton<CacheStage>();
