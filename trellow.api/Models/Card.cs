@@ -35,6 +35,8 @@ namespace trellow.api.Models
 
         public List<CheckList> Checklists { get; set; }
 
+        public List<Activity> Actions { get; set; }
+
         public Badges Badges { get; set; }
 
         public InnerBoard Board { get; set; }
@@ -49,6 +51,7 @@ namespace trellow.api.Models
             Members = new List<Member>();
             Attachments = new List<Attachment>();
             Checklists = new List<CheckList>();
+            Actions = new List<Activity>();
         }
 
         public class InnerBoard
@@ -125,5 +128,57 @@ namespace trellow.api.Models
         public bool Description { get; set; }
 
         public DateTime? Due { get; set; }
+    }
+
+    public class Activity
+    {
+        public string Id { get; set; }
+
+        public ActivityType Type { get; set; }
+
+        public DateTime Date { get; set; }
+
+        public Member Member { get; set; }
+
+        public Member MemberCreator { get; set; }
+
+        public ActivityData Data { get; set; }
+    }
+
+    public enum ActivityType
+    {
+        CreateCard, DeleteCard, CommentCard, 
+        AddAttachmentToCard, AddChecklistToCard, AddMemberToCard,
+        DeleteAttachmentFromCard, RemoveChecklistFromCard, RemoveMemberFromCard
+    }
+
+    public class ActivityData
+    {
+        public DateTime? DateLastEdited { get; set; }
+
+        public string Text { get; set; }
+
+        public Identifier Board { get; set; }
+
+        public Identifier Card { get; set; }
+
+        public Identifier Attachment { get; set; }
+
+        public Identifier Checklist { get; set; }
+
+        public Identifier List { get; set; }
+
+        public Identifier ListBefore { get; set; }
+
+        public Identifier ListAfter { get; set; }
+
+        public class Identifier
+        {
+            public string Id { get; set; }
+
+            public string Name { get; set; }
+
+            public string Url { get; set; }
+        }
     }
 }

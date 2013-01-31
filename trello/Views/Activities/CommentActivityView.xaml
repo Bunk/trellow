@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="trello.Views.Activities.CommentActivityView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="480" d:DesignWidth="480" d:DataContext="{Binding CommentActivity, Source={StaticResource SampleDataSource}}">
+    
+    <Grid x:Name="LayoutRoot" Background="Transparent" Margin="0,15">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+
+		<Grid Grid.Row="0">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+
+			<Image Margin="0,0,15,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="55" Height="55">
+				<Image.Source>
+					<BitmapImage UriSource="{Binding Member.ImageUriLarge}" />
+				</Image.Source>
+			</Image>
+
+			<Grid Grid.Column="1" Margin="15,0,0,0">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+
+				<TextBlock TextWrapping="Wrap" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="{StaticResource PhoneFontSizeMedium}" Foreground="{StaticResource PhoneForegroundBrush}" >
+					<TextBlock.Inlines>
+						<Run Text="{Binding Member.FullName}" FontWeight="Bold" Foreground="{StaticResource PhoneAccentBrush}" />
+					</TextBlock.Inlines>
+				</TextBlock>
+
+				<Border Grid.Row="1" Background="{StaticResource PhoneChromeBrush}" Padding="10" Margin="0,10" CornerRadius="10">
+					<TextBlock Text="{Binding Text}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeMediumLarge}" />
+				</Border>
+
+				<StackPanel Grid.Row="2" Orientation="Horizontal">
+					<TextBlock Text="{Binding Date, StringFormat='\{0:d MMMM\} at \{0:h\:mm tt\}'}" FontFamily="{StaticResource PhoneFontFamilyLight}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeSmall}" />
+					<TextBlock Visibility="{Binding LastEditedDate, Converter={StaticResource VisibilityConverter}}" FontFamily="{StaticResource PhoneFontFamilyLight}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeSmall}">
+						<TextBlock.Inlines>
+							<Run Text="- edited" />
+							<Run Text="{Binding LastEditedDate, StringFormat='\{0:d MMMM\} at \{0:h\:mm tt\}'}" />
+						</TextBlock.Inlines>
+					</TextBlock>
+				</StackPanel>
+
+			</Grid>
+
+		</Grid>
+
+    </Grid>
+</UserControl>

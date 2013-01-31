@@ -1,21 +1,11 @@
-﻿using System;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Windows.Networking.Connectivity;
+using trellow.api.Data;
 
 namespace trello.Services
 {
-    public interface INetworkService
-    {
-        bool IsAvailable { get; }
-    }
-
-    public class NetworkStatusChanged
-    {
-        
-    }
-
     public class NetworkService : INetworkService
     {
         public bool IsAvailable

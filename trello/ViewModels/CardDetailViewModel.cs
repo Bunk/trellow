@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Telerik.Windows.Controls;
+using trello.ViewModels.Activities;
 using trellow.api;
 using trellow.api.Models;
 using GestureEventArgs = Microsoft.Phone.Controls.GestureEventArgs;
@@ -34,6 +35,7 @@ namespace trello.ViewModels
             Checklists = new BindableCollection<ChecklistViewModel>();
             Attachments = new BindableCollection<AttachmentViewModel>();
             Members = new BindableCollection<MemberViewModel>();
+            Activities = new BindableCollection<ActivityViewModel>();
         }
 
         public string Id { get; set; }
@@ -114,6 +116,8 @@ namespace trello.ViewModels
 
         public IObservableCollection<MemberViewModel> Members { get; set; }
 
+        public IObservableCollection<ActivityViewModel> Activities { get; set; } 
+
         public bool EditingDesc
         {
             get { return _editingDesc; }
@@ -152,6 +156,9 @@ namespace trello.ViewModels
 
             Members.Clear();
             Members.AddRange(card.Members.Select(x => new MemberViewModel(x)));
+
+            Activities.Clear();
+            Activities.AddRange(card.Actions.Select(ActivityViewModel.For));
 
             if (!string.IsNullOrWhiteSpace(card.IdAttachmentCover))
             {

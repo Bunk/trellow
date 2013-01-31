@@ -12,11 +12,13 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    d:DesignHeight="480" d:DesignWidth="480">
-    
+    d:DesignHeight="480" d:DesignWidth="480" d:DataContext="{Binding BoardCard, Source={StaticResource SampleDataSource}}">
+	
     <Grid x:Name="LayoutRoot" Background="Transparent">
-		<ListBox ItemsSource="{Binding Activity}">
+		
+		<ListBox x:Name="Activities">
 			
 		</ListBox>
+
     </Grid>
 </UserControl>

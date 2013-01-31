@@ -76,6 +76,44 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				}
 			}
 		}
+
+		private SimpleActivity _SimpleActivity = new SimpleActivity();
+
+		public SimpleActivity SimpleActivity
+		{
+			get
+			{
+				return this._SimpleActivity;
+			}
+
+			set
+			{
+				if (this._SimpleActivity != value)
+				{
+					this._SimpleActivity = value;
+					this.OnPropertyChanged("SimpleActivity");
+				}
+			}
+		}
+
+		private CommentActivity _CommentActivity = new CommentActivity();
+
+		public CommentActivity CommentActivity
+		{
+			get
+			{
+				return this._CommentActivity;
+			}
+
+			set
+			{
+				if (this._CommentActivity != value)
+				{
+					this._CommentActivity = value;
+					this.OnPropertyChanged("CommentActivity");
+				}
+			}
+		}
 	}
 
 	public class Boards : System.Collections.ObjectModel.ObservableCollection<BoardsItem>
@@ -522,6 +560,16 @@ namespace Expression.Blend.SampleData.SampleDataSource
 			}
 		}
 
+		private Activities _Activities = new Activities();
+
+		public Activities Activities
+		{
+			get
+			{
+				return this._Activities;
+			}
+		}
+
 		private double _Name = 0;
 
 		public double Name
@@ -652,16 +700,6 @@ namespace Expression.Blend.SampleData.SampleDataSource
 					this._Comments = value;
 					this.OnPropertyChanged("Comments");
 				}
-			}
-		}
-
-		private Activity _Activity = new Activity();
-
-		public Activity Activity
-		{
-			get
-			{
-				return this._Activity;
 			}
 		}
 	}
@@ -1046,7 +1084,11 @@ namespace Expression.Blend.SampleData.SampleDataSource
 		}
 	}
 
-	public class ActivityItem : System.ComponentModel.INotifyPropertyChanged
+	public class Activities : System.Collections.ObjectModel.ObservableCollection<ActivitiesItem>
+	{ 
+	}
+
+	public class ActivitiesItem : System.ComponentModel.INotifyPropertyChanged
 	{
 		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
 
@@ -1057,10 +1099,560 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
 			}
 		}
+
+		private Data _Data = new Data();
+
+		public Data Data
+		{
+			get
+			{
+				return this._Data;
+			}
+
+			set
+			{
+				if (this._Data != value)
+				{
+					this._Data = value;
+					this.OnPropertyChanged("Data");
+				}
+			}
+		}
+
+		private string _Timestamp = string.Empty;
+
+		public string Timestamp
+		{
+			get
+			{
+				return this._Timestamp;
+			}
+
+			set
+			{
+				if (this._Timestamp != value)
+				{
+					this._Timestamp = value;
+					this.OnPropertyChanged("Timestamp");
+				}
+			}
+		}
+
+		private string _Username = string.Empty;
+
+		public string Username
+		{
+			get
+			{
+				return this._Username;
+			}
+
+			set
+			{
+				if (this._Username != value)
+				{
+					this._Username = value;
+					this.OnPropertyChanged("Username");
+				}
+			}
+		}
 	}
 
-	public class Activity : System.Collections.ObjectModel.ObservableCollection<ActivityItem>
-	{ 
+	public class Data : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private Board _Board = new Board();
+
+		public Board Board
+		{
+			get
+			{
+				return this._Board;
+			}
+
+			set
+			{
+				if (this._Board != value)
+				{
+					this._Board = value;
+					this.OnPropertyChanged("Board");
+				}
+			}
+		}
+
+		private Card _Card = new Card();
+
+		public Card Card
+		{
+			get
+			{
+				return this._Card;
+			}
+
+			set
+			{
+				if (this._Card != value)
+				{
+					this._Card = value;
+					this.OnPropertyChanged("Card");
+				}
+			}
+		}
+
+		private Checklist _Checklist = new Checklist();
+
+		public Checklist Checklist
+		{
+			get
+			{
+				return this._Checklist;
+			}
+
+			set
+			{
+				if (this._Checklist != value)
+				{
+					this._Checklist = value;
+					this.OnPropertyChanged("Checklist");
+				}
+			}
+		}
+
+		private List _List = new List();
+
+		public List List
+		{
+			get
+			{
+				return this._List;
+			}
+
+			set
+			{
+				if (this._List != value)
+				{
+					this._List = value;
+					this.OnPropertyChanged("List");
+				}
+			}
+		}
+
+		private string _Text = string.Empty;
+
+		public string Text
+		{
+			get
+			{
+				return this._Text;
+			}
+
+			set
+			{
+				if (this._Text != value)
+				{
+					this._Text = value;
+					this.OnPropertyChanged("Text");
+				}
+			}
+		}
+
+		private string _DateLastEdited = string.Empty;
+
+		public string DateLastEdited
+		{
+			get
+			{
+				return this._DateLastEdited;
+			}
+
+			set
+			{
+				if (this._DateLastEdited != value)
+				{
+					this._DateLastEdited = value;
+					this.OnPropertyChanged("DateLastEdited");
+				}
+			}
+		}
+	}
+
+	public class Board : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private string _Name = string.Empty;
+
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+
+			set
+			{
+				if (this._Name != value)
+				{
+					this._Name = value;
+					this.OnPropertyChanged("Name");
+				}
+			}
+		}
+	}
+
+	public class Card : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private string _Name = string.Empty;
+
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+
+			set
+			{
+				if (this._Name != value)
+				{
+					this._Name = value;
+					this.OnPropertyChanged("Name");
+				}
+			}
+		}
+	}
+
+	public class Checklist : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private string _Name = string.Empty;
+
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+
+			set
+			{
+				if (this._Name != value)
+				{
+					this._Name = value;
+					this.OnPropertyChanged("Name");
+				}
+			}
+		}
+	}
+
+	public class List : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private string _Name = string.Empty;
+
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+
+			set
+			{
+				if (this._Name != value)
+				{
+					this._Name = value;
+					this.OnPropertyChanged("Name");
+				}
+			}
+		}
+	}
+
+	public class SimpleActivity : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private Member _Member = new Member();
+
+		public Member Member
+		{
+			get
+			{
+				return this._Member;
+			}
+
+			set
+			{
+				if (this._Member != value)
+				{
+					this._Member = value;
+					this.OnPropertyChanged("Member");
+				}
+			}
+		}
+
+		private string _Action = string.Empty;
+
+		public string Action
+		{
+			get
+			{
+				return this._Action;
+			}
+
+			set
+			{
+				if (this._Action != value)
+				{
+					this._Action = value;
+					this.OnPropertyChanged("Action");
+				}
+			}
+		}
+
+		private string _TargetName = string.Empty;
+
+		public string TargetName
+		{
+			get
+			{
+				return this._TargetName;
+			}
+
+			set
+			{
+				if (this._TargetName != value)
+				{
+					this._TargetName = value;
+					this.OnPropertyChanged("TargetName");
+				}
+			}
+		}
+
+		private string _ActionName = string.Empty;
+
+		public string ActionName
+		{
+			get
+			{
+				return this._ActionName;
+			}
+
+			set
+			{
+				if (this._ActionName != value)
+				{
+					this._ActionName = value;
+					this.OnPropertyChanged("ActionName");
+				}
+			}
+		}
+
+		private string _Date = string.Empty;
+
+		public string Date
+		{
+			get
+			{
+				return this._Date;
+			}
+
+			set
+			{
+				if (this._Date != value)
+				{
+					this._Date = value;
+					this.OnPropertyChanged("Date");
+				}
+			}
+		}
+	}
+
+	public class Member : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private string _FullName = string.Empty;
+
+		public string FullName
+		{
+			get
+			{
+				return this._FullName;
+			}
+
+			set
+			{
+				if (this._FullName != value)
+				{
+					this._FullName = value;
+					this.OnPropertyChanged("FullName");
+				}
+			}
+		}
+	}
+
+	public class CommentActivity : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private string _Text = string.Empty;
+
+		public string Text
+		{
+			get
+			{
+				return this._Text;
+			}
+
+			set
+			{
+				if (this._Text != value)
+				{
+					this._Text = value;
+					this.OnPropertyChanged("Text");
+				}
+			}
+		}
+
+		private Member1 _Member = new Member1();
+
+		public Member1 Member
+		{
+			get
+			{
+				return this._Member;
+			}
+
+			set
+			{
+				if (this._Member != value)
+				{
+					this._Member = value;
+					this.OnPropertyChanged("Member");
+				}
+			}
+		}
+
+		private string _Date = string.Empty;
+
+		public string Date
+		{
+			get
+			{
+				return this._Date;
+			}
+
+			set
+			{
+				if (this._Date != value)
+				{
+					this._Date = value;
+					this.OnPropertyChanged("Date");
+				}
+			}
+		}
+	}
+
+	public class Member1 : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private string _FullName = string.Empty;
+
+		public string FullName
+		{
+			get
+			{
+				return this._FullName;
+			}
+
+			set
+			{
+				if (this._FullName != value)
+				{
+					this._FullName = value;
+					this.OnPropertyChanged("FullName");
+				}
+			}
+		}
 	}
 #endif
 }

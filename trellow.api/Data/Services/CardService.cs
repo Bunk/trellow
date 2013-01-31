@@ -38,7 +38,7 @@ namespace trellow.api.Data.Services
                     .AddParameter("members", "true")
                     .AddParameter("member_fields", "fullName,initials,memberType,username,avatarHash,bio,status")
                     .AddParameter("actions", "addAttachmentToCard,addChecklistToCard,addMemberToCard,commentCard," +
-                                             "copyCommentCard,createCard,copyCard")
+                                             "createCard,deleteAttachmentFromCard,removeChecklistFromCard,removeMemberFromCard")
                     .AddParameter("actions_limit", "50")
                     .AddParameter("checklists", "all")
                     .AddParameter("board", "true")

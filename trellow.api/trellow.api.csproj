@@ -86,6 +86,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AppSettingsBase.cs" />
+    <Compile Include="Data\INetworkService.cs" />
     <Compile Include="Data\Stages\CallExternalApiStage.cs" />
     <Compile Include="Data\Services\BoardService.cs" />
     <Compile Include="Data\Services\CardService.cs" />

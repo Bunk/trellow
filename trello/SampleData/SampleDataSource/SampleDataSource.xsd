@@ -11,6 +11,8 @@
       <xs:element name="Boards" type="tns:Boards" />
       <xs:element name="Cards" type="tns:Cards" />
       <xs:element name="BoardCard" type="tns:BoardCard" />
+      <xs:element name="SimpleActivity" type="tns:SimpleActivity" />
+      <xs:element name="CommentActivity" type="tns:CommentActivity" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="Boards">
@@ -70,7 +72,7 @@
       <xs:element name="Checklists" type="tns:Checklists" />
       <xs:element name="Attachments" type="tns:Attachments" />
       <xs:element name="Members" type="tns:Members1" />
-      <xs:element name="Activity" type="tns:Activity" />
+      <xs:element name="Activities" type="tns:Activities" />
     </xs:sequence>
     <xs:attribute name="Name" type="xs:double" />
     <xs:attribute name="Votes" type="xs:double" />
@@ -133,10 +135,60 @@
     <xs:attribute name="Active" type="xs:boolean" />
     <xs:attribute blend:FormatParameters="32,8" name="Bio" type="xs:string" />
   </xs:complexType>
-  <xs:complexType name="Activity">
+  <xs:complexType name="Activities">
     <xs:sequence>
-      <xs:element maxOccurs="unbounded" name="ActivityItem" type="tns:ActivityItem" />
+      <xs:element maxOccurs="unbounded" name="ActivitiesItem" type="tns:ActivitiesItem" />
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="ActivityItem" />
+  <xs:complexType name="ActivitiesItem">
+    <xs:sequence>
+      <xs:element name="Data" type="tns:Data" />
+    </xs:sequence>
+    <xs:attribute blend:Format="Date" name="Timestamp" type="xs:string" />
+    <xs:attribute blend:Format="Name" name="Username" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="Data">
+    <xs:sequence>
+      <xs:element name="Board" type="tns:Board" />
+      <xs:element name="Card" type="tns:Card" />
+      <xs:element name="Checklist" type="tns:Checklist" />
+      <xs:element name="List" type="tns:List" />
+    </xs:sequence>
+    <xs:attribute name="Text" type="xs:string" />
+    <xs:attribute blend:Format="Date" name="DateLastEdited" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="Board">
+    <xs:attribute name="Name" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="Card">
+    <xs:attribute name="Name" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="Checklist">
+    <xs:attribute name="Name" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="List">
+    <xs:attribute name="Name" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="SimpleActivity">
+    <xs:sequence>
+      <xs:element name="Member" type="tns:Member" />
+    </xs:sequence>
+    <xs:attribute blend:FormatParameters="4,3" name="Action" type="xs:string" />
+    <xs:attribute name="TargetName" type="xs:string" />
+    <xs:attribute name="ActionName" type="xs:string" />
+    <xs:attribute blend:Format="Date" name="Date" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="Member">
+    <xs:attribute blend:Format="Name" name="FullName" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="CommentActivity">
+    <xs:sequence>
+      <xs:element name="Member" type="tns:Member1" />
+    </xs:sequence>
+    <xs:attribute blend:FormatParameters="4,12" name="Text" type="xs:string" />
+    <xs:attribute blend:Format="Date" name="Date" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="Member1">
+    <xs:attribute blend:Format="Name" name="FullName" type="xs:string" />
+  </xs:complexType>
 </xs:schema>

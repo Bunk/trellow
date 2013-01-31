@@ -113,13 +113,15 @@
     <Compile Include="SampleData\SampleDataSource\SampleDataSource.xaml.cs">
       <DependentUpon>SampleDataSource.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\INetworkService.cs" />
+    <Compile Include="Services\NetworkService.cs" />
+    <Compile Include="Services\NetworkStatusChanged.cs" />
     <Compile Include="Services\Stages\CacheStage.cs" />
     <Compile Include="Services\Cache\FileSystemCache.cs" />
     <Compile Include="Services\ICache.cs" />
     <Compile Include="Services\Cache\InMemoryCache.cs" />
     <Compile Include="Services\Pipelines\ConnectedRequestPipeline.cs" />
     <Compile Include="Services\Stages\ProgressIndicatorStage.cs" />
+    <Compile Include="ViewModels\ActivityViewModel.cs" />
     <Compile Include="ViewModels\AttachmentViewModel.cs" />
     <Compile Include="ViewModels\BoardListViewModel.cs" />
     <Compile Include="ViewModels\BoardsViewModel.cs" />
@@ -140,6 +142,15 @@
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\SplashViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\Activities\ActivityView.xaml.cs">
+      <DependentUpon>ActivityView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Activities\CommentActivityView.xaml.cs">
+      <DependentUpon>CommentActivityView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Activities\SimpleActivityView.xaml.cs">
+      <DependentUpon>SimpleActivityView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BoardsView.xaml.cs">
       <DependentUpon>BoardsView.xaml</DependentUpon>
     </Compile>
@@ -406,6 +417,18 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </DesignTimeOnly>
+    <Page Include="Views\Activities\ActivityView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Activities\CommentActivityView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Activities\SimpleActivityView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\BoardsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

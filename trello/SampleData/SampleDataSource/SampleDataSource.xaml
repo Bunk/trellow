@@ -246,18 +246,202 @@
         <SampleData:MembersItem1 AvatarHash="Sed nullam cras integer" Username="eadams" FullName="Adams, Ellen" Active="False" Bio="Aliquam aptent aliquet leo auctor ante mus blandit faucibus arcu diam habitant nulla inceptos congue commodo eget elit interdum conubia enim lobortis cursus cubilia proin dapibus nascetur augue erat eros dictum egestas" />
         <SampleData:MembersItem1 AvatarHash="Class dis aptent" Username="tadams" FullName="Adams, Terry" Active="True" Bio="Lectus pharetra libero nibh euismod nec nisi feugiat placerat dolor non pulvinar per gravida nisl sagittis sed fames nunc senectus" />
       </SampleData:BoardCard.Members>
-      <SampleData:BoardCard.Activity>
-        <SampleData:ActivityItem />
-        <SampleData:ActivityItem />
-        <SampleData:ActivityItem />
-        <SampleData:ActivityItem />
-        <SampleData:ActivityItem />
-        <SampleData:ActivityItem />
-        <SampleData:ActivityItem />
-        <SampleData:ActivityItem />
-        <SampleData:ActivityItem />
-        <SampleData:ActivityItem />
-      </SampleData:BoardCard.Activity>
+      <SampleData:BoardCard.Activities>
+        <SampleData:ActivitiesItem Timestamp="5-Nov-03" Username="Aaberg, Jesper">
+          <SampleData:ActivitiesItem.Data>
+            <SampleData:Data Text="Aliquam cras class integer" DateLastEdited="5-Nov-03">
+              <SampleData:Data.Board>
+                <SampleData:Board Name="Aliquam class integer quisque" />
+              </SampleData:Data.Board>
+              <SampleData:Data.Card>
+                <SampleData:Card Name="Aenean cras aliquam maecenas" />
+              </SampleData:Data.Card>
+              <SampleData:Data.Checklist>
+                <SampleData:Checklist Name="Class cras curae aliquam" />
+              </SampleData:Data.Checklist>
+              <SampleData:Data.List>
+                <SampleData:List Name="Nam cras aliquam aenean" />
+              </SampleData:Data.List>
+            </SampleData:Data>
+          </SampleData:ActivitiesItem.Data>
+        </SampleData:ActivitiesItem>
+        <SampleData:ActivitiesItem Timestamp="29-Dec-06" Username="Adams, Ellen">
+          <SampleData:ActivitiesItem.Data>
+            <SampleData:Data Text="Aenean mauris" DateLastEdited="29-Dec-06">
+              <SampleData:Data.Board>
+                <SampleData:Board Name="Curae cras duis nam" />
+              </SampleData:Data.Board>
+              <SampleData:Data.Card>
+                <SampleData:Card Name="Duis nam" />
+              </SampleData:Data.Card>
+              <SampleData:Data.Checklist>
+                <SampleData:Checklist Name="Nam duis integer sed" />
+              </SampleData:Data.Checklist>
+              <SampleData:Data.List>
+                <SampleData:List Name="Maecenas mauris integer" />
+              </SampleData:Data.List>
+            </SampleData:Data>
+          </SampleData:ActivitiesItem.Data>
+        </SampleData:ActivitiesItem>
+        <SampleData:ActivitiesItem Timestamp="19-Jan-04" Username="Adams, Terry">
+          <SampleData:ActivitiesItem.Data>
+            <SampleData:Data Text="Nam nullam sed" DateLastEdited="19-Jan-04">
+              <SampleData:Data.Board>
+                <SampleData:Board Name="Sed aenean vivamus" />
+              </SampleData:Data.Board>
+              <SampleData:Data.Card>
+                <SampleData:Card Name="Sed praesent" />
+              </SampleData:Data.Card>
+              <SampleData:Data.Checklist>
+                <SampleData:Checklist Name="Quisque dis est maecenas" />
+              </SampleData:Data.Checklist>
+              <SampleData:Data.List>
+                <SampleData:List Name="Quisque class nullam vivamus" />
+              </SampleData:Data.List>
+            </SampleData:Data>
+          </SampleData:ActivitiesItem.Data>
+        </SampleData:ActivitiesItem>
+        <SampleData:ActivitiesItem Timestamp="22-Dec-07" Username="Adams, Terry">
+          <SampleData:ActivitiesItem.Data>
+            <SampleData:Data Text="Curae maecenas quisque" DateLastEdited="22-Dec-07">
+              <SampleData:Data.Board>
+                <SampleData:Board Name="Donec nunc" />
+              </SampleData:Data.Board>
+              <SampleData:Data.Card>
+                <SampleData:Card Name="Nunc mauris nullam" />
+              </SampleData:Data.Card>
+              <SampleData:Data.Checklist>
+                <SampleData:Checklist Name="Donec nunc vivamus" />
+              </SampleData:Data.Checklist>
+              <SampleData:Data.List>
+                <SampleData:List Name="Sed curae dis est" />
+              </SampleData:Data.List>
+            </SampleData:Data>
+          </SampleData:ActivitiesItem.Data>
+        </SampleData:ActivitiesItem>
+        <SampleData:ActivitiesItem Timestamp="2-Feb-06" Username="Penor, Lori">
+          <SampleData:ActivitiesItem.Data>
+            <SampleData:Data Text="Duis donec etiam dis" DateLastEdited="2-Feb-06">
+              <SampleData:Data.Board>
+                <SampleData:Board Name="Etiam maecenas amet" />
+              </SampleData:Data.Board>
+              <SampleData:Data.Card>
+                <SampleData:Card Name="Aptent amet" />
+              </SampleData:Data.Card>
+              <SampleData:Data.Checklist>
+                <SampleData:Checklist Name="Aenean amet etiam fusce" />
+              </SampleData:Data.Checklist>
+              <SampleData:Data.List>
+                <SampleData:List Name="Aliquam hac" />
+              </SampleData:Data.List>
+            </SampleData:Data>
+          </SampleData:ActivitiesItem.Data>
+        </SampleData:ActivitiesItem>
+        <SampleData:ActivitiesItem Timestamp="23-Aug-03" Username="Pfeiffer, Michael">
+          <SampleData:ActivitiesItem.Data>
+            <SampleData:Data Text="Nunc amet aptent ante" DateLastEdited="23-Aug-03">
+              <SampleData:Data.Board>
+                <SampleData:Board Name="Dis fusce ante" />
+              </SampleData:Data.Board>
+              <SampleData:Data.Card>
+                <SampleData:Card Name="Class integer" />
+              </SampleData:Data.Card>
+              <SampleData:Data.Checklist>
+                <SampleData:Checklist Name="Hac praesent lorem" />
+              </SampleData:Data.Checklist>
+              <SampleData:Data.List>
+                <SampleData:List Name="Aliquet duis praesent leo" />
+              </SampleData:Data.List>
+            </SampleData:Data>
+          </SampleData:ActivitiesItem.Data>
+        </SampleData:ActivitiesItem>
+        <SampleData:ActivitiesItem Timestamp="27-May-07" Username="Philips, Carol">
+          <SampleData:ActivitiesItem.Data>
+            <SampleData:Data Text="Arcu diam vivamus auctor" DateLastEdited="27-May-07">
+              <SampleData:Data.Board>
+                <SampleData:Board Name="Est hac aliquam praesent" />
+              </SampleData:Data.Board>
+              <SampleData:Data.Card>
+                <SampleData:Card Name="Curae donec quisque vivamus" />
+              </SampleData:Data.Card>
+              <SampleData:Data.Checklist>
+                <SampleData:Checklist Name="Morbi accumsan mauris" />
+              </SampleData:Data.Checklist>
+              <SampleData:Data.List>
+                <SampleData:List Name="Blandit donec nunc mus" />
+              </SampleData:Data.List>
+            </SampleData:Data>
+          </SampleData:ActivitiesItem.Data>
+        </SampleData:ActivitiesItem>
+        <SampleData:ActivitiesItem Timestamp="24-May-06" Username="Poe, Toni">
+          <SampleData:ActivitiesItem.Data>
+            <SampleData:Data Text="Fusce lorem morbi" DateLastEdited="24-May-06">
+              <SampleData:Data.Board>
+                <SampleData:Board Name="Mauris lorem" />
+              </SampleData:Data.Board>
+              <SampleData:Data.Card>
+                <SampleData:Card Name="Auctor aliquam accumsan" />
+              </SampleData:Data.Card>
+              <SampleData:Data.Checklist>
+                <SampleData:Checklist Name="Bibendum aliquam nullam aptent" />
+              </SampleData:Data.Checklist>
+              <SampleData:Data.List>
+                <SampleData:List Name="Aptent nec etiam" />
+              </SampleData:Data.List>
+            </SampleData:Data>
+          </SampleData:ActivitiesItem.Data>
+        </SampleData:ActivitiesItem>
+        <SampleData:ActivitiesItem Timestamp="19-Sep-04" Username="Hicks, Cassie">
+          <SampleData:ActivitiesItem.Data>
+            <SampleData:Data Text="Eget praesent" DateLastEdited="19-Sep-04">
+              <SampleData:Data.Board>
+                <SampleData:Board Name="Nullam aliquet accumsan aptent" />
+              </SampleData:Data.Board>
+              <SampleData:Data.Card>
+                <SampleData:Card Name="Aliquet bibendum" />
+              </SampleData:Data.Card>
+              <SampleData:Data.Checklist>
+                <SampleData:Checklist Name="Dictumst nulla eleifend aliquet" />
+              </SampleData:Data.Checklist>
+              <SampleData:Data.List>
+                <SampleData:List Name="Commodo conubia non" />
+              </SampleData:Data.List>
+            </SampleData:Data>
+          </SampleData:ActivitiesItem.Data>
+        </SampleData:ActivitiesItem>
+        <SampleData:ActivitiesItem Timestamp="10-Aug-03" Username="Argentiero, Luca">
+          <SampleData:ActivitiesItem.Data>
+            <SampleData:Data Text="Aliquam nulla proin est" DateLastEdited="10-Aug-03">
+              <SampleData:Data.Board>
+                <SampleData:Board Name="Arcu morbi nulla" />
+              </SampleData:Data.Board>
+              <SampleData:Data.Card>
+                <SampleData:Card Name="Etiam ante arcu dictumst" />
+              </SampleData:Data.Card>
+              <SampleData:Data.Checklist>
+                <SampleData:Checklist Name="Ante proin" />
+              </SampleData:Data.Checklist>
+              <SampleData:Data.List>
+                <SampleData:List Name="Amet per cubilia" />
+              </SampleData:Data.List>
+            </SampleData:Data>
+          </SampleData:ActivitiesItem.Data>
+        </SampleData:ActivitiesItem>
+      </SampleData:BoardCard.Activities>
     </SampleData:BoardCard>
   </SampleData:SampleDataSource.BoardCard>
+  <SampleData:SampleDataSource.SimpleActivity>
+    <SampleData:SimpleActivity Action="Nam sed dis" TargetName="Aliquam cras maecenas" ActionName="Maecenas aliquam praesent" Date="5-Nov-03">
+      <SampleData:SimpleActivity.Member>
+        <SampleData:Member FullName="Aaberg, Jesper" />
+      </SampleData:SimpleActivity.Member>
+    </SampleData:SimpleActivity>
+  </SampleData:SampleDataSource.SimpleActivity>
+  <SampleData:SampleDataSource.CommentActivity>
+    <SampleData:CommentActivity Text="Curabitur suspendisse pellentesque consectetuer" Date="5-Nov-03">
+      <SampleData:CommentActivity.Member>
+        <SampleData:Member1 FullName="Aaberg, Jesper" />
+      </SampleData:CommentActivity.Member>
+    </SampleData:CommentActivity>
+  </SampleData:SampleDataSource.CommentActivity>
 </SampleData:SampleDataSource>

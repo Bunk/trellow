@@ -1,4 +1,3 @@
-using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using RestSharp;
@@ -24,19 +23,24 @@ namespace trello.Services.Stages
             var key = context.Client.BuildUri(context.Request).PathAndQuery;
 
             // Only GET requests are cached
-            // Only pull from the cache when not connected to the network
-            if (context.Request.Method == Method.GET && _network.IsAvailable)
+            if (context.Request.Method == Method.GET)
             {
-                context.Data = _cache.Get<T>(key);
-                // REVIEW: Should we call ContinueIfPossible?
-            }
-            else
-            {
-                // Otherwise, defer to later stages for data retrieval
-                context = await ContinueIfPossible(context);
-                
-                // And cache the results
-                _cache.Set(key, context.Data);
+                if (_network.IsAvailable)
+                {
+                    // When connected, always prefer to pull fresh data
+                    context = await ContinueIfPossible(context);
+                    
+                    // Update the cache as well
+                    _cache.Set(key, context.Data);
+                }
+                else
+                {
+                    // When disconnected, only pull from the cache when available
+                    context.Data = _cache.Get<T>(key);
+                    
+                    // Then continue through the pipeline with the cached data set
+                    context = await ContinueIfPossible(context);
+                }
             }
 
             return context;
