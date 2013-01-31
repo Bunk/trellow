@@ -70,6 +70,7 @@
       <xs:element name="Checklists" type="tns:Checklists" />
       <xs:element name="Attachments" type="tns:Attachments" />
       <xs:element name="Members" type="tns:Members1" />
+      <xs:element name="Activity" type="tns:Activity" />
     </xs:sequence>
     <xs:attribute name="Name" type="xs:double" />
     <xs:attribute name="Votes" type="xs:double" />
@@ -132,4 +133,10 @@
     <xs:attribute name="Active" type="xs:boolean" />
     <xs:attribute blend:FormatParameters="32,8" name="Bio" type="xs:string" />
   </xs:complexType>
+  <xs:complexType name="Activity">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="ActivityItem" type="tns:ActivityItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ActivityItem" />
 </xs:schema>

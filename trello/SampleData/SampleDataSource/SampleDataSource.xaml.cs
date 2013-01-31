@@ -654,6 +654,16 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				}
 			}
 		}
+
+		private Activity _Activity = new Activity();
+
+		public Activity Activity
+		{
+			get
+			{
+				return this._Activity;
+			}
+		}
 	}
 
 	public class Labels1 : System.Collections.ObjectModel.ObservableCollection<LabelsItem1>
@@ -1034,6 +1044,23 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				}
 			}
 		}
+	}
+
+	public class ActivityItem : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+
+	public class Activity : System.Collections.ObjectModel.ObservableCollection<ActivityItem>
+	{ 
 	}
 #endif
 }

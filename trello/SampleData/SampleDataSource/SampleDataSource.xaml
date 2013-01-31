@@ -246,6 +246,18 @@
         <SampleData:MembersItem1 AvatarHash="Sed nullam cras integer" Username="eadams" FullName="Adams, Ellen" Active="False" Bio="Aliquam aptent aliquet leo auctor ante mus blandit faucibus arcu diam habitant nulla inceptos congue commodo eget elit interdum conubia enim lobortis cursus cubilia proin dapibus nascetur augue erat eros dictum egestas" />
         <SampleData:MembersItem1 AvatarHash="Class dis aptent" Username="tadams" FullName="Adams, Terry" Active="True" Bio="Lectus pharetra libero nibh euismod nec nisi feugiat placerat dolor non pulvinar per gravida nisl sagittis sed fames nunc senectus" />
       </SampleData:BoardCard.Members>
+      <SampleData:BoardCard.Activity>
+        <SampleData:ActivityItem />
+        <SampleData:ActivityItem />
+        <SampleData:ActivityItem />
+        <SampleData:ActivityItem />
+        <SampleData:ActivityItem />
+        <SampleData:ActivityItem />
+        <SampleData:ActivityItem />
+        <SampleData:ActivityItem />
+        <SampleData:ActivityItem />
+        <SampleData:ActivityItem />
+      </SampleData:BoardCard.Activity>
     </SampleData:BoardCard>
   </SampleData:SampleDataSource.BoardCard>
 </SampleData:SampleDataSource>

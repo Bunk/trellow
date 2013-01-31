@@ -113,6 +113,7 @@
     <Compile Include="SampleData\SampleDataSource\SampleDataSource.xaml.cs">
       <DependentUpon>SampleDataSource.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\INetworkService.cs" />
     <Compile Include="Services\Stages\CacheStage.cs" />
     <Compile Include="Services\Cache\FileSystemCache.cs" />
     <Compile Include="Services\ICache.cs" />
@@ -151,20 +152,14 @@
     <Compile Include="Views\BoardCardView.xaml.cs">
       <DependentUpon>BoardCardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CardDetailActivityView.xaml.cs">
-      <DependentUpon>CardDetailActivityView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CardDetailAttachmentsView.xaml.cs">
-      <DependentUpon>CardDetailAttachmentsView.xaml</DependentUpon>
+    <Compile Include="Views\CardDetail\Activity.xaml.cs">
+      <DependentUpon>Activity.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CardDetail\Attachments.xaml.cs">
       <DependentUpon>Attachments.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CardDetail\Checklists.xaml.cs">
       <DependentUpon>Checklists.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CardDetailMembersView.xaml.cs">
-      <DependentUpon>CardDetailMembersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CardDetail\Members.xaml.cs">
       <DependentUpon>Members.xaml</DependentUpon>
@@ -427,11 +422,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CardDetailActivityView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CardDetailAttachmentsView.xaml">
+    <Page Include="Views\CardDetail\Activity.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -440,10 +431,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CardDetail\Checklists.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CardDetailMembersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
