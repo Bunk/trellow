@@ -7,6 +7,7 @@ using Strilanc.Value;
 using trello.Services;
 using trello.Views;
 using trellow.api.Data;
+using trellow.api.Data.Services;
 using trellow.api.OAuth;
 
 namespace trello.ViewModels

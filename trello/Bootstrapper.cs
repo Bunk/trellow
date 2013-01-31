@@ -5,9 +5,14 @@ using System.Windows;
 using Caliburn.Micro;
 using Microsoft.Phone.Controls;
 using trello.Services;
+using trello.Services.Cache;
+using trello.Services.Pipelines;
+using trello.Services.Stages;
 using trello.ViewModels;
 using trellow.api;
 using trellow.api.Data;
+using trellow.api.Data.Services;
+using trellow.api.Data.Stages;
 using trellow.api.OAuth;
 
 namespace trello
@@ -23,13 +28,14 @@ namespace trello
 
             _container.Instance(RootFrame);
 
-            //var cache = new FileSystemCache((IPhoneService) _container.GetInstance(typeof (IPhoneService), null));
-
             _container.Singleton<ICache, FileSystemCache>();
             _container.Singleton<IProgressService, ProgressService>();
 
-            _container.Singleton<IHandleRequests, ProgressAwareRequestHandler>();
-            _container.Singleton<IHandleRequests, CacheAwareRequestHandler>();
+            _container.Singleton<ProgressIndicatorStage>();
+            _container.Singleton<CacheStage>();
+            _container.Singleton<CallExternalApiStage>();
+
+            _container.Singleton<IRequestPipeline, ConnectedRequestPipeline>();
             _container.Singleton<IRequestProcessor, RequestProcessor>();
             _container.Singleton<ITrelloApiSettings, TrelloSettings>();
 

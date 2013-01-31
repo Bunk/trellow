@@ -6,7 +6,7 @@ using Caliburn.Micro;
 using JetBrains.Annotations;
 using ServiceStack.Text;
 
-namespace trello.Services
+namespace trello.Services.Cache
 {
     [UsedImplicitly]
     public class FileSystemCache : InMemoryCache

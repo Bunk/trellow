@@ -8,6 +8,7 @@ using Strilanc.Value;
 using Telerik.Windows.Controls;
 using trello.Assets;
 using trellow.api.Data;
+using trellow.api.Data.Services;
 using trellow.api.Models;
 
 namespace trello.ViewModels

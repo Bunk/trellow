@@ -1,7 +1,6 @@
-using System;
 using RestSharp;
 
-namespace trellow.api.Data
+namespace trellow.api.Data.Services
 {
     public abstract class ServiceBase
     {
@@ -12,14 +11,12 @@ namespace trellow.api.Data
             Processor = processor;
         }
 
-        protected IRestRequest Request(string resource)
+        protected static IRestRequest Request(string resource)
         {
             var request = new RestRequest(resource)
             {
                 RequestFormat = DataFormat.Json
             };
-
-            //request.AddParameter("r", DateTime.Now.Ticks); // no cache
 
             return request;
         }

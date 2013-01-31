@@ -3,7 +3,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
-namespace trello.ViewModels
+namespace trello.Services
 {
     public class ProgressService : IProgressService
     {

@@ -8,6 +8,7 @@ using RestSharp;
 using RestSharp.Authenticators;
 using Strilanc.Value;
 using trellow.api.Data;
+using trellow.api.Data.Services;
 
 namespace trellow.api.OAuth
 {

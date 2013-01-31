@@ -113,19 +113,16 @@
     <Compile Include="SampleData\SampleDataSource\SampleDataSource.xaml.cs">
       <DependentUpon>SampleDataSource.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\CacheAwareRequestHandler.cs" />
+    <Compile Include="Services\Stages\CacheStage.cs" />
+    <Compile Include="Services\Cache\FileSystemCache.cs" />
     <Compile Include="Services\ICache.cs" />
-    <Compile Include="Services\FileSystemCache.cs" />
-    <Compile Include="Services\InMemoryCache.cs" />
-    <Compile Include="Services\ProgressAwareRequestHandler.cs" />
+    <Compile Include="Services\Cache\InMemoryCache.cs" />
+    <Compile Include="Services\Pipelines\ConnectedRequestPipeline.cs" />
+    <Compile Include="Services\Stages\ProgressIndicatorStage.cs" />
     <Compile Include="ViewModels\AttachmentViewModel.cs" />
     <Compile Include="ViewModels\BoardListViewModel.cs" />
     <Compile Include="ViewModels\BoardsViewModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
-    <Compile Include="ViewModels\CardDetailActivityViewModel.cs" />
-    <Compile Include="ViewModels\CardDetailAttachmentsViewModel.cs" />
-    <Compile Include="ViewModels\CardDetailChecklistsViewModel.cs" />
-    <Compile Include="ViewModels\CardDetailMembersViewModel.cs" />
     <Compile Include="ViewModels\CardDetailShellViewModel.cs" />
     <Compile Include="ViewModels\CardListViewModel.cs" />
     <Compile Include="ViewModels\CardViewModel.cs" />

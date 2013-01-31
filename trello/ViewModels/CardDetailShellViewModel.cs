@@ -5,6 +5,7 @@ using trello.Views;
 using trellow.api;
 using trellow.api.Data;
 using Strilanc.Value;
+using trellow.api.Data.Services;
 
 namespace trello.ViewModels
 {

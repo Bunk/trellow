@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 using Strilanc.Value;
 using trellow.api.Models;
 
-namespace trellow.api.Data
+namespace trellow.api.Data.Services
 {
     [UsedImplicitly]
     public class CardService : ServiceBase, ICardService

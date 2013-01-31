@@ -6,6 +6,7 @@ using Microsoft.Phone.Scheduler;
 using Microsoft.Phone.Shell;
 using trellow.api;
 using trellow.api.Data;
+using trellow.api.Data.Services;
 using trellow.api.OAuth;
 
 namespace trello.livetile

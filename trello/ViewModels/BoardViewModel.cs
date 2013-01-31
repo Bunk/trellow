@@ -5,6 +5,7 @@ using Caliburn.Micro;
 using Strilanc.Value;
 using trellow.api;
 using trellow.api.Data;
+using trellow.api.Data.Services;
 using trellow.api.Models;
 
 namespace trello.ViewModels

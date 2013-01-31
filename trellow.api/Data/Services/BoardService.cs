@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Strilanc.Value;
 using trellow.api.Models;
 
-namespace trellow.api.Data
+namespace trellow.api.Data.Services
 {
     public class BoardService : ServiceBase, IBoardService
     {

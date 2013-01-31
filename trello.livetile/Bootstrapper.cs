@@ -1,6 +1,7 @@
 ﻿using Caliburn.Micro;
 using trellow.api;
 using trellow.api.Data;
+using trellow.api.Data.Services;
 using trellow.api.OAuth;
 
 namespace trello.livetile

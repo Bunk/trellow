@@ -2,7 +2,7 @@
 using trellow.api.Models;
 using Strilanc.Value;
 
-namespace trellow.api.Data
+namespace trellow.api.Data.Services
 {
     public class ProfileService : ServiceBase, IProfileService
     {

@@ -1,7 +1,7 @@
 using System.IO;
 using System.Threading.Tasks;
 
-namespace trellow.api.Data
+namespace trellow.api.Data.Services
 {
     public abstract class JsonServiceBase
     {

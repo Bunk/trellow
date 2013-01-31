@@ -1,4 +1,4 @@
-namespace trello.ViewModels
+namespace trello.Services
 {
     public interface IProgressService
     {

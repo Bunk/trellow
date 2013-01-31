@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ServiceStack.Text;
 
-namespace trello.Services
+namespace trello.Services.Cache
 {
     public class InMemoryCache : AbstractCache
     {

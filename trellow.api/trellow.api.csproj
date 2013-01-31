@@ -86,17 +86,21 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AppSettingsBase.cs" />
-    <Compile Include="Data\BoardService.cs" />
-    <Compile Include="Data\CardService.cs" />
-    <Compile Include="Data\IBoardService.cs" />
-    <Compile Include="Data\ICardService.cs" />
-    <Compile Include="Data\IProfileService.cs" />
-    <Compile Include="Data\JsonServiceBase.cs" />
-    <Compile Include="Data\ProfileService.cs" />
-    <Compile Include="Data\RequestProcessor.cs" />
-    <Compile Include="Data\RestClientExtensions.cs" />
-    <Compile Include="Data\ServiceBase.cs" />
-    <Compile Include="Data\TrelloRequestException.cs" />
+    <Compile Include="Data\Stages\CallExternalApiStage.cs" />
+    <Compile Include="Data\Services\BoardService.cs" />
+    <Compile Include="Data\Services\CardService.cs" />
+    <Compile Include="Data\IRequestPipeline.cs" />
+    <Compile Include="Data\Services\IBoardService.cs" />
+    <Compile Include="Data\Services\ICardService.cs" />
+    <Compile Include="Data\Services\IProfileService.cs" />
+    <Compile Include="Data\Services\JsonServiceBase.cs" />
+    <Compile Include="Data\Services\ProfileService.cs" />
+    <Compile Include="Data\IRequestPipelineStage.cs" />
+    <Compile Include="Data\IRequestProcessor.cs" />
+    <Compile Include="Data\Stages\ResponseContext.cs" />
+    <Compile Include="Data\Services\RestClientExtensions.cs" />
+    <Compile Include="Data\Services\ServiceBase.cs" />
+    <Compile Include="Data\Services\TrelloRequestException.cs" />
     <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\Card.cs" />
