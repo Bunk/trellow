@@ -21,17 +21,18 @@
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
 				<RowDefinition Height="Auto" />
+				<RowDefinition Height="Auto" />
 				<RowDefinition Height="*" />
 			</Grid.RowDefinitions>
 
 			<ItemsControl Grid.Row="0" x:Name="Labels" ItemsSource="{Binding Labels}" Margin="0,0,0,12" HorizontalContentAlignment="Stretch">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<Border Margin="0,0,0,0" Height="35" Padding="5" MinWidth="75">
+						<Border Margin="0,0,0,0" Height="35" Padding="10,5">
 							<Border.Background>
 								<SolidColorBrush Color="{Binding Color}" />
 							</Border.Background>
-							<TextBlock x:Name="Name" Text="{Binding Name}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="{StaticResource PhoneFontSizeSmall}" />
+							<TextBlock x:Name="Name" Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="{StaticResource PhoneFontSizeSmall}" />
 						</Border>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>
@@ -104,12 +105,60 @@
 
 					<Image Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-clock-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
 
-					<TextBlock Grid.Column="1" x:Name="Due" Text="{Binding Due, StringFormat='\{0:d MMMM\} at \{0:hh\:mm tt\}'}" Margin="12" VerticalAlignment="Center" />
+					<TextBlock Grid.Column="1" Margin="12" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyLight}">
+						<TextBlock.Inlines>
+							<Run Text="Due" />
+							<Run Text="{Binding Due, StringFormat='\{0:MMMM d\} at \{0:hh\:mm tt\}'}" />
+						</TextBlock.Inlines>
+					</TextBlock>
 
 				</Grid>
 			</Border>
 
-			<Grid Grid.Row="3" Height="90">
+			<Border Grid.Row="3" BorderBrush="{StaticResource PhoneBorderBrush}" BorderThickness="0" CornerRadius="3" Margin="0,0,0,7" Background="{StaticResource PhoneChromeBrush}">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+
+					<Image Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-check-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
+
+					<Grid Grid.Column="1" Margin="12">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition />
+						</Grid.RowDefinitions>
+
+						<TextBlock Grid.Row="0" Grid.Column="0" FontFamily="{StaticResource PhoneFontFamilyLight}">
+							<TextBlock.Inlines>
+								<Run Text="{Binding Checklists.Count}" />
+								<Run Text="Checklists" />
+							</TextBlock.Inlines>
+						</TextBlock>
+						
+						<TextBlock Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{StaticResource PhoneSubtleBrush}"  FontFamily="{StaticResource PhoneFontFamilyLight}">
+							<TextBlock.Inlines>
+								<Run Text="{Binding CheckItemsChecked}" />
+								<Run Text="of" />
+								<Run Text="{Binding CheckItems}" />
+								<Run Text="complete" />
+							</TextBlock.Inlines>
+						</TextBlock>
+
+						<ProgressBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource ChecklistProgressBar}" Margin="0,10,0,0" Padding="0"
+									 Value="{Binding CheckItemsChecked}" Minimum="0" Maximum="{Binding CheckItems}" Background="#19FFFFFF" Foreground="#FF579CC4"  />
+
+					</Grid>
+
+				</Grid>
+			</Border>
+
+			<Grid Grid.Row="4" Height="90">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
 					<ColumnDefinition />

@@ -40,7 +40,7 @@ namespace trello.ViewModels
             Items.CollectionChanged += (sender, args) => NotifyOfPropertyChange(() => ItemsChecked);
         }
 
-        public ChecklistViewModel For(CheckList checkList, List<CheckItemState> checks)
+        public ChecklistViewModel For(CheckList checkList, IEnumerable<CheckItemState> checks)
         {
             Items.Clear();
 

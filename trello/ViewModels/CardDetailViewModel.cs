@@ -19,8 +19,6 @@ namespace trello.ViewModels
         private string _name;
         private string _desc;
         private string _originalDesc;
-        private int _checkItems;
-        private int _checkItemsChecked;
         private int _votes;
 
         public CardDetailViewModel(ITrelloApiSettings settings,
@@ -77,24 +75,12 @@ namespace trello.ViewModels
 
         public int CheckItems
         {
-            get { return _checkItems; }
-            set
-            {
-                if (value == _checkItems) return;
-                _checkItems = value;
-                NotifyOfPropertyChange(() => CheckItems);
-            }
+            get { return Checklists.Aggregate(0, (i, model) => i + model.Items.Count); }
         }
 
         public int CheckItemsChecked
         {
-            get { return _checkItemsChecked; }
-            set
-            {
-                if (value == _checkItemsChecked) return;
-                _checkItemsChecked = value;
-                NotifyOfPropertyChange(() => CheckItemsChecked);
-            }
+            get { return Checklists.Aggregate(0, (i, model) => i + model.ItemsChecked); }
         }
 
         public int Votes
@@ -138,9 +124,6 @@ namespace trello.ViewModels
             Id = card.Id;
             Name = card.Name;
             Desc = card.Desc;
-
-            CheckItems = card.Badges.CheckItems;
-            CheckItemsChecked = card.Badges.CheckItemsChecked;
             Votes = card.Badges.Votes;
 
             if (card.Badges.Due.HasValue)
@@ -153,7 +136,16 @@ namespace trello.ViewModels
             Labels.AddRange(card.Labels.Select(x => new LabelViewModel(x)));
 
             Checklists.Clear();
-            Checklists.AddRange(card.Checklists.Select(x => _checkListFactory().For(x, card.CheckItemStates)));
+            Checklists.AddRange(card.Checklists.Select(x =>
+            {
+                var checklist = _checkListFactory().For(x, card.CheckItemStates);
+                checklist.PropertyChanged += (sender, args) =>
+                {
+                    NotifyOfPropertyChange(() => CheckItems);
+                    NotifyOfPropertyChange(() => CheckItemsChecked);
+                };
+                return checklist;
+            }));
 
             Attachments.Clear();
             Attachments.AddRange(card.Attachments.Select(x => _attachmentFactory().For(x)));
