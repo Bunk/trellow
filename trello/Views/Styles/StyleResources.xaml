@@ -120,5 +120,12 @@
 	<Style x:Key="CheckboxChecked" TargetType="TextBlock">
 		<Setter Property="Foreground" Value="{StaticResource PhoneSubtleBrush}" />
 	</Style>
+	<Style x:Key="ComponentBorder" TargetType="Border">
+		<Setter Property="BorderBrush" Value="{StaticResource PhoneBorderBrush}" />
+		<Setter Property="Background" Value="{StaticResource PhoneChromeBrush}" />
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="CornerRadius" Value="5" />
+		<Setter Property="Margin" Value="0,0,0,7" />
+	</Style>
 
 </ResourceDictionary>

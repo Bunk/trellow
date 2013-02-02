@@ -226,6 +226,7 @@
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Assets\Icons\dark\icon-attachment-med.png" />
     <Content Include="Assets\Icons\dark\icon-cancel-med.png" />
     <Content Include="Assets\Icons\dark\icon-check-med.png" />
     <Content Include="Assets\Icons\dark\icon-clock-med.png" />

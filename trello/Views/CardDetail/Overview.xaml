@@ -15,17 +15,9 @@
     d:DesignHeight="660" d:DesignWidth="480" d:DataContext="{Binding BoardCard, Source={StaticResource SampleDataSource}}">
     
 	<ScrollViewer x:Name="LayoutRoot">
-		<Grid>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="Auto" />
-				<RowDefinition Height="*" />
-			</Grid.RowDefinitions>
+		<StackPanel>
 
-			<ItemsControl Grid.Row="0" x:Name="Labels" ItemsSource="{Binding Labels}" Margin="0,0,0,12" HorizontalContentAlignment="Stretch">
+			<ItemsControl ItemsSource="{Binding Labels}" Margin="0,0,0,12" HorizontalContentAlignment="Stretch">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
 						<Border Margin="0,0,0,0" Height="35" Padding="10,5">
@@ -43,7 +35,7 @@
 				</ItemsControl.ItemsPanel>
 			</ItemsControl>
 
-			<Border Grid.Row="1" BorderBrush="{StaticResource PhoneBorderBrush}" BorderThickness="0" CornerRadius="3" Margin="0,0,0,7" Background="{StaticResource PhoneChromeBrush}">
+			<Border Style="{StaticResource ComponentBorder}">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="Auto" />
@@ -55,7 +47,7 @@
 
 					<Image Grid.Row="0" Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-pencil-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
 
-					<TextBlock Grid.Row="0" Grid.Column="1" x:Name="Desc" Text="{Binding Desc}" TextWrapping="Wrap" Margin="12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}">
+					<TextBlock Grid.Row="0" Grid.Column="1" x:Name="Desc" Text="{Binding Desc}" TextWrapping="Wrap" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}">
 						<i:Interaction.Triggers>
 							<local:GestureServiceTrigger Gesture="Tap">
 								<micro:ActionMessage MethodName="EditDesc">
@@ -65,7 +57,7 @@
 						</i:Interaction.Triggers>
 					</TextBlock>
 
-					<TextBlock Grid.Row="0" Grid.Column="1" Text="No Description" Margin="12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}, ConverterParameter='true'}" Foreground="{StaticResource PhoneSubtleBrush}" FontStyle="Italic">
+					<TextBlock Grid.Row="0" Grid.Column="1" Text="No Description" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}, ConverterParameter='true'}" Foreground="{StaticResource PhoneSubtleBrush}" FontStyle="Italic">
 						<i:Interaction.Triggers>
 							<local:GestureServiceTrigger Gesture="Tap">
 								<micro:ActionMessage MethodName="EditDesc">
@@ -96,7 +88,7 @@
 
 			</Border>
 
-			<Border Grid.Row="2" BorderBrush="{StaticResource PhoneBorderBrush}" BorderThickness="0" CornerRadius="3" Margin="0,0,0,7" Background="{StaticResource PhoneChromeBrush}">
+			<Border BorderBrush="{StaticResource PhoneBorderBrush}" BorderThickness="0" CornerRadius="3" Margin="0,0,0,7" Background="{StaticResource PhoneChromeBrush}">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
@@ -105,7 +97,7 @@
 
 					<Image Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-clock-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
 
-					<TextBlock Grid.Column="1" Margin="12" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyLight}">
+					<TextBlock Grid.Column="1" Margin="7,12,12,12" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyLight}">
 						<TextBlock.Inlines>
 							<Run Text="Due" />
 							<Run Text="{Binding Due, StringFormat='\{0:MMMM d\} at \{0:hh\:mm tt\}'}" />
@@ -115,7 +107,7 @@
 				</Grid>
 			</Border>
 
-			<Border Grid.Row="3" BorderBrush="{StaticResource PhoneBorderBrush}" BorderThickness="0" CornerRadius="3" Margin="0,0,0,7" Background="{StaticResource PhoneChromeBrush}">
+			<Border Style="{StaticResource ComponentBorder}" Visibility="{Binding Checklists, Converter={StaticResource VisibilityConverter}}">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
@@ -124,7 +116,7 @@
 
 					<Image Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-check-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
 
-					<Grid Grid.Column="1" Margin="12">
+					<Grid Grid.Column="1" Margin="7,12,12,12">
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition />
 							<ColumnDefinition />
@@ -158,7 +150,26 @@
 				</Grid>
 			</Border>
 
-			<Grid Grid.Row="4" Height="90">
+			<Border Style="{StaticResource ComponentBorder}" Visibility="{Binding Attachments, Converter={StaticResource VisibilityConverter}}">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+
+					<Image Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-attachment-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
+
+					<TextBlock Grid.Column="1" Margin="7,12,12,12" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyLight}">
+						<TextBlock.Inlines>
+							<Run Text="{Binding Attachments.Count}" />
+							<Run Text="Attachments" />
+						</TextBlock.Inlines>
+					</TextBlock>
+
+				</Grid>
+			</Border>
+
+			<Grid Height="90">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
 					<ColumnDefinition />
@@ -191,9 +202,10 @@
 				</Button>
 			</Grid>
 
-			<Border Grid.Row="4" Margin="0,10,0,0" BorderBrush="{StaticResource PhoneBorderBrush}" BorderThickness="0,0,0,0">
+			<Border Margin="0,10,0,0" BorderBrush="{StaticResource PhoneBorderBrush}" BorderThickness="0,0,0,0">
 				<ItemsControl x:Name="Comments" Grid.Row="1" Margin="0,10,0,0" />
 			</Border>
-		</Grid>
+
+		</StackPanel>
 	</ScrollViewer>
 </UserControl>
