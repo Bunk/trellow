@@ -143,7 +143,7 @@
 						</TextBlock>
 
 						<ProgressBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource ChecklistProgressBar}" Margin="0,10,0,0" Padding="0"
-									 Value="{Binding CheckItemsChecked}" Minimum="0" Maximum="{Binding CheckItems}" Background="#19FFFFFF" Foreground="#FF579CC4"  />
+									 Value="{Binding CheckItemsChecked}" Minimum="0" Maximum="{Binding CheckItems}" />
 
 					</Grid>
 
