@@ -65,4 +65,60 @@
 		<Setter Property="TextElement.FontSize" Value="15" />
 		<Setter Property="TextElement.Foreground" Value="{StaticResource PhoneForegroundBrush}" />
 	</Style>
+	<Style x:Key="ChecklistProgressBar" TargetType="ProgressBar">
+		<Setter Property="Foreground" Value="{StaticResource PhoneAccentBrush}"/>
+		<Setter Property="Background" Value="{StaticResource PhoneProgressBarBackgroundBrush}"/>
+		<Setter Property="Maximum" Value="100"/>
+		<Setter Property="IsHitTestVisible" Value="False"/>
+		<Setter Property="Padding" Value="{StaticResource PhoneHorizontalMargin}"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ProgressBar">
+					<Grid>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Determinate"/>
+								<VisualState x:Name="Indeterminate">
+									<Storyboard Duration="00:00:00" RepeatBehavior="Forever">
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="IndeterminateRoot">
+											<DiscreteObjectKeyFrame KeyTime="0">
+												<DiscreteObjectKeyFrame.Value>
+													<Visibility>Visible</Visibility>
+												</DiscreteObjectKeyFrame.Value>
+											</DiscreteObjectKeyFrame>
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="DeterminateRoot">
+											<DiscreteObjectKeyFrame KeyTime="0">
+												<DiscreteObjectKeyFrame.Value>
+													<Visibility>Collapsed</Visibility>
+												</DiscreteObjectKeyFrame.Value>
+											</DiscreteObjectKeyFrame>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<Grid x:Name="DeterminateRoot" Margin="{TemplateBinding Padding}" Visibility="Visible">
+							<Rectangle x:Name="ProgressBarTrack" Fill="{TemplateBinding Background}" Height="7"/>
+							<Rectangle x:Name="ProgressBarIndicator" Fill="{TemplateBinding Foreground}" HorizontalAlignment="Left" Height="7"/>
+						</Grid>
+						<Border x:Name="IndeterminateRoot" Margin="{TemplateBinding Padding}" Visibility="Collapsed">
+							<Grid x:Name="SliderContainer" IsHitTestVisible="False">
+								<Rectangle x:Name="Slider0" CacheMode="BitmapCache" Fill="{TemplateBinding Foreground}" HorizontalAlignment="Left" Height="4" Width="4"/>
+								<Rectangle x:Name="Slider1" CacheMode="BitmapCache" Fill="{TemplateBinding Foreground}" HorizontalAlignment="Left" Height="4" Width="4"/>
+								<Rectangle x:Name="Slider2" CacheMode="BitmapCache" Fill="{TemplateBinding Foreground}" HorizontalAlignment="Left" Height="4" Width="4"/>
+								<Rectangle x:Name="Slider3" CacheMode="BitmapCache" Fill="{TemplateBinding Foreground}" HorizontalAlignment="Left" Height="4" Width="4"/>
+								<Rectangle x:Name="Slider4" CacheMode="BitmapCache" Fill="{TemplateBinding Foreground}" HorizontalAlignment="Left" Height="4" Width="4"/>
+							</Grid>
+						</Border>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="CheckboxChecked" TargetType="TextBlock">
+		<Setter Property="Foreground" Value="{StaticResource PhoneSubtleBrush}" />
+	</Style>
+
 </ResourceDictionary>

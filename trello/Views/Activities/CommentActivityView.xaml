@@ -15,35 +15,41 @@
 		</Grid.RowDefinitions>
 
 		<Grid Grid.Row="0">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto" />
-				<ColumnDefinition />
-			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition />
+			</Grid.RowDefinitions>
 
-			<Image Margin="0,0,15,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="55" Height="55">
-				<Image.Source>
-					<BitmapImage UriSource="{Binding Member.ImageUriLarge}" />
-				</Image.Source>
-			</Image>
+			<Grid Grid.Row="0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition />
+				</Grid.ColumnDefinitions>
 
-			<Grid Grid.Column="1" Margin="15,0,0,0">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-					<RowDefinition Height="Auto" />
-				</Grid.RowDefinitions>
+				<Image Margin="0,0,15,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="55" Height="55">
+					<Image.Source>
+						<BitmapImage UriSource="{Binding Member.ImageUriLarge}" />
+					</Image.Source>
+				</Image>
 
-				<TextBlock TextWrapping="Wrap" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="{StaticResource PhoneFontSizeMedium}" Foreground="{StaticResource PhoneForegroundBrush}" >
+				<TextBlock Grid.Column="1" TextWrapping="Wrap" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="{StaticResource PhoneFontSizeMedium}" Foreground="{StaticResource PhoneForegroundBrush}" VerticalAlignment="Center" >
 					<TextBlock.Inlines>
 						<Run Text="{Binding Member.FullName}" FontWeight="Bold" Foreground="{StaticResource PhoneAccentBrush}" />
 					</TextBlock.Inlines>
 				</TextBlock>
+			</Grid>
 
-				<Border Grid.Row="1" Background="{StaticResource PhoneChromeBrush}" Padding="10" Margin="0,10" CornerRadius="10">
-					<TextBlock Text="{Binding Text}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeMediumLarge}" />
+			<Grid Grid.Row="1" Margin="15,0,0,0">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto" />
+					<RowDefinition Height="Auto" />
+				</Grid.RowDefinitions>
+
+				<Border Grid.Row="0" Background="{StaticResource PhoneChromeBrush}" Padding="10" Margin="0,10" CornerRadius="10">
+					<TextBlock Text="{Binding Text}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeMedium}" />
 				</Border>
 
-				<StackPanel Grid.Row="2" Orientation="Horizontal">
+				<StackPanel Grid.Row="1" Orientation="Horizontal">
 					<TextBlock Text="{Binding Date, StringFormat='\{0:d MMMM\} at \{0:h\:mm tt\}'}" FontFamily="{StaticResource PhoneFontFamilyLight}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeSmall}" />
 					<TextBlock Visibility="{Binding LastEditedDate, Converter={StaticResource VisibilityConverter}}" FontFamily="{StaticResource PhoneFontFamilyLight}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeSmall}">
 						<TextBlock.Inlines>

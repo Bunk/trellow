@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Linq;
-using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using JetBrains.Annotations;
-using Telerik.Windows.Controls;
+using Microsoft.Phone.Controls;
 using trello.ViewModels.Activities;
 using trellow.api;
 using trellow.api.Models;
-using GestureEventArgs = Microsoft.Phone.Controls.GestureEventArgs;
 
 namespace trello.ViewModels
 {
@@ -25,7 +23,8 @@ namespace trello.ViewModels
         private int _checkItemsChecked;
         private int _votes;
 
-        public CardDetailViewModel(ITrelloApiSettings settings, INavigationService navigation,
+        public CardDetailViewModel(ITrelloApiSettings settings,
+                                   INavigationService navigation,
                                    Func<ChecklistViewModel> checkListFactory,
                                    Func<AttachmentViewModel> attachmentFactory) : base(settings, navigation)
         {
@@ -36,6 +35,7 @@ namespace trello.ViewModels
             Attachments = new BindableCollection<AttachmentViewModel>();
             Members = new BindableCollection<MemberViewModel>();
             Activities = new BindableCollection<ActivityViewModel>();
+            Comments = new BindableCollection<ActivityViewModel>();
         }
 
         public string Id { get; set; }
@@ -50,6 +50,8 @@ namespace trello.ViewModels
                 NotifyOfPropertyChange(() => Name);
             }
         }
+
+        public Uri ProfileImageLarge { get; set; }
 
         public string Desc
         {
@@ -116,7 +118,9 @@ namespace trello.ViewModels
 
         public IObservableCollection<MemberViewModel> Members { get; set; }
 
-        public IObservableCollection<ActivityViewModel> Activities { get; set; } 
+        public IObservableCollection<ActivityViewModel> Activities { get; set; }
+
+        public IObservableCollection<ActivityViewModel> Comments { get; set; }
 
         public bool EditingDesc
         {
@@ -149,7 +153,7 @@ namespace trello.ViewModels
             Labels.AddRange(card.Labels.Select(x => new LabelViewModel(x)));
 
             Checklists.Clear();
-            Checklists.AddRange(card.Checklists.Select(x => _checkListFactory().For(x)));
+            Checklists.AddRange(card.Checklists.Select(x => _checkListFactory().For(x, card.CheckItemStates)));
 
             Attachments.Clear();
             Attachments.AddRange(card.Attachments.Select(x => _attachmentFactory().For(x)));
@@ -159,6 +163,9 @@ namespace trello.ViewModels
 
             Activities.Clear();
             Activities.AddRange(card.Actions.Select(ActivityViewModel.For));
+
+            Comments.Clear();
+            Comments.AddRange(card.Actions.Where(c => c.Type == ActivityType.CommentCard).Select(ActivityViewModel.For));
 
             if (!string.IsNullOrWhiteSpace(card.IdAttachmentCover))
             {
@@ -224,12 +231,10 @@ namespace trello.ViewModels
 
         public void RemoveAttachment()
         {
-            
         }
 
         public void AddAttachment()
         {
-            
         }
     }
 }

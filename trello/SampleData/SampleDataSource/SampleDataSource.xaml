@@ -200,39 +200,48 @@
         <SampleData:LabelsItem1 Color="#FFFFFFB3" Name="Nam" />
         <SampleData:LabelsItem1 Color="#FFBEBADA" Name="Aliquam" />
         <SampleData:LabelsItem1 Color="#FFFB8072" Name="Sed" />
-        <SampleData:LabelsItem1 Color="#FF80B1D3" Name="Class" />
-        <SampleData:LabelsItem1 Color="#FFFDB462" Name="Cras" />
-        <SampleData:LabelsItem1 Color="#FFB3DE69" Name="Dis" />
-        <SampleData:LabelsItem1 Color="#FFFCCDE5" Name="Praesent" />
-        <SampleData:LabelsItem1 Color="#FFD9D9D9" Name="Aenean" />
-        <SampleData:LabelsItem1 Color="#FFBC80BD" Name="Integer" />
       </SampleData:BoardCard.Labels>
       <SampleData:BoardCard.Checklists>
-        <SampleData:ChecklistsItem Name="Nam cras aliquam maecenas">
+        <SampleData:ChecklistsItem Name="Nam sed" ItemsChecked="7">
           <SampleData:ChecklistsItem.Items>
             <SampleData:ItemsItem Checked="True" Name="Class cras maecenas curae donec nam praesent aliquam" />
             <SampleData:ItemsItem Checked="False" Name="Duis aenean mauris etiam nunc integer nullam aptent auctor accumsan congue sed" />
             <SampleData:ItemsItem Checked="True" Name="Dis est hac cursus dictum leo quisque amet bibendum dictumst" />
             <SampleData:ItemsItem Checked="False" Name="Eleifend fusce lorem facilisi morbi mus faucibus habitant vivamus nec aliquam" />
             <SampleData:ItemsItem Checked="True" Name="Non per ante nulla aliquet inceptos lectus sed arcu" />
+            <SampleData:ItemsItem Checked="True" Name="Aliquam class maecenas praesent nam accumsan sed bibendum cras dis" />
+            <SampleData:ItemsItem Checked="False" Name="Dictumst integer quisque vivamus eleifend est hac aenean leo mauris mus" />
+            <SampleData:ItemsItem Checked="True" Name="Facilisi nec faucibus habitant duis nunc curae nullam donec etiam" />
+            <SampleData:ItemsItem Checked="False" Name="Amet inceptos non aliquam ante aptent fusce auctor per aliquet sed" />
+            <SampleData:ItemsItem Checked="True" Name="Lorem morbi blandit sem congue interdum sit vel arcu" />
           </SampleData:ChecklistsItem.Items>
         </SampleData:ChecklistsItem>
-        <SampleData:ChecklistsItem Name="Class sed praesent">
+        <SampleData:ChecklistsItem Name="Dis est hac" ItemsChecked="9">
           <SampleData:ChecklistsItem.Items>
             <SampleData:ItemsItem Checked="False" Name="Interdum lobortis libero nascetur blandit proin" />
             <SampleData:ItemsItem Checked="True" Name="Sem diam commodo augue eget ligula conubia" />
             <SampleData:ItemsItem Checked="False" Name="Elit litora sit pharetra dolor enim luctus cubilia" />
             <SampleData:ItemsItem Checked="True" Name="Dapibus erat fames felis vel placerat egestas nam euismod sed eros" />
             <SampleData:ItemsItem Checked="False" Name="Nibh feugiat pulvinar sagittis gravida magnis dis senectus sociosqu iaculis est nisi" />
+            <SampleData:ItemsItem Checked="False" Name="Commodo nulla diam conubia lobortis proin nascetur" />
+            <SampleData:ItemsItem Checked="True" Name="Pharetra placerat cubilia dapibus eget egestas euismod cursus feugiat dictum pulvinar" />
+            <SampleData:ItemsItem Checked="False" Name="Gravida lectus iaculis nam sed sagittis" />
+            <SampleData:ItemsItem Checked="True" Name="Senectus augue lacinia elit sociosqu libero enim erat dolor dis laoreet" />
+            <SampleData:ItemsItem Checked="False" Name="Suscipit ligula fames torquent natoque litora felis posuere ipsum ultrices potenti luctus" />
           </SampleData:ChecklistsItem.Items>
         </SampleData:ChecklistsItem>
-        <SampleData:ChecklistsItem Name="Duis dis accumsan integer">
+        <SampleData:ChecklistsItem Name="Leo mus nec" ItemsChecked="5">
           <SampleData:ChecklistsItem.Items>
             <SampleData:ItemsItem Checked="True" Name="Suscipit hac ipsum lacinia mattis nisl torquent mauris" />
             <SampleData:ItemsItem Checked="False" Name="Nunc justo mollis odio laoreet leo lacus natoque lorem orci" />
             <SampleData:ItemsItem Checked="True" Name="Mus ultrices pede vehicula magna volutpat massa posuere" />
             <SampleData:ItemsItem Checked="False" Name="Metus quam quis morbi montes maecenas nostra praesent ornare" />
             <SampleData:ItemsItem Checked="True" Name="Urna platea nec non accumsan bibendum" />
+            <SampleData:ItemsItem Checked="True" Name="Magnis eros justo vehicula volutpat lacus mattis lorem pretium magna massa rhoncus" />
+            <SampleData:ItemsItem Checked="False" Name="Metus sodales viverra est nibh morbi mauris" />
+            <SampleData:ItemsItem Checked="True" Name="Maecenas aliquam hac integer nisi nisl leo praesent accumsan" />
+            <SampleData:ItemsItem Checked="False" Name="Neque nunc mollis bibendum mus dictumst nec eleifend montes quisque odio" />
+            <SampleData:ItemsItem Checked="True" Name="Vivamus aliquam nostra non netus orci aliquet nulla per" />
           </SampleData:ChecklistsItem.Items>
         </SampleData:ChecklistsItem>
       </SampleData:BoardCard.Checklists>

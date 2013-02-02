@@ -41,6 +41,7 @@ namespace trellow.api.Data.Services
                                              "createCard,deleteAttachmentFromCard,removeChecklistFromCard,removeMemberFromCard")
                     .AddParameter("actions_limit", "50")
                     .AddParameter("checklists", "all")
+                    .AddParameter("checkItemStates", "true")
                     .AddParameter("board", "true")
                     .AddParameter("list", "true"));
         }

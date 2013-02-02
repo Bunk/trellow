@@ -35,6 +35,8 @@ namespace trellow.api.Models
 
         public List<CheckList> Checklists { get; set; }
 
+        public List<CheckItemState> CheckItemStates { get; set; }
+
         public List<Activity> Actions { get; set; }
 
         public Badges Badges { get; set; }
@@ -51,6 +53,7 @@ namespace trellow.api.Models
             Members = new List<Member>();
             Attachments = new List<Attachment>();
             Checklists = new List<CheckList>();
+            CheckItemStates = new List<CheckItemState>();
             Actions = new List<Activity>();
         }
 
@@ -91,6 +94,14 @@ namespace trellow.api.Models
         {
             CheckItems = new List<CheckListItem>();
         }
+    }
+
+    // todo: This is a bug because the API doesn't return this with the CheckListItem currently
+    public class CheckItemState
+    {
+        public string IdCheckItem { get; set; }
+
+        public CheckListItem.CheckState State { get; set; }
     }
 
     public class CheckListItem

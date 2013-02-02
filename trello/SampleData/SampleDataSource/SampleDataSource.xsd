@@ -100,7 +100,8 @@
     <xs:sequence>
       <xs:element name="Items" type="tns:Items" />
     </xs:sequence>
-    <xs:attribute name="Name" type="xs:string" />
+    <xs:attribute blend:FormatParameters="4,3" name="Name" type="xs:string" />
+    <xs:attribute blend:FormatParameters="1" name="ItemsChecked" type="xs:double" />
   </xs:complexType>
   <xs:complexType name="Items">
     <xs:sequence>

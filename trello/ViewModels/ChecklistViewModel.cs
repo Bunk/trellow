@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using trellow.api;
@@ -9,37 +10,61 @@ namespace trello.ViewModels
     public class ChecklistViewModel : ViewModelBase
     {
         private readonly Func<ChecklistItemViewModel> _itemFactory;
+        
+        private string _name;
 
         public string Id { get; set; }
 
-        public string IdBoard { get; set; }
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (value == _name) return;
+                _name = value;
+                NotifyOfPropertyChange(() => Name);
+            }
+        }
 
-        public string Name { get; set; }
+        public IObservableCollection<ChecklistItemViewModel> Items { get; set; }
 
-        public IObservableCollection<ChecklistItemViewModel> Items { get; set; } 
+        public int ItemsChecked
+        {
+            get { return Items.Count(i => i.Checked); }
+        }
 
         public ChecklistViewModel(ITrelloApiSettings settings, INavigationService navigation, Func<ChecklistItemViewModel> itemFactory) : base(settings, navigation)
         {
             _itemFactory = itemFactory;
             Items = new BindableCollection<ChecklistItemViewModel>();
+            Items.CollectionChanged += (sender, args) => NotifyOfPropertyChange(() => ItemsChecked);
         }
 
-        public ChecklistViewModel For(CheckList checkList)
+        public ChecklistViewModel For(CheckList checkList, List<CheckItemState> checks)
         {
             Items.Clear();
 
             Id = checkList.Id;
-            IdBoard = checkList.IdBoard;
             Name = checkList.Name;
 
-            Items.AddRange(checkList.CheckItems.Select(x => _itemFactory().For(x)));
+            Items.AddRange(checkList.CheckItems.Select(x =>
+            {
+                var item = _itemFactory().For(x);
+                
+                // todo: This is the way that the Trello API seems to work currently--hopefully they fix it
+                if (checks.Any(c => c.IdCheckItem == item.Id && c.State == CheckListItem.CheckState.Complete))
+                    item.Checked = true;
+
+                item.PropertyChanged += (sender, args) => CheckItemChanged();
+                return item;
+            }));
 
             return this;
         }
 
-        public void Toggle(ChecklistItemViewModel item)
+        public void CheckItemChanged()
         {
-            item.Checked = !item.Checked;
+            NotifyOfPropertyChange(() => ItemsChecked);
         }
     }
 
@@ -78,6 +103,7 @@ namespace trello.ViewModels
             {
                 if (value.Equals(_checked)) return;
                 _checked = value;
+
                 NotifyOfPropertyChange(() => Checked);
             }
         }
@@ -89,6 +115,11 @@ namespace trello.ViewModels
             Checked = item.State == CheckListItem.CheckState.Complete;
 
             return this;
+        }
+
+        public void Toggle()
+        {
+            Checked = !Checked;
         }
     }
 }

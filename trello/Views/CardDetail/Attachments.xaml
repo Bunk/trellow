@@ -34,7 +34,7 @@
 							</local:GestureServiceTrigger>
 						</i:Interaction.Triggers>
 
-						<Border Grid.Column="0" Width="90" Height="70" Background="{StaticResource PhoneChromeBrush}" CornerRadius="5" BorderBrush="{StaticResource PhoneChromeBrush}" BorderThickness="10" HorizontalAlignment="Left">
+						<Border Grid.Column="0" Width="90" Height="70" Background="TRANSPARENT" CornerRadius="5" BorderBrush="Transparent" BorderThickness="10" HorizontalAlignment="Left">
 							<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
 								<TextBlock Text="{Binding Extension}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeMedium}" Foreground="{StaticResource PhoneSubtleBrush}" Visibility="{Binding PreviewUri, Converter={StaticResource VisibilityConverter}, ConverterParameter='true'}" />
 								<Image Width="70" Height="50" Visibility="{Binding PreviewUri, Converter={StaticResource VisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center">

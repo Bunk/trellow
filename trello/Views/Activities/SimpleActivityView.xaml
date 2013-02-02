@@ -12,7 +12,7 @@
     <Grid x:Name="LayoutRoot" Background="Transparent" Margin="0,15">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
 		</Grid.RowDefinitions>
 
 		<Grid Grid.Row="0">
@@ -34,7 +34,7 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-				<TextBlock TextWrapping="Wrap" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="{StaticResource PhoneFontSizeMedium}" Foreground="{StaticResource PhoneForegroundBrush}" >
+				<TextBlock TextWrapping="Wrap" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeMedium}" Foreground="{StaticResource PhoneForegroundBrush}" >
 					<TextBlock.Inlines>
 						<Run Text="{Binding Member.FullName}" FontWeight="Bold" Foreground="{StaticResource PhoneAccentBrush}" />
 						<Run Text="{Binding Action}" />

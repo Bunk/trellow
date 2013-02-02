@@ -803,6 +803,25 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				}
 			}
 		}
+
+		private double _ItemsChecked = 0;
+
+		public double ItemsChecked
+		{
+			get
+			{
+				return this._ItemsChecked;
+			}
+
+			set
+			{
+				if (this._ItemsChecked != value)
+				{
+					this._ItemsChecked = value;
+					this.OnPropertyChanged("ItemsChecked");
+				}
+			}
+		}
 	}
 
 	public class Items : System.Collections.ObjectModel.ObservableCollection<ItemsItem>
@@ -1565,25 +1584,6 @@ namespace Expression.Blend.SampleData.SampleDataSource
 			}
 		}
 
-		private string _Text = string.Empty;
-
-		public string Text
-		{
-			get
-			{
-				return this._Text;
-			}
-
-			set
-			{
-				if (this._Text != value)
-				{
-					this._Text = value;
-					this.OnPropertyChanged("Text");
-				}
-			}
-		}
-
 		private Member1 _Member = new Member1();
 
 		public Member1 Member
@@ -1599,6 +1599,25 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				{
 					this._Member = value;
 					this.OnPropertyChanged("Member");
+				}
+			}
+		}
+
+		private string _Text = string.Empty;
+
+		public string Text
+		{
+			get
+			{
+				return this._Text;
+			}
+
+			set
+			{
+				if (this._Text != value)
+				{
+					this._Text = value;
+					this.OnPropertyChanged("Text");
 				}
 			}
 		}
