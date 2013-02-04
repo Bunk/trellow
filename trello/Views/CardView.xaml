@@ -57,53 +57,57 @@
 						<ColumnDefinition Width="Auto" />
 					</Grid.ColumnDefinitions>
 
-					<telerikPrimitives:RadWrapPanel Margin="10,0,10,5">
+					<telerikPrimitives:RadWrapPanel Margin="10,0">
 						<!-- Due Dates -->
 						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Due, Converter={StaticResource VisibilityConverter}}" Background="{Binding Due, Converter={StaticResource DueDateConverter}}">
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-								<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-clock.png" Margin="0,1,3,0" />
-								<TextBlock Text="{Binding Due, StringFormat='\{0:d MMM\}'}" />
+								<Image Height="25" Width="25" Source="/Assets/Icons/dark/icon-clock-med.png" Margin="0,1,3,0" VerticalAlignment="Center" />
+								<TextBlock Text="{Binding Due, StringFormat='\{0:d MMM\}'}" VerticalAlignment="Center" />
 							</StackPanel>
 						</Border>
 						<!-- Votes -->
 						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Votes, Converter={StaticResource VisibilityConverter}}">
 							<StackPanel Orientation="Horizontal">
-								<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-vote.png" Margin="0,1,3,0" />
-								<TextBlock Text="">
-									<Run Text="{Binding Votes}"/>
-									<Run Text="votes"/>
+								<Image Height="25" Width="25" Source="/Assets/Icons/dark/icon-vote.png" Margin="0,1,3,0" />
+								<TextBlock VerticalAlignment="Center">
+									<TextBlock.Inlines>
+										<Run Text="{Binding Votes}"/>
+										<Run Text="votes"/>
+									</TextBlock.Inlines>
 								</TextBlock>
 							</StackPanel>
 						</Border>
 						<!-- Checklists -->
 						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding CheckItems, Converter={StaticResource VisibilityConverter}}">
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-								<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-list.png" Margin="0,1,3,0" />
-								<TextBlock Text="">
-									<Run Text="{Binding CheckItemsChecked}"/>
-									<Run Text="/"/>
-									<Run Text="{Binding CheckItems}"/>
+								<Image Height="25" Width="25" Source="/Assets/Icons/dark/icon-check-med.png" Margin="0,1,3,0" VerticalAlignment="Center" />
+								<TextBlock VerticalAlignment="Center">
+									<TextBlock.Inlines>
+										<Run Text="{Binding CheckItemsChecked}"/>
+										<Run Text="/"/>
+										<Run Text="{Binding CheckItems}"/>
+									</TextBlock.Inlines>
 								</TextBlock>
 							</StackPanel>
 						</Border>
 						<!-- Comments -->
 						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Comments, Converter={StaticResource VisibilityConverter}}">
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-								<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-comment.png" Margin="0,1,3,0" />
-								<TextBlock Text="{Binding Comments}" />
+								<Image Height="25" Width="25" Source="/Assets/Icons/dark/icon-comment.png" Margin="0,1,3,0" VerticalAlignment="Center" />
+								<TextBlock Text="{Binding Comments}" VerticalAlignment="Center" />
 							</StackPanel>
 						</Border>
 						<!-- Attachments -->
-						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Attachments, Converter={StaticResource VisibilityConverter}}">
-							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-								<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-attachment.png" Margin="0,1,3,0" />
-								<TextBlock Text="{Binding Attachments}" />
+						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Attachments, Converter={StaticResource VisibilityConverter}}" Padding="0,3,5,3">
+							<StackPanel Orientation="Horizontal">
+								<Image Grid.Column="0" Height="25" Width="25" Source="/Assets/Icons/dark/icon-attachment-med.png" VerticalAlignment="Center" Margin="0,1,3,0" />
+								<TextBlock Grid.Column="1" Text="{Binding Attachments}" VerticalAlignment="Center" />
 							</StackPanel>
 						</Border>
 						<!-- Description -->
-						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}">
+						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}" Padding="0">
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-								<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-pencil.png" Margin="0,1,0,0" />
+								<Image Height="20" Width="20" Source="/Assets/Icons/dark/icon-pencil-med.png" Margin="0,1,0,0" />
 							</StackPanel>
 						</Border>
 					</telerikPrimitives:RadWrapPanel>
@@ -112,7 +116,7 @@
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
 								<Border Background="Transparent" Margin="0,0,5,0" Width="50" Height="50" BorderThickness="0">
-									<Image Width="50" Height="50">
+									<Image Width="40" Height="40">
 										<Image.Source>
 											<BitmapImage UriSource="{Binding ImageUriLarge}" />
 										</Image.Source>
