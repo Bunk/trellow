@@ -15,41 +15,42 @@
     d:DesignHeight="480" d:DesignWidth="480">
     
     <Grid x:Name="LayoutRoot" Background="Transparent" Margin="12,0" d:DataContext="{Binding BoardCard, Source={StaticResource SampleDataSource}}">
-		<ListBox Grid.Row="0" ItemsSource="{Binding Members}">
+		<ListBox Grid.Row="0" ItemsSource="{Binding Members}" HorizontalContentAlignment="Stretch">
 			<ListBox.ItemTemplate>
 				<DataTemplate>
-					<Grid Margin="0,25">
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="Auto" />
-							<ColumnDefinition Width="*" />
-						</Grid.ColumnDefinitions>
+					<Border Margin="0,10" Padding="15" Background="{StaticResource PhoneChromeBrush}">
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="*" />
+							</Grid.ColumnDefinitions>
 
-						<Border Margin="15,0" VerticalAlignment="Top">
-							<Image Grid.Column="0" Width="100" Height="100">
-								<Image.Source>
-									<BitmapImage UriSource="{Binding ImageUriLarge}" />
-								</Image.Source>
-							</Image>
-						</Border>
+							<Border VerticalAlignment="Top" Background="Transparent">
+								<Image Grid.Column="0" Width="50" Height="50">
+									<Image.Source>
+										<BitmapImage UriSource="{Binding ImageUriLarge}" />
+									</Image.Source>
+								</Image>
+							</Border>
 
-						<StackPanel Grid.Column="1">
-							<ContentControl FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-								<StackPanel Orientation="Horizontal">
-									<TextBlock Text="{Binding FullName}" />
-									<TextBlock Text="(" Margin="5,0,0,0" />
-									<TextBlock Text="@" Foreground="{StaticResource PhoneAccentBrush}" />
-									<TextBlock Text="{Binding Username}" Foreground="{StaticResource PhoneAccentBrush}" />
-									<TextBlock Text=")" />
-								</StackPanel>
-							</ContentControl>
-							<ScrollViewer MaxHeight="125" Margin="0,15,0,0">
-								<TextBlock Text="{Binding Bio}" TextWrapping="Wrap" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilySemiLight}" />
-							</ScrollViewer>
-						</StackPanel>
+							<TextBlock Grid.Column="1" Margin="20,0,0,0" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeMedium}" VerticalAlignment="Center">
+								<TextBlock.Inlines>
+									<Run Text="{Binding FullName}" Foreground="{StaticResource PhoneAccentBrush}" />
+									<Run Text="(" />
+									<Run Text="{Binding Username}" />
+									<Run Text=")" />
+								</TextBlock.Inlines>
+							</TextBlock>
 
-					</Grid>
+						</Grid>
+					</Border>
 				</DataTemplate>
 			</ListBox.ItemTemplate>
+			<ListBox.ItemContainerStyle>
+				<Style TargetType="ListBoxItem">
+					<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+				</Style>
+			</ListBox.ItemContainerStyle>
 		</ListBox>
     </Grid>
 </UserControl>

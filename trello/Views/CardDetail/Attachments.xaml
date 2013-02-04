@@ -51,7 +51,7 @@
 								<RowDefinition Height="Auto" />
 							</Grid.RowDefinitions>
 
-							<TextBlock Grid.Row="0" Text="{Binding Name}" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap" Foreground="{StaticResource PhoneForegroundBrush}"  />
+							<TextBlock Grid.Row="0" Text="{Binding Name}" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap" Foreground="{StaticResource PhoneForegroundBrush}"  />
 
 							<TextBlock Grid.Row="1" Foreground="{StaticResource PhoneSubtleBrush}">
 								<TextBlock.Inlines>

@@ -32,9 +32,9 @@
 					</Image.Source>
 				</Image>
 
-				<TextBlock Grid.Column="1" TextWrapping="Wrap" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="{StaticResource PhoneFontSizeMedium}" Foreground="{StaticResource PhoneForegroundBrush}" VerticalAlignment="Center" >
+				<TextBlock Grid.Column="1" TextWrapping="Wrap" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeMedium}" VerticalAlignment="Center" >
 					<TextBlock.Inlines>
-						<Run Text="{Binding Member.FullName}" FontWeight="Bold" Foreground="{StaticResource PhoneAccentBrush}" />
+						<Run Text="{Binding Member.FullName}" Foreground="{StaticResource PhoneAccentBrush}" />
 					</TextBlock.Inlines>
 				</TextBlock>
 			</Grid>
@@ -45,7 +45,7 @@
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
-				<Border Grid.Row="0" Background="{StaticResource PhoneChromeBrush}" Padding="10" Margin="0,10" CornerRadius="10">
+				<Border Grid.Row="0" Background="{StaticResource PhoneChromeBrush}" Padding="10" Margin="10,10,0,10" CornerRadius="0">
 					<TextBlock Text="{Binding Text}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeMedium}" />
 				</Border>
 

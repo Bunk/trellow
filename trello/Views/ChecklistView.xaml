@@ -39,7 +39,7 @@
 				</Grid.ColumnDefinitions>
 
 				<TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Name}" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeLarge}" />
-				<TextBlock Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{StaticResource PhoneSubtleBrush}">
+				<TextBlock Grid.Row="0" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="{StaticResource PhoneSubtleBrush}">
 					<TextBlock.Inlines>
 						<Run Text="{Binding ItemsChecked}" />
 						<Run Text="of" />
