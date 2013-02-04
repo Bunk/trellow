@@ -191,6 +191,7 @@
       <DependentUpon>ChecklistView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Converters\BitmapImageConverter.cs" />
+    <Compile Include="Views\Converters\DueDateColorConverter.cs" />
     <Compile Include="Views\Converters\StyleConverter.cs" />
     <Compile Include="Views\Converters\CaseConverter.cs" />
     <Compile Include="Views\Converters\BytesStringConverter.cs" />

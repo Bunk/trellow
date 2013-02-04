@@ -58,6 +58,13 @@
 					</Grid.ColumnDefinitions>
 
 					<telerikPrimitives:RadWrapPanel Margin="10,0,10,5">
+						<!-- Due Dates -->
+						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Due, Converter={StaticResource VisibilityConverter}}" Background="{Binding Due, Converter={StaticResource DueDateConverter}}">
+							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+								<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-clock.png" Margin="0,1,3,0" />
+								<TextBlock Text="{Binding Due, StringFormat='\{0:d MMM\}'}" />
+							</StackPanel>
+						</Border>
 						<!-- Votes -->
 						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Votes, Converter={StaticResource VisibilityConverter}}">
 							<StackPanel Orientation="Horizontal">
@@ -77,13 +84,6 @@
 									<Run Text="/"/>
 									<Run Text="{Binding CheckItems}"/>
 								</TextBlock>
-							</StackPanel>
-						</Border>
-						<!-- Due Dates -->
-						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Due, Converter={StaticResource VisibilityConverter}}">
-							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-								<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-clock.png" Margin="0,1,3,0" />
-								<TextBlock Text="{Binding Due, StringFormat='\{0:d MMM\}'}" />
 							</StackPanel>
 						</Border>
 						<!-- Comments -->

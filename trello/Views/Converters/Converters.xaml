@@ -7,5 +7,6 @@
 	<converters:BitmapImageConverter x:Key="BitmapConverter" />
 	<converters:CaseConverter x:Key="CaseConverter" />
 	<converters:BytesStringConverter x:Key="BytesStringConverter" />
+	<converters:DueDateColorConverter x:Key="DueDateConverter" />
 
 </ResourceDictionary>
