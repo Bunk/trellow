@@ -51,8 +51,13 @@
 					<TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="Segoe WP Light" Foreground="{StaticResource PhoneForegroundBrush}" TextWrapping="Wrap" />
 				</Grid>
 								
-				<Grid Grid.Row="3" Margin="10,5">
-					<StackPanel Orientation="Horizontal">
+				<Grid Grid.Row="3" Margin="0,5,0,0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+
+					<telerikPrimitives:RadWrapPanel Margin="10,0,10,5">
 						<!-- Votes -->
 						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Votes, Converter={StaticResource VisibilityConverter}}">
 							<StackPanel Orientation="Horizontal">
@@ -101,10 +106,28 @@
 								<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-pencil.png" Margin="0,1,0,0" />
 							</StackPanel>
 						</Border>
-					</StackPanel>
-				</Grid>
+					</telerikPrimitives:RadWrapPanel>
 
-				<StackPanel Grid.Row="2" Orientation="Horizontal"/>
+					<ItemsControl ItemsSource="{Binding Members}" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+						<ItemsControl.ItemTemplate>
+							<DataTemplate>
+								<Border Background="Transparent" Margin="0,0,5,0" Width="50" Height="50" BorderThickness="0">
+									<Image Width="50" Height="50">
+										<Image.Source>
+											<BitmapImage UriSource="{Binding ImageUriLarge}" />
+										</Image.Source>
+									</Image>
+								</Border>
+							</DataTemplate>
+						</ItemsControl.ItemTemplate>
+						<ItemsControl.ItemsPanel>
+							<ItemsPanelTemplate>
+								<telerikPrimitives:RadWrapPanel FlowDirection="RightToLeft" />
+							</ItemsPanelTemplate>
+						</ItemsControl.ItemsPanel>
+					</ItemsControl>
+
+				</Grid>
 
 			</Grid>
         </Border>

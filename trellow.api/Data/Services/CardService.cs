@@ -17,7 +17,7 @@ namespace trellow.api.Data.Services
         {
             return Processor.Execute<List<Card>>(
                 Request("members/my/cards/open")
-                    .AddParameter("members", "false"));
+                    .AddParameter("members", "true"));
         }
 
         public Task<May<List<Card>>> InList(string listId)
@@ -25,6 +25,7 @@ namespace trellow.api.Data.Services
             return Processor.Execute<List<Card>>(
                 Request("lists/{id}/cards")
                     .AddUrlSegment("id", listId)
+                    .AddParameter("members", "true")
                     .AddParameter("attachments", "true")
                     .AddParameter("attachments_fields", "previews"));
         }

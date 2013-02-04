@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.IsolatedStorage;
@@ -51,14 +52,21 @@ namespace trello.Services.Cache
         {
             using (var iso = IsolatedStorageFile.GetUserStoreForApplication())
             {
-                if (iso.FileExists(Filename))
+                try
                 {
-                    iso.DeleteFile(Filename);
-                }
+                    if (iso.FileExists(Filename))
+                    {
+                        iso.DeleteFile(Filename);
+                    }
 
-                using (var stream = iso.CreateFile(Filename))
+                    using (var stream = iso.CreateFile(Filename))
+                    {
+                        TypeSerializer.SerializeToStream(Cache, stream);
+                    }
+                }
+                catch (Exception ex)
                 {
-                    TypeSerializer.SerializeToStream(Cache, stream);
+                    // todo: Log this somewhere...
                 }
             }
         }
