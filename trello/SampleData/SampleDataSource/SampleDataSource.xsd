@@ -74,7 +74,7 @@
       <xs:element name="Members" type="tns:Members1" />
       <xs:element name="Activities" type="tns:Activities" />
     </xs:sequence>
-    <xs:attribute name="Name" type="xs:double" />
+    <xs:attribute blend:FormatParameters="16,8" name="Name" type="xs:string" />
     <xs:attribute name="Votes" type="xs:double" />
     <xs:attribute name="CheckItems" type="xs:double" />
     <xs:attribute blend:FormatParameters="1" name="CheckItemsChecked" type="xs:double" />

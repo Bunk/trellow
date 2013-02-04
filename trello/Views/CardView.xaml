@@ -26,7 +26,7 @@
 					<ItemsControl x:Name="Labels" ItemsSource="{Binding Labels}" HorizontalContentAlignment="Stretch">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
-								<Border Height="10" Padding="10,5">
+								<Border Height="7" Padding="10,5">
 									<Border.Background>
 										<SolidColorBrush Color="{Binding Color}" />
 									</Border.Background>
@@ -89,7 +89,7 @@
 							</StackPanel>
 						</Border>
 						<!-- Attachments -->
-						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Attachments.Count, Converter={StaticResource VisibilityConverter}}">
+						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Attachments, Converter={StaticResource VisibilityConverter}}">
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 								<Image Height="18" Width="18" Source="/Assets/Icons/dark/icon-attachment.png" Margin="0,1,3,0" />
 								<TextBlock Text="{Binding Attachments}" />

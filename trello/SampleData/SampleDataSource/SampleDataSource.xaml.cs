@@ -570,9 +570,9 @@ namespace Expression.Blend.SampleData.SampleDataSource
 			}
 		}
 
-		private double _Name = 0;
+		private string _Name = string.Empty;
 
-		public double Name
+		public string Name
 		{
 			get
 			{

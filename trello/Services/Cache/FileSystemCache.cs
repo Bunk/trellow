@@ -52,7 +52,9 @@ namespace trello.Services.Cache
             using (var iso = IsolatedStorageFile.GetUserStoreForApplication())
             {
                 if (iso.FileExists(Filename))
+                {
                     iso.DeleteFile(Filename);
+                }
 
                 using (var stream = iso.CreateFile(Filename))
                 {
