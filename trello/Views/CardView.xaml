@@ -105,7 +105,7 @@
 							</StackPanel>
 						</Border>
 						<!-- Description -->
-						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}" Padding="0">
+						<Border Style="{StaticResource BadgeBorder}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}" Padding="0" Width="27">
 							<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 								<Image Height="20" Width="20" Source="/Assets/Icons/dark/icon-pencil-med.png" Margin="0,1,0,0" />
 							</StackPanel>
@@ -115,7 +115,7 @@
 					<ItemsControl ItemsSource="{Binding Members}" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right">
 						<ItemsControl.ItemTemplate>
 							<DataTemplate>
-								<Border Background="Transparent" Margin="0,0,5,0" Width="50" Height="50" BorderThickness="0">
+								<Border Background="Transparent" Margin="0,0,1,0" Width="50" Height="50" BorderThickness="0">
 									<Image Width="40" Height="40">
 										<Image.Source>
 											<BitmapImage UriSource="{Binding ImageUriLarge}" />
