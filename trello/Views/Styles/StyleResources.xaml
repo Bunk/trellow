@@ -61,7 +61,7 @@
 		<Setter Property="Padding" Value="0,0,5,0" />
 		<!--<Setter Property="Background" Value="#FF164B69"/>-->
 		<Setter Property="Margin" Value="0,0,10,10" />
-		<Setter Property="Background" Value="{StaticResource PhoneAccentBrush}"/>
+		<Setter Property="Background" Value="{StaticResource PhoneProgressBarBackgroundBrush}"/>
 		<Setter Property="TextElement.FontSize" Value="15" />
 		<Setter Property="TextElement.Foreground" Value="{StaticResource PhoneForegroundBrush}" />
 		<Setter Property="Height" Value="28" />

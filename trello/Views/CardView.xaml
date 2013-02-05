@@ -42,13 +42,13 @@
 				</Grid>
 
 				<Grid Grid.Row="1" Margin="0">
-					<Image x:Name="CoverUri" Source="{Binding CoverUri}" HorizontalAlignment="Center" VerticalAlignment="Center"
+					<Image Source="{Binding CoverUri}" HorizontalAlignment="Center" VerticalAlignment="Center"
 						Height="{Binding CoverHeight}" Width="{Binding CoverWidth}"
 						Visibility="{Binding CoverUri, Converter={StaticResource VisibilityConverter}}" />
 				</Grid>
 
 				<Grid Grid.Row="2" Margin="10,5">
-					<TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" FontFamily="Segoe WP Light" Foreground="{StaticResource PhoneForegroundBrush}" TextWrapping="Wrap" />
+					<TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" FontFamily="Segoe WP Light" Foreground="{StaticResource PhoneForegroundBrush}" TextWrapping="Wrap" />
 				</Grid>
 								
 				<Grid Grid.Row="3" Margin="0,5,0,0">

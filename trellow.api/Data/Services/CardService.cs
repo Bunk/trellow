@@ -17,7 +17,9 @@ namespace trellow.api.Data.Services
         {
             return Processor.Execute<List<Card>>(
                 Request("members/my/cards/open")
-                    .AddParameter("members", "true"));
+                    .AddParameter("members", "true")
+                    .AddParameter("attachments", "true")
+                    .AddParameter("attachments_fields", "previews"));
         }
 
         public Task<May<List<Card>>> InList(string listId)
