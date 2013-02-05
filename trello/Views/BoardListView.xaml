@@ -15,26 +15,10 @@
     d:DesignHeight="480" d:DesignWidth="480">
     
     <Grid x:Name="LayoutRoot" Background="Transparent">
-		<!--<Grid.RowDefinitions>
-			<RowDefinition Height="55" />
-			<RowDefinition />
-		</Grid.RowDefinitions>
-
-		<Grid Margin="12,0">
-			<Grid.RowDefinitions>
-				<RowDefinition />
-			</Grid.RowDefinitions>
-
-			<TextBlock VerticalAlignment="Center" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilySemiLight}">
-				<Run Text="{Binding Cards.Count}" />
-				<Run Text=" cards" />
-			</TextBlock>
-		</Grid>-->
-
+		
 		<telerikPrimitives:RadDataBoundListBox x:Name="Cards"
                                                Margin="12,0,12,0"
-                                               telerikCore:InteractionEffectManager.IsInteractionEnabled="True"
-											   micro:Message.Attach="[Event ItemTap] = [Action Open($eventArgs)]">
+                                               telerikCore:InteractionEffectManager.IsInteractionEnabled="True">
 			<telerikPrimitives:RadContextMenu.ContextMenu>
 				<telerikPrimitives:RadContextMenu x:Name="BoardsMenu">
 					<telerikPrimitives:RadContextMenuItem Content="remove" />

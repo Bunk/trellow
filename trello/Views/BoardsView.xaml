@@ -17,11 +17,6 @@
                                                Margin="12,0"
                                                telerikCore:InteractionEffectManager.IsInteractionEnabled="True" ItemsSource="{Binding Boards}"
 											   micro:Message.Attach="[Event ItemTap] = [Action Open($eventArgs)]">
-			<telerikPrimitives:RadContextMenu.ContextMenu>
-				<telerikPrimitives:RadContextMenu x:Name="BoardsMenu">
-					<telerikPrimitives:RadContextMenuItem Content="remove" />
-				</telerikPrimitives:RadContextMenu>
-			</telerikPrimitives:RadContextMenu.ContextMenu>
             <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                 <DataTemplate>
                     <Border BorderThickness="0,0,0,0" BorderBrush="#3291C8" Margin="0,15" Padding="10" Background="{StaticResource PhoneChromeBrush}">

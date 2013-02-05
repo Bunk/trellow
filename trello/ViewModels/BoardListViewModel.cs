@@ -72,17 +72,6 @@ namespace trello.ViewModels
         {
         }
 
-        public void Open(ListBoxItemTapEventArgs args)
-        {
-            var context = args.Item.DataContext as CardViewModel;
-            if (context == null)
-                return;
-
-            _navigationService.UriFor<CardDetailShellViewModel>()
-                .WithParam(x => x.Id, context.Id)
-                .Navigate();
-        }
-
         protected override void OnViewLoaded(object view)
         {
             RefreshLists();

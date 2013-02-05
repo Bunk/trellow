@@ -3,9 +3,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
 	xmlns:cm="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
 	xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
+	xmlns:triggers="clr-namespace:trello.Views.Triggers;assembly=trello"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -13,36 +15,43 @@
     d:DesignHeight="480" d:DesignWidth="480">
     
     <Grid x:Name="LayoutRoot" d:DataContext="{Binding Source={StaticResource SampleDataSource}}">
-        <telerikPrimitives:RadDataBoundListBox Margin="12,0,12,0"
-                                               telerikCore:InteractionEffectManager.IsInteractionEnabled="True" ItemsSource="{Binding Cards}"
-											   cm:Message.Attach="[Event ItemTap] = [Action Open($eventArgs)]">
-            <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
-                <DataTemplate>
-					<StackPanel Margin="0,0,0,15">
-						<Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource PhoneBorderBrush}">
-							<TextBlock Text="{Binding Key}" FontFamily="{StaticResource PhoneFontFamilyLight}" />
-						</Border>
-						<ItemsControl ItemsSource="{Binding}">
-							<ItemsControl.ItemTemplate>
-								<DataTemplate>
-									<StackPanel>
-										<ContentControl cm:View.Model="{Binding}"
-														HorizontalContentAlignment="Stretch"
-														VerticalContentAlignment="Stretch" />
-										<TextBlock HorizontalAlignment="Right" Foreground="{StaticResource PhoneSubtleBrush}" FontFamily="{StaticResource PhoneFontFamilyLight}">
-											<TextBlock.Inlines>
-												<Run Text="in" />
-												<Run Text="{Binding ListName}" FontWeight="Bold" />
-											</TextBlock.Inlines>
-										</TextBlock>
-									</StackPanel>
-								</DataTemplate>
-							</ItemsControl.ItemTemplate>
-						</ItemsControl>
-					</StackPanel>
-                </DataTemplate>
-            </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
-        </telerikPrimitives:RadDataBoundListBox>
+		
+		<ScrollViewer>
+			<ItemsControl Margin="12,0,12,0" ItemsSource="{Binding Cards}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Margin="0,0,0,15">
+							<Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource PhoneBorderBrush}">
+								<TextBlock Text="{Binding Key}" FontFamily="{StaticResource PhoneFontFamilyLight}" Foreground="{StaticResource PhoneForegroundBrush}" />
+							</Border>
+							<ItemsControl ItemsSource="{Binding}">
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<StackPanel>
+											<ContentControl cm:View.Model="{Binding}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+												<i:Interaction.Triggers>
+													<triggers:GestureServiceTrigger Gesture="Tap">
+														<cm:ActionMessage MethodName="Open">
+															<cm:Parameter Value="$eventArgs" />
+														</cm:ActionMessage>
+													</triggers:GestureServiceTrigger>
+												</i:Interaction.Triggers>
+											</ContentControl>
+											<TextBlock HorizontalAlignment="Right" Foreground="{StaticResource PhoneSubtleBrush}" FontFamily="{StaticResource PhoneFontFamilyLight}">
+												<TextBlock.Inlines>
+													<Run Text="in" />
+													<Run Text="{Binding ListName}" FontWeight="Bold" />
+												</TextBlock.Inlines>
+											</TextBlock>
+										</StackPanel>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+						</StackPanel>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
 
     </Grid>
 </UserControl>

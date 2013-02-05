@@ -7,6 +7,7 @@ namespace trello.ViewModels
 {
     public class CardViewModel : Screen
     {
+        private readonly INavigationService _navigationService;
         public string Id { get; set; }
 
         public string Name { get; set; }
@@ -39,8 +40,10 @@ namespace trello.ViewModels
 
         public IObservableCollection<LabelViewModel> Labels { get; set; }
 
-        public CardViewModel()
+        public CardViewModel(INavigationService navigationService)
         {
+            _navigationService = navigationService;
+
             Members = new BindableCollection<MemberViewModel>();
             Labels = new BindableCollection<LabelViewModel>();
         }
@@ -74,6 +77,13 @@ namespace trello.ViewModels
             Labels.AddRange(card.Labels.Select(x => new LabelViewModel(x)));
 
             return this;
+        }
+
+        public void Open()
+        {
+            _navigationService.UriFor<CardDetailShellViewModel>()
+                .WithParam(x => x.Id, Id)
+                .Navigate();
         }
     }
 
