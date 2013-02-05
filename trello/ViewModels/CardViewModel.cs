@@ -47,11 +47,14 @@ namespace trello.ViewModels
 
         public CardViewModel InitializeWith(Card card)
         {
+            if (card.Board != null)
+                BoardName = card.Board.Name;
+            if (card.List != null)
+                ListName = card.List.Name;
+
             var cover = card.Attachments.SingleOrDefault(x => x.Id == card.IdAttachmentCover);
 
             Id = card.Id;
-            BoardName = card.Board.Name;
-            ListName = card.List.Name;
             Name = card.Name;
             Desc = card.Desc;
             Due = card.Badges.Due;
