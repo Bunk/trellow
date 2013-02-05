@@ -14,22 +14,23 @@ namespace trellow.api.Models
 
         public string Bio { get; set; }
 
-        public string AvatarSource { get; set; }
-
         public string AvatarHash { get; set; }
-
-        public string GravatarHash { get; set; }
-
-        public string MemberType { get; set; }
 
         public string Status { get; set; }
 
-        public bool Confirmed { get; set; }
+        public List<Board> Boards { get; set; }
+
+        public List<List> Lists { get; set; }
+
+        public List<Card> Cards { get; set; }
 
         public List<string> Trophies { get; set; }
 
         public Profile()
         {
+            Boards = new List<Board>();
+            Lists = new List<List>();
+            Cards = new List<Card>();
             Trophies = new List<string>();
         }
     }

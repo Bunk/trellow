@@ -12,24 +12,34 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
     
-    <Grid x:Name="LayoutRoot">
-    	<d:DataContext>
-    		<Binding Source="{StaticResource SampleDataSource}"/>
-    	</d:DataContext>
-        <telerikPrimitives:RadDataBoundListBox x:Name="Cards"
-                                               Margin="12,0,12,0"
+    <Grid x:Name="LayoutRoot" d:DataContext="{Binding Source={StaticResource SampleDataSource}}">
+        <telerikPrimitives:RadDataBoundListBox Margin="12,0,12,0"
                                                telerikCore:InteractionEffectManager.IsInteractionEnabled="True" ItemsSource="{Binding Cards}"
 											   cm:Message.Attach="[Event ItemTap] = [Action Open($eventArgs)]">
-			<telerikPrimitives:RadContextMenu.ContextMenu>
-				<telerikPrimitives:RadContextMenu x:Name="BoardsMenu">
-					<telerikPrimitives:RadContextMenuItem Content="remove" />
-				</telerikPrimitives:RadContextMenu>
-			</telerikPrimitives:RadContextMenu.ContextMenu>
             <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                 <DataTemplate>
-                    <ContentControl cm:View.Model="{Binding}"
-						HorizontalContentAlignment="Stretch"
-						VerticalContentAlignment="Stretch" />
+					<StackPanel Margin="0,0,0,15">
+						<Border BorderThickness="0,0,0,1" BorderBrush="{StaticResource PhoneBorderBrush}">
+							<TextBlock Text="{Binding Key}" FontFamily="{StaticResource PhoneFontFamilyLight}" />
+						</Border>
+						<ItemsControl ItemsSource="{Binding}">
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<StackPanel>
+										<ContentControl cm:View.Model="{Binding}"
+														HorizontalContentAlignment="Stretch"
+														VerticalContentAlignment="Stretch" />
+										<TextBlock HorizontalAlignment="Right" Foreground="{StaticResource PhoneSubtleBrush}" FontFamily="{StaticResource PhoneFontFamilyLight}">
+											<TextBlock.Inlines>
+												<Run Text="in" />
+												<Run Text="{Binding ListName}" FontWeight="Bold" />
+											</TextBlock.Inlines>
+										</TextBlock>
+									</StackPanel>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</StackPanel>
                 </DataTemplate>
             </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
         </telerikPrimitives:RadDataBoundListBox>

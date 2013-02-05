@@ -21,7 +21,7 @@ namespace trello.ViewModels
         private readonly Func<CardViewModel> _cardFactory;
         private readonly Random _randomizer;
 
-        public IObservableCollection<CardViewModel> Cards { get; set; }
+        public IObservableCollection<IGrouping<string, CardViewModel>> Cards { get; set; }
 
         public CardListViewModel(INavigationService navigationService,
                                  ICardService cards,
@@ -33,7 +33,7 @@ namespace trello.ViewModels
 
             DisplayName = "cards";
 
-            Cards = new BindableCollection<CardViewModel>();
+            Cards = new BindableCollection<IGrouping<string, CardViewModel>>();
             _randomizer = new Random();
         }
 
@@ -62,7 +62,10 @@ namespace trello.ViewModels
             {
                 Cards.Clear();
 
-                var transformed = x.Select(card => _cardFactory().InitializeWith(card));
+                var transformed = x
+                    .Select(card => _cardFactory().InitializeWith(card))
+                    .GroupBy(card => card.BoardName);
+
                 Cards.AddRange(transformed);
 
                 UpdateLiveTile(x);

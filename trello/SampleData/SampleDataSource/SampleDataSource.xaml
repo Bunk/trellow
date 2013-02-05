@@ -453,4 +453,96 @@
       </SampleData:CommentActivity.Member>
     </SampleData:CommentActivity>
   </SampleData:SampleDataSource.CommentActivity>
+  <SampleData:SampleDataSource.MyCards>
+    <SampleData:MyCardsItem Key="Cras aenean maecenas aliquam">
+      <SampleData:MyCardsItem.Collection>
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+      </SampleData:MyCardsItem.Collection>
+    </SampleData:MyCardsItem>
+    <SampleData:MyCardsItem Key="Mauris integer">
+      <SampleData:MyCardsItem.Collection>
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+      </SampleData:MyCardsItem.Collection>
+    </SampleData:MyCardsItem>
+    <SampleData:MyCardsItem Key="Class duis quisque praesent">
+      <SampleData:MyCardsItem.Collection>
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+      </SampleData:MyCardsItem.Collection>
+    </SampleData:MyCardsItem>
+    <SampleData:MyCardsItem Key="Accumsan nullam curae nunc">
+      <SampleData:MyCardsItem.Collection>
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+      </SampleData:MyCardsItem.Collection>
+    </SampleData:MyCardsItem>
+    <SampleData:MyCardsItem Key="Bibendum nam sed donec">
+      <SampleData:MyCardsItem.Collection>
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+      </SampleData:MyCardsItem.Collection>
+    </SampleData:MyCardsItem>
+    <SampleData:MyCardsItem Key="Aptent vivamus dis">
+      <SampleData:MyCardsItem.Collection>
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+      </SampleData:MyCardsItem.Collection>
+    </SampleData:MyCardsItem>
+    <SampleData:MyCardsItem Key="Dictumst etiam">
+      <SampleData:MyCardsItem.Collection>
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+      </SampleData:MyCardsItem.Collection>
+    </SampleData:MyCardsItem>
+    <SampleData:MyCardsItem Key="Eleifend aliquam">
+      <SampleData:MyCardsItem.Collection>
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+      </SampleData:MyCardsItem.Collection>
+    </SampleData:MyCardsItem>
+    <SampleData:MyCardsItem Key="Auctor aliquet">
+      <SampleData:MyCardsItem.Collection>
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+      </SampleData:MyCardsItem.Collection>
+    </SampleData:MyCardsItem>
+    <SampleData:MyCardsItem Key="Blandit fusce">
+      <SampleData:MyCardsItem.Collection>
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+        <SampleData:CollectionItem />
+      </SampleData:MyCardsItem.Collection>
+    </SampleData:MyCardsItem>
+  </SampleData:SampleDataSource.MyCards>
 </SampleData:SampleDataSource>

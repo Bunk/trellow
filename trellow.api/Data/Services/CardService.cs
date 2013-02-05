@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Strilanc.Value;
@@ -13,13 +14,33 @@ namespace trellow.api.Data.Services
         {
         }
 
-        public Task<May<List<Card>>> Mine()
+        public async Task<May<List<Card>>> Mine()
         {
-            return Processor.Execute<List<Card>>(
-                Request("members/my/cards/open")
-                    .AddParameter("members", "true")
-                    .AddParameter("attachments", "true")
-                    .AddParameter("attachments_fields", "previews"));
+            var profile = await Processor.Execute<Profile>(
+                Request("members/me")
+                    .AddParameter("boards", "open")
+                    .AddParameter("board_fields", "name,closed,idOrganization,pinned,prefs")
+                    .AddParameter("board_lists", "open")
+                    .AddParameter("cards", "visible")
+                    .AddParameter("card_fields", "badges,closed,due,idAttachmentCover,idList,idBoard,idMembers,idShort,labels,name")
+                    .AddParameter("card_members", "true")
+                    .AddParameter("card_attachments", "true")
+                    .AddParameter("organizations", "all")
+                    .AddParameter("organization_fields", "displayName,name"));
+
+            return profile.Select(p =>
+            {
+                var list = new List<Card>();
+                foreach (var card in p.Cards)
+                {
+                    card.Board = p.Boards.FirstOrDefault(b => b.Id == card.IdBoard);
+                    if (card.Board != null)
+                        card.List = card.Board.Lists.FirstOrDefault(l => l.Id == card.IdList);
+
+                    list.Add(card);
+                }
+                return list;
+            });
         }
 
         public Task<May<List<Card>>> InList(string listId)

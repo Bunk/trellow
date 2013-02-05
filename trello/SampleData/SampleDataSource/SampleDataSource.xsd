@@ -13,6 +13,7 @@
       <xs:element name="BoardCard" type="tns:BoardCard" />
       <xs:element name="SimpleActivity" type="tns:SimpleActivity" />
       <xs:element name="CommentActivity" type="tns:CommentActivity" />
+      <xs:element name="MyCards" type="tns:MyCards" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="Boards">
@@ -192,4 +193,21 @@
   <xs:complexType name="Member1">
     <xs:attribute blend:Format="Name" name="FullName" type="xs:string" />
   </xs:complexType>
+  <xs:complexType name="MyCards">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="MyCardsItem" type="tns:MyCardsItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="MyCardsItem">
+    <xs:sequence>
+      <xs:element name="Collection" type="tns:CollectionItemCollection" />
+    </xs:sequence>
+    <xs:attribute name="Key" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="CollectionItemCollection">
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="CollectionItem" type="tns:CollectionItem" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="CollectionItem" />
 </xs:schema>

@@ -114,6 +114,16 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				}
 			}
 		}
+
+		private MyCards _MyCards = new MyCards();
+
+		public MyCards MyCards
+		{
+			get
+			{
+				return this._MyCards;
+			}
+		}
 	}
 
 	public class Boards : System.Collections.ObjectModel.ObservableCollection<BoardsItem>
@@ -1672,6 +1682,69 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				}
 			}
 		}
+	}
+
+	public class MyCardsItem : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private CollectionItemCollection _Collection = new CollectionItemCollection();
+
+		public CollectionItemCollection Collection
+		{
+			get
+			{
+				return this._Collection;
+			}
+		}
+
+		private string _Key = string.Empty;
+
+		public string Key
+		{
+			get
+			{
+				return this._Key;
+			}
+
+			set
+			{
+				if (this._Key != value)
+				{
+					this._Key = value;
+					this.OnPropertyChanged("Key");
+				}
+			}
+		}
+	}
+
+	public class MyCards : System.Collections.ObjectModel.ObservableCollection<MyCardsItem>
+	{ 
+	}
+
+	public class CollectionItem : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+
+	public class CollectionItemCollection : System.Collections.ObjectModel.ObservableCollection<CollectionItem>
+	{ 
 	}
 #endif
 }

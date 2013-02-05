@@ -41,9 +41,9 @@ namespace trellow.api.Models
 
         public Badges Badges { get; set; }
 
-        public InnerBoard Board { get; set; }
+        public Board Board { get; set; }
 
-        public InnerList List { get; set; }
+        public List List { get; set; }
 
         public Card()
         {
@@ -55,28 +55,6 @@ namespace trellow.api.Models
             Checklists = new List<CheckList>();
             CheckItemStates = new List<CheckItemState>();
             Actions = new List<Activity>();
-        }
-
-        public class InnerBoard
-        {
-            public string Id { get; set; }
-
-            public string Name { get; set; }
-
-            public string Desc { get; set; }
-
-            public bool Pinned { get; set; }
-
-            public bool Closed { get; set; }
-        }
-
-        public class InnerList
-        {
-            public string Id { get; set; }
-
-            public string Name { get; set; }
-
-            public bool Closed { get; set; }
         }
     }
 

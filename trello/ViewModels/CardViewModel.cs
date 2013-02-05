@@ -11,6 +11,10 @@ namespace trello.ViewModels
 
         public string Name { get; set; }
 
+        public string BoardName { get; set; }
+
+        public string ListName { get; set; }
+
         public string Desc { get; set; }
 
         public DateTime? Due { get; set; }
@@ -46,6 +50,8 @@ namespace trello.ViewModels
             var cover = card.Attachments.SingleOrDefault(x => x.Id == card.IdAttachmentCover);
 
             Id = card.Id;
+            BoardName = card.Board.Name;
+            ListName = card.List.Name;
             Name = card.Name;
             Desc = card.Desc;
             Due = card.Badges.Due;
