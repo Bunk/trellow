@@ -59,7 +59,7 @@ namespace trello.ViewModels
 
         public async void Launch()
         {
-            var success = await Launcher.LaunchUriAsync(Uri);
+            bool success = await Launcher.LaunchUriAsync(Uri);
             if (!success)
                 MessageBox.Show(
                     "The attachment could not be opened.  Make sure you're still connected to the internet.",
