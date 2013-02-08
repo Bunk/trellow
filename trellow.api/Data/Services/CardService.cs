@@ -69,6 +69,14 @@ namespace trellow.api.Data.Services
                     .AddParameter("board", "true")
                     .AddParameter("list", "true"));
         }
+
+        public Task UpdateDescription(string id, string description)
+        {
+            return Processor.Execute<Card>(
+                Update("cards/{id}")
+                    .AddUrlSegment("id", id)
+                    .AddParameter("desc", description));
+        }
     }
 
     [UsedImplicitly]
@@ -90,6 +98,11 @@ namespace trellow.api.Data.Services
         {
             var file = string.Format("SampleData/cards/card-{0}.json", id);
             return await ReadFile<Card>(file);
+        }
+
+        public Task UpdateDescription(string id, string description)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

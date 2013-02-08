@@ -20,5 +20,15 @@ namespace trellow.api.Data.Services
 
             return request;
         }
+
+        protected static IRestRequest Update(string resource)
+        {
+            var request = new RestRequest(resource, Method.PUT)
+                {
+                    RequestFormat = DataFormat.Json
+                };
+
+            return request;
+        }
     }
 }

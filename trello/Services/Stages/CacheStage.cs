@@ -29,7 +29,7 @@ namespace trello.Services.Stages
                 {
                     // When connected, always prefer to pull fresh data
                     context = await ContinueIfPossible(context);
-                    
+
                     // Update the cache as well
                     _cache.Set(key, context.Data);
                 }
@@ -37,10 +37,14 @@ namespace trello.Services.Stages
                 {
                     // When disconnected, only pull from the cache when available
                     context.Data = _cache.Get<T>(key);
-                    
+
                     // Then continue through the pipeline with the cached data set
                     context = await ContinueIfPossible(context);
                 }
+            }
+            else
+            {
+                context = await ContinueIfPossible(context);
             }
 
             return context;

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Controls;
 using trello.ViewModels.Activities;
 using trellow.api;
+using trellow.api.Data.Services;
 using trellow.api.Models;
 
 namespace trello.ViewModels
@@ -13,6 +15,7 @@ namespace trello.ViewModels
     [UsedImplicitly]
     public class CardDetailViewModel : ViewModelBase
     {
+        private readonly ICardService _cardService;
         private readonly Func<ChecklistViewModel> _checkListFactory;
         private readonly Func<AttachmentViewModel> _attachmentFactory;
         private bool _editingDesc;
@@ -23,9 +26,11 @@ namespace trello.ViewModels
 
         public CardDetailViewModel(ITrelloApiSettings settings,
                                    INavigationService navigation,
+                                   ICardService cardService,
                                    Func<ChecklistViewModel> checkListFactory,
                                    Func<AttachmentViewModel> attachmentFactory) : base(settings, navigation)
         {
+            _cardService = cardService;
             _checkListFactory = checkListFactory;
             _attachmentFactory = attachmentFactory;
             Labels = new BindableCollection<LabelViewModel>();
@@ -48,8 +53,6 @@ namespace trello.ViewModels
                 NotifyOfPropertyChange(() => Name);
             }
         }
-
-        public Uri ProfileImageLarge { get; set; }
 
         public string Desc
         {
@@ -208,10 +211,11 @@ namespace trello.ViewModels
             EditingDesc = true;
         }
 
-        public void UpdateDesc()
+        public async Task UpdateDesc()
         {
-            // todo: Async update Trello
             // todo: Probably want to institute the command pattern and queue them up in case we're offline
+            await _cardService.UpdateDescription(Id, Desc);
+
             EditingDesc = false;
         }
 
