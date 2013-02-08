@@ -47,7 +47,7 @@
 
 					<Image Grid.Row="0" Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-pencil-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
 
-					<TextBlock Grid.Row="0" Grid.Column="1" x:Name="Desc" Text="{Binding Desc}" TextWrapping="Wrap" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}">
+					<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Desc}" TextWrapping="Wrap" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}">
 						<i:Interaction.Triggers>
 							<local:GestureServiceTrigger Gesture="Tap">
 								<micro:ActionMessage MethodName="EditDesc">
@@ -75,7 +75,7 @@
 									<RowDefinition Height="Auto" />
 								</Grid.RowDefinitions>
 
-								<telerikPrimitives:RadTextBox x:Name="radTextBox" Text="{Binding Path=Desc, Mode=TwoWay}" TextWrapping="Wrap" ActionButtonVisibility="Collapsed" Header="Description" />
+								<telerikPrimitives:RadTextBox x:Name="radTextBox" AcceptsReturn="True" Text="{Binding Path=Desc, Mode=TwoWay}" TextWrapping="Wrap" ActionButtonVisibility="Collapsed" Header="Description" />
 								
 								<StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
 									<HyperlinkButton micro:Message.Attach="[Event Click] = [Action CancelDesc]" Foreground="{StaticResource PhoneSubtleBrush}">Cancel</HyperlinkButton>
