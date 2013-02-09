@@ -11,6 +11,7 @@ namespace trellow.api.Data.Services
         Task<May<List<Card>>> InList(string listId);
         Task<May<Card>> WithId(string id);
 
+        Task UpdateName(string id, string name);
         Task UpdateDescription(string id, string description);
     }
 }

@@ -225,6 +225,21 @@ namespace trello.ViewModels
             EditingDesc = false;
         }
 
+        public void EditName(GestureEventArgs args)
+        {
+            
+        }
+
+        public void UpdateName()
+        {
+            
+        }
+
+        public void CancelEditName()
+        {
+            
+        }
+
         public void RemoveAttachment()
         {
         }

@@ -70,6 +70,14 @@ namespace trellow.api.Data.Services
                     .AddParameter("list", "true"));
         }
 
+        public Task UpdateName(string id, string name)
+        {
+            return Processor.Execute<Card>(
+                Update("cards/{id}")
+                    .AddUrlSegment("id", id)
+                    .AddParameter("name", name));
+        }
+
         public Task UpdateDescription(string id, string description)
         {
             return Processor.Execute<Card>(
