@@ -19,7 +19,7 @@
 			<RowDefinition />
 		</Grid.RowDefinitions>
 
-		<ListBox Grid.Row="0" ItemsSource="{Binding Attachments}">
+		<ListBox Grid.Row="0" ItemsSource="{Binding Attachments}" Visibility="{Binding Attachments.Count, Converter={StaticResource VisibilityConverter}}">
 			<ListBox.ItemTemplate>
 				<DataTemplate>
 					<Grid Margin="0,15">
@@ -81,7 +81,7 @@
 			</ListBox.ItemTemplate>
 		</ListBox>
 
-		<TextBlock Grid.Row="0" Visibility="{Binding Attachments, Converter={StaticResource VisibilityConverter}, ConverterParameter='true'}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center">
+		<TextBlock Grid.Row="0" Visibility="{Binding Attachments.Count, Converter={StaticResource VisibilityConverter}, ConverterParameter='true'}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center">
 			There are no attachments for this card, yet.
 		</TextBlock>
 

@@ -29,7 +29,8 @@ namespace trello.ViewModels
 
         public CardDetailViewModel(ITrelloApiSettings settings,
                                    INavigationService navigation,
-            IWindowManager windowManager,
+                                   IWindowManager windowManager,
+                                   IEventAggregator eventAggregator,
                                    ICardService cardService,
                                    Func<ChecklistViewModel> checkListFactory,
                                    Func<AttachmentViewModel> attachmentFactory) : base(settings, navigation)
@@ -155,6 +156,8 @@ namespace trello.ViewModels
                 };
                 return checklist;
             }));
+            NotifyOfPropertyChange(() => CheckItems);
+            NotifyOfPropertyChange(() => CheckItemsChecked);
 
             Attachments.Clear();
             Attachments.AddRange(card.Attachments.Select(x => _attachmentFactory().For(x)));
@@ -214,13 +217,13 @@ namespace trello.ViewModels
             var model = new ChangeCardNameViewModel
             {
                 Name = Name,
-                Accepted = text => SaveNameAccepted(text)
+                Accepted = text => ChangeNameAccepted(text)
             };
 
             _windowManager.ShowDialog(model);
         }
 
-        private void SaveNameAccepted(string text)
+        private void ChangeNameAccepted(string text)
         {
             Name = text;
             // todo: Store this via the service
@@ -248,17 +251,14 @@ namespace trello.ViewModels
 
         public void EditName(GestureEventArgs args)
         {
-            
         }
 
         public void UpdateName()
         {
-            
         }
 
         public void CancelEditName()
         {
-            
         }
 
         public void RemoveAttachment()

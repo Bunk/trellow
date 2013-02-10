@@ -88,7 +88,7 @@
 
 			</Border>
 
-			<Border BorderBrush="{StaticResource PhoneBorderBrush}" BorderThickness="0" CornerRadius="3" Margin="0,0,0,7" Background="{StaticResource PhoneChromeBrush}">
+			<Border Style="{StaticResource ComponentBorder}">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
@@ -107,7 +107,7 @@
 				</Grid>
 			</Border>
 
-			<Border Style="{StaticResource ComponentBorder}" Visibility="{Binding Checklists, Converter={StaticResource VisibilityConverter}}">
+			<Border Style="{StaticResource ComponentBorder}" Visibility="{Binding Checklists.Count, Converter={StaticResource VisibilityConverter}}">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
@@ -147,10 +147,16 @@
 
 					</Grid>
 
+					<i:Interaction.Triggers>
+						<local:GestureServiceTrigger Gesture="Tap">
+							<micro:ActionMessage MethodName="GoToChecklists" />
+						</local:GestureServiceTrigger>
+					</i:Interaction.Triggers>
+
 				</Grid>
 			</Border>
 
-			<Border Style="{StaticResource ComponentBorder}" Visibility="{Binding Attachments, Converter={StaticResource VisibilityConverter}}">
+			<Border Style="{StaticResource ComponentBorder}" Visibility="{Binding Attachments.Count, Converter={StaticResource VisibilityConverter}}">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
@@ -166,43 +172,41 @@
 						</TextBlock.Inlines>
 					</TextBlock>
 
+					<i:Interaction.Triggers>
+						<local:GestureServiceTrigger Gesture="Tap">
+							<micro:ActionMessage MethodName="GoToAttachments" />
+						</local:GestureServiceTrigger>
+					</i:Interaction.Triggers>
+
 				</Grid>
 			</Border>
 
-			<Grid Height="90">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition />
-					<ColumnDefinition />
-					<ColumnDefinition />
-					<ColumnDefinition />
-				</Grid.ColumnDefinitions>
-				<Button x:Name="GoToMembers" Grid.Column="2" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
-					<StackPanel>
-						<TextBlock Text="{Binding Members.Count}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
-						<TextBlock Text="members" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyLight}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource PhoneSubtleBrush}" />
-					</StackPanel>
-				</Button>
-				<Button x:Name="GoToAttachments" Grid.Column="1" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
-					<StackPanel>
-						<TextBlock Text="{Binding Attachments.Count}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
-						<TextBlock Text="attached" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyLight}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource PhoneSubtleBrush}" FontStretch="UltraCondensed" />
-					</StackPanel>
-				</Button>
-				<Button x:Name="GoToChecklists" Grid.Column="0" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
-					<StackPanel>
-						<TextBlock Text="{Binding Checklists.Count}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
-						<TextBlock Text="checklists" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyLight}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource PhoneSubtleBrush}" />
-					</StackPanel>
-				</Button>
-				<Button x:Name="GoToActivity" Grid.Column="3" Padding="0" Background="{StaticResource PhoneChromeBrush}" BorderBrush="{StaticResource PhoneBorderBrush}">
-					<StackPanel>
-						<TextBlock x:Name="Votes" Text="{Binding Votes}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeSmall}" />
-						<TextBlock Text="votes" FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="{StaticResource PhoneFontFamilyLight}" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="{StaticResource PhoneSubtleBrush}" />
-					</StackPanel>
-				</Button>
-			</Grid>
+			<Border Style="{StaticResource ComponentBorder}" Visibility="{Binding Members.Count, Converter={StaticResource VisibilityConverter}}">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
 
-			<Border Margin="0,10,0,0" BorderBrush="{StaticResource PhoneBorderBrush}" BorderThickness="0,0,0,0">
+					<Image Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-user-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
+
+					<TextBlock Grid.Column="1" Margin="7,12,12,12" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyLight}">
+						<TextBlock.Inlines>
+							<Run Text="{Binding Members.Count}" />
+							<Run Text="Members" />
+						</TextBlock.Inlines>
+					</TextBlock>
+
+					<i:Interaction.Triggers>
+						<local:GestureServiceTrigger Gesture="Tap">
+							<micro:ActionMessage MethodName="GoToMembers" />
+						</local:GestureServiceTrigger>
+					</i:Interaction.Triggers>
+
+				</Grid>
+			</Border>
+
+			<Border Margin="0,10,0,0" BorderBrush="{StaticResource PhoneBorderBrush}" BorderThickness="0,1,0,0">
 				<ItemsControl x:Name="Comments" Grid.Row="1" Margin="0,10,0,0" />
 			</Border>
 

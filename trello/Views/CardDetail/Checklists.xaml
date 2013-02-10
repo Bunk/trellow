@@ -17,7 +17,7 @@
 			<RowDefinition />
 		</Grid.RowDefinitions>
 
-		<ItemsControl Grid.Row="0" ItemsSource="{Binding Checklists}" Visibility="{Binding Checklists, Converter={StaticResource VisibilityConverter}}">
+		<ItemsControl Grid.Row="0" ItemsSource="{Binding Checklists}" Visibility="{Binding Checklists.Count, Converter={StaticResource VisibilityConverter}}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
 					<ContentControl cm:View.Model="{Binding}"
@@ -27,7 +27,7 @@
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
 
-		<TextBlock Grid.Row="0" Visibility="{Binding Checklists, Converter={StaticResource VisibilityConverter}, ConverterParameter='true'}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center">
+		<TextBlock Grid.Row="0" Visibility="{Binding Checklists.Count, Converter={StaticResource VisibilityConverter}, ConverterParameter='true'}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center">
 			There are no check lists for this card, yet.
 		</TextBlock>
 
