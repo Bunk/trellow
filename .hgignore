@@ -1,6 +1,6 @@
 syntax: glob
 *.suo
-*.user
+*.csproj.user
 *.tmp
 */debug/*
 */obj/*
