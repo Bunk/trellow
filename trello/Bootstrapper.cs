@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using Microsoft.Phone.Controls;
 using trello.Services;
 using trello.Services.Cache;
+using trello.Services.Handlers;
 using trello.Services.Pipelines;
 using trello.Services.Stages;
 using trello.ViewModels;
@@ -20,6 +21,8 @@ namespace trello
     public class ApplicationBootstrapper : PhoneBootstrapper
     {
         private PhoneContainer _container;
+
+        private CardDetailCommandHandler _detailHandler;
 
         protected override void Configure()
         {
@@ -55,8 +58,12 @@ namespace trello
             _container.PerRequest<ChecklistItemViewModel>();
             _container.PerRequest<AttachmentViewModel>();
 
+            _container.Singleton<CardDetailCommandHandler>();
+            
             //RegisterJsonRepository(_container);
             RegisterRepository(_container);
+
+            _detailHandler = (CardDetailCommandHandler) _container.GetInstance(typeof (CardDetailCommandHandler), null);
 
             TelerikConventions.Install();
         }

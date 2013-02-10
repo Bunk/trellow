@@ -126,13 +126,17 @@
     <Compile Include="ViewModels\BoardListViewModel.cs" />
     <Compile Include="ViewModels\BoardsViewModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
+    <Compile Include="Services\Handlers\CardDetailCommandHandler.cs" />
     <Compile Include="ViewModels\CardListViewModel.cs" />
     <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="Services\IProgressService.cs" />
     <Compile Include="ViewModels\CardDetailViewModel.cs" />
+    <Compile Include="ViewModels\ChangeCardNameViewModel.cs" />
     <Compile Include="ViewModels\ChecklistViewModel.cs" />
+    <Compile Include="Services\Handlers\DescriptionChanged.cs" />
     <Compile Include="ViewModels\MemberViewModel.cs" />
     <Compile Include="ViewModels\MessageListViewModel.cs" />
+    <Compile Include="Services\Handlers\NameChanged.cs" />
     <Compile Include="ViewModels\PivotFix.cs" />
     <Compile Include="ViewModels\PivotViewModel.cs" />
     <Compile Include="ViewModels\ProfileViewModel.cs" />

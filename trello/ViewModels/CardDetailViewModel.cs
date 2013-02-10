@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Controls;
 using Strilanc.Value;
+using trello.Services.Handlers;
 using trello.ViewModels.Activities;
 using trello.Views;
 using trellow.api;
@@ -18,6 +19,7 @@ namespace trello.ViewModels
     public class CardDetailViewModel : ViewModelBase
     {
         private readonly IWindowManager _windowManager;
+        private readonly IEventAggregator _eventAggregator;
         private readonly ICardService _cardService;
         private readonly Func<ChecklistViewModel> _checkListFactory;
         private readonly Func<AttachmentViewModel> _attachmentFactory;
@@ -36,6 +38,7 @@ namespace trello.ViewModels
                                    Func<AttachmentViewModel> attachmentFactory) : base(settings, navigation)
         {
             _windowManager = windowManager;
+            _eventAggregator = eventAggregator;
             _cardService = cardService;
             _checkListFactory = checkListFactory;
             _attachmentFactory = attachmentFactory;
@@ -226,7 +229,7 @@ namespace trello.ViewModels
         private void ChangeNameAccepted(string text)
         {
             Name = text;
-            // todo: Store this via the service
+            _eventAggregator.Publish(new NameChanged {CardId = Id, Name = Name});
         }
 
         public void EditDesc(GestureEventArgs args)
@@ -235,11 +238,10 @@ namespace trello.ViewModels
             EditingDesc = true;
         }
 
-        public async Task UpdateDesc()
+        public void UpdateDesc()
         {
-            // todo: Probably want to institute the command pattern and queue them up in case we're offline
-            await _cardService.UpdateDescription(Id, Desc);
-
+            _eventAggregator.Publish(new DescriptionChanged {CardId = Id, Description = Desc});
+            
             EditingDesc = false;
         }
 
@@ -267,19 +269,6 @@ namespace trello.ViewModels
 
         public void AddAttachment()
         {
-        }
-    }
-
-    public class ChangeCardNameViewModel : Screen
-    {
-        public string Name { get; set; }
-
-        public Action<string> Accepted { get; set; }
-
-        public void Accept()
-        {
-            Accepted(Name);
-            TryClose();
         }
     }
 }
