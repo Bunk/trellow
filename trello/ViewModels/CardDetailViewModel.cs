@@ -50,6 +50,7 @@ namespace trello.ViewModels
             {
                 if (value == _name) return;
                 _name = value;
+
                 NotifyOfPropertyChange(() => Name);
             }
         }

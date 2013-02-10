@@ -108,6 +108,11 @@ namespace trellow.api.Data.Services
             return await ReadFile<Card>(file);
         }
 
+        public Task UpdateName(string id, string name)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public Task UpdateDescription(string id, string description)
         {
             throw new System.NotImplementedException();

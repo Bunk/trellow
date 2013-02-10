@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Globalization;
 using System.Linq;
@@ -9,6 +9,8 @@ namespace trello.Views.Converters
 {
     public class VisibilityConverter : IValueConverter
     {
+		public bool Invert { get; set; }
+		
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var invert = false;
@@ -27,7 +29,7 @@ namespace trello.Views.Converters
             else if (value is IEnumerable)
                 visible = ((IEnumerable) value).Cast<object>().Any();
 
-            if (invert)
+            if (Invert || invert)
                 visible = !visible;
 
             return visible ? Visibility.Visible : Visibility.Collapsed;

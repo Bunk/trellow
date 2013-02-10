@@ -197,6 +197,9 @@
     <Compile Include="Views\Converters\BytesStringConverter.cs" />
     <Compile Include="Views\Converters\UriConverter.cs" />
     <Compile Include="Views\Converters\VisibilityConverter.cs" />
+    <Compile Include="Views\EditableTextBlock.xaml.cs">
+      <DependentUpon>EditableTextBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MessageListView.xaml.cs">
       <DependentUpon>MessageListView.xaml</DependentUpon>
     </Compile>
@@ -487,6 +490,10 @@
     <Page Include="Views\Converters\Converters.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EditableTextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MessageListView.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
