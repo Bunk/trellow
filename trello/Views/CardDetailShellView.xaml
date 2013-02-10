@@ -21,10 +21,16 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
 		
-		<phone:Pivot x:Name="DetailPivot" Title="{Binding}">
+		<phone:Pivot x:Name="DetailPivot" Title="{Binding Details}">
 			<phone:Pivot.TitleTemplate>
 				<DataTemplate>
-					<controls:EditableTextBlock Text="{Binding Name, Mode=TwoWay}" />
+					<TextBlock Text="{Binding Name, Converter={StaticResource CaseConverter}, ConverterParameter='Upper'}">
+						<i:Interaction.Triggers>
+							<local:GestureServiceTrigger Gesture="Tap">
+								<micro:ActionMessage MethodName="OpenCardName" />
+							</local:GestureServiceTrigger>
+						</i:Interaction.Triggers>
+					</TextBlock>
 				</DataTemplate>
 			</phone:Pivot.TitleTemplate>
 			<phone:PivotItem Header="overview">
