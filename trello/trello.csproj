@@ -126,7 +126,6 @@
     <Compile Include="ViewModels\BoardListViewModel.cs" />
     <Compile Include="ViewModels\BoardsViewModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
-    <Compile Include="ViewModels\CardDetailShellViewModel.cs" />
     <Compile Include="ViewModels\CardListViewModel.cs" />
     <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="Services\IProgressService.cs" />
@@ -178,8 +177,8 @@
     <Compile Include="Views\CardDetail\Overview.xaml.cs">
       <DependentUpon>Overview.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CardDetailShellView.xaml.cs">
-      <DependentUpon>CardDetailShellView.xaml</DependentUpon>
+    <Compile Include="Views\CardDetailView.xaml.cs">
+      <DependentUpon>CardDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CardListView.xaml.cs">
       <DependentUpon>CardListView.xaml</DependentUpon>
@@ -187,8 +186,8 @@
     <Compile Include="Views\CardView.xaml.cs">
       <DependentUpon>CardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ChangeCardNameDialogView.xaml.cs">
-      <DependentUpon>ChangeCardNameDialogView.xaml</DependentUpon>
+    <Compile Include="Views\ChangeCardNameView.xaml.cs">
+      <DependentUpon>ChangeCardNameView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChecklistView.xaml.cs">
       <DependentUpon>ChecklistView.xaml</DependentUpon>
@@ -474,7 +473,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CardDetailShellView.xaml">
+    <Page Include="Views\CardDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -486,7 +485,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ChangeCardNameDialogView.xaml">
+    <Page Include="Views\ChangeCardNameView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

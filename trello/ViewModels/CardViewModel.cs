@@ -81,7 +81,7 @@ namespace trello.ViewModels
 
         public void Open()
         {
-            _navigationService.UriFor<CardDetailShellViewModel>()
+            _navigationService.UriFor<CardDetailViewModel>()
                 .WithParam(x => x.Id, Id)
                 .Navigate();
         }

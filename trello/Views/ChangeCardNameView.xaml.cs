@@ -10,9 +10,9 @@ using Microsoft.Phone.Shell;
 
 namespace trello.Views
 {
-    public partial class ChangeCardNameDialogView : UserControl
+    public partial class ChangeCardNameView : UserControl
     {
-        public ChangeCardNameDialogView()
+        public ChangeCardNameView()
         {
             InitializeComponent();
         }

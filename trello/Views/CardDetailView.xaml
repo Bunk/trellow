@@ -1,5 +1,5 @@
 ﻿<phone:PhoneApplicationPage
-    x:Class="trello.Views.CardDetailShellView"
+    x:Class="trello.Views.CardDetailView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
@@ -21,13 +21,13 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
 		
-		<phone:Pivot x:Name="DetailPivot" Title="{Binding Details}">
+		<phone:Pivot x:Name="DetailPivot" Title="{Binding}">
 			<phone:Pivot.TitleTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding Name, Converter={StaticResource CaseConverter}, ConverterParameter='Upper'}">
 						<i:Interaction.Triggers>
 							<local:GestureServiceTrigger Gesture="Tap">
-								<micro:ActionMessage MethodName="OpenCardName" />
+								<micro:ActionMessage MethodName="ChangeName" />
 							</local:GestureServiceTrigger>
 						</i:Interaction.Triggers>
 					</TextBlock>
@@ -36,27 +36,27 @@
 			<phone:PivotItem Header="overview">
 				<ContentControl VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
 								micro:View.Context="Overview"
-								micro:View.Model="{Binding Details}" />
+								micro:View.Model="{Binding}" />
 			</phone:PivotItem>
 			<phone:PivotItem Header="checklists">
 				<ContentControl VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
 								micro:View.Context="Checklists"
-								micro:View.Model="{Binding Details}" />
+								micro:View.Model="{Binding}" />
 			</phone:PivotItem>
 			<phone:PivotItem Header="attachments">
 				<ContentControl VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
 								micro:View.Context="Attachments"
-								micro:View.Model="{Binding Details}" />
+								micro:View.Model="{Binding}" />
 			</phone:PivotItem>
 			<phone:PivotItem Header="members">
 				<ContentControl VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
 								micro:View.Context="Members"
-								micro:View.Model="{Binding Details}" />
+								micro:View.Model="{Binding}" />
 			</phone:PivotItem>
 			<phone:PivotItem Header="activity">
 				<ContentControl VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
 								micro:View.Context="Activity"
-								micro:View.Model="{Binding Details}" />
+								micro:View.Model="{Binding}" />
 			</phone:PivotItem>
 		</phone:Pivot>
 

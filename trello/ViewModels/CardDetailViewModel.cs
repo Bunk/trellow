@@ -5,7 +5,9 @@ using System.Windows.Controls;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Controls;
+using Strilanc.Value;
 using trello.ViewModels.Activities;
+using trello.Views;
 using trellow.api;
 using trellow.api.Data.Services;
 using trellow.api.Models;
@@ -15,6 +17,7 @@ namespace trello.ViewModels
     [UsedImplicitly]
     public class CardDetailViewModel : ViewModelBase
     {
+        private readonly IWindowManager _windowManager;
         private readonly ICardService _cardService;
         private readonly Func<ChecklistViewModel> _checkListFactory;
         private readonly Func<AttachmentViewModel> _attachmentFactory;
@@ -26,10 +29,12 @@ namespace trello.ViewModels
 
         public CardDetailViewModel(ITrelloApiSettings settings,
                                    INavigationService navigation,
+            IWindowManager windowManager,
                                    ICardService cardService,
                                    Func<ChecklistViewModel> checkListFactory,
                                    Func<AttachmentViewModel> attachmentFactory) : base(settings, navigation)
         {
+            _windowManager = windowManager;
             _cardService = cardService;
             _checkListFactory = checkListFactory;
             _attachmentFactory = attachmentFactory;
@@ -173,8 +178,10 @@ namespace trello.ViewModels
             return this;
         }
 
-        protected override void OnInitialize()
+        protected override async void OnInitialize()
         {
+            var card = await _cardService.WithId(Id);
+            card.IfHasValueThenDo(x => InitializeWith(x));
         }
 
         public void GoToChecklists()
@@ -199,11 +206,24 @@ namespace trello.ViewModels
 
         private void NavigateToScreen(int index)
         {
-            var parent = Parent as CardDetailShellViewModel;
-            if (parent == null)
-                return;
+            UsingView<CardDetailView>(view => { view.DetailPivot.SelectedIndex = index; });
+        }
 
-            parent.NavigateToScreen(index);
+        public void ChangeName()
+        {
+            var model = new ChangeCardNameViewModel
+            {
+                Name = Name,
+                Accepted = text => SaveNameAccepted(text)
+            };
+
+            _windowManager.ShowDialog(model);
+        }
+
+        private void SaveNameAccepted(string text)
+        {
+            Name = text;
+            // todo: Store this via the service
         }
 
         public void EditDesc(GestureEventArgs args)
@@ -247,6 +267,19 @@ namespace trello.ViewModels
 
         public void AddAttachment()
         {
+        }
+    }
+
+    public class ChangeCardNameViewModel : Screen
+    {
+        public string Name { get; set; }
+
+        public Action<string> Accepted { get; set; }
+
+        public void Accept()
+        {
+            Accepted(Name);
+            TryClose();
         }
     }
 }
