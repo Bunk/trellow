@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Strilanc.Value;
@@ -14,5 +15,6 @@ namespace trellow.api.Data.Services
         Task UpdateName(string id, string name);
         Task UpdateDescription(string id, string description);
         Task UpdateCheckedItem(string id, string checklistId, string itemId, bool value);
+        Task UpdateDueDate(string id, DateTime? date);
     }
 }

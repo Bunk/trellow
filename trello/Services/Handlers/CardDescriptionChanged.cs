@@ -1,6 +1,6 @@
 namespace trello.Services.Handlers
 {
-    public class DescriptionChanged
+    public class CardDescriptionChanged
     {
         public string CardId { get; set; }
 

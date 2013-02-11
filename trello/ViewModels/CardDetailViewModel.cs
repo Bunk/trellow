@@ -27,6 +27,7 @@ namespace trello.ViewModels
         private string _desc;
         private string _originalDesc;
         private int _votes;
+        private DateTime? _due;
 
         public CardDetailViewModel(ITrelloApiSettings settings,
                                    INavigationService navigation,
@@ -49,8 +50,9 @@ namespace trello.ViewModels
             Comments = new BindableCollection<ActivityViewModel>();
         }
 
-        public string Id { get; set; }
+        public string Id { get; private set; }
 
+// ReSharper disable MemberCanBePrivate.Global
         public string Name
         {
             get { return _name; }
@@ -85,6 +87,17 @@ namespace trello.ViewModels
             }
         }
 
+        public DateTime? Due
+        {
+            get { return _due; }
+            set
+            {
+                if (value.Equals(_due)) return;
+                _due = value;
+                NotifyOfPropertyChange(() => Due);
+            }
+        }
+
         public int CheckItems
         {
             get { return Checklists.Aggregate(0, (i, model) => i + model.Items.Count); }
@@ -105,8 +118,6 @@ namespace trello.ViewModels
                 NotifyOfPropertyChange(() => Votes);
             }
         }
-
-        public DateTime? Due { get; set; }
 
         public IObservableCollection<LabelViewModel> Labels { get; set; }
 
@@ -131,18 +142,15 @@ namespace trello.ViewModels
             }
         }
 
-        public CardDetailViewModel InitializeWith(Card card)
+// ReSharper restore MemberCanBePrivate.Global
+
+        private CardDetailViewModel InitializeWith(Card card)
         {
             Id = card.Id;
             Name = card.Name;
             Desc = card.Desc;
+            Due = card.Due;
             Votes = card.Badges.Votes;
-
-            if (card.Badges.Due.HasValue)
-            {
-                var utc = DateTime.SpecifyKind(card.Badges.Due.Value, DateTimeKind.Utc);
-                Due = utc.ToLocalTime();
-            }
 
             Labels.Clear();
             Labels.AddRange(card.Labels.Select(x => new LabelViewModel(x)));
@@ -189,21 +197,25 @@ namespace trello.ViewModels
             card.IfHasValueThenDo(x => InitializeWith(x));
         }
 
+        [UsedImplicitly]
         public void GoToChecklists()
         {
             NavigateToScreen(1);
         }
 
+        [UsedImplicitly]
         public void GoToAttachments()
         {
             NavigateToScreen(2);
         }
 
+        [UsedImplicitly]
         public void GoToMembers()
         {
             NavigateToScreen(3);
         }
 
+        [UsedImplicitly]
         public void GoToActivity()
         {
             NavigateToScreen(4);
@@ -214,6 +226,7 @@ namespace trello.ViewModels
             UsingView<CardDetailView>(view => { view.DetailPivot.SelectedIndex = index; });
         }
 
+        [UsedImplicitly]
         public void ChangeName()
         {
             var model = new ChangeCardNameViewModel
@@ -222,7 +235,28 @@ namespace trello.ViewModels
                 Accepted = text =>
                 {
                     Name = text;
-                    _eventAggregator.Publish(new NameChanged {CardId = Id, Name = Name});
+                    _eventAggregator.Publish(new CardNameChanged {CardId = Id, Name = Name});
+                }
+            };
+
+            _windowManager.ShowDialog(model);
+        }
+
+        [UsedImplicitly]
+        public void ChangeDueDate()
+        {
+            var model = new ChangeCardDueViewModel
+            {
+                Date = Due,
+                Accepted = d =>
+                {
+                    Due = d;
+                    _eventAggregator.Publish(new CardDueDateChanged {CardId = Id, DueDate = d});
+                },
+                Removed = () =>
+                {
+                    Due = null;
+                    _eventAggregator.Publish(new CardDueDateChanged {CardId = Id, DueDate = null});
                 }
             };
 
@@ -237,7 +271,7 @@ namespace trello.ViewModels
 
         public void UpdateDesc()
         {
-            _eventAggregator.Publish(new DescriptionChanged {CardId = Id, Description = Desc});
+            _eventAggregator.Publish(new CardDescriptionChanged {CardId = Id, Description = Desc});
             
             EditingDesc = false;
         }

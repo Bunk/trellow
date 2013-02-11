@@ -97,12 +97,24 @@
 
 					<Image Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-clock-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
 
-					<TextBlock Grid.Column="1" Margin="7,12,12,12" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyLight}">
+					<TextBlock Grid.Column="1" Margin="7,12,12,12" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyLight}" Visibility="{Binding Due, Converter={StaticResource VisibilityConverter}}">
 						<TextBlock.Inlines>
 							<Run Text="Due" />
 							<Run Text="{Binding Due, StringFormat='\{0:MMMM d\} at \{0:hh\:mm tt\}'}" />
 						</TextBlock.Inlines>
 					</TextBlock>
+
+					<TextBlock Grid.Column="1" Margin="7,12,12,12" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyLight}" Visibility="{Binding Due, Converter={StaticResource InvertedVisibilityConverter}}" Foreground="{StaticResource PhoneSubtleBrush}" FontStyle="Italic">
+						<TextBlock.Inlines>
+							<Run Text="No Due Date" />
+						</TextBlock.Inlines>
+					</TextBlock>
+
+					<i:Interaction.Triggers>
+						<local:GestureServiceTrigger Gesture="Tap">
+							<micro:ActionMessage MethodName="ChangeDueDate" />
+						</local:GestureServiceTrigger>
+					</i:Interaction.Triggers>
 
 				</Grid>
 			</Border>

@@ -4,7 +4,7 @@
 	xmlns:converters="clr-namespace:trello.Views.Converters">
 	
 	<converters:VisibilityConverter x:Key="VisibilityConverter" />
-	<converters:VisibilityConverter x:Key="InvisibilityConverter" Invert="True" />
+	<converters:VisibilityConverter x:Key="InvertedVisibilityConverter" Invert="True" />
 	<converters:BitmapImageConverter x:Key="BitmapConverter" />
 	<converters:CaseConverter x:Key="CaseConverter" />
 	<converters:BytesStringConverter x:Key="BytesStringConverter" />

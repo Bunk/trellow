@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
@@ -95,6 +97,21 @@ namespace trellow.api.Data.Services
                     .AddUrlSegment("item", itemId)
                     .AddParameter("state", value ? "complete" : "incomplete"));
         }
+
+        public Task UpdateDueDate(string id, DateTime? date)
+        {
+            return Processor.Execute<Card>(
+                Update("cards/{id}")
+                    .AddUrlSegment("id", id)
+                    .AddParameter("due", FormatDate(date)));
+        }
+
+        private static string FormatDate(DateTime? date)
+        {
+            return date.HasValue
+                       ? date.Value.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ", CultureInfo.InvariantCulture)
+                       : "";
+        }
     }
 
     [UsedImplicitly]
@@ -131,6 +148,11 @@ namespace trellow.api.Data.Services
         public Task UpdateCheckedItem(string id, string checklistId, string itemId, bool value)
         {
             throw new System.NotImplementedException();
+        }
+
+        public Task UpdateDueDate(string id, DateTime? date)
+        {
+            throw new NotImplementedException();
         }
     }
 }

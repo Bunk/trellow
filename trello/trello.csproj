@@ -114,6 +114,7 @@
     <Compile Include="SampleData\SampleDataSource\SampleDataSource.xaml.cs">
       <DependentUpon>SampleDataSource.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\Handlers\CardDueDateChanged.cs" />
     <Compile Include="Services\Handlers\CheckItemChanged.cs" />
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="Services\NetworkStatusChanged.cs" />
@@ -133,13 +134,14 @@
     <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="Services\IProgressService.cs" />
     <Compile Include="ViewModels\CardDetailViewModel.cs" />
+    <Compile Include="ViewModels\ChangeCardDueViewModel.cs" />
     <Compile Include="ViewModels\ChangeCardNameViewModel.cs" />
     <Compile Include="ViewModels\ChecklistItemViewModel.cs" />
     <Compile Include="ViewModels\ChecklistViewModel.cs" />
-    <Compile Include="Services\Handlers\DescriptionChanged.cs" />
+    <Compile Include="Services\Handlers\CardDescriptionChanged.cs" />
     <Compile Include="ViewModels\MemberViewModel.cs" />
     <Compile Include="ViewModels\MessageListViewModel.cs" />
-    <Compile Include="Services\Handlers\NameChanged.cs" />
+    <Compile Include="Services\Handlers\CardNameChanged.cs" />
     <Compile Include="ViewModels\PivotFix.cs" />
     <Compile Include="ViewModels\PivotViewModel.cs" />
     <Compile Include="ViewModels\ProfileViewModel.cs" />
@@ -192,6 +194,9 @@
     </Compile>
     <Compile Include="Views\CardView.xaml.cs">
       <DependentUpon>CardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChangeCardDueView.xaml.cs">
+      <DependentUpon>ChangeCardDueView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChangeCardNameView.xaml.cs">
       <DependentUpon>ChangeCardNameView.xaml</DependentUpon>
@@ -489,6 +494,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\CardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChangeCardDueView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
