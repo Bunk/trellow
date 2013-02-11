@@ -26,7 +26,7 @@ namespace trello.ViewModels
             };
         }
 
-        public void ToggleLabel(Label label)
+        public void Toggle(Label label)
         {
             label.Selected = !label.Selected;
         }

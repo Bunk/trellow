@@ -33,6 +33,12 @@
 						<telerikPrimitives:RadUniformGrid NumberOfRows="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
 					</ItemsPanelTemplate>
 				</ItemsControl.ItemsPanel>
+
+				<i:Interaction.Triggers>
+					<local:GestureServiceTrigger Gesture="Tap">
+						<micro:ActionMessage MethodName="ChangeLabels" />
+					</local:GestureServiceTrigger>
+				</i:Interaction.Triggers>
 			</ItemsControl>
 
 			<Border Style="{StaticResource ComponentBorder}">
