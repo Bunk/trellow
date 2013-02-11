@@ -31,9 +31,9 @@ namespace trello.ViewModels
                 NotifyOfPropertyChange(() => Name);
             }
         }
-
-        public IObservableCollection<ChecklistItemViewModel> Items { get; set; }
         // ReSharper restore MemberCanBePrivate.Global
+
+        public IObservableCollection<ChecklistItemViewModel> Items { get; private set; }
 
         public int ItemsChecked
         {
