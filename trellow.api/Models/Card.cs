@@ -64,6 +64,8 @@ namespace trellow.api.Models
 
         public string IdBoard { get; set; }
 
+        public string IdCard { get; set; }
+
         public string Name { get; set; }
 
         public List<CheckListItem> CheckItems { get; set; }

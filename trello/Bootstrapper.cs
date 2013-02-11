@@ -63,9 +63,9 @@ namespace trello
             //RegisterJsonRepository(_container);
             RegisterRepository(_container);
 
-            _detailHandler = (CardDetailCommandHandler) _container.GetInstance(typeof (CardDetailCommandHandler), null);
-
             TelerikConventions.Install();
+
+            _detailHandler = (CardDetailCommandHandler)_container.GetInstance(typeof(CardDetailCommandHandler), null);
         }
 
         private static void RegisterJsonRepository(PhoneContainer container)

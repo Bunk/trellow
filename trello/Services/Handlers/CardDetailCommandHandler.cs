@@ -3,7 +3,7 @@ using trellow.api.Data.Services;
 
 namespace trello.Services.Handlers
 {
-    public class CardDetailCommandHandler : IHandle<NameChanged>, IHandle<DescriptionChanged>
+    public class CardDetailCommandHandler : IHandle<NameChanged>, IHandle<DescriptionChanged>, IHandle<CheckItemChanged>
     {
         private readonly ICardService _cardService;
 
@@ -22,6 +22,11 @@ namespace trello.Services.Handlers
         public async void Handle(DescriptionChanged message)
         {
             await _cardService.UpdateDescription(message.CardId, message.Description);
+        }
+
+        public async void Handle(CheckItemChanged message)
+        {
+            await _cardService.UpdateCheckedItem(message.CardId, message.ChecklistId, message.CheckItemId, message.Value);
         }
     }
 }

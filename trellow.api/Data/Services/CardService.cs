@@ -85,6 +85,16 @@ namespace trellow.api.Data.Services
                     .AddUrlSegment("id", id)
                     .AddParameter("desc", description));
         }
+
+        public Task UpdateCheckedItem(string id, string checklistId, string itemId, bool value)
+        {
+            return Processor.Execute<object>(
+                Update("cards/{id}/checklist/{checklist}/checkItem/{item}")
+                    .AddUrlSegment("id", id)
+                    .AddUrlSegment("checklist", checklistId)
+                    .AddUrlSegment("item", itemId)
+                    .AddParameter("state", value ? "complete" : "incomplete"));
+        }
     }
 
     [UsedImplicitly]
@@ -114,6 +124,11 @@ namespace trellow.api.Data.Services
         }
 
         public Task UpdateDescription(string id, string description)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task UpdateCheckedItem(string id, string checklistId, string itemId, bool value)
         {
             throw new System.NotImplementedException();
         }

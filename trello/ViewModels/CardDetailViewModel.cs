@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using JetBrains.Annotations;
@@ -151,7 +150,7 @@ namespace trello.ViewModels
             Checklists.Clear();
             Checklists.AddRange(card.Checklists.Select(x =>
             {
-                var checklist = _checkListFactory().For(x, card.CheckItemStates);
+                var checklist = _checkListFactory().For(x, card);
                 checklist.PropertyChanged += (sender, args) =>
                 {
                     NotifyOfPropertyChange(() => CheckItems);
@@ -220,16 +219,14 @@ namespace trello.ViewModels
             var model = new ChangeCardNameViewModel
             {
                 Name = Name,
-                Accepted = text => ChangeNameAccepted(text)
+                Accepted = text =>
+                {
+                    Name = text;
+                    _eventAggregator.Publish(new NameChanged {CardId = Id, Name = Name});
+                }
             };
 
             _windowManager.ShowDialog(model);
-        }
-
-        private void ChangeNameAccepted(string text)
-        {
-            Name = text;
-            _eventAggregator.Publish(new NameChanged {CardId = Id, Name = Name});
         }
 
         public void EditDesc(GestureEventArgs args)
@@ -249,26 +246,6 @@ namespace trello.ViewModels
         {
             Desc = OriginalDesc;
             EditingDesc = false;
-        }
-
-        public void EditName(GestureEventArgs args)
-        {
-        }
-
-        public void UpdateName()
-        {
-        }
-
-        public void CancelEditName()
-        {
-        }
-
-        public void RemoveAttachment()
-        {
-        }
-
-        public void AddAttachment()
-        {
         }
     }
 }

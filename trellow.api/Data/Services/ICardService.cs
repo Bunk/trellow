@@ -13,5 +13,6 @@ namespace trellow.api.Data.Services
 
         Task UpdateName(string id, string name);
         Task UpdateDescription(string id, string description);
+        Task UpdateCheckedItem(string id, string checklistId, string itemId, bool value);
     }
 }
