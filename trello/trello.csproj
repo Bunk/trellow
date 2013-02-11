@@ -253,6 +253,7 @@
     <Content Include="Assets\Icons\dark\icon-proceed-med.png" />
     <Content Include="Assets\Icons\dark\icon-save-med.png" />
     <Content Include="Assets\Icons\dark\icon-tag-med.png" />
+    <Content Include="Assets\Icons\dark\icon-user-med.png" />
     <Content Include="SampleData\boards\boards-mine.json" />
     <Content Include="SampleData\boards\board-50e2676ad8fbe1a157003e63.json" />
     <Content Include="SampleData\cards\cards-mine.json" />

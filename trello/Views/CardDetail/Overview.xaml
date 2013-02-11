@@ -191,7 +191,7 @@
 						<ColumnDefinition />
 					</Grid.ColumnDefinitions>
 
-					<Image Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-member-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
+					<Image Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-user-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
 
 					<TextBlock Grid.Column="1" Margin="7,12,12,12" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyLight}">
 						<TextBlock.Inlines>
