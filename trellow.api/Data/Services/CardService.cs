@@ -110,7 +110,7 @@ namespace trellow.api.Data.Services
         {
             return date.HasValue
                        ? date.Value.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ", CultureInfo.InvariantCulture)
-                       : "";
+                       : "null";
         }
     }
 

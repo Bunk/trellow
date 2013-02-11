@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using JetBrains.Annotations;
@@ -28,6 +29,7 @@ namespace trello.ViewModels
         private string _originalDesc;
         private int _votes;
         private DateTime? _due;
+        private bool _showingDialog;
 
         public CardDetailViewModel(ITrelloApiSettings settings,
                                    INavigationService navigation,
@@ -142,6 +144,17 @@ namespace trello.ViewModels
             }
         }
 
+        public bool ShowingDialog
+        {
+            get { return _showingDialog; }
+            set
+            {
+                if (value.Equals(_showingDialog)) return;
+                _showingDialog = value;
+                NotifyOfPropertyChange(() => ShowingDialog);
+            }
+        }
+
 // ReSharper restore MemberCanBePrivate.Global
 
         private CardDetailViewModel InitializeWith(Card card)
@@ -229,12 +242,13 @@ namespace trello.ViewModels
         [UsedImplicitly]
         public void ChangeName()
         {
-            var model = new ChangeCardNameViewModel
+            var model = new ChangeCardNameViewModel(GetView())
             {
                 Name = Name,
                 Accepted = text =>
                 {
                     Name = text;
+                    ShowingDialog = false;
                     _eventAggregator.Publish(new CardNameChanged {CardId = Id, Name = Name});
                 }
             };
@@ -245,17 +259,19 @@ namespace trello.ViewModels
         [UsedImplicitly]
         public void ChangeDueDate()
         {
-            var model = new ChangeCardDueViewModel
+            var model = new ChangeCardDueViewModel(GetView())
             {
                 Date = Due,
                 Accepted = d =>
                 {
                     Due = d;
+                    ShowingDialog = false;
                     _eventAggregator.Publish(new CardDueDateChanged {CardId = Id, DueDate = d});
                 },
                 Removed = () =>
                 {
                     Due = null;
+                    ShowingDialog = false;
                     _eventAggregator.Publish(new CardDueDateChanged {CardId = Id, DueDate = null});
                 }
             };
@@ -263,9 +279,9 @@ namespace trello.ViewModels
             _windowManager.ShowDialog(model);
         }
 
-        public void EditDesc(GestureEventArgs args)
+        public void EditDesc()
         {
-            OriginalDesc = ((TextBlock) args.OriginalSource).Text;
+            OriginalDesc = Desc;
             EditingDesc = true;
         }
 

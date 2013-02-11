@@ -19,7 +19,7 @@
 
 			<TextBlock Style="{StaticResource PhoneTextLargeStyle}" Margin="0,0,0,20">Card Due Date</TextBlock>
 
-			<Button Name="Remove" Content="remove" Grid.Column="1" />
+			<Button x:Name="Remove" Content="remove" Grid.Column="1" />
         </Grid>
 
         <!-- add a reference to WP7 Toolkit to test with DatePicker and TimePicker -->
@@ -34,8 +34,8 @@
                 <ColumnDefinition />
                 <ColumnDefinition Width=".5*" />
             </Grid.ColumnDefinitions>
-            <Button Name="Confirm" Content="confirm" BorderBrush="{StaticResource PhoneAccentBrush}" />
-            <Button Name="TryClose" Content="cancel" Grid.Column="1" />
+            <Button x:Name="Confirm" Content="confirm" BorderBrush="{StaticResource PhoneAccentBrush}" />
+            <Button x:Name="TryClose" Content="cancel" Grid.Column="1" />
         </Grid>
     </StackPanel>
 </UserControl>

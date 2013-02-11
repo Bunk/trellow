@@ -48,23 +48,11 @@
 					<Image Grid.Row="0" Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-pencil-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
 
 					<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Desc}" TextWrapping="Wrap" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}">
-						<i:Interaction.Triggers>
-							<local:GestureServiceTrigger Gesture="Tap">
-								<micro:ActionMessage MethodName="EditDesc">
-									<micro:Parameter Value="$eventArgs" />
-								</micro:ActionMessage>
-							</local:GestureServiceTrigger>
-						</i:Interaction.Triggers>
+						
 					</TextBlock>
 
 					<TextBlock Grid.Row="0" Grid.Column="1" Text="No Description" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}, ConverterParameter='true'}" Foreground="{StaticResource PhoneSubtleBrush}" FontStyle="Italic">
-						<i:Interaction.Triggers>
-							<local:GestureServiceTrigger Gesture="Tap">
-								<micro:ActionMessage MethodName="EditDesc">
-									<micro:Parameter Value="$eventArgs" />
-								</micro:ActionMessage>
-							</local:GestureServiceTrigger>
-						</i:Interaction.Triggers>
+						
 					</TextBlock>
 					
 					<telerikPrimitives:RadWindow x:Name="DescWindow" IsFullScreen="True" IsOpen="{Binding EditingDesc}">
@@ -86,6 +74,11 @@
 					</telerikPrimitives:RadWindow>
 				</Grid>
 
+				<i:Interaction.Triggers>
+					<local:GestureServiceTrigger Gesture="Tap">
+						<micro:ActionMessage MethodName="EditDesc" />
+					</local:GestureServiceTrigger>
+				</i:Interaction.Triggers>
 			</Border>
 
 			<Border Style="{StaticResource ComponentBorder}">
@@ -110,13 +103,13 @@
 						</TextBlock.Inlines>
 					</TextBlock>
 
-					<i:Interaction.Triggers>
-						<local:GestureServiceTrigger Gesture="Tap">
-							<micro:ActionMessage MethodName="ChangeDueDate" />
-						</local:GestureServiceTrigger>
-					</i:Interaction.Triggers>
-
 				</Grid>
+
+				<i:Interaction.Triggers>
+					<local:GestureServiceTrigger Gesture="Tap">
+						<micro:ActionMessage MethodName="ChangeDueDate" />
+					</local:GestureServiceTrigger>
+				</i:Interaction.Triggers>
 			</Border>
 
 			<Border Style="{StaticResource ComponentBorder}" Visibility="{Binding Checklists.Count, Converter={StaticResource VisibilityConverter}}">
@@ -158,14 +151,13 @@
 									 Value="{Binding CheckItemsChecked}" Minimum="0" Maximum="{Binding CheckItems}" />
 
 					</Grid>
-
-					<i:Interaction.Triggers>
-						<local:GestureServiceTrigger Gesture="Tap">
-							<micro:ActionMessage MethodName="GoToChecklists" />
-						</local:GestureServiceTrigger>
-					</i:Interaction.Triggers>
-
 				</Grid>
+
+				<i:Interaction.Triggers>
+					<local:GestureServiceTrigger Gesture="Tap">
+						<micro:ActionMessage MethodName="GoToChecklists" />
+					</local:GestureServiceTrigger>
+				</i:Interaction.Triggers>
 			</Border>
 
 			<Border Style="{StaticResource ComponentBorder}" Visibility="{Binding Attachments.Count, Converter={StaticResource VisibilityConverter}}">
@@ -183,14 +175,13 @@
 							<Run Text="Attachments" />
 						</TextBlock.Inlines>
 					</TextBlock>
-
-					<i:Interaction.Triggers>
-						<local:GestureServiceTrigger Gesture="Tap">
-							<micro:ActionMessage MethodName="GoToAttachments" />
-						</local:GestureServiceTrigger>
-					</i:Interaction.Triggers>
-
 				</Grid>
+
+				<i:Interaction.Triggers>
+					<local:GestureServiceTrigger Gesture="Tap">
+						<micro:ActionMessage MethodName="GoToAttachments" />
+					</local:GestureServiceTrigger>
+				</i:Interaction.Triggers>
 			</Border>
 
 			<Border Style="{StaticResource ComponentBorder}" Visibility="{Binding Members.Count, Converter={StaticResource VisibilityConverter}}">
@@ -208,14 +199,13 @@
 							<Run Text="Members" />
 						</TextBlock.Inlines>
 					</TextBlock>
-
-					<i:Interaction.Triggers>
-						<local:GestureServiceTrigger Gesture="Tap">
-							<micro:ActionMessage MethodName="GoToMembers" />
-						</local:GestureServiceTrigger>
-					</i:Interaction.Triggers>
-
 				</Grid>
+
+				<i:Interaction.Triggers>
+					<local:GestureServiceTrigger Gesture="Tap">
+						<micro:ActionMessage MethodName="GoToMembers" />
+					</local:GestureServiceTrigger>
+				</i:Interaction.Triggers>
 			</Border>
 
 			<Border Margin="0,10,0,0" BorderBrush="{StaticResource PhoneBorderBrush}" BorderThickness="0,1,0,0">

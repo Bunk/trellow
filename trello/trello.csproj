@@ -139,6 +139,7 @@
     <Compile Include="ViewModels\ChecklistItemViewModel.cs" />
     <Compile Include="ViewModels\ChecklistViewModel.cs" />
     <Compile Include="Services\Handlers\CardDescriptionChanged.cs" />
+    <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\MemberViewModel.cs" />
     <Compile Include="ViewModels\MessageListViewModel.cs" />
     <Compile Include="Services\Handlers\CardNameChanged.cs" />

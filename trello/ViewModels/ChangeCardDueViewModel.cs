@@ -1,15 +1,16 @@
 using System;
-using Caliburn.Micro;
 
 namespace trello.ViewModels
 {
-    public class ChangeCardDueViewModel : Screen
+    public class ChangeCardDueViewModel : DialogViewModel
     {
         public DateTime? Date { get; set; }
 
         public Action<DateTime> Accepted { get; set; }
 
-        public System.Action Removed { get; set; }
+        public Action Removed { get; set; }
+
+        public ChangeCardDueViewModel(object root) : base(root) { }
 
         public void Confirm()
         {

@@ -1,10 +1,13 @@
 using System;
-using Caliburn.Micro;
 
 namespace trello.ViewModels
 {
-    public class ChangeCardNameViewModel : Screen
+    public class ChangeCardNameViewModel : DialogViewModel
     {
+        public ChangeCardNameViewModel(object root) : base(root)
+        {
+        }
+
         public string Name { get; set; }
 
         public Action<string> Accepted { get; set; }
