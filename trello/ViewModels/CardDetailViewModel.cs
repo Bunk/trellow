@@ -29,7 +29,7 @@ namespace trello.ViewModels
         private string _originalDesc;
         private int _votes;
         private DateTime? _due;
-        private bool _showingDialog;
+        private LabelNames _labelNames;
 
         public CardDetailViewModel(ITrelloApiSettings settings,
                                    INavigationService navigation,
@@ -144,17 +144,6 @@ namespace trello.ViewModels
             }
         }
 
-        public bool ShowingDialog
-        {
-            get { return _showingDialog; }
-            set
-            {
-                if (value.Equals(_showingDialog)) return;
-                _showingDialog = value;
-                NotifyOfPropertyChange(() => ShowingDialog);
-            }
-        }
-
 // ReSharper restore MemberCanBePrivate.Global
 
         private CardDetailViewModel InitializeWith(Card card)
@@ -164,6 +153,8 @@ namespace trello.ViewModels
             Desc = card.Desc;
             Due = card.Due;
             Votes = card.Badges.Votes;
+
+            _labelNames = card.Board.LabelNames;
 
             Labels.Clear();
             Labels.AddRange(card.Labels.Select(x => new LabelViewModel(x)));
@@ -248,7 +239,6 @@ namespace trello.ViewModels
                 Accepted = text =>
                 {
                     Name = text;
-                    ShowingDialog = false;
                     _eventAggregator.Publish(new CardNameChanged {CardId = Id, Name = Name});
                 }
             };
@@ -265,14 +255,29 @@ namespace trello.ViewModels
                 Accepted = d =>
                 {
                     Due = d;
-                    ShowingDialog = false;
                     _eventAggregator.Publish(new CardDueDateChanged {CardId = Id, DueDate = d});
                 },
                 Removed = () =>
                 {
                     Due = null;
-                    ShowingDialog = false;
                     _eventAggregator.Publish(new CardDueDateChanged {CardId = Id, DueDate = null});
+                }
+            };
+
+            _windowManager.ShowDialog(model);
+        }
+
+        [UsedImplicitly]
+        public void ChangeLabels()
+        {
+            var model = new ChangeCardLabelsViewModel(GetView(), _labelNames, Labels)
+            {
+                Accepted = x =>
+                {
+                    Labels.Clear();
+                    Labels.AddRange(x.Select(l => new LabelViewModel(l)));
+
+                    _eventAggregator.Publish(new CardLabelsChanged {CardId = Id, Labels = x});
                 }
             };
 

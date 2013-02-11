@@ -16,5 +16,6 @@ namespace trellow.api.Data.Services
         Task UpdateDescription(string id, string description);
         Task UpdateCheckedItem(string id, string checklistId, string itemId, bool value);
         Task UpdateDueDate(string id, DateTime? date);
+        Task UpdateLabels(string id, IEnumerable<Label> labels);
     }
 }

@@ -20,27 +20,28 @@ namespace trellow.api.Models
 
         public List<Card> Cards { get; set; }
 
-        //public List<Invitation> Invitations { get; set; }
-
-        //public List<Membership> Memberships { get; set; }
+        public LabelNames LabelNames { get; set; }
 
         public Board()
         {
             Lists = new List<List>();
             Cards = new List<Card>();
+            LabelNames = new LabelNames();
         }
     }
 
-    public class List
+    public class LabelNames
     {
-        public string Id { get; set; }
+        public string Blue { get; set; }
 
-        public string Name { get; set; }
+        public string Green { get; set; }
 
-        public bool Closed { get; set; }
+        public string Orange { get; set; }
 
-        public int Pos { get; set; }
+        public string Purple { get; set; }
 
-        public bool Subscribed { get; set; }
+        public string Red { get; set; }
+
+        public string Yellow { get; set; }
     }
 }

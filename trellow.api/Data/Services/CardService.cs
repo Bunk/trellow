@@ -69,6 +69,7 @@ namespace trellow.api.Data.Services
                     .AddParameter("checklists", "all")
                     .AddParameter("checkItemStates", "true")
                     .AddParameter("board", "true")
+                    .AddParameter("board_fields", "name,labelNames")
                     .AddParameter("list", "true"));
         }
 
@@ -104,6 +105,16 @@ namespace trellow.api.Data.Services
                 Update("cards/{id}")
                     .AddUrlSegment("id", id)
                     .AddParameter("due", FormatDate(date)));
+        }
+
+        public Task UpdateLabels(string id, IEnumerable<Label> labels)
+        {
+            var formatted = string.Join(",", labels.Select(l => l.Name));
+
+            return Processor.Execute<Card>(
+                Update("cards/{id}")
+                    .AddUrlSegment("id", id)
+                    .AddParameter("labels", "[" + formatted + "]"));
         }
 
         private static string FormatDate(DateTime? date)
@@ -151,6 +162,11 @@ namespace trellow.api.Data.Services
         }
 
         public Task UpdateDueDate(string id, DateTime? date)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateLabels(string id, IEnumerable<Label> labels)
         {
             throw new NotImplementedException();
         }

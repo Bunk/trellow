@@ -115,6 +115,7 @@
       <DependentUpon>SampleDataSource.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\Handlers\CardDueDateChanged.cs" />
+    <Compile Include="Services\Handlers\CardLabelsChanged.cs" />
     <Compile Include="Services\Handlers\CheckItemChanged.cs" />
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="Services\NetworkStatusChanged.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Services\IProgressService.cs" />
     <Compile Include="ViewModels\CardDetailViewModel.cs" />
     <Compile Include="ViewModels\ChangeCardDueViewModel.cs" />
+    <Compile Include="ViewModels\ChangeCardLabelsViewModel.cs" />
     <Compile Include="ViewModels\ChangeCardNameViewModel.cs" />
     <Compile Include="ViewModels\ChecklistItemViewModel.cs" />
     <Compile Include="ViewModels\ChecklistViewModel.cs" />
@@ -198,6 +200,9 @@
     </Compile>
     <Compile Include="Views\ChangeCardDueView.xaml.cs">
       <DependentUpon>ChangeCardDueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChangeCardLabelsView.xaml.cs">
+      <DependentUpon>ChangeCardLabelsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChangeCardNameView.xaml.cs">
       <DependentUpon>ChangeCardNameView.xaml</DependentUpon>
@@ -500,6 +505,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ChangeCardDueView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChangeCardLabelsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

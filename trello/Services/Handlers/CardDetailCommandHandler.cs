@@ -6,7 +6,8 @@ namespace trello.Services.Handlers
     public class CardDetailCommandHandler : IHandle<CardNameChanged>,
                                             IHandle<CardDescriptionChanged>,
                                             IHandle<CheckItemChanged>,
-                                            IHandle<CardDueDateChanged>
+                                            IHandle<CardDueDateChanged>,
+        IHandle<CardLabelsChanged>
     {
         private readonly ICardService _cardService;
 
@@ -36,6 +37,11 @@ namespace trello.Services.Handlers
         public async void Handle(CardDueDateChanged message)
         {
             await _cardService.UpdateDueDate(message.CardId, message.DueDate);
+        }
+
+        public async void Handle(CardLabelsChanged message)
+        {
+            await _cardService.UpdateLabels(message.CardId, message.Labels);
         }
     }
 }
