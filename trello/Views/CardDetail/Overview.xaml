@@ -8,6 +8,7 @@
 	xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
 	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
 	xmlns:local="clr-namespace:trello.Views.Triggers;assembly=trello"
+	xmlns:ctrl="clr-namespace:trello.Views.Controls;assembly=trello"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -16,7 +17,7 @@
     
 	<ScrollViewer x:Name="LayoutRoot">
 		<StackPanel>
-
+			
 			<ItemsControl ItemsSource="{Binding Labels}" Margin="0,0,0,12" HorizontalContentAlignment="Stretch">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
@@ -24,7 +25,8 @@
 							<Border.Background>
 								<SolidColorBrush Color="{Binding Color}" />
 							</Border.Background>
-							<TextBlock x:Name="Name" Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="{StaticResource PhoneFontSizeSmall}" />
+							<ctrl:DropShadowTextBlock Text="{Binding Name}" />
+							<!--<TextBlock x:Name="Name" Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="{StaticResource PhoneFontSizeSmall}" />-->
 						</Border>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>

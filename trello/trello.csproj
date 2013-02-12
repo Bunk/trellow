@@ -210,8 +210,12 @@
     <Compile Include="Views\ChecklistView.xaml.cs">
       <DependentUpon>ChecklistView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Controls\DropShadowTextBlock.xaml.cs">
+      <DependentUpon>DropShadowTextBlock.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Converters\BitmapImageConverter.cs" />
     <Compile Include="Views\Converters\DueDateColorConverter.cs" />
+    <Compile Include="Views\Converters\LabelColorConverter.cs" />
     <Compile Include="Views\Converters\StyleConverter.cs" />
     <Compile Include="Views\Converters\CaseConverter.cs" />
     <Compile Include="Views\Converters\BytesStringConverter.cs" />
@@ -517,6 +521,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ChecklistView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Controls\DropShadowTextBlock.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
