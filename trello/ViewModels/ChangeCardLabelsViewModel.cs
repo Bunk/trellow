@@ -31,7 +31,7 @@ namespace trello.ViewModels
             label.Selected = !label.Selected;
         }
 
-        public void Accept()
+        public void Confirm()
         {
             var labels = Labels
                 .Where(l => l.Selected)
