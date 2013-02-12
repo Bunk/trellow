@@ -5,12 +5,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
-    FontSize="{StaticResource PhoneFontSizeNormal}"
+    FontSize="{StaticResource PhoneFontSizeLarge}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
     
     <Grid x:Name="LayoutRoot">
-		<TextBlock x:Name="tb1" Foreground="Black" Opacity="0.2" Margin="1,3,0,0" Text="{Binding Text,ElementName=me}" />
+		<TextBlock x:Name="tb1" Foreground="Black" Opacity="0.2" Margin="1,3,0,0" Text="{Binding Text,ElementName=me}"  />
 		<TextBlock Foreground="Black" Opacity="0.2" Margin="-1,3,0,0" Text="{Binding Text,ElementName=tb1}" />
 		<TextBlock Foreground="Black" Opacity="0.4" Margin="0,2,0,0" Text="{Binding Text,ElementName=tb1}" />
 		<TextBlock Foreground="Black" Opacity="0.2" Margin="0,3,0,0" Text="{Binding Text,ElementName=tb1}" />

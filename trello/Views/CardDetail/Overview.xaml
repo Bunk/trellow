@@ -21,12 +21,11 @@
 			<ItemsControl ItemsSource="{Binding Labels}" Margin="0,0,0,12" HorizontalContentAlignment="Stretch">
 				<ItemsControl.ItemTemplate>
 					<DataTemplate>
-						<Border Margin="0,0,0,0" Height="35" Padding="10,5">
+						<Border Margin="0,0,0,0" Height="35" Padding="10,0">
 							<Border.Background>
 								<SolidColorBrush Color="{Binding Color}" />
 							</Border.Background>
-							<ctrl:DropShadowTextBlock Text="{Binding Name}" />
-							<!--<TextBlock x:Name="Name" Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="{StaticResource PhoneFontSizeSmall}" />-->
+							<ctrl:DropShadowTextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="{StaticResource PhoneFontSizeNormal}" />
 						</Border>
 					</DataTemplate>
 				</ItemsControl.ItemTemplate>

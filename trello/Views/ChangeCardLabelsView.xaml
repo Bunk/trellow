@@ -6,6 +6,7 @@
 	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
 	xmlns:micro="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
 	xmlns:local="clr-namespace:trello.Views.Triggers;assembly=trello"
+	xmlns:ctrl="clr-namespace:trello.Views.Controls;assembly=trello"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -23,8 +24,12 @@
 							<SolidColorBrush Color="{Binding Color}" />
 						</Border.Background>
 						<Grid>
-							<TextBlock HorizontalAlignment="Left" VerticalAlignment="Center" Text="{Binding Name}" />
-							<TextBlock HorizontalAlignment="Right" VerticalAlignment="Center" Text="Checked" Visibility="{Binding Selected, Converter={StaticResource VisibilityConverter}}" />
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+							<ctrl:DropShadowTextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="{StaticResource PhoneFontSizeNormal}" />
+							<Image Grid.Column="1" Source="/Assets/Icons/dark/appbar.check.rest.png" Width="48" Height="48" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="{Binding Selected, Converter={StaticResource VisibilityConverter}}" />
 						</Grid>
 
 						<i:Interaction.Triggers>
