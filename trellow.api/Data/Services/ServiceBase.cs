@@ -30,5 +30,23 @@ namespace trellow.api.Data.Services
 
             return request;
         }
+
+        protected static IRestRequest Post(string resource)
+        {
+            var request = new RestRequest(resource, Method.POST)
+            {
+                RequestFormat = DataFormat.Json
+            };
+            return request;
+        }
+
+        protected static IRestRequest Delete(string resource)
+        {
+            var request = new RestRequest(resource, Method.DELETE)
+            {
+                RequestFormat = DataFormat.Json
+            };
+            return request;
+        }
     }
 }

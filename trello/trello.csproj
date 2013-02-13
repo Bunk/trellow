@@ -103,6 +103,8 @@
     <Compile Include="Caliburn.Micro\ExtensionMethods.cs" />
     <Compile Include="Caliburn.Micro\SimpleContainer.cs" />
     <Compile Include="Caliburn.Micro\TelerikConventions.cs" />
+    <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="KeyEqualityComparer.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyChangedEventManager.cs" />

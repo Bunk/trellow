@@ -7,11 +7,14 @@ namespace trello.Services.Handlers
     {
         public string CardId { get; set; }
 
-        public List<Label> Labels { get; set; }
+        public List<Label> LabelsAdded { get; set; }
+
+        public List<Label> LabelsRemoved { get; set; }
 
         public CardLabelsChanged()
         {
-            Labels = new List<Label>();
+            LabelsAdded = new List<Label>();
+            LabelsRemoved = new List<Label>();
         }
     }
 }

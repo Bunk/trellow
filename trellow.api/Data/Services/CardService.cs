@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using JetBrains.Annotations;
+using RestSharp;
 using Strilanc.Value;
 using trellow.api.Models;
 
@@ -107,14 +108,20 @@ namespace trellow.api.Data.Services
                     .AddParameter("due", FormatDate(date)));
         }
 
-        public Task UpdateLabels(string id, IEnumerable<Label> labels)
+        public async Task UpdateLabels(string id, IEnumerable<Label> labelsAdded, IEnumerable<Label> labelsRemoved)
         {
-            var formatted = string.Join(",", labels.Select(l => l.Name));
-
-            return Processor.Execute<Card>(
-                Update("cards/{id}")
-                    .AddUrlSegment("id", id)
-                    .AddParameter("labels", "[" + formatted + "]"));
+            foreach (var added in labelsAdded)
+            {
+                await Processor.Execute<List<Label>>(Post("cards/{id}/labels")
+                                        .AddUrlSegment("id", id)
+                                        .AddParameter("value", added.Color));
+            }
+            foreach (var removed in labelsRemoved)
+            {
+                await Processor.Execute<List<Label>>(Delete("cards/{id}/labels/{color}")
+                                            .AddUrlSegment("id", id)
+                                            .AddUrlSegment("color", removed.Color));
+            }
         }
 
         private static string FormatDate(DateTime? date)
@@ -166,7 +173,7 @@ namespace trellow.api.Data.Services
             throw new NotImplementedException();
         }
 
-        public Task UpdateLabels(string id, IEnumerable<Label> labels)
+        public Task UpdateLabels(string id, IEnumerable<Label> labels, IEnumerable<Label> labels2)
         {
             throw new NotImplementedException();
         }

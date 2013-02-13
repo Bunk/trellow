@@ -1,10 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
 using Caliburn.Micro;
 using JetBrains.Annotations;
-using Microsoft.Phone.Controls;
 using Strilanc.Value;
 using trello.Services.Handlers;
 using trello.ViewModels.Activities;
@@ -12,6 +10,7 @@ using trello.Views;
 using trellow.api;
 using trellow.api.Data.Services;
 using trellow.api.Models;
+using trellow;
 
 namespace trello.ViewModels
 {
@@ -50,6 +49,8 @@ namespace trello.ViewModels
             Members = new BindableCollection<MemberViewModel>();
             Activities = new BindableCollection<ActivityViewModel>();
             Comments = new BindableCollection<ActivityViewModel>();
+
+            Checklists.PropertyChanged += NotifyCheckChanged;
         }
 
         public string Id { get; private set; }
@@ -159,19 +160,13 @@ namespace trello.ViewModels
             Labels.Clear();
             Labels.AddRange(card.Labels.Select(x => new LabelViewModel(x)));
 
-            Checklists.Clear();
+            Checklists.DoAndClear(x => x.PropertyChanged -= NotifyCheckChanged);
             Checklists.AddRange(card.Checklists.Select(x =>
             {
                 var checklist = _checkListFactory().For(x, card);
-                checklist.PropertyChanged += (sender, args) =>
-                {
-                    NotifyOfPropertyChange(() => CheckItems);
-                    NotifyOfPropertyChange(() => CheckItemsChecked);
-                };
+                checklist.PropertyChanged += NotifyCheckChanged;
                 return checklist;
             }));
-            NotifyOfPropertyChange(() => CheckItems);
-            NotifyOfPropertyChange(() => CheckItemsChecked);
 
             Attachments.Clear();
             Attachments.AddRange(card.Attachments.Select(x => _attachmentFactory().For(x)));
@@ -199,6 +194,12 @@ namespace trello.ViewModels
         {
             var card = await _cardService.WithId(Id);
             card.IfHasValueThenDo(x => InitializeWith(x));
+        }
+
+        private void NotifyCheckChanged(object sender, PropertyChangedEventArgs e)
+        {
+            NotifyOfPropertyChange(() => CheckItems);
+            NotifyOfPropertyChange(() => CheckItemsChecked);
         }
 
         [UsedImplicitly]
@@ -272,12 +273,19 @@ namespace trello.ViewModels
         {
             var model = new ChangeCardLabelsViewModel(GetView(), _labelNames, Labels)
             {
-                Accepted = x =>
+                Accepted = newLabels =>
                 {
-                    Labels.Clear();
-                    Labels.AddRange(x.Select(l => new LabelViewModel(l)));
+                    var oldLabels = Labels.Select(l => new Label {Color = l.Color, Name = l.Name}).ToList();
 
-                    _eventAggregator.Publish(new CardLabelsChanged {CardId = Id, Labels = x});
+                    _eventAggregator.Publish(new CardLabelsChanged
+                    {
+                        CardId = Id,
+                        LabelsAdded = newLabels.Except(oldLabels, l => l.Color).ToList(),
+                        LabelsRemoved = oldLabels.Except(newLabels, l => l.Color).ToList()
+                    });
+
+                    Labels.Clear();
+                    Labels.AddRange(newLabels.Select(l => new LabelViewModel(l)));
                 }
             };
 

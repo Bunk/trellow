@@ -35,7 +35,7 @@ namespace trello.ViewModels
         {
             var labels = Labels
                 .Where(l => l.Selected)
-                .Select(l => new trellow.api.Models.Label {Color = l.Color})
+                .Select(l => new trellow.api.Models.Label {Color = l.Color, Name = l.Name})
                 .ToList();
 
             Accepted(labels);

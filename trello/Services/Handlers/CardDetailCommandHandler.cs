@@ -41,7 +41,7 @@ namespace trello.Services.Handlers
 
         public async void Handle(CardLabelsChanged message)
         {
-            await _cardService.UpdateLabels(message.CardId, message.Labels);
+            await _cardService.UpdateLabels(message.CardId, message.LabelsAdded, message.LabelsRemoved);
         }
     }
 }

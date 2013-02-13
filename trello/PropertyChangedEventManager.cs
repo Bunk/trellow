@@ -1,15 +1,257 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace trello
 {
+    public class CollectionChangedWeakEventSource : WeakEventSourceBase<INotifyCollectionChanged>
+    {
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+
+        protected override WeakEventListenerBase CreateWeakEventListener(INotifyCollectionChanged eventObject)
+        {
+            var weakListener = new WeakEventListener<CollectionChangedWeakEventSource,
+                INotifyCollectionChanged,
+                NotifyCollectionChangedEventArgs>(this, eventObject);
+
+            weakListener.OnDetachAction = (listener, source) => source.CollectionChanged -= listener.OnEvent;
+            weakListener.OnEventAction = (instance, source, e) =>
+            {
+                if (instance.CollectionChanged != null)
+                    instance.CollectionChanged(source, e);
+            };
+            eventObject.CollectionChanged += weakListener.OnEvent;
+
+            return weakListener;
+        }
+    }
+
+    public class PropertyChangedWeakEventSource : WeakEventSourceBase<INotifyPropertyChanged>
+    {
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected override WeakEventListenerBase CreateWeakEventListener(INotifyPropertyChanged eventObject)
+        {
+            var weakListener = new WeakEventListener<PropertyChangedWeakEventSource,
+                INotifyPropertyChanged,
+                PropertyChangedEventArgs>(this, eventObject);
+
+            weakListener.OnDetachAction = (listener, source) => source.PropertyChanged -= listener.OnEvent;
+            weakListener.OnEventAction = (instance, source, e) =>
+            {
+                if (instance.PropertyChanged != null)
+                    instance.PropertyChanged(source, e);
+            };
+            eventObject.PropertyChanged += weakListener.OnEvent;
+
+            return weakListener;
+        }
+    }
+
+    public class WeakEventListener<TInstance, TSource, TEventArgs> : WeakEventListenerBase
+        where TInstance : class 
+        where TSource : class
+    {
+        /// <summary>
+        /// WeakReference to the rootInstance listening for the event.
+        /// </summary>
+        private readonly WeakReference _weakInstance;
+
+        /// <summary>
+        /// To hold a reference to source object. With this instance the WeakEventListener 
+        /// can guarantee that the handler gets unregistered when listener is released.
+        /// </summary>
+        private readonly WeakReference _weakSource;
+
+        /// <summary>
+        /// Delegate to the method to call when the event fires.
+        /// </summary>
+        private Action<TInstance, object, TEventArgs> _onEventAction;
+
+        /// <summary>
+        /// Delegate to the method to call when detaching from the event.
+        /// </summary>
+        private Action<WeakEventListener<TInstance, TSource, TEventArgs>, TSource> _onDetachAction;
+
+        public WeakEventListener(TInstance instance, TSource source)
+        {
+            if (instance == null)
+                throw new ArgumentNullException("instance");
+            if (source == null)
+                throw new ArgumentNullException("source");
+
+            _weakInstance = new WeakReference(instance);
+            _weakSource = new WeakReference(source);
+        }
+
+        /// <summary>
+        /// Gets or sets the method to call when the event fires.
+        /// </summary>
+        public Action<TInstance, object, TEventArgs> OnEventAction
+        {
+            get { return _onEventAction; }
+            set
+            {
+                // CAUTION: Don't remove this check, as it can cause a memory leak
+                if (value != null && !value.Method.IsStatic)
+                    throw new ArgumentException("OnEventAction method must be static " +
+                                                "otherwise the event WeakEventListner class " +
+                                                "does not prevent memory leaks.");
+
+                _onEventAction = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the method to call when detaching from the event.
+        /// </summary>
+        internal Action<WeakEventListener<TInstance, TSource, TEventArgs>, TSource> OnDetachAction
+        {
+            get { return _onDetachAction; }
+            set
+            {
+
+                // CAUTION: Don't remove this check, as it can cause a memory leak
+                if (value != null && !value.Method.IsStatic)
+                    throw new ArgumentException("OnDetachAction method must be static otherwise the " +
+                                                "event WeakEventListner cannot guarantee to unregister " +
+                                                "the handler.");
+
+                _onDetachAction = value;
+            }
+        }
+
+        /// <summary>
+        /// Handler for the subscribed event calls OnEventAction to handle it.
+        /// </summary>
+        /// <param name="source">Event source.</param>
+        /// <param name="eventArgs">Event arguments.</param>
+        public void OnEvent(object source, TEventArgs eventArgs)
+        {
+            var target = (TInstance)_weakInstance.Target;
+            if (null != target)
+            {
+                // Call registered action
+                if (null != OnEventAction)
+                {
+                    OnEventAction(target, source, eventArgs);
+                }
+            }
+            else
+            {
+                // Detach from event
+                Detach();
+            }
+        }
+
+        /// <summary>
+        /// Detaches from the subscribed event.
+        /// </summary>
+        public override void Detach()
+        {
+            var source = (TSource)_weakSource.Target;
+            if (null == OnDetachAction || source == null) 
+                return;
+
+            // Passing the source instance also, because of static event handlers
+            OnDetachAction(this, source);
+            OnDetachAction = null;
+        }
+
+    }
+
+    public abstract class WeakEventSourceBase<TSource> 
+        where TSource : class
+    {
+        private WeakReference _weakEventSource;
+        private WeakReference _weakListener;
+
+        /// <summary>
+        /// Gets the event source instance which this listener is using.
+        /// </summary>
+        /// <remarks>
+        /// The reference to the event source is weak.
+        /// </remarks>
+        public object EventSource
+        {
+            get
+            {
+                if (_weakEventSource == null)
+                    return null;
+
+                return _weakEventSource.Target;
+            }
+        }
+
+        /// <summary>
+        /// Set the event source for this instance. 
+        /// When passing a new event source it replaces the event source the 
+        /// listener is listen for an event. When passing null/nothing is detaches 
+        /// the previous event source from this event listener. 
+        /// </summary>
+        /// <param name="eventSource">The event source instance.</param>
+        public void SetEventSource(object eventSource)
+        {
+            // The listener can just listen for one event source.
+            // Detach the previous one.
+            Detach();
+
+            _weakEventSource = new WeakReference(eventSource);
+
+            var eventObject = eventSource as TSource;
+            if (eventObject == null)
+                return;
+
+            var weakListener = CreateWeakEventListenerInternal(eventObject);
+            if (weakListener == null)
+                throw new InvalidOperationException("The method CreateWeakEventListener must return a value.");
+
+            // Store the weak listener as a weak reference (used in Detach)
+            _weakListener = new WeakReference(weakListener);
+        }
+
+        private WeakEventListenerBase CreateWeakEventListenerInternal(TSource eventObject)
+        {
+            // todo: sanity checks
+            return CreateWeakEventListener(eventObject);
+        }
+
+        /// <summary>
+        /// When overridden in a derived class, it creates the weak event listener for the given event source.
+        /// </summary>
+        /// <param name="eventObject">The event source instance to listen for an event</param>
+        /// <returns>Return the weak event listener instance</returns>
+        protected abstract WeakEventListenerBase CreateWeakEventListener(TSource eventObject);
+
+        /// <summary>
+        /// Detaches the event from the event source.
+        /// </summary>
+        public void Detach()
+        {
+            if (_weakListener != null)
+            {
+                // Do it the GC safe way, since an object could potentially be reclaimed
+                // for garbage collection immediately after the IsAlive property returns true
+                var target = _weakListener.Target as WeakEventListenerBase;
+                if (target != null)
+                    target.Detach();
+            }
+
+            _weakEventSource = null;
+            _weakListener = null;
+        }
+    }
+
+    public abstract class WeakEventListenerBase
+    {
+        public abstract void Detach();
+    }
+
     public class PropertyChangedEventManager
     {
         private static readonly Lazy<PropertyChangedEventManager> _instance
