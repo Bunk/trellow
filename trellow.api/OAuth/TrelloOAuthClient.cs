@@ -20,7 +20,7 @@ namespace trellow.api.OAuth
 
         Task<May<Uri>> GetLoginUri();
 
-        Task<May<Token>> GetAccessToken(string verifier);
+        Task<May<OAuthToken>> GetAccessToken(string verifier);
 
         IRestClient GetRestClient();
     }
@@ -30,7 +30,7 @@ namespace trellow.api.OAuth
     {
         private readonly ITrelloApiSettings _settings;
 
-        private May<Token> _requestToken;
+        private May<OAuthToken> _requestToken;
 
         public TrelloOAuthClient(ITrelloApiSettings settings)
         {
@@ -78,10 +78,10 @@ namespace trellow.api.OAuth
                                                      .AddParameter("expiration", _settings.OAuthExpiration)));
         }
 
-        public async Task<May<Token>> GetAccessToken(string verifier)
+        public async Task<May<OAuthToken>> GetAccessToken(string verifier)
         {
             if (!_requestToken.HasValue)
-                return May<Token>.NoValue;
+                return May<OAuthToken>.NoValue;
 
             var token = _requestToken.ForceGetValue();
             var client = GetRestClient(OAuth1Authenticator.ForAccessToken(_settings.ApiConsumerKey,
@@ -122,7 +122,7 @@ namespace trellow.api.OAuth
             return client;
         }
 
-        private May<Token> BuildOAuthToken(Dictionary<string, string> response)
+        private May<OAuthToken> BuildOAuthToken(Dictionary<string, string> response)
         {
             string token;
             string secret;
@@ -130,9 +130,9 @@ namespace trellow.api.OAuth
             response.TryGetValue("oauth_token_secret", out secret);
 
             if (string.IsNullOrWhiteSpace(token) || string.IsNullOrWhiteSpace(secret))
-                return May<Token>.NoValue;
+                return May<OAuthToken>.NoValue;
 
-            return new Token
+            return new OAuthToken
             {
                 Key = token,
                 Secret = secret,
@@ -158,7 +158,7 @@ namespace trellow.api.OAuth
             throw new NotSupportedException();
         }
 
-        public Task<May<Token>> GetAccessToken(string verifier)
+        public Task<May<OAuthToken>> GetAccessToken(string verifier)
         {
             throw new NotSupportedException();
         }

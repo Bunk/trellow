@@ -7,6 +7,8 @@ namespace trellow.api.Data
     {
         Task<ResponseContext<T>> Handle<T>(ResponseContext<T> context);
 
+        Task<RequestContext<T>> Handle<T>(RequestContext<T> context);
+
         IRequestPipelineStage Then(IRequestPipelineStage next);
     }
 
@@ -15,6 +17,8 @@ namespace trellow.api.Data
         private IRequestPipelineStage _nextHandler;
 
         public abstract Task<ResponseContext<T>> Handle<T>(ResponseContext<T> context);
+
+        public abstract Task<RequestContext<T>> Handle<T>(RequestContext<T> context);
 
         public IRequestPipelineStage Then(IRequestPipelineStage nextHandler)
         {
@@ -26,6 +30,14 @@ namespace trellow.api.Data
         {
             if (_nextHandler != null)
                 return await _nextHandler.Handle(context);
+            return context;
+        }
+
+        protected async Task<RequestContext<T>> ContinueIfPossible<T>(RequestContext<T> context)
+        {
+            if (_nextHandler != null)
+                return await _nextHandler.Handle(context);
+
             return context;
         }
     }

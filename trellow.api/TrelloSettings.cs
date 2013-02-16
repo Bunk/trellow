@@ -15,7 +15,7 @@ namespace trellow.api
 
         string OAuthExpiration { get; }
 
-        Token AccessToken { get; set; }
+        OAuthToken AccessToken { get; set; }
     }
 
     [UsedImplicitly]
@@ -46,9 +46,9 @@ namespace trellow.api
             get { return "never"; }
         }
 
-        public Token AccessToken
+        public OAuthToken AccessToken
         {
-            get { return GetOrDefault<Token>("AccessToken"); }
+            get { return GetOrDefault<OAuthToken>("AccessToken"); }
             set { Set("AccessToken", value); }
         }
     }

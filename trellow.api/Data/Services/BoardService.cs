@@ -1,12 +1,15 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Strilanc.Value;
-using trellow.api.Models;
+using TrelloNet;
+using Board = trellow.api.Models.Board;
 
 namespace trellow.api.Data.Services
 {
     public class BoardService : ServiceBase, IBoardService
     {
+        private ITrello _api;
+
         public BoardService(IRequestProcessor processor) : base(processor)
         {
         }

@@ -49,5 +49,28 @@ namespace trello.Services.Stages
 
             return context;
         }
+
+        public override async Task<RequestContext<T>> Handle<T>(RequestContext<T> context)
+        {
+            if (context.Method == Method.GET)
+            {
+                if (_network.IsAvailable)
+                {
+                    context = await ContinueIfPossible(context);
+                    _cache.Set(context.Resource, context.Data);
+                }
+                else
+                {
+                    context.Data = _cache.Get<T>(context.Resource);
+                    context = await ContinueIfPossible(context);
+                }
+            }
+            else
+            {
+                context = await ContinueIfPossible(context);
+            }
+
+            return context;
+        }
     }
 }

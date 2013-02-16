@@ -3,10 +3,12 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using Strilanc.Value;
+using TrelloNet;
 using trellow.api;
 using trellow.api.Data;
 using trellow.api.Data.Services;
-using trellow.api.Models;
+using Board = trellow.api.Models.Board;
+using List = trellow.api.Models.List;
 
 namespace trello.ViewModels
 {
@@ -97,6 +99,14 @@ namespace trello.ViewModels
                 Items.AddRange(lists);
             }).ElseDo(() => MessageBox.Show("The board could not be loaded.  " +
                                             "Please ensure that you have an active internet connection."));
+        }
+
+        public void InitializeWith(TrelloNet.Board board)
+        {
+            Id = board.Id;
+            Name = board.Name;
+            Desc = board.Desc;
+            IsPrivate = board.Prefs.PermissionLevel == PermissionLevel.Private;
         }
 
         private BoardListViewModel BuildListViewModel(List list)

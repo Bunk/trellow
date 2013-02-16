@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Windows;
 using Caliburn.Micro;
 using Microsoft.Phone.Controls;
+using TrelloNet;
 using trello.Services;
 using trello.Services.Cache;
 using trello.Services.Handlers;
@@ -59,6 +60,16 @@ namespace trello
             _container.PerRequest<AttachmentViewModel>();
 
             _container.Singleton<CardDetailCommandHandler>();
+
+            _container.Handler<ITrello>(container =>
+            {
+                var settings = (ITrelloApiSettings) container.GetInstance(typeof (ITrelloApiSettings), null);
+                var api = new Trello(settings.ApiConsumerKey, settings.ApiConsumerSecret);
+                if (settings.AccessToken != null)
+                    api.Authorize(settings.AccessToken);
+
+                return api;
+            });
             
             //RegisterJsonRepository(_container);
             RegisterRepository(_container);

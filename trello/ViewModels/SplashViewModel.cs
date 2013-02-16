@@ -4,8 +4,10 @@ using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Controls;
 using Strilanc.Value;
+using TrelloNet;
 using trello.Services;
 using trello.Views;
+using trellow.api;
 using trellow.api.Data;
 using trellow.api.Data.Services;
 using trellow.api.OAuth;
@@ -16,8 +18,9 @@ namespace trello.ViewModels
     public class SplashViewModel : Screen
     {
         private readonly INavigationService _navigationService;
-        private readonly IOAuthClient _oauthClient;
+        private readonly ITrelloApiSettings _settings;
         private readonly ICache _cache;
+        private readonly ITrello _api;
         private string _status;
 
         public string Status
@@ -31,11 +34,12 @@ namespace trello.ViewModels
             }
         }
 
-        public SplashViewModel(INavigationService navigationService, IOAuthClient oauthClient, ICache cache)
+        public SplashViewModel(INavigationService navigationService, ITrelloApiSettings settings, ITrello api, ICache cache)
         {
             _navigationService = navigationService;
-            _oauthClient = oauthClient;
+            _settings = settings;
             _cache = cache;
+            _api = api;
         }
 
         protected override async void OnViewLoaded(object view)
@@ -47,43 +51,46 @@ namespace trello.ViewModels
             if (!success)
                 Status = "Invalidating the cache...";
 
-            Status = "Signing in...";
-            var loggedin = _oauthClient.ValidateAccessToken();
-            if (!loggedin)
+            var validated = _settings.AccessToken != null;
+            if (validated)
             {
-                // Not logged in, so let's initiate the OAuth v1 handshake
-                Login();
+                Status = "Signed in";
+                Continue();
             }
             else
             {
-                // Already logged in, so let's go to the shell
-                Continue();
-
-                Status = "Signed in...";
+                Status = "Signing in...";
+                Login();
             }
         }
 
         [UsedImplicitly]
         public void BrowserNavigating(NavigatingEventArgs args)
         {
-            if (args.Uri.Host.Equals("localhost"))
+            if (!args.Uri.Host.Equals("localhost")) 
+                return;
+
+            args.Cancel = true;
+
+            // We've been redirected back w/ the token
+            UsingView(async view =>
             {
-                args.Cancel = true;
+                view.Browser.Visibility = Visibility.Collapsed;
 
-                // We've been redirected back w/ the token
-                UsingView(async view =>
+                var parms = args.Uri.Query.ParseQueryString();
+                var verifier = parms["oauth_verifier"];
+
+                var token = await _api.Verify(verifier);
+                if (token != null)
                 {
-                    view.Browser.Visibility = Visibility.Collapsed;
-
-                    var parms = args.Uri.Query.ParseQueryString();
-                    var verifier = parms["oauth_verifier"];
-                    var token = await _oauthClient.GetAccessToken(verifier);
-
-                    token
-                        .IfHasValueThenDo(t => Continue())
-                        .ElseDo(Login);
-                });
-            }
+                    _settings.AccessToken = token;
+                    Continue();
+                }
+                else
+                {
+                    Login();
+                }
+            });
         }
 
         private void Continue()
@@ -94,9 +101,15 @@ namespace trello.ViewModels
 
         private async void Login()
         {
-            // todo: Handle exceptions here so that we can give a good message to the user
-            var loginUri = await _oauthClient.GetLoginUri();
-            loginUri.IfHasValueThenDo(LoadLogin);
+            var uri = await _api.GetAuthorizationUri("Trellow", Scope.ReadWriteAccount, Expiration.Never);
+            if (uri != null)
+            {
+                LoadLogin(uri);
+            }
+            else
+            {
+                Status = "Could not sign in";
+            }
         }
 
         private void LoadLogin(Uri uri)

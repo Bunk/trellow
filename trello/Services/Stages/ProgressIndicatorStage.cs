@@ -25,5 +25,16 @@ namespace trello.Services.Stages
 
             return context;
         }
+
+        public override async Task<RequestContext<T>> Handle<T>(RequestContext<T> context)
+        {
+            _progressService.Show();
+
+            context = await ContinueIfPossible(context);
+
+            _progressService.Hide();
+
+            return context;
+        }
     }
 }
