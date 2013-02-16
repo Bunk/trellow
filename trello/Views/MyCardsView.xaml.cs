@@ -10,9 +10,9 @@ using Microsoft.Phone.Shell;
 
 namespace trello.Views
 {
-    public partial class CardListView : UserControl
+    public partial class MyCardsView : UserControl
     {
-        public CardListView()
+        public MyCardsView()
         {
             InitializeComponent();
         }

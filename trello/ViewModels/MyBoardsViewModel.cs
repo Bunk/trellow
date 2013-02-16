@@ -15,7 +15,7 @@ using Board = trellow.api.Models.Board;
 namespace trello.ViewModels
 {
     [UsedImplicitly]
-    public class BoardsViewModel : PivotItemViewModel, IConfigureTheAppBar
+    public class MyBoardsViewModel : PivotItemViewModel, IConfigureTheAppBar
     {
         private readonly Func<BoardViewModel> _boardFactory;
         private readonly IBoardService _boardService;
@@ -23,7 +23,7 @@ namespace trello.ViewModels
         private readonly TrelloCoordinator _data;
         private readonly INavigationService _navigationService;
 
-        public BoardsViewModel(INavigationService navigationService,
+        public MyBoardsViewModel(INavigationService navigationService,
                                IBoardService boardService,
             ITrello api,
             TrelloCoordinator data,

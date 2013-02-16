@@ -130,10 +130,10 @@
     <Compile Include="ViewModels\ActivityViewModel.cs" />
     <Compile Include="ViewModels\AttachmentViewModel.cs" />
     <Compile Include="ViewModels\BoardListViewModel.cs" />
-    <Compile Include="ViewModels\BoardsViewModel.cs" />
+    <Compile Include="ViewModels\MyBoardsViewModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="Services\Handlers\CardDetailCommandHandler.cs" />
-    <Compile Include="ViewModels\CardListViewModel.cs" />
+    <Compile Include="ViewModels\MyCardsViewModel.cs" />
     <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="Services\IProgressService.cs" />
     <Compile Include="ViewModels\CardDetailViewModel.cs" />
@@ -164,8 +164,8 @@
     <Compile Include="Views\Activities\SimpleActivityView.xaml.cs">
       <DependentUpon>SimpleActivityView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BoardsView.xaml.cs">
-      <DependentUpon>BoardsView.xaml</DependentUpon>
+    <Compile Include="Views\MyBoardsView.xaml.cs">
+      <DependentUpon>MyBoardsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BoardListView.xaml.cs">
       <DependentUpon>BoardListView.xaml</DependentUpon>
@@ -194,8 +194,8 @@
     <Compile Include="Views\CardDetailView.xaml.cs">
       <DependentUpon>CardDetailView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CardListView.xaml.cs">
-      <DependentUpon>CardListView.xaml</DependentUpon>
+    <Compile Include="Views\MyCardsView.xaml.cs">
+      <DependentUpon>MyCardsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CardView.xaml.cs">
       <DependentUpon>CardView.xaml</DependentUpon>
@@ -462,7 +462,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\BoardsView.xaml">
+    <Page Include="Views\MyBoardsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -502,7 +502,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CardListView.xaml">
+    <Page Include="Views\MyCardsView.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>

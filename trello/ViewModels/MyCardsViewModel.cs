@@ -12,20 +12,17 @@ using trellow.api.Models;
 namespace trello.ViewModels
 {
     [UsedImplicitly]
-    public class CardListViewModel : PivotItemViewModel, IConfigureTheAppBar
+    public class MyCardsViewModel : PivotItemViewModel, IConfigureTheAppBar
     {
-        private readonly INavigationService _navigationService;
         private readonly ICardService _cards;
         private readonly Func<CardViewModel> _cardFactory;
         private readonly Random _randomizer;
 
         public IObservableCollection<IGrouping<string, CardViewModel>> Cards { get; set; }
 
-        public CardListViewModel(INavigationService navigationService,
-                                 ICardService cards,
-                                 Func<CardViewModel> cardFactory)
+        public MyCardsViewModel(ICardService cards,
+                                Func<CardViewModel> cardFactory)
         {
-            _navigationService = navigationService;
             _cards = cards;
             _cardFactory = cardFactory;
 
@@ -42,6 +39,8 @@ namespace trello.ViewModels
 
         private async void RefreshCards()
         {
+
+
             Cards.Clear();
 
             var cards = await _cards.Mine();

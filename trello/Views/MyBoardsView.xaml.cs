@@ -2,9 +2,9 @@
 
 namespace trello.Views
 {
-    public partial class BoardsView : UserControl
+    public partial class MyBoardsView : UserControl
     {
-        public BoardsView()
+        public MyBoardsView()
         {
             InitializeComponent();
         }

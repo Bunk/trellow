@@ -1,24 +1,23 @@
 ﻿using Caliburn.Micro;
-using Microsoft.Phone.Shell;
 using trellow.api;
 
 namespace trello.ViewModels
 {
     public class ShellViewModel : PivotViewModel
     {
-        private readonly BoardsViewModel _boards;
-        private readonly CardListViewModel _cards;
+        private readonly MyBoardsViewModel _myBoards;
+        private readonly MyCardsViewModel _myCards;
         private readonly MessageListViewModel _messages;
 
         public ShellViewModel(ITrelloApiSettings settings,
                               INavigationService navigation,
-                              BoardsViewModel boards,
-                              CardListViewModel cards,
+                              MyBoardsViewModel myBoards,
+                              MyCardsViewModel myCards,
                               MessageListViewModel messages)
             : base(settings, navigation)
         {
-            _boards = boards;
-            _cards = cards;
+            _myBoards = myBoards;
+            _myCards = myCards;
             _messages = messages;
         }
 
@@ -26,22 +25,14 @@ namespace trello.ViewModels
         {
             base.OnInitialize();
 
-            Items.Add(_boards);
-            Items.Add(_cards);
+            Items.Add(_myBoards);
+            Items.Add(_myCards);
             Items.Add(_messages);
 
-            ActivateItem(_boards);
+            ActivateItem(_myBoards);
 
             // remove back navigation to the splash page
             Navigation.RemoveBackEntry();
-        }
-
-        protected override ApplicationBar BuildDefaultAppBar()
-        {
-            var bar = base.BuildDefaultAppBar();
-
-
-            return bar;
         }
     }
 }
