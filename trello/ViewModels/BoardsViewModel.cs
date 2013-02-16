@@ -63,14 +63,14 @@ namespace trello.ViewModels
                               .Navigate();
         }
 
-        protected override void OnViewReady(object view)
+        protected override void OnInitialize()
         {
             RefreshBoards();
         }
 
         private async void RefreshBoards()
         {
-            var boards = await _data.Execute(() => _api.Async.Boards.ForMe());
+            var boards = await _data.Execute(() => _api.Async.Boards.ForMe(), "/boards/mine");
             boards
                 .IfHasValueThenDo(x =>
                 {

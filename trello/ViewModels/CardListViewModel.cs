@@ -35,7 +35,7 @@ namespace trello.ViewModels
             _randomizer = new Random();
         }
 
-        protected override void OnViewLoaded(object view)
+        protected override void OnInitialize()
         {
             RefreshCards();
         }

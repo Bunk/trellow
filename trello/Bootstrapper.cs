@@ -61,6 +61,7 @@ namespace trello
 
             _container.Singleton<CardDetailCommandHandler>();
 
+            _container.Singleton<TrelloCoordinator>();
             _container.Handler<ITrello>(container =>
             {
                 var settings = (ITrelloApiSettings) container.GetInstance(typeof (ITrelloApiSettings), null);

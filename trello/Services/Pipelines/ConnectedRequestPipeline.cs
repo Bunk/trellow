@@ -28,7 +28,7 @@ namespace trello.Services.Pipelines
             var _2 = _cacheStage();
             var _3 = _callApiStage();
 
-            _1.Then(_2.Then(_3));
+            _1.Then(_3);
 
             return _1;
         }
