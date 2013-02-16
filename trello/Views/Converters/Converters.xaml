@@ -9,5 +9,6 @@
 	<converters:CaseConverter x:Key="CaseConverter" />
 	<converters:BytesStringConverter x:Key="BytesStringConverter" />
 	<converters:DueDateColorConverter x:Key="DueDateConverter" DefaultBrush="{StaticResource PhoneAccentBrush}" />
+	<converters:LabelColorConverter x:Key="LabelColorConverter" />
 
 </ResourceDictionary>

@@ -23,7 +23,7 @@
 					<DataTemplate>
 						<Border Margin="0,0,0,0" Height="35" Padding="10,0">
 							<Border.Background>
-								<SolidColorBrush Color="{Binding Color}" />
+								<SolidColorBrush Color="{Binding Color, Converter={StaticResource LabelColorConverter}}" />
 							</Border.Background>
 							<ctrl:DropShadowTextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="{StaticResource PhoneFontSizeNormal}" />
 						</Border>

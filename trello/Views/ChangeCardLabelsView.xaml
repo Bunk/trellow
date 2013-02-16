@@ -21,7 +21,7 @@
 				<DataTemplate>
 					<Border HorizontalAlignment="Stretch" Margin="10" Height="50" Padding="10,5">
 						<Border.Background>
-							<SolidColorBrush Color="{Binding Color}" />
+							<SolidColorBrush Color="{Binding Color, Converter={StaticResource LabelColorConverter}}" />
 						</Border.Background>
 						<Grid>
 							<Grid.ColumnDefinitions>
