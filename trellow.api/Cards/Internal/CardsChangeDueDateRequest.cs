@@ -9,9 +9,9 @@ namespace TrelloNet.Internal
 		public CardsChangeDueDateRequest(ICardId card, DateTimeOffset? due)
 			: base(card, "due", Method.PUT)
 		{
-			var dueString = "";			
-			if (due.HasValue)
-				dueString = due.Value.ToString(CultureInfo.InvariantCulture);
+			var dueString = "";
+            if (due.HasValue)
+                dueString = due.Value.ToString("yyyy-MM-ddTHH:mm:ss.fffZ", CultureInfo.InvariantCulture);
 			this.AddValue(dueString);
 		}
 	}

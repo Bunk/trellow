@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
+using TrelloNet;
 using trello.Services.Handlers;
 using trellow.api;
-using trellow.api.Models;
 
 namespace trello.ViewModels
 {
     [UsedImplicitly]
-    public class ChecklistViewModel : ViewModelBase
+    public class ChecklistViewModel : ViewModelBase, IHandle<CheckItemChanged>
     {
-        private readonly IEventAggregator _eventAggregator;
         private readonly Func<ChecklistItemViewModel> _itemFactory;
         private string _name;
 
@@ -20,7 +18,6 @@ namespace trello.ViewModels
 
         private string CardId { get; set; }
 
-        // ReSharper disable MemberCanBePrivate.Global
         public string Name
         {
             get { return _name; }
@@ -31,7 +28,6 @@ namespace trello.ViewModels
                 NotifyOfPropertyChange(() => Name);
             }
         }
-        // ReSharper restore MemberCanBePrivate.Global
 
         public IObservableCollection<ChecklistItemViewModel> Items { get; private set; }
 
@@ -45,59 +41,30 @@ namespace trello.ViewModels
                                   IEventAggregator eventAggregator,
                                   Func<ChecklistItemViewModel> itemFactory) : base(settings, navigation)
         {
-            _eventAggregator = eventAggregator;
             _itemFactory = itemFactory;
 
+            eventAggregator.Subscribe(this);
+
             Items = new BindableCollection<ChecklistItemViewModel>();
-            Items.CollectionChanged += (sender, args) => NotifyOfPropertyChange(() => ItemsChecked);
         }
 
-        private readonly List<PropertyObserver<ChecklistItemViewModel>> _itemsObservers =
-            new List<PropertyObserver<ChecklistItemViewModel>>();
-
-        public ChecklistViewModel For(CheckList checkList, Card card)
+        public ChecklistViewModel InitializeWith(Card.Checklist list)
         {
-            Id = checkList.Id;
-            Name = checkList.Name;
-            CardId = card.Id;
+            Id = list.Id;
+            Name = list.Name;
+            CardId = list.IdCard;
 
+            var items = list.CheckItems.Select(item => _itemFactory().InitializeWith(CardId, Id, item));
             Items.Clear();
-            _itemsObservers.ForEach(o => o.UnregisterHandler(i => i.Checked));
-            _itemsObservers.Clear();
-
-            Items.AddRange(checkList.CheckItems.Select(x =>
-            {
-                var item = _itemFactory().For(x);
-
-                // note: This is the way that the Trello API seems to work currently--hopefully they fix it
-                if (card.CheckItemStates.Any(
-                    c => c.IdCheckItem == item.Id &&
-                         c.State == CheckListItem.CheckState.Complete))
-                {
-                    item.Checked = true;
-                }
-
-                // wire up to make sure we update the server when this changes.
-                _itemsObservers.Add(new PropertyObserver<ChecklistItemViewModel>(item)
-                                        .RegisterHandler(i => i.Checked, CheckItemChanged));
-
-                return item;
-            }));
+            Items.AddRange(items);
 
             return this;
         }
 
-        private void CheckItemChanged(ChecklistItemViewModel item)
+        public void Handle(CheckItemChanged message)
         {
             NotifyOfPropertyChange(() => ItemsChecked);
-
-            _eventAggregator.Publish(new CheckItemChanged
-            {
-                CardId = CardId,
-                ChecklistId = Id,
-                CheckItemId = item.Id,
-                Value = item.Checked
-            });
+            NotifyOfPropertyChange(() => Items);
         }
     }
 }

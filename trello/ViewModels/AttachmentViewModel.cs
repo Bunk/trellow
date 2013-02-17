@@ -3,8 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using JetBrains.Annotations;
-using trellow.api.Models;
+using TrelloNet;
 using Windows.System;
+using trello.Extensions;
 
 namespace trello.ViewModels
 {
@@ -31,39 +32,39 @@ namespace trello.ViewModels
 
         public bool IsCover { get; set; }
 
-        public AttachmentViewModel For(Attachment attachment)
-        {
-            if (attachment.Previews.Any())
-            {
-                var preview = attachment.Previews
-                    .OrderBy(p => p.Width)
-                    .ThenBy(p => p.Height)
-                    .First();
-
-                PreviewUri = new Uri(preview.Url, UriKind.Absolute);
-                PreviewWidth = preview.Width;
-                PreviewHeight = preview.Height;
-            }
-
-            Name = attachment.Name;
-            Date = DateTime.SpecifyKind(attachment.Date, DateTimeKind.Utc).ToLocalTime();
-            Bytes = attachment.Bytes;
-            Uri = string.IsNullOrWhiteSpace(attachment.Url) ? null : new Uri(attachment.Url, UriKind.Absolute);
-
-            var extension = Path.GetExtension(attachment.Url);
-            if (extension != null)
-                Extension = extension.Substring(1).ToUpperInvariant();
-
-            return this;
-        }
-
         public async void Launch()
         {
-            bool success = await Launcher.LaunchUriAsync(Uri);
+            var success = await Launcher.LaunchUriAsync(Uri);
             if (!success)
                 MessageBox.Show(
                     "The attachment could not be opened.  Make sure you're still connected to the internet.",
                     "Connection Problem", MessageBoxButton.OK);
+        }
+
+        public AttachmentViewModel InitializeWith(Card.Attachment att)
+        {
+            if (att.Previews.Any())
+            {
+                var preview = att.Previews
+                    .OrderBy(p => p.Width)
+                    .ThenBy(p => p.Height)
+                    .First();
+
+                PreviewUri = preview.Url.ToUri();
+                PreviewWidth = preview.Width;
+                PreviewHeight = preview.Height;
+            }
+
+            Name = att.Name;
+            Date = att.Date.ToLocalTime();
+            Bytes = att.Bytes;
+            Uri = att.Url.ToUri();
+
+            var extension = Path.GetExtension(att.Url);
+            if (extension != null)
+                Extension = extension.Substring(1).ToUpperInvariant();
+
+            return this;
         }
     }
 }

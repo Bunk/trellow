@@ -1,4 +1,5 @@
-using trellow.api.Models;
+using TrelloNet;
+using Member = trellow.api.Models.Member;
 
 namespace trello.ViewModels
 {
@@ -24,6 +25,25 @@ namespace trello.ViewModels
             Bio = member.Bio;
             ImageUriThumb = string.Format("https://trello-avatars.s3.amazonaws.com/{0}/30.png", member.AvatarHash);
             ImageUriLarge = string.Format("https://trello-avatars.s3.amazonaws.com/{0}/170.png", member.AvatarHash);
+        }
+
+        public MemberViewModel(TrelloNet.Member member)
+        {
+            Id = member.Id;
+            FullName = member.FullName;
+            Username = member.Username;
+            Bio = member.Bio;
+            ImageUriThumb = string.Format("https://trello-avatars.s3.amazonaws.com/{0}/30.png", member.AvatarHash);
+            ImageUriLarge = string.Format("https://trello-avatars.s3.amazonaws.com/{0}/170.png", member.AvatarHash);
+        }
+
+        public MemberViewModel(Action.ActionMember memberCreator)
+        {
+            Id = memberCreator.Id;
+            FullName = memberCreator.FullName;
+            Username = memberCreator.Username;
+            ImageUriThumb = string.Format("https://trello-avatars.s3.amazonaws.com/{0}/30.png", memberCreator.AvatarHash);
+            ImageUriLarge = string.Format("https://trello-avatars.s3.amazonaws.com/{0}/170.png", memberCreator.AvatarHash);
         }
     }
 }

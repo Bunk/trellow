@@ -17,31 +17,10 @@ namespace TrelloNet
 			_restClient = new TrelloRestClient(_apiKey);
 
             Async = new AsyncTrello(_restClient);
-#if !WINDOWS_PHONE
-			Members = new Members(_restClient);
-			Boards = new Boards(_restClient);
-			Lists = new Lists(_restClient);
-			Cards = new Cards(_restClient);
-			Checklists = new Checklists(_restClient);
-			Organizations = new Organizations(_restClient);
-			Notifications = new Notifications(_restClient);
-			Tokens = new Tokens(_restClient);
-			Actions = new Actions(_restClient);
-#endif
 		}
 
         public IAsyncTrello Async { get; private set; }
 #if !WINDOWS_PHONE
-		public IMembers Members { get; private set; }
-		public IBoards Boards { get; private set; }
-		public ILists Lists { get; private set; }
-		public ICards Cards { get; private set; }
-		public IChecklists Checklists { get; private set; }
-		public IOrganizations Organizations { get; private set; }
-		public INotifications Notifications { get; private set; }
-		public ITokens Tokens { get; private set; }
-		public IActions Actions { get; private set; }
-
 		public SearchResults Search(string query, int limit = 10, SearchFilter filter = null, IEnumerable<ModelType> modelTypes = null, DateTime? actionsSince = null, bool partial = false)
 		{
 			return _restClient.Request<SearchResults>(new SearchRequest(query, limit, filter, modelTypes, actionsSince, partial));

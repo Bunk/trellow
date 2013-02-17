@@ -1,38 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
-using Strilanc.Value;
 using Telerik.Windows.Controls;
 using TrelloNet;
 using trello.Assets;
-using trellow.api.Data.Services;
-using Board = trellow.api.Models.Board;
+using trello.Services;
 
 namespace trello.ViewModels
 {
     [UsedImplicitly]
-    public class MyBoardsViewModel : PivotItemViewModel, IConfigureTheAppBar
+    public sealed class MyBoardsViewModel : PivotItemViewModel, IConfigureTheAppBar
     {
         private readonly Func<BoardViewModel> _boardFactory;
-        private readonly IBoardService _boardService;
         private readonly ITrello _api;
-        private readonly TrelloCoordinator _data;
         private readonly INavigationService _navigationService;
+        private readonly IProgressService _progress;
 
         public MyBoardsViewModel(INavigationService navigationService,
-                               IBoardService boardService,
-            ITrello api,
-            TrelloCoordinator data,
-                               Func<BoardViewModel> boardFactory)
+                                 IProgressService progress,
+                                 ITrello api,
+                                 Func<BoardViewModel> boardFactory)
         {
             _navigationService = navigationService;
-            _boardService = boardService;
+            _progress = progress;
             _api = api;
-            _data = data;
             _boardFactory = boardFactory;
 
             DisplayName = "boards";
@@ -59,8 +53,8 @@ namespace trello.ViewModels
                 return;
 
             _navigationService.UriFor<BoardViewModel>()
-                              .WithParam(x => x.Id, context.Id)
-                              .Navigate();
+                .WithParam(x => x.Id, context.Id)
+                .Navigate();
         }
 
         protected override void OnInitialize()
@@ -70,22 +64,26 @@ namespace trello.ViewModels
 
         private async void RefreshBoards()
         {
-            var boards = await _data.Execute(() => _api.Async.Boards.ForMe(), "/boards/mine");
-            boards
-                .IfHasValueThenDo(x =>
-                {
-                    Boards.Clear();
-                    Boards.AddRange(x.Select(BuildBoard));
-                })
-                .ElseDo(() => MessageBox.Show("Your boards could not be loaded at this time.  " +
-                                              "Please ensure that you have an internet connection."));
+            _progress.Show("Refreshing...");
+
+            try
+            {
+                var boards = (await _api.Async.Boards.ForMe());
+
+                Boards.Clear();
+                Boards.AddRange(boards.Select(BuildBoard));
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Your boards could not be loaded at this time.  " +
+                                "Please ensure that you have an internet connection.");
+            }
+            _progress.Hide();
         }
 
-        private BoardViewModel BuildBoard(TrelloNet.Board board)
+        private BoardViewModel BuildBoard(Board board)
         {
-            var vm = _boardFactory();
-            vm.InitializeWith(board);
-            return vm;
+            return _boardFactory().InitializeBoard(board);
         }
     }
 }

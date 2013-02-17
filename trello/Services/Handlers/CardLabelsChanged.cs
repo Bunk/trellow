@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using trellow.api.Models;
+using TrelloNet;
 
 namespace trello.Services.Handlers
 {
@@ -7,14 +7,14 @@ namespace trello.Services.Handlers
     {
         public string CardId { get; set; }
 
-        public List<Label> LabelsAdded { get; set; }
+        public List<Card.Label> LabelsAdded { get; set; }
 
-        public List<Label> LabelsRemoved { get; set; }
+        public List<Card.Label> LabelsRemoved { get; set; }
 
         public CardLabelsChanged()
         {
-            LabelsAdded = new List<Label>();
-            LabelsRemoved = new List<Label>();
+            LabelsAdded = new List<Card.Label>();
+            LabelsRemoved = new List<Card.Label>();
         }
     }
 }

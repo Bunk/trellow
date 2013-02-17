@@ -8,14 +8,10 @@ using TrelloNet;
 using trello.Services;
 using trello.Services.Cache;
 using trello.Services.Handlers;
-using trello.Services.Pipelines;
 using trello.Services.Stages;
 using trello.ViewModels;
 using trellow.api;
 using trellow.api.Data;
-using trellow.api.Data.Services;
-using trellow.api.Data.Stages;
-using trellow.api.OAuth;
 
 namespace trello
 {
@@ -38,11 +34,6 @@ namespace trello
 
             _container.Singleton<ProgressIndicatorStage>();
             _container.Singleton<CacheStage>();
-            _container.Singleton<CallExternalApiStage>();
-
-            _container.Singleton<IRequestPipeline, ConnectedRequestPipeline>();
-            _container.Singleton<IRequestProcessor, RequestProcessor>();
-            _container.Singleton<ITrelloApiSettings, TrelloSettings>();
 
             _container.Singleton<SplashViewModel>();
             _container.Singleton<ShellViewModel>();
@@ -61,7 +52,7 @@ namespace trello
 
             _container.Singleton<CardDetailCommandHandler>();
 
-            _container.Singleton<TrelloCoordinator>();
+            _container.Singleton<ITrelloApiSettings, TrelloSettings>();
             _container.Handler<ITrello>(container =>
             {
                 var settings = (ITrelloApiSettings) container.GetInstance(typeof (ITrelloApiSettings), null);
@@ -71,31 +62,10 @@ namespace trello
 
                 return api;
             });
-            
-            //RegisterJsonRepository(_container);
-            RegisterRepository(_container);
 
             TelerikConventions.Install();
 
-            _detailHandler = (CardDetailCommandHandler)_container.GetInstance(typeof(CardDetailCommandHandler), null);
-        }
-
-        private static void RegisterJsonRepository(PhoneContainer container)
-        {
-            container.Singleton<IOAuthClient, MockOAuthClient>();
-
-            container.Singleton<IBoardService, JsonBoardService>();
-            container.Singleton<ICardService, JsonCardService>();
-            container.Singleton<IProfileService, JsonProfileService>();
-        }
-
-        private static void RegisterRepository(PhoneContainer container)
-        {
-            container.Singleton<IOAuthClient, TrelloOAuthClient>();
-
-            container.Singleton<IBoardService, BoardService>();
-            container.Singleton<ICardService, CardService>();
-            container.Singleton<IProfileService, ProfileService>();
+            _detailHandler = (CardDetailCommandHandler) _container.GetInstance(typeof (CardDetailCommandHandler), null);
         }
 
         protected override PhoneApplicationFrame CreatePhoneApplicationFrame()

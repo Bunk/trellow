@@ -2,27 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
-using trellow.api.Models;
+using TrelloNet;
 
 namespace trello.ViewModels
 {
     public class ChangeCardLabelsViewModel : DialogViewModel
     {
-        public Action<List<trellow.api.Models.Label>> Accepted { get; set; }
+        private readonly Dictionary<Color, string> _labelNames;
+        private readonly IList<LabelViewModel> _labels;
+
+        public Action<List<Card.Label>> Accepted { get; set; }
 
         public IList<Label> Labels { get; set; }
 
-        public ChangeCardLabelsViewModel(object root, LabelNames labelNames, IEnumerable<LabelViewModel> labels) : base(root)
+        public ChangeCardLabelsViewModel(object root, Dictionary<Color, string> labelNames, IEnumerable<LabelViewModel> labels) : base(root)
         {
-            var lab = labels.ToArray();
+            _labelNames = labelNames;
+            _labels = labels.ToList();
+
             Labels = new List<Label>
             {
-                new Label { Color = "green", Name = labelNames.Green, Selected = lab.Any(l => l.Color == "green")},
-                new Label { Color = "yellow", Name = labelNames.Yellow, Selected = lab.Any(l => l.Color == "yellow") },
-                new Label { Color = "orange", Name = labelNames.Orange, Selected = lab.Any(l => l.Color == "orange") },
-                new Label { Color = "red", Name = labelNames.Red, Selected = lab.Any(l => l.Color == "red") },
-                new Label { Color = "purple", Name = labelNames.Purple, Selected = lab.Any(l => l.Color == "purple") },
-                new Label { Color = "blue", Name = labelNames.Blue, Selected = lab.Any(l => l.Color == "blue") }
+                CreateLabel(Color.Green),
+                CreateLabel(Color.Yellow),
+                CreateLabel(Color.Orange),
+                CreateLabel(Color.Red),
+                CreateLabel(Color.Purple),
+                CreateLabel(Color.Blue)
+            };
+        }
+
+        private Label CreateLabel(Color color)
+        {
+            return new Label
+            {
+                Color = color.ToString(),
+                Name = _labelNames[color],
+                Selected = _labels.Any(l => l.Color == color.ToString())
             };
         }
 
@@ -35,7 +50,11 @@ namespace trello.ViewModels
         {
             var labels = Labels
                 .Where(l => l.Selected)
-                .Select(l => new trellow.api.Models.Label {Color = l.Color, Name = l.Name})
+                .Select(l => new Card.Label
+                {
+                    Color = (Color)Enum.Parse(typeof(Color), l.Color), 
+                    Name = l.Name
+                })
                 .ToList();
 
             Accepted(labels);

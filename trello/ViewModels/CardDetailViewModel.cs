@@ -1,25 +1,26 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
-using Strilanc.Value;
+using TrelloNet;
+using trello.Services;
 using trello.Services.Handlers;
 using trello.ViewModels.Activities;
 using trello.Views;
 using trellow.api;
-using trellow.api.Data.Services;
-using trellow.api.Models;
-using trellow;
+using Action = TrelloNet.Action;
 
 namespace trello.ViewModels
 {
     [UsedImplicitly]
-    public class CardDetailViewModel : ViewModelBase
+    public class CardDetailViewModel : ViewModelBase, IHandle<CheckItemChanged>
     {
         private readonly IWindowManager _windowManager;
         private readonly IEventAggregator _eventAggregator;
-        private readonly ICardService _cardService;
+        private readonly ITrello _api;
+        private readonly IProgressService _progress;
         private readonly Func<ChecklistViewModel> _checkListFactory;
         private readonly Func<AttachmentViewModel> _attachmentFactory;
         private bool _editingDesc;
@@ -28,29 +29,32 @@ namespace trello.ViewModels
         private string _originalDesc;
         private int _votes;
         private DateTime? _due;
-        private LabelNames _labelNames;
+        private Dictionary<Color, string> _labelNames;
 
         public CardDetailViewModel(ITrelloApiSettings settings,
+                                   ITrello api,
+                                   IProgressService progress,
                                    INavigationService navigation,
                                    IWindowManager windowManager,
                                    IEventAggregator eventAggregator,
-                                   ICardService cardService,
                                    Func<ChecklistViewModel> checkListFactory,
                                    Func<AttachmentViewModel> attachmentFactory) : base(settings, navigation)
         {
             _windowManager = windowManager;
             _eventAggregator = eventAggregator;
-            _cardService = cardService;
+            _api = api;
+            _progress = progress;
             _checkListFactory = checkListFactory;
             _attachmentFactory = attachmentFactory;
+
+            _eventAggregator.Subscribe(this);
+
             Labels = new BindableCollection<LabelViewModel>();
             Checklists = new BindableCollection<ChecklistViewModel>();
             Attachments = new BindableCollection<AttachmentViewModel>();
             Members = new BindableCollection<MemberViewModel>();
             Activities = new BindableCollection<ActivityViewModel>();
             Comments = new BindableCollection<ActivityViewModel>();
-
-            Checklists.PropertyChanged += NotifyCheckChanged;
         }
 
         public string Id { get; private set; }
@@ -147,7 +151,7 @@ namespace trello.ViewModels
 
 // ReSharper restore MemberCanBePrivate.Global
 
-        private CardDetailViewModel InitializeWith(Card card)
+        private void InitializeCard(Card card)
         {
             Id = card.Id;
             Name = card.Name;
@@ -155,51 +159,62 @@ namespace trello.ViewModels
             Due = card.Due;
             Votes = card.Badges.Votes;
 
-            _labelNames = card.Board.LabelNames;
-
+            var lbls = card.Labels.Select(lbl => new LabelViewModel(lbl.Color.ToString(), lbl.Name));
             Labels.Clear();
-            Labels.AddRange(card.Labels.Select(x => new LabelViewModel(x)));
+            Labels.AddRange(lbls);
 
-            Checklists.DoAndClear(x => x.PropertyChanged -= NotifyCheckChanged);
-            Checklists.AddRange(card.Checklists.Select(x =>
-            {
-                var checklist = _checkListFactory().For(x, card);
-                checklist.PropertyChanged += NotifyCheckChanged;
-                return checklist;
-            }));
+            var checks = card.Checklists.Select(list => _checkListFactory().InitializeWith(list));
+            Checklists.Clear();
+            Checklists.AddRange(checks);
+            Handle(null);
 
+            var atts = card.Attachments.Select(att => _attachmentFactory().InitializeWith(att));
             Attachments.Clear();
-            Attachments.AddRange(card.Attachments.Select(x => _attachmentFactory().For(x)));
+            Attachments.AddRange(atts);
 
+            var mems = card.Members.Select(mem => new MemberViewModel(mem));
             Members.Clear();
-            Members.AddRange(card.Members.Select(x => new MemberViewModel(x)));
+            Members.AddRange(mems);
 
+            if (string.IsNullOrWhiteSpace(card.IdAttachmentCover))
+                return;
+
+            var coveratt = Attachments.FirstOrDefault(x => x.Id == card.IdAttachmentCover);
+            if (coveratt != null)
+                coveratt.IsCover = true;
+        }
+
+        private void InitializeActivity(IEnumerable<Action> actions)
+        {
+            var vms = actions.Select(ActivityViewModel.InitializeWith).ToList();
             Activities.Clear();
-            Activities.AddRange(card.Actions.Select(ActivityViewModel.For));
+            Activities.AddRange(vms);
 
             Comments.Clear();
-            Comments.AddRange(card.Actions.Where(c => c.Type == ActivityType.CommentCard).Select(ActivityViewModel.For));
-
-            if (!string.IsNullOrWhiteSpace(card.IdAttachmentCover))
-            {
-                var coverAttachment = Attachments.FirstOrDefault(x => x.Id == card.IdAttachmentCover);
-                if (coverAttachment != null)
-                    coverAttachment.IsCover = true;
-            }
-
-            return this;
+            Comments.AddRange(vms);
         }
 
         protected override async void OnInitialize()
         {
-            var card = await _cardService.WithId(Id);
-            card.IfHasValueThenDo(x => InitializeWith(x));
-        }
+            _progress.Show("Loading...");
 
-        private void NotifyCheckChanged(object sender, PropertyChangedEventArgs e)
-        {
-            NotifyOfPropertyChange(() => CheckItems);
-            NotifyOfPropertyChange(() => CheckItemsChecked);
+            try
+            {
+                var details = await _api.Async.Cards.WithId(Id);
+                InitializeCard(details);
+
+                var activity = await _api.Async.Actions.ForCard(details,
+                                                                new[] {ActionType.CommentCard},
+                                                                paging: new Paging(25, 0));
+                InitializeActivity(activity);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Could not load this card.  Please ensure that you " +
+                                "have an active internet connection.");
+            }
+
+            _progress.Hide();
         }
 
         [UsedImplicitly]
@@ -269,13 +284,23 @@ namespace trello.ViewModels
         }
 
         [UsedImplicitly]
-        public void ChangeLabels()
+        public async void ChangeLabels()
         {
+            if (_labelNames == null)
+            {
+                var board = await _api.Async.Boards.ForCard(new CardId(Id));
+                _labelNames = board.LabelNames;
+            }
+
             var model = new ChangeCardLabelsViewModel(GetView(), _labelNames, Labels)
             {
                 Accepted = newLabels =>
                 {
-                    var oldLabels = Labels.Select(l => new Label {Color = l.Color, Name = l.Name}).ToList();
+                    var oldLabels = Labels.Select(l => new Card.Label
+                    {
+                        Color = (Color) Enum.Parse(typeof (Color), l.Color),
+                        Name = l.Name
+                    }).ToList();
 
                     _eventAggregator.Publish(new CardLabelsChanged
                     {
@@ -285,7 +310,7 @@ namespace trello.ViewModels
                     });
 
                     Labels.Clear();
-                    Labels.AddRange(newLabels.Select(l => new LabelViewModel(l)));
+                    Labels.AddRange(newLabels.Select(l => new LabelViewModel(l.Color.ToString(), l.Name)));
                 }
             };
 
@@ -301,7 +326,7 @@ namespace trello.ViewModels
         public void UpdateDesc()
         {
             _eventAggregator.Publish(new CardDescriptionChanged {CardId = Id, Description = Desc});
-            
+
             EditingDesc = false;
         }
 
@@ -309,6 +334,12 @@ namespace trello.ViewModels
         {
             Desc = OriginalDesc;
             EditingDesc = false;
+        }
+
+        public void Handle(CheckItemChanged message)
+        {
+            NotifyOfPropertyChange(() => CheckItems);
+            NotifyOfPropertyChange(() => CheckItemsChecked);
         }
     }
 }

@@ -15,24 +15,6 @@ namespace TrelloNet.Internal
         protected BaseRestClient() { }
         protected BaseRestClient(string baseUrl) : base(baseUrl) { }
 
-#if !WINDOWS_PHONE
-		public void Request(IRestRequest request)
-		{
-            var response = Execute(request);
-
-			ThrowIfRequestWasUnsuccessful(request, response);
-		}
-
-		public T Request<T>(IRestRequest request) where T : class, new()
-		{
-			var response = Execute<T>(request);
-
-			ThrowIfRequestWasUnsuccessful(request, response);
-
-			return response.StatusCode == HttpStatusCode.NotFound ? null : response.Data;
-		}
-#endif
-
         public Task<IRestResponse> RequestAsync(IRestRequest request)
         {
             var tcs = new TaskCompletionSource<IRestResponse>();

@@ -104,6 +104,7 @@
     <Compile Include="Caliburn.Micro\SimpleContainer.cs" />
     <Compile Include="Caliburn.Micro\TelerikConventions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="KeyEqualityComparer.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -119,17 +120,18 @@
     <Compile Include="Services\Handlers\CardDueDateChanged.cs" />
     <Compile Include="Services\Handlers\CardLabelsChanged.cs" />
     <Compile Include="Services\Handlers\CheckItemChanged.cs" />
+    <Compile Include="Services\Handlers\ChecklistItemTapped.cs" />
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="Services\NetworkStatusChanged.cs" />
     <Compile Include="Services\Stages\CacheStage.cs" />
     <Compile Include="Services\Cache\FileSystemCache.cs" />
     <Compile Include="Services\ICache.cs" />
     <Compile Include="Services\Cache\InMemoryCache.cs" />
-    <Compile Include="Services\Pipelines\ConnectedRequestPipeline.cs" />
     <Compile Include="Services\Stages\ProgressIndicatorStage.cs" />
     <Compile Include="ViewModels\ActivityViewModel.cs" />
     <Compile Include="ViewModels\AttachmentViewModel.cs" />
     <Compile Include="ViewModels\BoardListViewModel.cs" />
+    <Compile Include="ViewModels\LabelViewModel.cs" />
     <Compile Include="ViewModels\MyBoardsViewModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="Services\Handlers\CardDetailCommandHandler.cs" />

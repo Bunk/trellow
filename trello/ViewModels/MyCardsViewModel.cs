@@ -1,29 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
-using Strilanc.Value;
+using TrelloNet;
 using trello.Assets;
-using trellow.api.Data.Services;
-using trellow.api.Models;
+using trello.Services;
 
 namespace trello.ViewModels
 {
     [UsedImplicitly]
-    public class MyCardsViewModel : PivotItemViewModel, IConfigureTheAppBar
+    public sealed class MyCardsViewModel : PivotItemViewModel, IConfigureTheAppBar
     {
-        private readonly ICardService _cards;
+        private readonly ITrello _api;
+        private readonly IProgressService _progress;
         private readonly Func<CardViewModel> _cardFactory;
         private readonly Random _randomizer;
 
         public IObservableCollection<IGrouping<string, CardViewModel>> Cards { get; set; }
 
-        public MyCardsViewModel(ICardService cards,
+        public MyCardsViewModel(ITrello api,
+                                IProgressService progress,
                                 Func<CardViewModel> cardFactory)
         {
-            _cards = cards;
+            _api = api;
+            _progress = progress;
             _cardFactory = cardFactory;
 
             DisplayName = "cards";
@@ -39,23 +42,38 @@ namespace trello.ViewModels
 
         private async void RefreshCards()
         {
+            _progress.Show("Refreshing");
 
-
-            Cards.Clear();
-
-            var cards = await _cards.Mine();
-            cards.IfHasValueThenDo(x =>
+            try
             {
-                Cards.Clear();
+                var cards = (await _api.Async.Cards.ForMe()).ToList();
+                var boards = (await _api.Async.Boards.ForMe()).ToList();
 
-                var transformed = x
-                    .Select(card => _cardFactory().InitializeWith(card))
+                var vms = cards
+                    .Select(card =>
+                    {
+                        var vm = _cardFactory().InitializeWith(card);
+
+                        var board = boards.FirstOrDefault(x => x.Id == card.IdBoard);
+                        if (board != null)
+                            vm.BoardName = board.Name;
+
+                        return vm;
+                    })
                     .GroupBy(card => card.BoardName);
 
-                Cards.AddRange(transformed);
+                Cards.Clear();
+                Cards.AddRange(vms);
 
-                UpdateLiveTile(x);
-            });
+                UpdateLiveTile(cards.ToList());
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Your cards could not be loaded.  Please " +
+                                "ensure that you have an active internet connection.");
+            }
+
+            _progress.Hide();
         }
 
         private void UpdateLiveTile(IReadOnlyCollection<Card> cards)

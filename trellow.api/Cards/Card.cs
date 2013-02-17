@@ -14,12 +14,16 @@ namespace TrelloNet
         public bool Closed { get; set; }
         public string IdList { get; set; }
         public string IdBoard { get; set; }
+        public string IdAttachmentCover { get; set; }
         public DateTime? Due { get; set; }
         public List<Label> Labels { get; set; }
         public int IdShort { get; set; }
         public CardBadges Badges { get; set; }
         public List<Checklist> Checklists { get; set; }
         public List<Attachment> Attachments { get; set; }
+        public List<Member> Members { get; set; }
+        public BoardLink Board { get; set; }
+        public ListLink List { get; set; }
         public string Url { get; set; }
         public double Pos { get; set; }
 
@@ -57,12 +61,33 @@ namespace TrelloNet
             public string IdMember { get; set; }
             public string Name { get; set; }
             public string Url { get; set; }
+            public int Bytes { get; set; }
             public DateTime Date { get; set; }
+            public List<Preview> Previews { get; set; }
 
             public string GetAttachmentId()
             {
                 return Id;
             }
+        }
+
+        public class Preview
+        {
+            public int Width { get; set; }
+
+            public int Height { get; set; }
+
+            public string Url { get; set; }
+        }
+
+        public class BoardLink
+        {
+            public string Name { get; set; }
+        }
+
+        public class ListLink
+        {
+            public string Name { get; set; }
         }
 
         // Handling of check item state :(

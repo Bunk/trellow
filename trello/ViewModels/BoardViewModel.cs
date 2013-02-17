@@ -1,20 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
-using Strilanc.Value;
 using TrelloNet;
+using trello.Services;
 using trellow.api;
-using trellow.api.Data;
-using trellow.api.Data.Services;
-using Board = trellow.api.Models.Board;
-using List = trellow.api.Models.List;
 
 namespace trello.ViewModels
 {
     public class BoardViewModel : PivotViewModel
     {
-        private readonly IBoardService _boardService;
+        private readonly ITrello _api;
+        private readonly IProgressService _progress;
         private readonly Func<BoardListViewModel> _listFactory;
         private string _name;
         private string _id;
@@ -66,56 +64,56 @@ namespace trello.ViewModels
         }
 
         public BoardViewModel(ITrelloApiSettings settings,
+                              ITrello api,
+                              IProgressService progress,
                               INavigationService navigation,
-                              IBoardService boardService,
                               Func<BoardListViewModel> listFactory) : base(settings, navigation)
         {
-            _boardService = boardService;
+            _api = api;
+            _progress = progress;
             _listFactory = listFactory;
         }
 
         protected override async void OnInitialize()
         {
-            base.OnInitialize();
+            _progress.Show("Loading...");
 
-            var board = await _boardService.WithId(Id);
-
-            InitializeWith(board);
-
-            ActivateItem(Items[0]);
-        }
-
-        public void InitializeWith(May<Board> board)
-        {
-            board.IfHasValueThenDo(x =>
+            try
             {
-                Id = x.Id;
-                Name = x.Name;
-                Desc = x.Desc;
-                IsPrivate = x.Prefs.PermissionLevel == "private";
+                var board = await _api.Async.Boards.WithId(Id);
+                var lists = await _api.Async.Lists.ForBoard(board);
 
-                var lists = x.Lists.Select(BuildListViewModel);
-                Items.Clear();
-                Items.AddRange(lists);
-            }).ElseDo(() => MessageBox.Show("The board could not be loaded.  " +
-                                            "Please ensure that you have an active internet connection."));
+                InitializeBoard(board);
+                InitializeLists(lists);
+
+                ActivateItem(Items[0]);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("The board could not be loaded.  Please " +
+                                "ensure that you have an active internet connection.");
+            }
+
+            _progress.Hide();
         }
 
-        public void InitializeWith(TrelloNet.Board board)
+        public BoardViewModel InitializeLists(IEnumerable<List> lists)
+        {
+            var vms = lists.Select(list => _listFactory().InitializeWith(list));
+            Items.Clear();
+            Items.AddRange(vms);
+
+            return this;
+        }
+
+        public BoardViewModel InitializeBoard(Board board)
         {
             Id = board.Id;
             Name = board.Name;
             Desc = board.Desc;
             IsPrivate = board.Prefs.PermissionLevel == PermissionLevel.Private;
-        }
 
-        private BoardListViewModel BuildListViewModel(List list)
-        {
-            var vm = _listFactory();
-            vm.Id = list.Id;
-            vm.Name = list.Name;
-            vm.Subscribed = list.Subscribed;
-            return vm;
+            return this;
         }
     }
 }

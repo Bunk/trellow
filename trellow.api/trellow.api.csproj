@@ -222,6 +222,7 @@
     <Compile Include="Checklists\CheckItem.cs" />
     <Compile Include="Checklists\Checklist.cs" />
     <Compile Include="Checklists\ChecklistId.cs" />
+    <Compile Include="Checklists\CheckItemId.cs" />
     <Compile Include="Checklists\IAsyncChecklists.cs" />
     <Compile Include="Checklists\ICheckItemId.cs" />
     <Compile Include="Checklists\IChecklistId.cs" />
@@ -239,21 +240,10 @@
     <Compile Include="Checklists\IUpdatableChecklist.cs" />
     <Compile Include="Data\INetworkService.cs" />
     <Compile Include="Data\Services\TrelloCoordinator.cs" />
-    <Compile Include="Data\Stages\CallExternalApiStage.cs" />
-    <Compile Include="Data\Services\BoardService.cs" />
-    <Compile Include="Data\Services\CardService.cs" />
     <Compile Include="Data\IRequestPipeline.cs" />
-    <Compile Include="Data\Services\IBoardService.cs" />
-    <Compile Include="Data\Services\ICardService.cs" />
-    <Compile Include="Data\Services\IProfileService.cs" />
-    <Compile Include="Data\Services\JsonServiceBase.cs" />
-    <Compile Include="Data\Services\ProfileService.cs" />
     <Compile Include="Data\IRequestPipelineStage.cs" />
-    <Compile Include="Data\IRequestProcessor.cs" />
     <Compile Include="Data\Stages\ResponseContext.cs" />
     <Compile Include="Data\Services\RestClientExtensions.cs" />
-    <Compile Include="Data\Services\ServiceBase.cs" />
-    <Compile Include="Data\Services\TrelloRequestException.cs" />
     <Compile Include="Expiration.cs" />
     <Compile Include="Extensions\AutoPaging\AutoPaged.cs" />
     <Compile Include="Extensions\AutoPaging\AutoPagedActions.cs" />
@@ -346,7 +336,6 @@
     <Compile Include="Notifications\RemovedFromCardNotification.cs" />
     <Compile Include="Notifications\RemovedFromOrganizationNotification.cs" />
     <Compile Include="OAuth\OAuthToken.cs" />
-    <Compile Include="OAuth\TrelloOAuthClient.cs" />
     <Compile Include="Organizations\IAsyncOrganizations.cs" />
     <Compile Include="Organizations\Internal\AsyncOrganizations.cs" />
     <Compile Include="Organizations\Internal\Organizations.cs" />

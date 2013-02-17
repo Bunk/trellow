@@ -1,13 +1,14 @@
 using System;
 using System.Linq;
 using Caliburn.Micro;
-using trellow.api.Models;
+using TrelloNet;
 
 namespace trello.ViewModels
 {
     public class CardViewModel : Screen
     {
         private readonly INavigationService _navigationService;
+
         public string Id { get; set; }
 
         public string Name { get; set; }
@@ -50,31 +51,30 @@ namespace trello.ViewModels
 
         public CardViewModel InitializeWith(Card card)
         {
-            if (card.Board != null)
-                BoardName = card.Board.Name;
-            if (card.List != null)
-                ListName = card.List.Name;
+            var cover = card.Attachments.SingleOrDefault(att => att.Id == card.IdAttachmentCover);
 
-            var cover = card.Attachments.SingleOrDefault(x => x.Id == card.IdAttachmentCover);
+            BoardName = card.Board != null ? card.Board.Name : null;
+            ListName = card.List != null ? card.List.Name : null;
 
             Id = card.Id;
             Name = card.Name;
             Desc = card.Desc;
-            Due = card.Badges.Due;
+            Due = card.Due;
             Votes = card.Badges.Votes;
             Comments = card.Badges.Comments;
             CheckItems = card.Badges.CheckItems;
             CheckItemsChecked = card.Badges.CheckItemsChecked;
             Attachments = card.Badges.Attachments;
-            CoverUri = cover != null ? cover.Previews[0].Url : null;
-            CoverHeight = cover != null ? cover.Previews[0].Height : 0;
-            CoverWidth = cover != null ? cover.Previews[0].Width : 0;
+
+            CoverUri = cover != null ? cover.Previews.First().Url : null;
+            CoverHeight = cover != null ? cover.Previews.First().Height : 0;
+            CoverWidth = cover != null ? cover.Previews.First().Width : 0;
 
             Members.Clear();
-            Members.AddRange(card.Members.Select(x => new MemberViewModel(x)));
+            Members.AddRange(card.Members.Select(mem => new MemberViewModel(mem)));
 
             Labels.Clear();
-            Labels.AddRange(card.Labels.Select(x => new LabelViewModel(x)));
+            Labels.AddRange(card.Labels.Select(lbl => new LabelViewModel(lbl.Color.ToString(), lbl.Name)));
 
             return this;
         }
@@ -84,19 +84,6 @@ namespace trello.ViewModels
             _navigationService.UriFor<CardDetailViewModel>()
                 .WithParam(x => x.Id, Id)
                 .Navigate();
-        }
-    }
-
-    public class LabelViewModel
-    {
-        public string Color { get; set; }
-
-        public string Name { get; set; }
-
-        public LabelViewModel(Label lbl)
-        {
-            Color = lbl.Color;
-            Name = lbl.Name;
         }
     }
 }

@@ -33,6 +33,11 @@ namespace TrelloNet.Internal
 			request.AddParameter("checkItemStates", "true");
 			request.AddParameter("attachments", "true");
 			request.AddParameter("checklists", "all");
+		    request.AddParameter("members", "true");
+		    request.AddParameter("board", "true");
+		    request.AddParameter("board_fields", "name");
+		    request.AddParameter("list", "true");
+		    request.AddParameter("list_fields", "name");
 		}
 		
 		public static void AddRequiredMemberFields(this RestRequest request)	

@@ -34,12 +34,6 @@
 										<DataTemplate>
 											<StackPanel>
 												<ContentControl cm:View.Model="{Binding}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
-												<TextBlock HorizontalAlignment="Right" Foreground="{StaticResource PhoneSubtleBrush}" FontFamily="{StaticResource PhoneFontFamilyLight}">
-													<TextBlock.Inlines>
-														<Run Text="in" />
-														<Run Text="{Binding ListName}" FontWeight="Bold" />
-													</TextBlock.Inlines>
-												</TextBlock>
 											</StackPanel>
 										</DataTemplate>
 									</ItemsControl.ItemTemplate>

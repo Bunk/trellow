@@ -1,21 +1,20 @@
 using System;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
-using Strilanc.Value;
-using Telerik.Windows.Controls;
+using TrelloNet;
 using trello.Assets;
-using trellow.api.Data;
-using trellow.api.Data.Services;
+using trello.Services;
 
 namespace trello.ViewModels
 {
     [UsedImplicitly]
     public class BoardListViewModel : PivotItemViewModel, IConfigureTheAppBar
     {
-        private readonly INavigationService _navigationService;
-        private readonly ICardService _cardService;
+        private readonly ITrello _api;
+        private readonly IProgressService _progress;
         private readonly Func<CardViewModel> _cardFactory;
         private string _name;
         private bool _subscribed;
@@ -58,18 +57,15 @@ namespace trello.ViewModels
 
         public IObservableCollection<CardViewModel> Cards { get; set; }
 
-        public BoardListViewModel(INavigationService navigationService,
-                                  ICardService cardService,
+        public BoardListViewModel(ITrello api,
+                                  IProgressService progress,
                                   Func<CardViewModel> cardFactory)
         {
-            _navigationService = navigationService;
-            _cardService = cardService;
+            _api = api;
+            _progress = progress;
             _cardFactory = cardFactory;
-            Cards = new BindableCollection<CardViewModel>();
-        }
 
-        public void AddCard()
-        {
+            Cards = new BindableCollection<CardViewModel>();
         }
 
         protected override void OnViewLoaded(object view)
@@ -79,14 +75,31 @@ namespace trello.ViewModels
 
         private async void RefreshLists()
         {
-            var cards = await _cardService.InList(Id);
-            cards.IfHasValueThenDo(x =>
-            {
-                Cards.Clear();
+            _progress.Show("Refreshing...");
 
-                var transformed = x.Select(card => _cardFactory().InitializeWith(card));
-                Cards.AddRange(transformed);
-            });
+            try
+            {
+                var cards = await _api.Async.Cards.ForList(new ListId(Id));
+                var vms = cards.Select(card => _cardFactory().InitializeWith(card));
+
+                Cards.Clear();
+                Cards.AddRange(vms);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Could not load this list.  Please ensure " +
+                                "that you have an active internet connection.");
+            }
+
+            _progress.Hide();
+        }
+
+        public BoardListViewModel InitializeWith(List list)
+        {
+            Id = list.Id;
+            Name = list.Name;
+
+            return this;
         }
 
         public ApplicationBar ConfigureTheAppBar(ApplicationBar existing)
@@ -99,6 +112,16 @@ namespace trello.ViewModels
             existing.Buttons.Add(addButton);
 
             return existing;
+        }
+
+        private static void AddCard()
+        {
+
+        }
+
+        private void RemoveCard()
+        {
+            
         }
     }
 }
