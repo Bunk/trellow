@@ -19,8 +19,6 @@ namespace trello
     {
         private PhoneContainer _container;
 
-        private CardDetailCommandHandler _detailHandler;
-
         protected override void Configure()
         {
             _container = new PhoneContainer(RootFrame);
@@ -65,7 +63,8 @@ namespace trello
 
             TelerikConventions.Install();
 
-            _detailHandler = (CardDetailCommandHandler) _container.GetInstance(typeof (CardDetailCommandHandler), null);
+            // Force creation
+            _container.GetInstance(typeof (CardDetailCommandHandler), null);
         }
 
         protected override PhoneApplicationFrame CreatePhoneApplicationFrame()
