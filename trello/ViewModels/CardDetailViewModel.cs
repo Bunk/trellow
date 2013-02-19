@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using Caliburn.Micro;
 using JetBrains.Annotations;
+using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
 using TrelloNet;
 using trello.Services;
 using trello.Services.Handlers;
@@ -14,8 +17,23 @@ using Action = TrelloNet.Action;
 
 namespace trello.ViewModels
 {
+    public class CardDetailShellViewModel : Conductor<IScreen>.Collection.OneActive
+    {
+        protected override void OnInitialize()
+        {
+            base.OnInitialize();
+
+            var model = new CardDetailViewModel();
+            
+            Items.Add();
+        }
+    }
+
     [UsedImplicitly]
-    public class CardDetailViewModel : ViewModelBase, IHandle<CheckItemChanged>
+    public class CardDetailViewModel : ViewModelBase,
+        IHandle<CheckItemChanged>,
+        IHandle<CardMemberAdded>,
+        IHandle<CardMemberRemoved>
     {
         private readonly IWindowManager _windowManager;
         private readonly IEventAggregator _eventAggregator;
@@ -58,6 +76,8 @@ namespace trello.ViewModels
         }
 
         public string Id { get; private set; }
+
+        public string BoardId { get; private set; }
 
 // ReSharper disable MemberCanBePrivate.Global
         public string Name
@@ -154,6 +174,7 @@ namespace trello.ViewModels
         private void InitializeCard(Card card)
         {
             Id = card.Id;
+            BoardId = card.IdBoard;
             Name = card.Name;
             Desc = card.Desc;
             Due = card.Due;
@@ -166,7 +187,7 @@ namespace trello.ViewModels
             var checks = card.Checklists.Select(list => _checkListFactory().InitializeWith(list));
             Checklists.Clear();
             Checklists.AddRange(checks);
-            Handle(null);
+            NotifyCheckItemsChanged();
 
             var atts = card.Attachments.Select(att => _attachmentFactory().InitializeWith(att));
             Attachments.Clear();
@@ -203,9 +224,7 @@ namespace trello.ViewModels
                 var details = await _api.Async.Cards.WithId(Id);
                 InitializeCard(details);
 
-                var activity = await _api.Async.Actions.ForCard(details,
-                                                                new[] {ActionType.CommentCard},
-                                                                paging: new Paging(25, 0));
+                var activity = await _api.Async.Actions.ForCard(details, new[] {ActionType.CommentCard}, paging: new Paging(25, 0));
                 InitializeActivity(activity);
             }
             catch (Exception)
@@ -313,7 +332,18 @@ namespace trello.ViewModels
                     Labels.AddRange(newLabels.Select(l => new LabelViewModel(l.Color.ToString(), l.Name)));
                 }
             };
+            _windowManager.ShowDialog(model);
+        }
 
+        [UsedImplicitly]
+        public void ChangeMembers()
+        {
+            var members = Members.Select(m => m.Id).ToList();
+            var model = new ChangeCardMembersViewModel(GetView(), _eventAggregator, _api, members)
+            {
+                BoardId = BoardId,
+                CardId = Id
+            };
             _windowManager.ShowDialog(model);
         }
 
@@ -336,10 +366,27 @@ namespace trello.ViewModels
             EditingDesc = false;
         }
 
-        public void Handle(CheckItemChanged message)
+        private void NotifyCheckItemsChanged()
         {
             NotifyOfPropertyChange(() => CheckItems);
             NotifyOfPropertyChange(() => CheckItemsChecked);
+        }
+
+        public void Handle(CheckItemChanged message)
+        {
+            NotifyCheckItemsChanged();
+        }
+
+        public void Handle(CardMemberAdded message)
+        {
+            Members.Add(new MemberViewModel(message.Member));
+        }
+
+        public void Handle(CardMemberRemoved message)
+        {
+            var found = Members.FirstOrDefault(m => m.Id == message.Member.Id);
+            if (found != null)
+                Members.Remove(found);
         }
     }
 }

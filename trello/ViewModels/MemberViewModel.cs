@@ -1,5 +1,4 @@
 using TrelloNet;
-using Member = trellow.api.Models.Member;
 
 namespace trello.ViewModels
 {
@@ -18,16 +17,6 @@ namespace trello.ViewModels
         public string ImageUriLarge { get; set; }
 
         public MemberViewModel(Member member)
-        {
-            Id = member.Id;
-            FullName = member.FullName;
-            Username = member.Username;
-            Bio = member.Bio;
-            ImageUriThumb = string.Format("https://trello-avatars.s3.amazonaws.com/{0}/30.png", member.AvatarHash);
-            ImageUriLarge = string.Format("https://trello-avatars.s3.amazonaws.com/{0}/170.png", member.AvatarHash);
-        }
-
-        public MemberViewModel(TrelloNet.Member member)
         {
             Id = member.Id;
             FullName = member.FullName;

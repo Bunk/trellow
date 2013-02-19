@@ -14,7 +14,7 @@
     d:DesignHeight="480" d:DesignWidth="480">
     
     <StackPanel Background="{StaticResource PhoneChromeBrush}">
-		<TextBlock Style="{StaticResource PhoneTextLargeStyle}" Margin="0,0,0,20">Labels</TextBlock>
+		<TextBlock Style="{StaticResource PhoneTextLargeStyle}" Margin="12,0,0,20">Labels</TextBlock>
 
 		<ItemsControl ItemsSource="{Binding Labels}">
 			<ItemsControl.ItemTemplate>

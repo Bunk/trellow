@@ -48,7 +48,7 @@
 								micro:View.Context="Attachments"
 								micro:View.Model="{Binding}" />
 			</phone:PivotItem>
-			<phone:PivotItem Header="members">
+			<phone:PivotItem x:Name="Members" Header="members">
 				<ContentControl VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
 								micro:View.Context="Members"
 								micro:View.Model="{Binding}" />
