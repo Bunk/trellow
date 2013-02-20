@@ -8,7 +8,7 @@ namespace trello.ViewModels
 {
     public interface IConfigureTheAppBar
     {
-        ApplicationBar ConfigureTheAppBar(ApplicationBar existing);
+        ApplicationBar Configure(ApplicationBar existing);
     }
 
     public abstract class PivotItemViewModel : Screen
@@ -64,7 +64,7 @@ namespace trello.ViewModels
             var screen = item as IConfigureTheAppBar;
             if (screen != null)
             {
-                appbar = screen.ConfigureTheAppBar(appbar);
+                appbar = screen.Configure(appbar);
             }
 
             AppBar = appbar;

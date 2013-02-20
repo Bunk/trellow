@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using Caliburn.Micro;
 using JetBrains.Annotations;
 using TrelloNet;
 using Windows.System;
@@ -10,7 +11,7 @@ using trello.Extensions;
 namespace trello.ViewModels
 {
     [UsedImplicitly]
-    public class AttachmentViewModel
+    public class AttachmentViewModel : PropertyChangedBase
     {
         public string Id { get; set; }
 

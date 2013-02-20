@@ -56,6 +56,9 @@ namespace trello.ViewModels
 
             PropertyChanged += (sender, args) =>
             {
+                if (!IsNotifying) 
+                    return;
+
                 if (args.PropertyName == "Checked")
                 {
                     _eventAggregator.Publish(new CheckItemChanged
@@ -69,6 +72,7 @@ namespace trello.ViewModels
             };
         }
 
+        [UsedImplicitly]
         public void Toggle()
         {
             Checked = !Checked;
@@ -76,12 +80,15 @@ namespace trello.ViewModels
 
         public ChecklistItemViewModel InitializeWith(string cardId, string listId, Card.CheckItem item)
         {
-            _idCard = cardId;
-            _idList = listId;
+            using (new SuppressNotificationScope(this))
+            {
+                _idCard = cardId;
+                _idList = listId;
 
-            Id = item.Id;
-            Name = item.Name;
-            Checked = item.Checked;
+                Id = item.Id;
+                Name = item.Name;
+                Checked = item.Checked;
+            }
 
             return this;
         }

@@ -37,7 +37,7 @@ namespace trello.ViewModels
             var screen = this as IConfigureTheAppBar;
             if (screen != null)
             {
-                appbar = screen.ConfigureTheAppBar(appbar);
+                appbar = screen.Configure(appbar);
             }
 
             AppBar = appbar;

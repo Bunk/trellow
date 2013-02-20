@@ -103,7 +103,7 @@ namespace trello.ViewModels
             tile.Update(data);
         }
 
-        public ApplicationBar ConfigureTheAppBar(ApplicationBar existing)
+        public ApplicationBar Configure(ApplicationBar existing)
         {
             var refresh = new ApplicationBarIconButton(new AssetUri("Icons/dark/appbar.refresh.rest.png"))
             {Text = "refresh"};

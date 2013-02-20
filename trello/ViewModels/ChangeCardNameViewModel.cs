@@ -1,20 +1,40 @@
-using System;
+using Caliburn.Micro;
+using JetBrains.Annotations;
+using trello.Services.Handlers;
 
 namespace trello.ViewModels
 {
     public class ChangeCardNameViewModel : DialogViewModel
     {
-        public ChangeCardNameViewModel(object root) : base(root)
+        private readonly IEventAggregator _eventAggregator;
+        private string _name;
+
+        public string CardId { get; set; }
+
+        public string Name
         {
+            get { return _name; }
+            set
+            {
+                if (value == _name) return;
+                _name = value;
+                NotifyOfPropertyChange(() => Name);
+            }
         }
 
-        public string Name { get; set; }
+        public ChangeCardNameViewModel(object root, IEventAggregator eventAggregator) : base(root)
+        {
+            _eventAggregator = eventAggregator;
+        }
 
-        public Action<string> Accepted { get; set; }
-
+        [UsedImplicitly]
         public void Accept()
         {
-            Accepted(Name);
+            _eventAggregator.Publish(new CardNameChanged
+            {
+                CardId = CardId, 
+                Name = Name
+            });
             TryClose();
         }
     }

@@ -123,7 +123,7 @@ namespace trello.ViewModels
             Bio = profile.Bio;
         }
 
-        public ApplicationBar ConfigureTheAppBar(ApplicationBar existing)
+        public ApplicationBar Configure(ApplicationBar existing)
         {
             return existing;
         }

@@ -1,21 +1,25 @@
-﻿<UserControl
-    x:Class="trello.Views.ChangeCardNameView"
+﻿<UserControl x:Class="trello.Views.ChangeCardDescriptionView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
-    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    mc:Ignorable="d"
-	d:DesignHeight="480" d:DesignWidth="480">
-
-    <StackPanel Background="{StaticResource PhoneChromeBrush}">
-        <TextBlock Style="{StaticResource PhoneTextLargeStyle}">Change card name</TextBlock>
-        <TextBlock Style="{StaticResource PhoneTextNormalStyle}">Enter a new name for this card</TextBlock>
-        <TextBox Name="Name">
+    d:DesignHeight="600" d:DesignWidth="480">
+    
+    <Grid Background="{StaticResource PhoneChromeBrush}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Style="{StaticResource PhoneTextLargeStyle}">Change description</TextBlock>
+        <TextBlock Grid.Row="1" Style="{StaticResource PhoneTextNormalStyle}">Enter a description for this card</TextBlock>
+        
+		<TextBox Grid.Row="2" Name="Description" TextWrapping="Wrap" AcceptsReturn="True" MinHeight="450">
 			<TextBox.InputScope>
 				<InputScope>
 					<InputScopeName NameValue="Text" />
@@ -23,7 +27,7 @@
 			</TextBox.InputScope>
 		</TextBox>
 
-        <Grid>
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width=".5*" />
@@ -31,6 +35,5 @@
             <Button Name="Accept" Content="confirm" BorderBrush="{StaticResource PhoneAccentBrush}" />
             <Button Name="TryClose" Content="cancel" Grid.Column="1" />
         </Grid>
-	</StackPanel>
-
+	</Grid>
 </UserControl>

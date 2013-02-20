@@ -118,7 +118,8 @@
       <DependentUpon>SampleDataSource.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\Handlers\CardDueDateChanged.cs" />
-    <Compile Include="Services\Handlers\CardLabelsChanged.cs" />
+    <Compile Include="Services\Handlers\CardLabelAdded.cs" />
+    <Compile Include="Services\Handlers\CardLabelRemoved.cs" />
     <Compile Include="Services\Handlers\CardMemberAdded.cs" />
     <Compile Include="Services\Handlers\CheckItemChanged.cs" />
     <Compile Include="Services\Handlers\ChecklistItemTapped.cs" />
@@ -129,10 +130,16 @@
     <Compile Include="Services\ICache.cs" />
     <Compile Include="Services\Cache\InMemoryCache.cs" />
     <Compile Include="Services\Stages\ProgressIndicatorStage.cs" />
+    <Compile Include="SuppressNotificationScope.cs" />
     <Compile Include="ViewModels\ActivityViewModel.cs" />
     <Compile Include="ViewModels\AttachmentViewModel.cs" />
     <Compile Include="ViewModels\BoardListViewModel.cs" />
+    <Compile Include="ViewModels\CardDetailAttachmentsViewModel.cs" />
+    <Compile Include="ViewModels\CardDetailChecklistViewModel.cs" />
+    <Compile Include="ViewModels\CardDetailMembersViewModel.cs" />
     <Compile Include="ViewModels\CardDetailOverviewViewModel.cs" />
+    <Compile Include="ViewModels\CardDetailPivotViewModel.cs" />
+    <Compile Include="ViewModels\ChangeCardDescriptionViewModel.cs" />
     <Compile Include="ViewModels\ChangeCardMembersViewModel.cs" />
     <Compile Include="ViewModels\LabelViewModel.cs" />
     <Compile Include="ViewModels\MyBoardsViewModel.cs" />
@@ -169,14 +176,23 @@
     <Compile Include="Views\Activities\SimpleActivityView.xaml.cs">
       <DependentUpon>SimpleActivityView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\CardDetailAttachmentsView.xaml.cs">
+      <DependentUpon>CardDetailAttachmentsView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CardDetailChecklistView.xaml.cs">
       <DependentUpon>CardDetailChecklistView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardDetailMembersView.xaml.cs">
+      <DependentUpon>CardDetailMembersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CardDetailOverviewView.xaml.cs">
       <DependentUpon>CardDetailOverviewView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CardDetailPivotView.xaml.cs">
       <DependentUpon>CardDetailPivotView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ChangeCardDescriptionView.xaml.cs">
+      <DependentUpon>ChangeCardDescriptionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChangeCardMembersView.xaml.cs">
       <DependentUpon>ChangeCardMembersView.xaml</DependentUpon>
@@ -479,7 +495,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\CardDetailAttachmentsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CardDetailChecklistView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardDetailMembersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -488,6 +512,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CardDetailPivotView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ChangeCardDescriptionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

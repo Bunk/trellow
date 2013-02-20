@@ -58,36 +58,14 @@
 
 					<Image Grid.Row="0" Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-pencil-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
 
-					<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Desc}" TextWrapping="Wrap" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}">
-						
-					</TextBlock>
+					<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Desc}" TextWrapping="Wrap" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}" />
 
-					<TextBlock Grid.Row="0" Grid.Column="1" Text="No Description" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}, ConverterParameter='true'}" Foreground="{StaticResource PhoneSubtleBrush}" FontStyle="Italic">
-						
-					</TextBlock>
-					
-					<telerikPrimitives:RadWindow x:Name="DescWindow" IsFullScreen="True" IsOpen="{Binding EditingDesc}">
-						<Border Background="{StaticResource PhoneChromeBrush}">
-							<Grid>
-								<Grid.RowDefinitions>
-									<RowDefinition />
-									<RowDefinition Height="Auto" />
-								</Grid.RowDefinitions>
-
-								<telerikPrimitives:RadTextBox x:Name="radTextBox" AcceptsReturn="True" Text="{Binding Path=Desc, Mode=TwoWay}" TextWrapping="Wrap" ActionButtonVisibility="Collapsed" Header="Description" />
-								
-								<StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-									<HyperlinkButton micro:Message.Attach="[Event Click] = [Action CancelDesc]" Foreground="{StaticResource PhoneSubtleBrush}">Cancel</HyperlinkButton>
-									<Button micro:Message.Attach="[Event Click] = [Action UpdateDesc]" Background="#FF6FBE46" Foreground="#FFFFFF">Update</Button>
-								</StackPanel>
-							</Grid>
-						</Border>
-					</telerikPrimitives:RadWindow>
+					<TextBlock Grid.Row="0" Grid.Column="1" Text="No Description" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}, ConverterParameter='true'}" Foreground="{StaticResource PhoneSubtleBrush}" FontStyle="Italic" />
 				</Grid>
 
 				<i:Interaction.Triggers>
 					<local:GestureServiceTrigger Gesture="Tap">
-						<micro:ActionMessage MethodName="EditDesc" />
+						<micro:ActionMessage MethodName="ChangeDescription" />
 					</local:GestureServiceTrigger>
 				</i:Interaction.Triggers>
 			</Border>
@@ -159,7 +137,8 @@
 						</TextBlock>
 
 						<ProgressBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource ChecklistProgressBar}" Margin="0,10,0,0" Padding="0"
-									 Value="{Binding CheckItemsChecked}" Minimum="0" Maximum="{Binding CheckItems}" />
+									 IsIndeterminate="False"
+									 Minimum="0" Maximum="{Binding CheckItems}" Value="{Binding CheckItemsChecked}"  />
 
 					</Grid>
 				</Grid>

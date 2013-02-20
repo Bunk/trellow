@@ -49,7 +49,7 @@
 				</TextBlock>
 
 				<ProgressBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource ChecklistProgressBar}" Margin="0,10,0,0" Padding="0"
-							 Value="{Binding ItemsChecked}" Minimum="0" Maximum="{Binding Items.Count}" />
+							 Minimum="0" Maximum="{Binding Items.Count}" Value="{Binding ItemsChecked}" />
 				
 			</Grid>
 		</Border>

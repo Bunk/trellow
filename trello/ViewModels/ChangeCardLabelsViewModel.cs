@@ -1,73 +1,110 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
+using JetBrains.Annotations;
 using TrelloNet;
+using trello.Services;
+using trello.Services.Handlers;
 
 namespace trello.ViewModels
 {
     public class ChangeCardLabelsViewModel : DialogViewModel
     {
-        private readonly Dictionary<Color, string> _labelNames;
-        private readonly IList<LabelViewModel> _labels;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly ITrello _api;
+        private readonly IProgressService _progress;
+        private IList<Color> _selected;
 
-        public Action<List<Card.Label>> Accepted { get; set; }
+        public string CardId { private get; set; }
 
-        public IList<Label> Labels { get; set; }
+        public IObservableCollection<Label> Labels { get; set; }
 
-        public ChangeCardLabelsViewModel(object root, Dictionary<Color, string> labelNames, IEnumerable<LabelViewModel> labels) : base(root)
+        public ChangeCardLabelsViewModel(object root, IEventAggregator eventAggregator, ITrello api, IProgressService progress) : base(root)
         {
-            _labelNames = labelNames;
-            _labels = labels.ToList();
+            _eventAggregator = eventAggregator;
+            _api = api;
+            _progress = progress;
 
-            Labels = new List<Label>
+            Labels = new BindableCollection<Label>();
+        }
+
+        protected override async void OnInitialize()
+        {
+            _progress.Show("Loading names...");
+            try
             {
-                CreateLabel(Color.Green),
-                CreateLabel(Color.Yellow),
-                CreateLabel(Color.Orange),
-                CreateLabel(Color.Red),
-                CreateLabel(Color.Purple),
-                CreateLabel(Color.Blue)
-            };
+                var board = await _api.Async.Boards.ForCard(new CardId(CardId));
+                foreach (var lbl in Labels)
+                {
+                    string name;
+                    if (board.LabelNames.TryGetValue(lbl.Color, out name))
+                        lbl.Name = name;
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("The label names were unable to be loaded.  Please " +
+                                "ensure that you have an active internet connection.");
+            }
+            finally
+            {
+                _progress.Hide();
+            }
+        }
+
+        public ChangeCardLabelsViewModel Initialize(IEnumerable<Color> selected)
+        {
+            _selected = selected.ToList();
+
+            Labels.Add(CreateLabel(Color.Green));
+            Labels.Add(CreateLabel(Color.Yellow));
+            Labels.Add(CreateLabel(Color.Orange));
+            Labels.Add(CreateLabel(Color.Red));
+            Labels.Add(CreateLabel(Color.Purple));
+            Labels.Add(CreateLabel(Color.Blue));
+            
+            return this;
         }
 
         private Label CreateLabel(Color color)
         {
-            return new Label
+            var lbl = new Label(_eventAggregator);
+            using (new SuppressNotificationScope(lbl))
             {
-                Color = color.ToString(),
-                Name = _labelNames[color],
-                Selected = _labels.Any(l => l.Color == color.ToString())
-            };
+                lbl.CardId = CardId;
+                lbl.Color = color;
+                lbl.Selected = _selected.Any(c => c == color);
+            }
+            return lbl;
         }
 
+        [UsedImplicitly]
         public void Toggle(Label label)
         {
-            label.Selected = !label.Selected;
-        }
-
-        public void Confirm()
-        {
-            var labels = Labels
-                .Where(l => l.Selected)
-                .Select(l => new Card.Label
-                {
-                    Color = (Color)Enum.Parse(typeof(Color), l.Color), 
-                    Name = l.Name
-                })
-                .ToList();
-
-            Accepted(labels);
-            TryClose();
+            label.Toggle();
         }
 
         public class Label : PropertyChangedBase
         {
             private bool _selected;
+            private string _name;
 
-            public string Name { get; set; }
+            public string CardId { get; set; }
 
-            public string Color { get; set; }
+            public Color Color { get; set; }
+
+            public string Name
+            {
+                get { return _name; }
+                set
+                {
+                    if (value == _name) return;
+                    _name = value;
+                    NotifyOfPropertyChange(() => Name);
+                }
+            }
 
             public bool Selected
             {
@@ -78,6 +115,28 @@ namespace trello.ViewModels
                     _selected = value;
                     NotifyOfPropertyChange(() => Selected);
                 }
+            }
+
+            public Label(IEventAggregator eventAggregator)
+            {
+                PropertyChanged += (sender, args) =>
+                {
+                    if (!IsNotifying)
+                        return;
+
+                    if (args.PropertyName != "Selected") 
+                        return;
+
+                    if (Selected)
+                        eventAggregator.Publish(new CardLabelAdded {CardId = CardId, Color = Color, Name = Name});
+                    else
+                        eventAggregator.Publish(new CardLabelRemoved {CardId = CardId, Color = Color, Name = Name});
+                };
+            }
+
+            public bool Toggle()
+            {
+                return (Selected = !Selected);
             }
         }
     }

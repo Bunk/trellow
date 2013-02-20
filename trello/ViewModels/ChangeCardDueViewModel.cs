@@ -1,31 +1,34 @@
 using System;
+using Caliburn.Micro;
+using trello.Services.Handlers;
 
 namespace trello.ViewModels
 {
     public class ChangeCardDueViewModel : DialogViewModel
     {
+        private readonly IEventAggregator _eventAggregator;
+        private readonly string _cardId;
+
         public DateTime? Date { get; set; }
 
-        public Action<DateTime> Accepted { get; set; }
+        public ChangeCardDueViewModel(object root, IEventAggregator eventAggregator, string cardId, DateTime? due) : base(root)
+        {
+            _eventAggregator = eventAggregator;
+            _cardId = cardId;
 
-        public Action Removed { get; set; }
-
-        public ChangeCardDueViewModel(object root) : base(root) { }
+            Date = due;
+        }
 
         public void Confirm()
         {
             if (Date != null)
-            {
-                Accepted(Date.Value);
-            }
-
+                _eventAggregator.Publish(new CardDueDateChanged { CardId = _cardId, DueDate = Date.Value });
             TryClose();
         }
 
         public void Remove()
         {
-            Removed();
-
+            _eventAggregator.Publish(new CardDueDateChanged { CardId = _cardId, DueDate = null });
             TryClose();
         }
     }

@@ -124,6 +124,9 @@ namespace TrelloNet
 
             foreach (var checkItem in checkItems)
                 checkItem.Checked = true;
+
+            if (Due.HasValue)
+                Due = Due.Value.ToLocalTime();
         }
     }
 }

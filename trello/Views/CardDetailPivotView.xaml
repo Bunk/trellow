@@ -6,11 +6,14 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+	xmlns:micro="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+	xmlns:triggers="clr-namespace:trello.Views.Triggers;assembly=trello"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="Portrait"  Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape"  Orientation="Portrait"
 	Style="{StaticResource TransitionPageStyle}"
     shell:SystemTray.IsVisible="True" 
 	shell:SystemTray.Opacity="1"
@@ -18,9 +21,18 @@
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
-        <phone:Pivot x:Name="Items"
-					 Title="{Binding Name, Converter={StaticResource CaseConverter}, ConverterParameter='Upper'}"
-					 SelectedItem="{Binding ActiveItem, Mode=TwoWay}">
+        <phone:Pivot x:Name="Items" Title="{Binding}" SelectedItem="{Binding ActiveItem, Mode=TwoWay}">
+			<phone:Pivot.TitleTemplate>
+				<DataTemplate>
+					<TextBlock Text="{Binding Name, Converter={StaticResource CaseConverter}, ConverterParameter='Upper'}">
+						<i:Interaction.Triggers>
+							<triggers:GestureServiceTrigger Gesture="Tap">
+								<micro:ActionMessage MethodName="ChangeName" />
+							</triggers:GestureServiceTrigger>
+						</i:Interaction.Triggers>
+					</TextBlock>
+				</DataTemplate>
+			</phone:Pivot.TitleTemplate>
 			<phone:Pivot.HeaderTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding DisplayName}" />

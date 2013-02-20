@@ -36,7 +36,7 @@ namespace trello.ViewModels
 
         public IObservableCollection<BoardViewModel> Boards { get; private set; }
 
-        public ApplicationBar ConfigureTheAppBar(ApplicationBar existing)
+        public ApplicationBar Configure(ApplicationBar existing)
         {
             var refresh = new ApplicationBarIconButton(new AssetUri("Icons/dark/appbar.refresh.rest.png"))
             {Text = "refresh"};

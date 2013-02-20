@@ -102,7 +102,7 @@ namespace trello.ViewModels
             return this;
         }
 
-        public ApplicationBar ConfigureTheAppBar(ApplicationBar existing)
+        public ApplicationBar Configure(ApplicationBar existing)
         {
             var addButton = new ApplicationBarIconButton(new AssetUri("Icons/dark/appbar.add.rest.png"))
             {

@@ -8,127 +8,31 @@ using Microsoft.Phone.Shell;
 using TrelloNet;
 using trello.Services;
 using trello.Services.Handlers;
-using trello.Views;
-using trellow.api;
 
 namespace trello.ViewModels
 {
-    public class CardDetailPivotViewModel : PivotViewModel,
-        IHandle<CardDetailPivotViewModel.PivotRequestingNavigation>
+    public sealed class CardDetailOverviewViewModel : PivotItemViewModel,
+                                                      IConfigureTheAppBar,
+                                                      IHandle<CardDescriptionChanged>,
+                                                      IHandle<CardDueDateChanged>,
+                                                      IHandle<CardLabelAdded>,
+                                                      IHandle<CardLabelRemoved>,
+                                                      IHandle<CardDetailChecklistViewModel.ChecklistAggregationsUpdated>,
+                                                      IHandle<CardDetailMembersViewModel.MemberAggregationsUpdated>
     {
-        public enum Screen
-        {
-            Overview, Checklists, Attachments, Members
-        }
-
         private readonly ITrello _api;
         private readonly IEventAggregator _eventAggregator;
         private readonly IProgressService _progress;
-        private readonly Func<CardDetailOverviewViewModel> _overview;
-        private readonly Func<CardDetailChecklistViewModel> _checklists;
-        private string _name;
-
-        public string Id { get; set; }
-
-        public string Name
-        {
-            get { return _name; }
-            set
-            {
-                if (value == _name) return;
-                _name = value;
-                NotifyOfPropertyChange(() => Name);
-            }
-        }
-
-        public CardDetailPivotViewModel(
-            ITrello api,
-            ITrelloApiSettings settings, 
-            INavigationService navigation,
-            IEventAggregator eventAggregator,
-            IProgressService progress,
-            Func<CardDetailOverviewViewModel> overview,
-            Func<CardDetailChecklistViewModel> checklists) : base(settings, navigation)
-        {
-            _api = api;
-            _progress = progress;
-            _overview = overview;
-            _checklists = checklists;
-
-            _eventAggregator = eventAggregator;
-            _eventAggregator.Subscribe(this);
-        }
-
-        protected override async void OnInitialize()
-        {
-            _progress.Show("Loading...");
-
-            var card = new Card();
-            try
-            {
-                card = await _api.Async.Cards.WithId(Id);
-            }
-            catch
-            {
-                MessageBox.Show("Could not load this card.  Please ensure that you " +
-                                "have an active internet connection.");
-            }
-
-            Name = card.Name;
-
-            Items.Add(_overview().Initialize(card));
-            Items.Add(_checklists().Initialize(card));
-
-            ActivateItem(Items[0]);
-
-            _progress.Hide();
-        }
-
-        public class PivotRequestingNavigation
-        {
-            public Screen Screen { get; set; }
-        }
-
-        public void Handle(PivotRequestingNavigation message)
-        {
-            var index = GetScreenIndex(message.Screen);
-            UsingView<CardDetailPivotView>(view => view.Items.SelectedIndex = index);
-        }
-
-        private static int GetScreenIndex(Screen screen)
-        {
-            switch (screen)
-            {
-                case Screen.Checklists:
-                    return 1;
-                case Screen.Attachments:
-                    return 2;
-                case Screen.Members:
-                    return 3;
-                default:
-                    return 0;
-            }
-        }
-    }
-
-    public sealed class CardDetailOverviewViewModel : PivotItemViewModel, 
-        IConfigureTheAppBar,
-        IHandle<CardDetailChecklistViewModel.ChecklistAggregationsUpdated>
-    {
-        private readonly ITrello _api;
-        private readonly IProgressService _progress;
-        private readonly IEventAggregator _eventAggregator;
         private readonly IWindowManager _windowManager;
-        private string _name;
-        private string _desc;
-        private int _votes;
-        private DateTime? _due;
+        private int _attachments;
         private int _checkItems;
         private int _checkItemsChecked;
-        private int _attachments;
         private int _checklists;
+        private string _desc;
+        private DateTime? _due;
         private int _members;
-        private Dictionary<Color, string> _labelNames;
+        private string _name;
+        private int _votes;
 
         public string Id { get; private set; }
 
@@ -240,7 +144,10 @@ namespace trello.ViewModels
 
         public IObservableCollection<LabelViewModel> Labels { get; set; }
 
-        public CardDetailOverviewViewModel(ITrello api, IProgressService progress, IEventAggregator eventAggregator, IWindowManager windowManager)
+        public CardDetailOverviewViewModel(ITrello api,
+                                           IProgressService progress,
+                                           IEventAggregator eventAggregator,
+                                           IWindowManager windowManager)
         {
             DisplayName = "overview";
 
@@ -261,7 +168,8 @@ namespace trello.ViewModels
             Due = card.Due;
             Checklists = card.Checklists.Count;
             CheckItems = card.Checklists.Aggregate(0, (i, model) => i + model.CheckItems.Count);
-            CheckItemsChecked = card.Checklists.Aggregate(0, (i, model) => i + model.CheckItems.Count(item => item.Checked));
+            CheckItemsChecked = card.Checklists.Aggregate(0,
+                                                          (i, model) => i + model.CheckItems.Count(item => item.Checked));
             Votes = card.Badges.Votes;
             Attachments = card.Attachments.Count;
             Members = card.Members.Count;
@@ -276,6 +184,51 @@ namespace trello.ViewModels
             Labels.AddRange(lbls);
 
             return this;
+        }
+
+        public ApplicationBar Configure(ApplicationBar existing)
+        {
+            existing.Buttons.Add(new AppBarButton
+            {
+                Text = "delete card",
+                IconUri = new Uri("/Assets/Icons/dark/appbar.delete.rest.png", UriKind.Relative),
+                Message = "DeleteCard"
+            });
+            return existing;
+        }
+
+        public void Handle(CardDescriptionChanged message)
+        {
+            Desc = message.Description;
+        }
+
+        public void Handle(CardDueDateChanged message)
+        {
+            Due = message.DueDate;
+        }
+
+        public void Handle(CardLabelAdded message)
+        {
+            Labels.Add(new LabelViewModel(message.Color.ToString(), message.Name));
+        }
+
+        public void Handle(CardLabelRemoved message)
+        {
+            LabelViewModel found = Labels.FirstOrDefault(lbl => lbl.Color == message.Color.ToString());
+            if (found != null)
+                Labels.Remove(found);
+        }
+
+        public void Handle(CardDetailChecklistViewModel.ChecklistAggregationsUpdated message)
+        {
+            Checklists = message.ChecklistCount;
+            CheckItems = message.CheckItemsCount;
+            CheckItemsChecked = message.CheckItemsCheckedCount;
+        }
+
+        public void Handle(CardDetailMembersViewModel.MemberAggregationsUpdated message)
+        {
+            Members = message.AssignedMemberCount;
         }
 
         [UsedImplicitly]
@@ -306,121 +259,42 @@ namespace trello.ViewModels
         }
 
         [UsedImplicitly]
-        public async void ChangeLabels()
+        public void ChangeDueDate()
         {
-            if (_labelNames == null)
-            {
-                _progress.Show("Loading label names...");
-                try
-                {
-                    var board = await _api.Async.Boards.ForCard(new CardId(Id));
-                    _labelNames = board.LabelNames;
-                }
-                catch (Exception)
-                {
-                    MessageBox.Show("The label names were unable to be loaded.  Please " +
-                                    "ensure that you have an active internet connection.");
-                    return;
-                }
-                finally
-                {
-                    _progress.Hide();
-                }
-            }
-
-            var model = new ChangeCardLabelsViewModel(GetView(), _labelNames, Labels)
-            {
-                Accepted = newLabels =>
-                {
-                    var oldLabels = Labels.Select(l => new Card.Label
-                    {
-                        Color = (Color)Enum.Parse(typeof(Color), l.Color),
-                        Name = l.Name
-                    }).ToList();
-
-                    _eventAggregator.Publish(new CardLabelsChanged
-                    {
-                        CardId = Id,
-                        LabelsAdded = newLabels.Except(oldLabels, l => l.Color).ToList(),
-                        LabelsRemoved = oldLabels.Except(newLabels, l => l.Color).ToList()
-                    });
-
-                    Labels.Clear();
-                    Labels.AddRange(newLabels.Select(l => new LabelViewModel(l.Color.ToString(), l.Name)));
-                }
-            };
+            var model = new ChangeCardDueViewModel(GetView(), _eventAggregator, Id, Due);
             _windowManager.ShowDialog(model);
         }
 
-        public void Handle(CardDetailChecklistViewModel.ChecklistAggregationsUpdated message)
+        [UsedImplicitly]
+        public void ChangeDescription()
         {
-            Checklists = message.ChecklistCount;
-            CheckItems = message.CheckItemsCount;
-            CheckItemsChecked = message.CheckItemsCheckedCount;
-        }
-
-        public ApplicationBar ConfigureTheAppBar(ApplicationBar existing)
-        {
-            existing.Buttons.Add(new AppBarButton
+            var model = new ChangeCardDescriptionViewModel(GetView(), _eventAggregator)
             {
-                Text = "delete card",
-                IconUri = new Uri("/Assets/Icons/dark/appbar.delete.rest.png", UriKind.Relative),
-                Message = "DeleteCard"
-            });
-            return existing;
+                CardId = Id,
+                Description = Desc
+            };
+
+            _windowManager.ShowDialog(model);
         }
 
+        [UsedImplicitly]
+        public void ChangeLabels()
+        {
+            IEnumerable<Color> selected = Labels.Select(lbl => (Color) Enum.Parse(typeof (Color), lbl.Color));
+
+            ChangeCardLabelsViewModel model = new ChangeCardLabelsViewModel(GetView(), _eventAggregator, _api, _progress)
+            {
+                CardId = Id
+            }
+                .Initialize(selected);
+
+            _windowManager.ShowDialog(model);
+        }
+
+        [UsedImplicitly]
         public void DeleteCard()
         {
             MessageBox.Show("We should delete the card now.");
-        }
-    }
-
-    public sealed class CardDetailChecklistViewModel : PivotItemViewModel, IHandle<CheckItemChanged>
-    {
-        private readonly IEventAggregator _eventAggregator;
-        private readonly Func<ChecklistViewModel> _checklistFactory;
-
-        public IObservableCollection<ChecklistViewModel> Checklists { get; set; }
-
-        public CardDetailChecklistViewModel(IEventAggregator eventAggregator, Func<ChecklistViewModel> checklistFactory)
-        {
-            DisplayName = "checklists";
-
-            _eventAggregator = eventAggregator;
-            _eventAggregator.Subscribe(this);
-            _checklistFactory = checklistFactory;
-
-            Checklists = new BindableCollection<ChecklistViewModel>();
-        }
-
-        public CardDetailChecklistViewModel Initialize(Card card)
-        {
-            var checks = card.Checklists.Select(list => _checklistFactory().InitializeWith(list));
-            Checklists.Clear();
-            Checklists.AddRange(checks);
-
-            return this;
-        }
-
-        public void Handle(CheckItemChanged message)
-        {
-            var update = new ChecklistAggregationsUpdated
-            {
-                ChecklistCount = Checklists.Count,
-                CheckItemsCount = Checklists.Aggregate(0, (i, model) => i + model.Items.Count),
-                CheckItemsCheckedCount = Checklists.Aggregate(0, (i, model) => i + model.ItemsChecked)
-            };
-            _eventAggregator.Publish(update);
-        }
-
-        public class ChecklistAggregationsUpdated
-        {
-            public int ChecklistCount { get; set; }
-
-            public int CheckItemsCount { get; set; }
-
-            public int CheckItemsCheckedCount { get; set; }
         }
     }
 }

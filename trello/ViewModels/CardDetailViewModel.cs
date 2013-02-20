@@ -257,82 +257,22 @@ namespace trello.ViewModels
         [UsedImplicitly]
         public void ChangeName()
         {
-            var model = new ChangeCardNameViewModel(GetView())
+            var model = new ChangeCardNameViewModel(GetView(), _eventAggregator)
             {
-                Name = Name,
-                Accepted = text =>
-                {
-                    Name = text;
-                    _eventAggregator.Publish(new CardNameChanged {CardId = Id, Name = Name});
-                }
+                CardId = Id,
+                Name = Name
             };
 
             _windowManager.ShowDialog(model);
         }
 
         [UsedImplicitly]
-        public void ChangeDueDate()
+        public void ChangeLabels()
         {
-            var model = new ChangeCardDueViewModel(GetView())
-            {
-                Date = Due,
-                Accepted = d =>
-                {
-                    Due = d;
-                    _eventAggregator.Publish(new CardDueDateChanged {CardId = Id, DueDate = d});
-                },
-                Removed = () =>
-                {
-                    Due = null;
-                    _eventAggregator.Publish(new CardDueDateChanged {CardId = Id, DueDate = null});
-                }
-            };
+            var selected = Labels.Select(lbl => (Color) Enum.Parse(typeof (Color), lbl.Color));
 
-            _windowManager.ShowDialog(model);
-        }
+            var model = new ChangeCardLabelsViewModel(GetView(), _eventAggregator, _api, _progress) {CardId = Id}.Initialize(selected);
 
-        [UsedImplicitly]
-        public async void ChangeLabels()
-        {
-            if (_labelNames == null)
-            {
-                var board = await _api.Async.Boards.ForCard(new CardId(Id));
-                _labelNames = board.LabelNames;
-            }
-
-            var model = new ChangeCardLabelsViewModel(GetView(), _labelNames, Labels)
-            {
-                Accepted = newLabels =>
-                {
-                    var oldLabels = Labels.Select(l => new Card.Label
-                    {
-                        Color = (Color) Enum.Parse(typeof (Color), l.Color),
-                        Name = l.Name
-                    }).ToList();
-
-                    _eventAggregator.Publish(new CardLabelsChanged
-                    {
-                        CardId = Id,
-                        LabelsAdded = newLabels.Except(oldLabels, l => l.Color).ToList(),
-                        LabelsRemoved = oldLabels.Except(newLabels, l => l.Color).ToList()
-                    });
-
-                    Labels.Clear();
-                    Labels.AddRange(newLabels.Select(l => new LabelViewModel(l.Color.ToString(), l.Name)));
-                }
-            };
-            _windowManager.ShowDialog(model);
-        }
-
-        [UsedImplicitly]
-        public void ChangeMembers()
-        {
-            var members = Members.Select(m => m.Id).ToList();
-            var model = new ChangeCardMembersViewModel(GetView(), _eventAggregator, _api, members)
-            {
-                BoardId = BoardId,
-                CardId = Id
-            };
             _windowManager.ShowDialog(model);
         }
 
