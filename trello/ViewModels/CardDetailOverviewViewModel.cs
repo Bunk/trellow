@@ -8,6 +8,7 @@ using Microsoft.Phone.Shell;
 using TrelloNet;
 using trello.Services;
 using trello.Services.Handlers;
+using trello.ViewModels.Activities;
 
 namespace trello.ViewModels
 {
@@ -144,6 +145,8 @@ namespace trello.ViewModels
 
         public IObservableCollection<LabelViewModel> Labels { get; set; }
 
+        public IObservableCollection<ActivityViewModel> Comments { get; set; }
+
         public CardDetailOverviewViewModel(ITrello api,
                                            IProgressService progress,
                                            IEventAggregator eventAggregator,
@@ -158,6 +161,7 @@ namespace trello.ViewModels
             _eventAggregator.Subscribe(this);
 
             Labels = new BindableCollection<LabelViewModel>();
+            Comments = new BindableCollection<ActivityViewModel>();
         }
 
         public CardDetailOverviewViewModel Initialize(Card card)
@@ -168,8 +172,7 @@ namespace trello.ViewModels
             Due = card.Due;
             Checklists = card.Checklists.Count;
             CheckItems = card.Checklists.Aggregate(0, (i, model) => i + model.CheckItems.Count);
-            CheckItemsChecked = card.Checklists.Aggregate(0,
-                                                          (i, model) => i + model.CheckItems.Count(item => item.Checked));
+            CheckItemsChecked = card.Checklists.Aggregate(0, (i, model) => i + model.CheckItems.Count(item => item.Checked));
             Votes = card.Badges.Votes;
             Attachments = card.Attachments.Count;
             Members = card.Members.Count;
@@ -184,6 +187,33 @@ namespace trello.ViewModels
             Labels.AddRange(lbls);
 
             return this;
+        }
+
+        protected override async void OnInitialize()
+        {
+            _progress.Show("Loading comments...");
+
+            try
+            {
+
+                var actions = await _api.Async.Actions.ForCard(new CardId(Id),
+                                                                new[] {ActionType.CommentCard},
+                                                                paging: new Paging(25, 0));
+
+                var vms = actions.Select(ActivityViewModel.InitializeWith).ToList();
+                
+                Comments.Clear();
+                Comments.AddRange(vms);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Could not load this card.  Please ensure that you " +
+                                "have an active internet connection.");
+            }
+            finally
+            {
+                _progress.Hide();
+            }
         }
 
         public ApplicationBar Configure(ApplicationBar existing)
