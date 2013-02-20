@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="trello.Views.CardDetailChecklistView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:cm="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="480" d:DesignWidth="480">
+    
+    <Grid x:Name="LayoutRoot" Background="Transparent" Margin="12,0">
+		<Grid.RowDefinitions>
+			<RowDefinition />
+		</Grid.RowDefinitions>
+
+		<ItemsControl Grid.Row="0" ItemsSource="{Binding Checklists}" Visibility="{Binding Checklists.Count, Converter={StaticResource VisibilityConverter}}">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<ContentControl cm:View.Model="{Binding}"
+						HorizontalContentAlignment="Stretch"
+						VerticalContentAlignment="Stretch" />
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+		</ItemsControl>
+
+		<TextBlock Grid.Row="0" Visibility="{Binding Checklists.Count, Converter={StaticResource VisibilityConverter}, ConverterParameter='true'}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center">
+			There are no check lists for this card, yet.
+		</TextBlock>
+
+    </Grid>
+</UserControl>

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Windows;
 using Caliburn.Micro;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
 using TrelloNet;
 using trello.Services;
 using trello.Services.Cache;
@@ -46,6 +47,9 @@ namespace trello
             _container.PerRequest<BoardListViewModel>();
             _container.PerRequest<CardViewModel>();
             _container.PerRequest<CardDetailViewModel>();
+            _container.PerRequest<CardDetailPivotViewModel>();
+            _container.PerRequest<CardDetailOverviewViewModel>();
+            _container.PerRequest<CardDetailChecklistViewModel>();
             _container.PerRequest<ChecklistViewModel>();
             _container.PerRequest<ChecklistItemViewModel>();
             _container.PerRequest<AttachmentViewModel>();
@@ -62,6 +66,8 @@ namespace trello
 
                 return api;
             });
+
+            _container.Singleton<IApplicationBar, ApplicationBar>();
 
             TelerikConventions.Install();
 

@@ -1,8 +1,7 @@
 using Caliburn.Micro;
 using JetBrains.Annotations;
+using TrelloNet;
 using trello.Services.Handlers;
-using trellow.api.Models;
-using Card = TrelloNet.Card;
 
 namespace trello.ViewModels
 {
@@ -54,19 +53,25 @@ namespace trello.ViewModels
         public ChecklistItemViewModel(IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
+
+            PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == "Checked")
+                {
+                    _eventAggregator.Publish(new CheckItemChanged
+                    {
+                        CardId = _idCard,
+                        ChecklistId = _idList,
+                        CheckItemId = Id,
+                        Value = Checked
+                    });
+                }
+            };
         }
 
         public void Toggle()
         {
             Checked = !Checked;
-
-            _eventAggregator.Publish(new CheckItemChanged
-            {
-                CardId = _idCard,
-                ChecklistId = _idList,
-                CheckItemId = Id,
-                Value = Checked
-            });
         }
 
         public ChecklistItemViewModel InitializeWith(string cardId, string listId, Card.CheckItem item)

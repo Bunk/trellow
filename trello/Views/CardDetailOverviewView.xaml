@@ -1,0 +1,228 @@
+﻿<UserControl x:Class="trello.Views.CardDetailOverviewView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+	xmlns:micro="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+	xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+	xmlns:local="clr-namespace:trello.Views.Triggers;assembly=trello"
+	xmlns:ctrl="clr-namespace:trello.Views.Controls;assembly=trello"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="480" d:DesignWidth="480">
+    
+    <ScrollViewer x:Name="LayoutRoot">
+		<StackPanel>
+			
+			<ItemsControl ItemsSource="{Binding Labels}" Margin="0,0,0,12" HorizontalContentAlignment="Stretch">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Border Margin="0,0,0,0" Height="35" Padding="10,0">
+							<Border.Background>
+								<SolidColorBrush Color="{Binding Color, Converter={StaticResource LabelColorConverter}}" />
+							</Border.Background>
+							<ctrl:DropShadowTextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="{StaticResource PhoneFontSizeNormal}" />
+						</Border>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<telerikPrimitives:RadUniformGrid NumberOfRows="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+
+				<i:Interaction.Triggers>
+					<local:GestureServiceTrigger Gesture="Tap">
+						<micro:ActionMessage MethodName="ChangeLabels" />
+					</local:GestureServiceTrigger>
+				</i:Interaction.Triggers>
+			</ItemsControl>
+
+			<Image Source="{Binding CoverUri}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-12,0,0"
+				   Height="{Binding CoverHeight}" Width="{Binding CoverWidth}"
+				   Visibility="{Binding CoverUri, Converter={StaticResource VisibilityConverter}}" />
+
+			<Border Style="{StaticResource ComponentBorder}">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+
+					<Image Grid.Row="0" Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-pencil-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
+
+					<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Desc}" TextWrapping="Wrap" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}">
+						
+					</TextBlock>
+
+					<TextBlock Grid.Row="0" Grid.Column="1" Text="No Description" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}, ConverterParameter='true'}" Foreground="{StaticResource PhoneSubtleBrush}" FontStyle="Italic">
+						
+					</TextBlock>
+					
+					<telerikPrimitives:RadWindow x:Name="DescWindow" IsFullScreen="True" IsOpen="{Binding EditingDesc}">
+						<Border Background="{StaticResource PhoneChromeBrush}">
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition />
+									<RowDefinition Height="Auto" />
+								</Grid.RowDefinitions>
+
+								<telerikPrimitives:RadTextBox x:Name="radTextBox" AcceptsReturn="True" Text="{Binding Path=Desc, Mode=TwoWay}" TextWrapping="Wrap" ActionButtonVisibility="Collapsed" Header="Description" />
+								
+								<StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+									<HyperlinkButton micro:Message.Attach="[Event Click] = [Action CancelDesc]" Foreground="{StaticResource PhoneSubtleBrush}">Cancel</HyperlinkButton>
+									<Button micro:Message.Attach="[Event Click] = [Action UpdateDesc]" Background="#FF6FBE46" Foreground="#FFFFFF">Update</Button>
+								</StackPanel>
+							</Grid>
+						</Border>
+					</telerikPrimitives:RadWindow>
+				</Grid>
+
+				<i:Interaction.Triggers>
+					<local:GestureServiceTrigger Gesture="Tap">
+						<micro:ActionMessage MethodName="EditDesc" />
+					</local:GestureServiceTrigger>
+				</i:Interaction.Triggers>
+			</Border>
+
+			<Border Style="{StaticResource ComponentBorder}">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+
+					<Image Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-clock-med.png" Margin="0,7,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
+
+					<TextBlock Grid.Column="1" Margin="7,12,12,12" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyLight}" Visibility="{Binding Due, Converter={StaticResource VisibilityConverter}}">
+						<TextBlock.Inlines>
+							<Run Text="Due" />
+							<Run Text="{Binding Due, StringFormat='\{0:MMMM d\} at \{0:hh\:mm tt\}'}" />
+						</TextBlock.Inlines>
+					</TextBlock>
+
+					<TextBlock Grid.Column="1" Margin="7,12,12,12" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyLight}" Visibility="{Binding Due, Converter={StaticResource InvertedVisibilityConverter}}" Foreground="{StaticResource PhoneSubtleBrush}" FontStyle="Italic">
+						<TextBlock.Inlines>
+							<Run Text="No Due Date" />
+						</TextBlock.Inlines>
+					</TextBlock>
+
+				</Grid>
+
+				<i:Interaction.Triggers>
+					<local:GestureServiceTrigger Gesture="Tap">
+						<micro:ActionMessage MethodName="ChangeDueDate" />
+					</local:GestureServiceTrigger>
+				</i:Interaction.Triggers>
+			</Border>
+
+			<Border Style="{StaticResource ComponentBorder}" Visibility="{Binding Checklists, Converter={StaticResource VisibilityConverter}}">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+
+					<Image Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-check-med.png" Margin="0,7,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
+
+					<Grid Grid.Column="1" Margin="7,12,12,12">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto" />
+							<RowDefinition />
+						</Grid.RowDefinitions>
+
+						<TextBlock Grid.Row="0" Grid.Column="0" FontFamily="{StaticResource PhoneFontFamilyLight}">
+							<TextBlock.Inlines>
+								<Run Text="{Binding Checklists}" />
+								<Run Text="Checklists" />
+							</TextBlock.Inlines>
+						</TextBlock>
+						
+						<TextBlock Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{StaticResource PhoneSubtleBrush}"  FontFamily="{StaticResource PhoneFontFamilyLight}">
+							<TextBlock.Inlines>
+								<Run Text="{Binding CheckItemsChecked}" />
+								<Run Text="of" />
+								<Run Text="{Binding CheckItems}" />
+								<Run Text="complete" />
+							</TextBlock.Inlines>
+						</TextBlock>
+
+						<ProgressBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource ChecklistProgressBar}" Margin="0,10,0,0" Padding="0"
+									 Value="{Binding CheckItemsChecked}" Minimum="0" Maximum="{Binding CheckItems}" />
+
+					</Grid>
+				</Grid>
+
+				<i:Interaction.Triggers>
+					<local:GestureServiceTrigger Gesture="Tap">
+						<micro:ActionMessage MethodName="GoToChecklists" />
+					</local:GestureServiceTrigger>
+				</i:Interaction.Triggers>
+			</Border>
+
+			<Border Style="{StaticResource ComponentBorder}" Visibility="{Binding Attachments, Converter={StaticResource VisibilityConverter}}">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+
+					<Image Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-attachment-med.png" Margin="0,7,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
+
+					<TextBlock Grid.Column="1" Margin="7,12,12,12" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyLight}">
+						<TextBlock.Inlines>
+							<Run Text="{Binding Attachments}" />
+							<Run Text="Attachments" />
+						</TextBlock.Inlines>
+					</TextBlock>
+				</Grid>
+
+				<i:Interaction.Triggers>
+					<local:GestureServiceTrigger Gesture="Tap">
+						<micro:ActionMessage MethodName="GoToAttachments" />
+					</local:GestureServiceTrigger>
+				</i:Interaction.Triggers>
+			</Border>
+
+			<Border Style="{StaticResource ComponentBorder}" Visibility="{Binding Members, Converter={StaticResource VisibilityConverter}}">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition />
+					</Grid.ColumnDefinitions>
+
+					<Image Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-user-med.png" Margin="0,7,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
+
+					<TextBlock Grid.Column="1" Margin="7,12,12,12" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyLight}">
+						<TextBlock.Inlines>
+							<Run Text="{Binding Members}" />
+							<Run Text="Members" />
+						</TextBlock.Inlines>
+					</TextBlock>
+				</Grid>
+
+				<i:Interaction.Triggers>
+					<local:GestureServiceTrigger Gesture="Tap">
+						<micro:ActionMessage MethodName="GoToMembers" />
+					</local:GestureServiceTrigger>
+				</i:Interaction.Triggers>
+			</Border>
+
+			<Border Margin="0,10,0,0" BorderBrush="{StaticResource PhoneBorderBrush}" BorderThickness="0,1,0,0">
+				<ItemsControl x:Name="Comments" Grid.Row="1" Margin="0,10,0,0" />
+			</Border>
+
+		</StackPanel>
+	</ScrollViewer>
+</UserControl>

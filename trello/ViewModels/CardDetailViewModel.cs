@@ -17,24 +17,13 @@ using Action = TrelloNet.Action;
 
 namespace trello.ViewModels
 {
-    public class CardDetailShellViewModel : Conductor<IScreen>.Collection.OneActive
-    {
-        protected override void OnInitialize()
-        {
-            base.OnInitialize();
-
-            var model = new CardDetailViewModel();
-            
-            Items.Add();
-        }
-    }
-
     [UsedImplicitly]
     public class CardDetailViewModel : ViewModelBase,
         IHandle<CheckItemChanged>,
         IHandle<CardMemberAdded>,
         IHandle<CardMemberRemoved>
     {
+        public IApplicationBar ApplicationBar { get; set; }
         private readonly IWindowManager _windowManager;
         private readonly IEventAggregator _eventAggregator;
         private readonly ITrello _api;

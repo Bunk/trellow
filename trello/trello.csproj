@@ -132,6 +132,7 @@
     <Compile Include="ViewModels\ActivityViewModel.cs" />
     <Compile Include="ViewModels\AttachmentViewModel.cs" />
     <Compile Include="ViewModels\BoardListViewModel.cs" />
+    <Compile Include="ViewModels\CardDetailOverviewViewModel.cs" />
     <Compile Include="ViewModels\ChangeCardMembersViewModel.cs" />
     <Compile Include="ViewModels\LabelViewModel.cs" />
     <Compile Include="ViewModels\MyBoardsViewModel.cs" />
@@ -167,6 +168,15 @@
     </Compile>
     <Compile Include="Views\Activities\SimpleActivityView.xaml.cs">
       <DependentUpon>SimpleActivityView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardDetailChecklistView.xaml.cs">
+      <DependentUpon>CardDetailChecklistView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardDetailOverviewView.xaml.cs">
+      <DependentUpon>CardDetailOverviewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CardDetailPivotView.xaml.cs">
+      <DependentUpon>CardDetailPivotView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChangeCardMembersView.xaml.cs">
       <DependentUpon>ChangeCardMembersView.xaml</DependentUpon>
@@ -466,6 +476,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Activities\SimpleActivityView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardDetailChecklistView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardDetailOverviewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CardDetailPivotView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
