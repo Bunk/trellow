@@ -4,7 +4,6 @@ using System.Diagnostics;
 using System.Windows;
 using Caliburn.Micro;
 using Microsoft.Phone.Controls;
-using Microsoft.Phone.Shell;
 using TrelloNet;
 using trello.Services;
 using trello.Services.Cache;
@@ -19,8 +18,6 @@ namespace trello
     public class ApplicationBootstrapper : PhoneBootstrapper
     {
         private PhoneContainer _container;
-
-        private CardDetailCommandHandler _detailHandler;
 
         protected override void Configure()
         {
@@ -67,11 +64,10 @@ namespace trello
                 return api;
             });
 
-            _container.Singleton<IApplicationBar, ApplicationBar>();
-
             TelerikConventions.Install();
 
-            _detailHandler = (CardDetailCommandHandler) _container.GetInstance(typeof (CardDetailCommandHandler), null);
+            // Force creation
+            _container.GetInstance(typeof (CardDetailCommandHandler), null);
         }
 
         protected override PhoneApplicationFrame CreatePhoneApplicationFrame()
