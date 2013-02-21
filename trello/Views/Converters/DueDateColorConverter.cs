@@ -13,7 +13,7 @@ namespace trello.Views.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value == null)
-                return DefaultBrush ?? new SolidColorBrush(FromKnownColor("Green"));
+                return DefaultBrush ?? new SolidColorBrush(FromHexa("#ff34b27d"));
 
             var strVal = value.ToString();
             var nullable = value as DateTime?;
@@ -23,18 +23,18 @@ namespace trello.Views.Converters
             DateTime dateval;
             if (DateTime.TryParse(strVal, out dateval))
             {
-                var given = ((DateTime) value).ToLocalTime();
+                var given = dateval.ToLocalTime();
                 var current = DateTime.Now;
 
                 var difference = given - current;
 
                 if (difference.Ticks < 0)
-                    return new SolidColorBrush(FromKnownColor("Red"));//FromHexa("#ffa82424"));
+                    return new SolidColorBrush(FromHexa("#ffcb4d4d"));//FromHexa("#ffa82424"));
 
                 if (difference.TotalHours <= 24)
-                    return new SolidColorBrush(FromKnownColor("Orange"));//FromHexa("#ffc3b622"));
+                    return new SolidColorBrush(FromHexa("#ffdbdb57"));//FromHexa("#ffc3b622"));
             }
-            return DefaultBrush ?? new SolidColorBrush(FromKnownColor("Green"));
+            return DefaultBrush ?? new SolidColorBrush(FromHexa("#ff34b27d"));
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

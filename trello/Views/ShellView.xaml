@@ -20,6 +20,14 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <phone:Pivot Title="TRELLOW - MINE" x:Name="Items" SelectedItem="{Binding ActiveItem, Mode=TwoWay}">
+			<phone:Pivot.TitleTemplate>
+				<DataTemplate>
+					<StackPanel>
+						<TextBlock Text="{Binding Title}" />
+						<TextBlock Text="{Binding Subtitle}" Foreground="{StaticResource PhoneSubtleBrush}" FontFamily="{StaticResource PhoneFontFamilyNormal}" />
+					</StackPanel>
+				</DataTemplate>
+			</phone:Pivot.TitleTemplate>
 			<phone:Pivot.HeaderTemplate>
 				<DataTemplate>
 					<TextBlock Text="{Binding DisplayName}" />

@@ -7,6 +7,8 @@ namespace trellow.api
     {
         string AppName { get; }
 
+        string Username { get; set; }
+
         string ApiConsumerKey { get; }
 
         string ApiConsumerSecret { get; }
@@ -25,6 +27,8 @@ namespace trellow.api
         {
             get { return "Trellow"; }
         }
+
+        public string Username { get; set; }
 
         public string ApiConsumerKey
         {

@@ -8,6 +8,30 @@ namespace trello.ViewModels
         private readonly MyBoardsViewModel _myBoards;
         private readonly MyCardsViewModel _myCards;
         private readonly MessageListViewModel _messages;
+        private string _subtitle;
+        private string _title;
+
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                if (value == _title) return;
+                _title = value;
+                NotifyOfPropertyChange(() => Title);
+            }
+        }
+
+        public string Subtitle
+        {
+            get { return _subtitle; }
+            set
+            {
+                if (value == _subtitle) return;
+                _subtitle = value;
+                NotifyOfPropertyChange(() => Subtitle);
+            }
+        }
 
         public ShellViewModel(ITrelloApiSettings settings,
                               INavigationService navigation,
@@ -19,6 +43,8 @@ namespace trello.ViewModels
             _myBoards = myBoards;
             _myCards = myCards;
             _messages = messages;
+
+            settings.Username;
         }
 
         protected override void OnInitialize()
