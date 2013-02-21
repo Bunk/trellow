@@ -93,8 +93,12 @@ namespace trello.ViewModels
             });
         }
 
-        private void Continue()
+        private async void Continue()
         {
+            var profile = await _api.Async.Members.Me();
+            _settings.Username = profile.Username;
+            _settings.Fullname = profile.FullName;
+
             UsingView(view => view.Browser.Visibility = Visibility.Collapsed);
             _navigationService.Navigate(new Uri("/Views/ShellView.xaml", UriKind.Relative));
         }

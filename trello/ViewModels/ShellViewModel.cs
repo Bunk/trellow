@@ -44,7 +44,8 @@ namespace trello.ViewModels
             _myCards = myCards;
             _messages = messages;
 
-            settings.Username;
+            Title = "TRELLOW";
+            Subtitle = settings.Fullname;
         }
 
         protected override void OnInitialize()

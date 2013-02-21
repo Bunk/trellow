@@ -23,7 +23,7 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
-								<ColumnDefinition Width="50" />
+								<ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 							<Grid>
 								<Grid.RowDefinitions>
@@ -31,13 +31,13 @@
 									<RowDefinition />
 								</Grid.RowDefinitions>
 
-								<TextBlock Grid.Row="0" Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" Foreground="{StaticResource PhoneForegroundBrush}" TextWrapping="Wrap" FontFamily="{StaticResource PhoneFontFamilyLight}" />
+								<TextBlock Grid.Row="0" Text="{Binding Name, Converter={StaticResource CaseConverter}}" FontSize="{StaticResource PhoneFontSizeLarge}" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyLight}" />
 								
 								<TextBlock Grid.Row="1" Text="{Binding Desc}" Foreground="{StaticResource PhoneSubtleBrush}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}" TextWrapping="Wrap" />
 							</Grid>
                             
-							<Grid Grid.Column="1" Margin="0,7,0,0" Visibility="{Binding IsPrivate, Converter={StaticResource VisibilityConverter}}" VerticalAlignment="Top" HorizontalAlignment="Center">
-								<Ellipse Width="45" Height="45" Fill="{StaticResource PhoneAccentBrush}" />
+							<Grid Grid.Column="1" Margin="0,0,0,0" Visibility="{Binding IsPrivate, Converter={StaticResource VisibilityConverter}}" VerticalAlignment="Top" HorizontalAlignment="Center">
+								<Ellipse Width="0" Height="0" Fill="{StaticResource PhoneAccentBrush}" />
 								<Image Width="48" Height="48" Source="/Assets/Icons/lock.png" Visibility="{Binding IsPrivate, Converter={StaticResource VisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" />
 							</Grid>
 							

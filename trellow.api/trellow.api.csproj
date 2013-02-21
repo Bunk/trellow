@@ -300,16 +300,6 @@
     <Compile Include="Members\MemberFilter.cs" />
     <Compile Include="Members\MemberId.cs" />
     <Compile Include="Members\MemberStatus.cs" />
-    <Compile Include="Models\Attachment.cs" />
-    <Compile Include="Models\Board.cs" />
-    <Compile Include="Models\Card.cs" />
-    <Compile Include="Models\Invitation.cs" />
-    <Compile Include="Models\Label.cs" />
-    <Compile Include="Models\List.cs" />
-    <Compile Include="Models\Member.cs" />
-    <Compile Include="Models\Membership.cs" />
-    <Compile Include="Models\Preferences.cs" />
-    <Compile Include="Models\Profile.cs" />
     <Compile Include="Notifications\AddAdminToBoardNotification.cs" />
     <Compile Include="Notifications\AddAdminToOrganization.cs" />
     <Compile Include="Notifications\AddedToBoardNotification.cs" />

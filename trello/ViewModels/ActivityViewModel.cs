@@ -1,6 +1,5 @@
 using System;
 using System.Text.RegularExpressions;
-using trellow.api.Models;
 
 namespace trello.ViewModels.Activities
 {
@@ -12,10 +11,6 @@ namespace trello.ViewModels.Activities
 
         public DateTime Timestamp { get; set; }
 
-        public ActivityType Type { get; set; }
-
-        public ActivityData Data { get; set; }
-
         public static ActivityViewModel InitializeWith(TrelloNet.Action activity)
         {
             var model = new ActivityViewModel();
@@ -25,54 +20,14 @@ namespace trello.ViewModels.Activities
                 model = new CommentActivityViewModel
                 {
                     Text = act.Data.Text,
-                    //LastEditedDate = act.Data.DateLastEdited,
-                    TargetName = act.Data.Card.Name,
-                    Type = ActivityType.CommentCard
+                    LastEditedDate = act.Data.DateLastEdited,
+                    TargetName = act.Data.Card.Name
                 };
             }
-//            switch (activity)
-//            {
-//                case ActivityType.CreateCard:
-//                    model = new SimpleActivityViewModel
-//                    {
-//                        Action = "added",
-//                        ActionName = activity.Data.Card.Name,
-//                        TargetName = activity.Data.List.Name
-//                    };
-//                    break;
-//                case ActivityType.AddAttachmentToCard:
-//                    model = new SimpleActivityViewModel
-//                    {
-//                        Action = "attached",
-//                        ActionName = activity.Data.Attachment.Name,
-//                        ActionUrl = activity.Data.Attachment.Url,
-//                        ActionImageUri = UpdateWithImageUri(activity.Data.Attachment.Url),
-//                        TargetName = activity.Data.Card.Name
-//                    };
-//                    break;
-//                case ActivityType.AddChecklistToCard:
-//                    model = new SimpleActivityViewModel
-//                    {
-//                        Action = "added",
-//                        ActionName = activity.Data.Checklist.Name,
-//                        TargetName = activity.Data.Card.Name
-//                    };
-//                    break;
-//                case ActivityType.CommentCard:
-//                    model = new CommentActivityViewModel
-//                    {
-//                        Text = activity.Data.Text,
-//                        LastEditedDate = activity.Data.DateLastEdited,
-//                        TargetName = activity.Data.Card.Name
-//                    };
-//                    break;
-//            }
 
             model.Id = activity.Id;
             model.Member = new MemberViewModel(activity.MemberCreator);
-            model.Timestamp = DateTime.SpecifyKind(activity.Date, DateTimeKind.Utc).ToLocalTime();
-//            model.Type = activity.Type;
-//            model.Data = activity.Data;
+            model.Timestamp = activity.Date.ToLocalTime();
 
             return model;
         }
