@@ -14,7 +14,8 @@ namespace trello.Services.Handlers
                                             IHandle<CardLabelAdded>,
                                             IHandle<CardLabelRemoved>,
                                             IHandle<CardMemberAdded>,
-                                            IHandle<CardMemberRemoved>
+                                            IHandle<CardMemberRemoved>,
+        IHandle<CardCommented>
     {
         private readonly ITrello _api;
         private readonly IProgressService _progress;
@@ -103,6 +104,11 @@ namespace trello.Services.Handlers
         public void Handle(CardMemberRemoved message)
         {
             Handle(api => api.Async.Cards.RemoveMember(new CardId(message.CardId), new MemberId(message.MemberId)));
+        }
+
+        public void Handle(CardCommented message)
+        {
+            Handle(api => api.Async.Cards.AddComment(new CardId(message.CardId), message.Text));
         }
     }
 }

@@ -9,6 +9,8 @@ using TrelloNet;
 using trello.Services;
 using trello.Services.Handlers;
 using trello.ViewModels.Activities;
+using trello.Views;
+using trellow.api;
 
 namespace trello.ViewModels
 {
@@ -22,6 +24,7 @@ namespace trello.ViewModels
                                                       IHandle<CardDetailMembersViewModel.MemberAggregationsUpdated>
     {
         private readonly ITrello _api;
+        private readonly ITrelloApiSettings _settings;
         private readonly IEventAggregator _eventAggregator;
         private readonly IProgressService _progress;
         private readonly IWindowManager _windowManager;
@@ -34,6 +37,11 @@ namespace trello.ViewModels
         private int _members;
         private string _name;
         private int _votes;
+        private string _myAvatarUrl;
+        private string _coverUri;
+        private int _coverHeight;
+        private int _coverWidth;
+        private string _commentText;
 
         public string Id { get; private set; }
 
@@ -137,17 +145,67 @@ namespace trello.ViewModels
             }
         }
 
-        public string CoverUri { get; set; }
+        public string CoverUri
+        {
+            get { return _coverUri; }
+            set
+            {
+                if (value == _coverUri) return;
+                _coverUri = value;
+                NotifyOfPropertyChange(() => CoverUri);
+            }
+        }
 
-        public int CoverHeight { get; set; }
+        public int CoverHeight
+        {
+            get { return _coverHeight; }
+            set
+            {
+                if (value == _coverHeight) return;
+                _coverHeight = value;
+                NotifyOfPropertyChange(() => CoverHeight);
+            }
+        }
 
-        public int CoverWidth { get; set; }
+        public int CoverWidth
+        {
+            get { return _coverWidth; }
+            set
+            {
+                if (value == _coverWidth) return;
+                _coverWidth = value;
+                NotifyOfPropertyChange(() => CoverWidth);
+            }
+        }
+
+        public string MyAvatarUrl
+        {
+            get { return _myAvatarUrl; }
+            set
+            {
+                if (value == _myAvatarUrl) return;
+                _myAvatarUrl = value;
+                NotifyOfPropertyChange(() => MyAvatarUrl);
+            }
+        }
+
+        public string CommentText
+        {
+            get { return _commentText; }
+            set
+            {
+                if (value == _commentText) return;
+                _commentText = value;
+                NotifyOfPropertyChange(() => CommentText);
+            }
+        }
 
         public IObservableCollection<LabelViewModel> Labels { get; set; }
 
         public IObservableCollection<ActivityViewModel> Comments { get; set; }
 
         public CardDetailOverviewViewModel(ITrello api,
+                                           ITrelloApiSettings settings,
                                            IProgressService progress,
                                            IEventAggregator eventAggregator,
                                            IWindowManager windowManager)
@@ -155,6 +213,7 @@ namespace trello.ViewModels
             DisplayName = "overview";
 
             _api = api;
+            _settings = settings;
             _progress = progress;
             _eventAggregator = eventAggregator;
             _windowManager = windowManager;
@@ -172,7 +231,8 @@ namespace trello.ViewModels
             Due = card.Due;
             Checklists = card.Checklists.Count;
             CheckItems = card.Checklists.Aggregate(0, (i, model) => i + model.CheckItems.Count);
-            CheckItemsChecked = card.Checklists.Aggregate(0, (i, model) => i + model.CheckItems.Count(item => item.Checked));
+            CheckItemsChecked = card.Checklists.Aggregate(0,
+                                                          (i, model) => i + model.CheckItems.Count(item => item.Checked));
             Votes = card.Badges.Votes;
             Attachments = card.Attachments.Count;
             Members = card.Members.Count;
@@ -186,6 +246,8 @@ namespace trello.ViewModels
             Labels.Clear();
             Labels.AddRange(lbls);
 
+            MyAvatarUrl = string.Format("https://trello-avatars.s3.amazonaws.com/{0}/170.png", _settings.AvatarHash);
+
             return this;
         }
 
@@ -195,13 +257,12 @@ namespace trello.ViewModels
 
             try
             {
-
                 var actions = await _api.Async.Actions.ForCard(new CardId(Id),
-                                                                new[] {ActionType.CommentCard},
-                                                                paging: new Paging(25, 0));
+                                                               new[] {ActionType.CommentCard},
+                                                               paging: new Paging(25, 0));
 
                 var vms = actions.Select(ActivityViewModel.InitializeWith).ToList();
-                
+
                 Comments.Clear();
                 Comments.AddRange(vms);
             }
@@ -325,6 +386,31 @@ namespace trello.ViewModels
         public void DeleteCard()
         {
             MessageBox.Show("We should delete the card now.");
+        }
+
+        [UsedImplicitly]
+        public void Comment(string comment)
+        {
+            CommentText = null;
+
+            _eventAggregator.Publish(new CardCommented
+            {
+                CardId = Id,
+                MemberId = _settings.MemberId,
+                Text = comment
+            });
+
+            Comments.Add(new CommentActivityViewModel
+            {
+                Member = new MemberViewModel(new Member
+                {
+                    AvatarHash = _settings.AvatarHash,
+                    FullName = _settings.Fullname,
+                    Username = _settings.Username
+                }),
+                Text = comment,
+                Timestamp = DateTime.Now
+            });
         }
     }
 }

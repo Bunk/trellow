@@ -95,9 +95,12 @@ namespace trello.ViewModels
 
         private async void Continue()
         {
+            // todo: This should probably get queried later as well if it no longer is stored
             var profile = await _api.Async.Members.Me();
+            _settings.MemberId = profile.Id;
             _settings.Username = profile.Username;
             _settings.Fullname = profile.FullName;
+            _settings.AvatarHash = profile.AvatarHash;
 
             UsingView(view => view.Browser.Visibility = Visibility.Collapsed);
             _navigationService.Navigate(new Uri("/Views/ShellView.xaml", UriKind.Relative));

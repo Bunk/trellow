@@ -7,9 +7,13 @@ namespace trellow.api
     {
         string AppName { get; }
 
+        string MemberId { get; set; }
+
         string Username { get; set; }
 
         string Fullname { get; set; }
+
+        string AvatarHash { get; set; }
 
         string ApiConsumerKey { get; }
 
@@ -30,6 +34,12 @@ namespace trellow.api
             get { return "Trellow"; }
         }
 
+        public string MemberId
+        {
+            get { return GetOrDefault<string>("MemberId"); }
+            set { Set("MemberId", value); }
+        }
+
         public string Username
         {
             get { return GetOrDefault<string>("Username"); }
@@ -40,6 +50,12 @@ namespace trellow.api
         {
             get { return GetOrDefault<string>("Fullname"); }
             set { Set("Fullname", value); }
+        }
+
+        public string AvatarHash
+        {
+            get { return GetOrDefault<string>("AvatarHash"); }
+            set { Set("AvatarHash", value);}
         }
 
         public string ApiConsumerKey
