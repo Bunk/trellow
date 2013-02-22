@@ -5,7 +5,7 @@
     <Language code="en" />
   </Languages>
   <App xmlns="" ProductID="{29234d6f-9c2b-4631-96f8-e8bae7b15f26}" Title="Trellow" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="JD Courtoy" Description="A simple WP8 Trello client" Publisher="Bunkinations" PublisherID="{1ce65d3a-e402-45c1-b9e3-b95d0a95e098}">
-    <IconPath IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</IconPath>
+    <IconPath IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
       <Capability Name="ID_CAP_MEDIALIB_AUDIO" />
@@ -19,7 +19,7 @@
     <Tokens>
       <PrimaryToken TokenID="trelloToken" TaskName="_default">
         <TemplateFlip>
-          <SmallImageURI IsRelative="true" IsResource="false">Assets\ApplicationIcon.png</SmallImageURI>
+          <SmallImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</SmallImageURI>
           <Count>0</Count>
           <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</BackgroundImageURI>
           <Title>Trellow</Title>
@@ -29,13 +29,9 @@
           </BackBackgroundImageURI>
           <BackTitle>
           </BackTitle>
-          <LargeBackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileLarge.png</LargeBackgroundImageURI>
-          <LargeBackContent />
-          <LargeBackBackgroundImageURI IsRelative="true" IsResource="false">
-          </LargeBackBackgroundImageURI>
           <DeviceLockImageURI>
           </DeviceLockImageURI>
-          <HasLarge>True</HasLarge>
+          <HasLarge>False</HasLarge>
         </TemplateFlip>
       </PrimaryToken>
     </Tokens>

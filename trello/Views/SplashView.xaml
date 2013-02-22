@@ -20,7 +20,7 @@
         <Image Source="/SplashScreenImage.jpg" Stretch="Fill" />
         <TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Status}" FontFamily="{StaticResource PhoneFontFamilyBold}" FontSize="{StaticResource PhoneFontSizeLarge}" VerticalAlignment="Center">
         	<TextBlock.Foreground>
-        		<SolidColorBrush Color="#FF25729E"/>
+        		<SolidColorBrush Color="#FFFFFFFF"/>
         	</TextBlock.Foreground>
         </TextBlock>
         <phone:WebBrowser x:Name="Browser" Visibility="Collapsed" cm:Message.Attach="[Event Navigating] = [Action BrowserNavigating($eventArgs)]" />
