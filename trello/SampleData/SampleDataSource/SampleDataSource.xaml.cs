@@ -1112,21 +1112,21 @@ namespace Expression.Blend.SampleData.SampleDataSource
 			}
 		}
 
-		private bool _Active = false;
+		private bool _Attached = false;
 
-		public bool Active
+		public bool Attached
 		{
 			get
 			{
-				return this._Active;
+				return this._Attached;
 			}
 
 			set
 			{
-				if (this._Active != value)
+				if (this._Attached != value)
 				{
-					this._Active = value;
-					this.OnPropertyChanged("Active");
+					this._Attached = value;
+					this.OnPropertyChanged("Attached");
 				}
 			}
 		}

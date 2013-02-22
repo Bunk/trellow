@@ -1,4 +1,6 @@
 using System;
+using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
 using TrelloNet;
 using trellow.api.Checklists;
@@ -11,8 +13,8 @@ namespace trello.Services.Handlers
                                             IHandle<CardDueDateChanged>,
                                             IHandle<CardLabelAdded>,
                                             IHandle<CardLabelRemoved>,
-        IHandle<CardMemberAdded>,
-        IHandle<CardMemberRemoved>
+                                            IHandle<CardMemberAdded>,
+                                            IHandle<CardMemberRemoved>
     {
         private readonly ITrello _api;
         private readonly IProgressService _progress;
@@ -41,55 +43,66 @@ namespace trello.Services.Handlers
             }
         }
 
-        public async void Handle(CardDescriptionChanged message)
+        private async void Handle(Func<ITrello, Task> handler)
         {
             using (new ProgressService(_progress))
-                await _api.Async.Cards.ChangeDescription(new CardId(message.CardId), message.Description);
+            {
+                try
+                {
+                    await handler(_api);
+                }
+                catch (TrelloUnauthorizedException)
+                {
+                    MessageBox.Show("You are unauthorized to complete that operation.");
+                }
+                catch (TrelloException)
+                {
+                    MessageBox.Show("There was an error in trying to complete that operation.");
+                }
+            }
         }
 
-        public async void Handle(CardDueDateChanged message)
+        public void Handle(CardDescriptionChanged message)
         {
-            using (new ProgressService(_progress))
-                await _api.Async.Cards.ChangeDueDate(new CardId(message.CardId), message.DueDate);
+            Handle(api => api.Async.Cards.ChangeDescription(new CardId(message.CardId), message.Description));
         }
 
-        public async void Handle(CardLabelAdded message)
+        public void Handle(CardDueDateChanged message)
         {
-            using (new ProgressService(_progress))
-                await _api.Async.Cards.AddLabel(new CardId(message.CardId), message.Color);
+            Handle(api => api.Async.Cards.ChangeDueDate(new CardId(message.CardId), message.DueDate));
         }
 
-        public async void Handle(CardLabelRemoved message)
+        public void Handle(CardLabelAdded message)
         {
-            using (new ProgressService(_progress))
-                await _api.Async.Cards.RemoveLabel(new CardId(message.CardId), message.Color);
+            Handle(api => api.Async.Cards.AddLabel(new CardId(message.CardId), message.Color));
         }
 
-        public async void Handle(CardNameChanged message)
+        public void Handle(CardLabelRemoved message)
         {
-            using (new ProgressService(_progress))
-                await _api.Async.Cards.ChangeName(new CardId(message.CardId), message.Name);
+            Handle(api => api.Async.Cards.RemoveLabel(new CardId(message.CardId), message.Color));
         }
 
-        public async void Handle(CheckItemChanged message)
+        public void Handle(CardNameChanged message)
         {
-            using (new ProgressService(_progress))
-                await _api.Async.Cards.ChangeCheckItemState(new CardId(message.CardId),
-                                                            new ChecklistId(message.ChecklistId),
-                                                            new CheckItemId(message.CheckItemId),
-                                                            message.Value);
+            Handle(api => api.Async.Cards.ChangeName(new CardId(message.CardId), message.Name));
         }
 
-        public async void Handle(CardMemberAdded message)
+        public void Handle(CheckItemChanged message)
         {
-            using (new ProgressService(_progress))
-                await _api.Async.Cards.AddMember(new CardId(message.CardId), new MemberId(message.Member.Id));
+            Handle(api => api.Async.Cards.ChangeCheckItemState(new CardId(message.CardId),
+                                                               new ChecklistId(message.ChecklistId),
+                                                               new CheckItemId(message.CheckItemId),
+                                                               message.Value));
         }
 
-        public async void Handle(CardMemberRemoved message)
+        public void Handle(CardMemberAdded message)
         {
-            using (new ProgressService(_progress))
-                await _api.Async.Cards.RemoveMember(new CardId(message.CardId), new MemberId(message.Member.Id));
+            Handle(api => api.Async.Cards.AddMember(new CardId(message.CardId), new MemberId(message.MemberId)));
+        }
+
+        public void Handle(CardMemberRemoved message)
+        {
+            Handle(api => api.Async.Cards.RemoveMember(new CardId(message.CardId), new MemberId(message.MemberId)));
         }
     }
 }

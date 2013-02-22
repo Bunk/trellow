@@ -1,45 +1,91 @@
-﻿using System.Linq;
+﻿using System.ComponentModel;
+using System.Linq;
+using System.Windows;
+using System.Windows.Data;
 using Caliburn.Micro;
 using JetBrains.Annotations;
-using Microsoft.Phone.Shell;
 using TrelloNet;
-using trello.Assets;
 using trello.Services;
 using trello.Services.Handlers;
 
 namespace trello.ViewModels
 {
-    public sealed class CardDetailMembersViewModel : PivotItemViewModel,
-                                                     IConfigureTheAppBar,
-                                                     IHandle<CardMemberAdded>,
-                                                     IHandle<CardMemberRemoved>
+    public sealed class CardDetailMembersViewModel : PivotItemViewModel
     {
         private readonly ITrello _api;
         private readonly IProgressService _progress;
         private readonly IEventAggregator _eventAggregator;
-        private readonly IWindowManager _windowManager;
+        private readonly IObservableCollection<CardMemberViewModel> _members;
+        private readonly IObservableCollection<CardMemberViewModel> _otherMembers;
+        private int _allMembersCount;
 
         public string Id { get; private set; }
 
         public string BoardId { get; private set; }
 
-        public IObservableCollection<MemberViewModel> Members { get; set; }
+        public int AllMembersCount
+        {
+            get { return _allMembersCount; }
+            set
+            {
+                if (value == _allMembersCount) return;
+                _allMembersCount = value;
+                NotifyOfPropertyChange(() => AllMembersCount);
+            }
+        }
+
+        public CollectionViewSource Members { get; set; }
+
+        public CollectionViewSource OtherMembers { get; set; }
 
         public CardDetailMembersViewModel(ITrello api,
                                           IProgressService progress,
-                                          IEventAggregator eventAggregator,
-                                          IWindowManager windowManager)
+                                          IEventAggregator eventAggregator)
         {
             DisplayName = "members";
 
             _api = api;
             _progress = progress;
             _eventAggregator = eventAggregator;
-            _windowManager = windowManager;
 
             _eventAggregator.Subscribe(this);
 
-            Members = new BindableCollection<MemberViewModel>();
+            AllMembersCount = 0;
+            _members = new BindableCollection<CardMemberViewModel>();
+            _otherMembers = new BindableCollection<CardMemberViewModel>();
+
+            Members = new CollectionViewSource();
+            Members.SortDescriptions.Add(new SortDescription("FullName", ListSortDirection.Descending));
+            Members.Source = _members;
+
+            OtherMembers = new CollectionViewSource();
+            OtherMembers.SortDescriptions.Add(new SortDescription("FullName", ListSortDirection.Descending));
+            OtherMembers.Source = _otherMembers;
+        }
+
+        protected override async void OnInitialize()
+        {
+            try
+            {
+                _progress.Show("Loading board members...");
+
+                var boardMembers = await _api.Async.Members.ForBoard(new BoardId(BoardId));
+                var others = boardMembers.Where(mem => _members.All(m => m.Id != mem.Id));
+                var otherVms = others.Select(mem => new CardMemberViewModel(mem, false));
+
+                _otherMembers.Clear();
+                _otherMembers.AddRange(otherVms);
+                AllMembersCount = _members.Count + _otherMembers.Count;
+            }
+            catch (TrelloException)
+            {
+                MessageBox.Show("Could not load the members for this board.  Please " +
+                                "ensure that you have an active internet connection.");
+            }
+            finally
+            {
+                _progress.Hide();
+            }
         }
 
         public CardDetailMembersViewModel Initialize(Card card)
@@ -47,51 +93,76 @@ namespace trello.ViewModels
             Id = card.Id;
             BoardId = card.IdBoard;
 
-            var mems = card.Members.Select(mem => new MemberViewModel(mem));
-            Members.Clear();
-            Members.AddRange(mems);
+            var mems = card.Members.Select(mem => new CardMemberViewModel(mem, true));
+            _members.Clear();
+            _members.AddRange(mems);
 
             return this;
         }
 
         [UsedImplicitly]
-        public void AssignMembers()
+        public void Toggle(CardMemberViewModel model)
         {
-            var members = Members.Select(m => m.Id).ToList();
-            var model = new ChangeCardMembersViewModel(GetView(),
-                                                       _eventAggregator, _api, _progress,
-                                                       Id, BoardId, members);
-            _windowManager.ShowDialog(model);
-        }
+            if (model.Toggle())
+            {
+                // now attached
+                _otherMembers.Remove(model);
+                _members.Add(model);
 
-        public void Handle(CardMemberAdded message)
-        {
-            Members.Add(new MemberViewModel(message.Member));
+                _eventAggregator.Publish(new CardMemberAdded {CardId = Id, MemberId = model.Id});
+            }
+            else
+            {
+                // now unattached
+                _members.Remove(model);
+                _otherMembers.Insert(0, model);
 
-            _eventAggregator.Publish(new MemberAggregationsUpdated {AssignedMemberCount = Members.Count});
-        }
-
-        public void Handle(CardMemberRemoved message)
-        {
-            var found = Members.FirstOrDefault(m => m.Id == message.Member.Id);
-            if (found != null)
-                Members.Remove(found);
-
-            _eventAggregator.Publish(new MemberAggregationsUpdated {AssignedMemberCount = Members.Count});
-        }
-
-        public ApplicationBar Configure(ApplicationBar existing)
-        {
-            var button = new ApplicationBarIconButton(new AssetUri("Icons/dark/appbar.feature.settings.rest.png")) { Text = "assign" };
-            button.Click += (sender, args) => AssignMembers();
-            existing.Buttons.Add(button);
-
-            return existing;
+                _eventAggregator.Publish(new CardMemberRemoved {CardId = Id, MemberId = model.Id});
+            }
+            _eventAggregator.Publish(new MemberAggregationsUpdated {AssignedMemberCount = _members.Count});
         }
 
         public class MemberAggregationsUpdated
         {
             public int AssignedMemberCount { get; set; }
+        }
+
+        public class CardMemberViewModel : PropertyChangedBase
+        {
+            private bool _attached;
+
+            public string Id { get; set; }
+
+            public string FullName { get; set; }
+
+            public string Username { get; set; }
+
+            public string AvatarUrl { get; set; }
+
+            public bool Attached
+            {
+                get { return _attached; }
+                set
+                {
+                    if (value.Equals(_attached)) return;
+                    _attached = value;
+                    NotifyOfPropertyChange(() => Attached);
+                }
+            }
+
+            public CardMemberViewModel(Member member, bool attached)
+            {
+                Id = member.Id;
+                FullName = member.FullName;
+                Username = member.Username;
+                Attached = attached;
+                AvatarUrl = string.Format("https://trello-avatars.s3.amazonaws.com/{0}/170.png", member.AvatarHash);
+            }
+
+            public bool Toggle()
+            {
+                return (Attached = !Attached);
+            }
         }
     }
 }

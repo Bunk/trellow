@@ -43,7 +43,6 @@ namespace trello
             _container.PerRequest<BoardViewModel>();
             _container.PerRequest<BoardListViewModel>();
             _container.PerRequest<CardViewModel>();
-            _container.PerRequest<CardDetailViewModel>();
             _container.PerRequest<CardDetailPivotViewModel>();
             _container.PerRequest<CardDetailOverviewViewModel>();
             _container.PerRequest<CardDetailChecklistViewModel>();

@@ -140,7 +140,6 @@
     <Compile Include="ViewModels\CardDetailOverviewViewModel.cs" />
     <Compile Include="ViewModels\CardDetailPivotViewModel.cs" />
     <Compile Include="ViewModels\ChangeCardDescriptionViewModel.cs" />
-    <Compile Include="ViewModels\ChangeCardMembersViewModel.cs" />
     <Compile Include="ViewModels\LabelViewModel.cs" />
     <Compile Include="ViewModels\MyBoardsViewModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
@@ -148,7 +147,6 @@
     <Compile Include="ViewModels\MyCardsViewModel.cs" />
     <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="Services\IProgressService.cs" />
-    <Compile Include="ViewModels\CardDetailViewModel.cs" />
     <Compile Include="ViewModels\ChangeCardDueViewModel.cs" />
     <Compile Include="ViewModels\ChangeCardLabelsViewModel.cs" />
     <Compile Include="ViewModels\ChangeCardNameViewModel.cs" />
@@ -194,9 +192,6 @@
     <Compile Include="Views\ChangeCardDescriptionView.xaml.cs">
       <DependentUpon>ChangeCardDescriptionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ChangeCardMembersView.xaml.cs">
-      <DependentUpon>ChangeCardMembersView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\MyBoardsView.xaml.cs">
       <DependentUpon>MyBoardsView.xaml</DependentUpon>
     </Compile>
@@ -211,21 +206,6 @@
     </Compile>
     <Compile Include="Views\CardDetail\Activity.xaml.cs">
       <DependentUpon>Activity.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CardDetail\Attachments.xaml.cs">
-      <DependentUpon>Attachments.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CardDetail\Checklists.xaml.cs">
-      <DependentUpon>Checklists.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CardDetail\Members.xaml.cs">
-      <DependentUpon>Members.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CardDetail\Overview.xaml.cs">
-      <DependentUpon>Overview.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\CardDetailView.xaml.cs">
-      <DependentUpon>CardDetailView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MyCardsView.xaml.cs">
       <DependentUpon>MyCardsView.xaml</DependentUpon>
@@ -311,8 +291,6 @@
     <Content Include="SampleData\members\members-me.json" />
     <Content Include="SampleData\cards\card-50e2676ad8fbe1a157003e70.json" />
     <Content Include="SampleData\cards\card-50e2676ad8fbe1a157003e7b.json" />
-    <None Include="trello_2013_02_21_22_11_44.sap" />
-    <None Include="trello_2013_02_21_22_20_39.sap" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\AlignmentGrid.png" />
@@ -525,10 +503,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ChangeCardMembersView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MyBoardsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -546,26 +520,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CardDetail\Activity.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CardDetail\Attachments.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CardDetail\Checklists.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CardDetail\Members.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CardDetail\Overview.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\CardDetailView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
