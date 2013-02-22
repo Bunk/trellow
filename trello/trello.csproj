@@ -311,6 +311,8 @@
     <Content Include="SampleData\members\members-me.json" />
     <Content Include="SampleData\cards\card-50e2676ad8fbe1a157003e70.json" />
     <Content Include="SampleData\cards\card-50e2676ad8fbe1a157003e7b.json" />
+    <None Include="trello_2013_02_21_22_11_44.sap" />
+    <None Include="trello_2013_02_21_22_20_39.sap" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\AlignmentGrid.png" />

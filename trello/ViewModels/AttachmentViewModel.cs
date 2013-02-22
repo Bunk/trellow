@@ -17,7 +17,7 @@ namespace trello.ViewModels
 
         public string Name { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         public int Bytes { get; set; }
 
@@ -57,7 +57,7 @@ namespace trello.ViewModels
             }
 
             Name = att.Name;
-            Date = att.Date.ToLocalTime();
+            Date = att.Date != null ? att.Date.Value.ToLocalTime() : (DateTime?)null;
             Bytes = att.Bytes;
             Uri = att.Url.ToUri();
 

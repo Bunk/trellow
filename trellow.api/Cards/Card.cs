@@ -62,7 +62,7 @@ namespace TrelloNet
             public string Name { get; set; }
             public string Url { get; set; }
             public int Bytes { get; set; }
-            public DateTime Date { get; set; }
+            public DateTime? Date { get; set; }
             public List<Preview> Previews { get; set; }
 
             public string GetAttachmentId()
