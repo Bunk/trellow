@@ -19,26 +19,21 @@
 											   micro:Message.Attach="[Event ItemTap] = [Action Open($eventArgs)]">
             <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
                 <DataTemplate>
-                    <Border BorderThickness="0,0,0,0" BorderBrush="#3291C8" Margin="0,15" Padding="10" Background="{StaticResource PhoneChromeBrush}">
+                    <Border BorderThickness="0,0,0,0" BorderBrush="#3291C8" Margin="0,15" Padding="10" Background="Transparent">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition />
-								<ColumnDefinition Width="Auto" />
+								<ColumnDefinition Width="48" />
                             </Grid.ColumnDefinitions>
-							<Grid>
-								<Grid.RowDefinitions>
-									<RowDefinition />
-									<RowDefinition />
-								</Grid.RowDefinitions>
-
-								<TextBlock Grid.Row="0" Text="{Binding Name, Converter={StaticResource CaseConverter}}" FontSize="{StaticResource PhoneFontSizeLarge}" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyLight}" />
-								
-								<TextBlock Grid.Row="1" Text="{Binding Desc}" Foreground="{StaticResource PhoneSubtleBrush}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}" TextWrapping="Wrap" />
-							</Grid>
+							
+							<StackPanel>
+								<TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyLight}" />
+								<TextBlock Text="{Binding Desc}" Foreground="{StaticResource PhoneAccentBrush}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" />
+								<TextBlock Text="{Binding Prefs}" Foreground="{StaticResource PhoneSubtleBrush}" Visibility="{Binding Prefs, Converter={StaticResource VisibilityConverter}}" />
+							</StackPanel>
                             
-							<Grid Grid.Column="1" Margin="0,0,0,0" Visibility="{Binding IsPrivate, Converter={StaticResource VisibilityConverter}}" VerticalAlignment="Top" HorizontalAlignment="Center">
-								<Ellipse Width="0" Height="0" Fill="{StaticResource PhoneAccentBrush}" />
-								<Image Width="48" Height="48" Source="/Assets/Icons/lock.png" Visibility="{Binding IsPrivate, Converter={StaticResource VisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+							<Grid Grid.Column="1" Visibility="{Binding IsPinned, Converter={StaticResource VisibilityConverter}}" VerticalAlignment="Top" HorizontalAlignment="Center">
+								<Image Width="48" Height="48" Source="/Assets/Icons/dark/icon-pin-med.png" Visibility="{Binding IsPinned, Converter={StaticResource VisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" />
 							</Grid>
 							
 						</Grid>

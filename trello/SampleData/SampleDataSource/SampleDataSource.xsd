@@ -27,6 +27,8 @@
     <xs:attribute blend:FormatParameters="4,12" name="Name" type="xs:string" />
     <xs:attribute name="IsPrivate" type="xs:boolean" />
     <xs:attribute name="Pinned" type="xs:boolean" />
+    <xs:attribute name="IsPinned" type="xs:boolean" />
+    <xs:attribute name="Prefs" type="xs:string" />
   </xs:complexType>
   <xs:complexType name="Cards">
     <xs:sequence>

@@ -5,31 +5,31 @@
 -->
 <SampleData:SampleDataSource xmlns:SampleData="clr-namespace:Expression.Blend.SampleData.SampleDataSource" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
   <SampleData:SampleDataSource.Boards>
-    <SampleData:BoardsItem Id="251331" Desc="Maecenas class praesent aliquam aenean nam sed cras" Name="Pellentesque aliquam maecenas" IsPrivate="True" Pinned="True" />
-    <SampleData:BoardsItem Id="801023" Desc="Mauris curae nullam dis integer accumsan est quisque bibendum dictumst eleifend facilisi aptent" Name="Cras class integer praesent" IsPrivate="False" Pinned="False" />
-    <SampleData:BoardsItem Id="924659" Desc="Faucibus donec habitant duis nunc hac leo auctor congue etiam vivamus aliquam fusce" Name="Vestibulum adipiscing curae" IsPrivate="True" Pinned="True" />
-    <SampleData:BoardsItem Id="113867" Desc="Inceptos aliquet mus interdum lobortis amet nec non" Name="Quisque accumsan aenean" IsPrivate="False" Pinned="False" />
-    <SampleData:BoardsItem Id="966564" Desc="Lorem ante blandit morbi nascetur cursus commodo per pharetra placerat arcu sed conubia sem pulvinar sit" Name="Bibendum vivamus" IsPrivate="True" Pinned="True" />
-    <SampleData:BoardsItem Id="414165" Desc="Dictum diam sagittis senectus lectus sociosqu suscipit torquent eget elit vel enim" Name="Curabitur duis" IsPrivate="False" Pinned="False" />
-    <SampleData:BoardsItem Id="509086" Desc="Libero ultrices nam cubilia dapibus ligula litora erat eros egestas nulla proin augue luctus" Name="Nunc consectetuer dictumst" IsPrivate="True" Pinned="True" />
-    <SampleData:BoardsItem Id="574239" Desc="Euismod magnis dolor mattis mauris feugiat gravida sed fames mollis nibh" Name="Eleifend parturient suspendisse pellentesque" IsPrivate="False" Pinned="False" />
-    <SampleData:BoardsItem Id="685994" Desc="Nisi felis ipsum nisl iaculis nunc montes nostra" Name="Nam phasellus" IsPrivate="True" Pinned="True" />
-    <SampleData:BoardsItem Id="774470" Desc="Justo lacus dis lacinia ornare odio orci platea laoreet natoque posuere" Name="Vestibulum vestibulum" IsPrivate="False" Pinned="False" />
-    <SampleData:BoardsItem Id="126466" Desc="Aenean cras maecenas praesent class mauris duis accumsan" Name="Suspendisse nam" IsPrivate="True" Pinned="False" />
-    <SampleData:BoardsItem Id="545187" Desc="Sed cras dis class maecenas aenean praesent aliquam curae mauris donec accumsan" Name="Pellentesque integer est" IsPrivate="True" Pinned="False" />
-    <SampleData:BoardsItem Id="227369" Desc="Quisque hac leo nullam aptent duis vivamus mus nec" Name="Consectetuer nunc" IsPrivate="True" Pinned="False" />
-    <SampleData:BoardsItem Id="314674" Desc="Bibendum dictumst amet eleifend etiam non aliquam ante aliquet auctor" Name="Arcu curabitur" IsPrivate="True" Pinned="False" />
-    <SampleData:BoardsItem Id="677575" Desc="Diam eget per elit sed congue fusce cursus enim lorem blandit dictum morbi" Name="Erat nulla lectus" IsPrivate="True" Pinned="False" />
-    <SampleData:BoardsItem Id="816499" Desc="Commodo proin eros sem libero conubia cubilia sit ligula litora nibh augue nisi luctus dapibus" Name="Egestas phasellus facilisi pellentesque" IsPrivate="True" Pinned="False" />
-    <SampleData:BoardsItem Id="921802" Desc="Nisl magnis faucibus mattis dolor mauris nunc habitant fames vel mollis felis odio euismod ipsum montes" Name="Nostra ornare nam sed" IsPrivate="True" Pinned="False" />
-    <SampleData:BoardsItem Id="237455" Desc="Justo lacus inceptos feugiat platea lorem dis magna gravida" Name="Vestibulum primis" IsPrivate="True" Pinned="False" />
-    <SampleData:BoardsItem Id="497923" Desc="Interdum lobortis est nascetur iaculis lacinia laoreet natoque massa orci pharetra" Name="Rutrum pede hac" IsPrivate="True" Pinned="False" />
-    <SampleData:BoardsItem Id="430832" Desc="Leo placerat sapien posuere mus metus nec semper morbi sociis pulvinar" Name="Adipiscing neque non" IsPrivate="True" Pinned="False" />
-    <SampleData:BoardsItem Id="444900" Desc="Per taciti sagittis sed potenti pretium tellus netus sem rhoncus sodales" Name="Condimentum senectus consequat" IsPrivate="True" Pinned="False" />
-    <SampleData:BoardsItem Id="150958" Desc="Viverra sociosqu nulla sit aliquam tempor tempus porta" Name="Suscipit convallis" IsPrivate="True" Pinned="False" />
-    <SampleData:BoardsItem Id="607637" Desc="Integer purus quam risus tortor turpis vel nam velit quisque vivamus aliquam quis" Name="Scelerisque parturient aliquet" IsPrivate="True" Pinned="False" />
-    <SampleData:BoardsItem Id="551278" Desc="Vitae varius torquent blandit sed dis commodo aenean ultrices mauris est conubia" Name="Sollicitudin dignissim vehicula" IsPrivate="True" Pinned="False" />
-    <SampleData:BoardsItem Id="530771" Desc="Nullam hac urna class cras curae duis volutpat donec cubilia aptent etiam" Name="Vestibulum pellentesque consectetuer" IsPrivate="True" Pinned="False" />
+    <SampleData:BoardsItem Id="251331" Desc="Maecenas class praesent aliquam aenean nam sed cras" Name="Pellentesque aliquam maecenas" IsPrivate="True" Pinned="True" IsPinned="True" Prefs="Nam class sed maecenas" />
+    <SampleData:BoardsItem Id="801023" Desc="Mauris curae nullam dis integer accumsan est quisque bibendum dictumst eleifend facilisi aptent" Name="Cras class integer praesent" IsPrivate="False" Pinned="False" IsPinned="False" Prefs="Cras dis est curae" />
+    <SampleData:BoardsItem Id="924659" Desc="Faucibus donec habitant duis nunc hac leo auctor congue etiam vivamus aliquam fusce" Name="Vestibulum adipiscing curae" IsPrivate="True" Pinned="True" IsPinned="True" Prefs="Praesent duis nunc amet" />
+    <SampleData:BoardsItem Id="113867" Desc="Inceptos aliquet mus interdum lobortis amet nec non" Name="Quisque accumsan aenean" IsPrivate="False" Pinned="False" IsPinned="False" Prefs="Ante donec hac" />
+    <SampleData:BoardsItem Id="966564" Desc="Lorem ante blandit morbi nascetur cursus commodo per pharetra placerat arcu sed conubia sem pulvinar sit" Name="Bibendum vivamus" IsPrivate="True" Pinned="True" IsPinned="True" Prefs="Aliquam integer leo" />
+    <SampleData:BoardsItem Id="414165" Desc="Dictum diam sagittis senectus lectus sociosqu suscipit torquent eget elit vel enim" Name="Curabitur duis" IsPrivate="False" Pinned="False" IsPinned="False" Prefs="Arcu accumsan" />
+    <SampleData:BoardsItem Id="509086" Desc="Libero ultrices nam cubilia dapibus ligula litora erat eros egestas nulla proin augue luctus" Name="Nunc consectetuer dictumst" IsPrivate="True" Pinned="True" IsPinned="True" Prefs="Etiam mus" />
+    <SampleData:BoardsItem Id="574239" Desc="Euismod magnis dolor mattis mauris feugiat gravida sed fames mollis nibh" Name="Eleifend parturient suspendisse pellentesque" IsPrivate="False" Pinned="False" IsPinned="False" Prefs="Bibendum fusce quisque diam" />
+    <SampleData:BoardsItem Id="685994" Desc="Nisi felis ipsum nisl iaculis nunc montes nostra" Name="Nam phasellus" IsPrivate="True" Pinned="True" IsPinned="True" Prefs="Vivamus lorem" />
+    <SampleData:BoardsItem Id="774470" Desc="Justo lacus dis lacinia ornare odio orci platea laoreet natoque posuere" Name="Vestibulum vestibulum" IsPrivate="False" Pinned="False" IsPinned="False" Prefs="Aenean morbi" />
+    <SampleData:BoardsItem Id="126466" Desc="Aenean cras maecenas praesent class mauris duis accumsan" Name="Suspendisse nam" IsPrivate="True" Pinned="False" IsPinned="True" Prefs="Dictumst aliquam aliquet" />
+    <SampleData:BoardsItem Id="545187" Desc="Sed cras dis class maecenas aenean praesent aliquam curae mauris donec accumsan" Name="Pellentesque integer est" IsPrivate="True" Pinned="False" IsPinned="False" Prefs="Blandit nec" />
+    <SampleData:BoardsItem Id="227369" Desc="Quisque hac leo nullam aptent duis vivamus mus nec" Name="Consectetuer nunc" IsPrivate="True" Pinned="False" IsPinned="True" Prefs="Nulla proin non" />
+    <SampleData:BoardsItem Id="314674" Desc="Bibendum dictumst amet eleifend etiam non aliquam ante aliquet auctor" Name="Arcu curabitur" IsPrivate="True" Pinned="False" IsPinned="False" Prefs="Augue per eleifend commodo" />
+    <SampleData:BoardsItem Id="677575" Desc="Diam eget per elit sed congue fusce cursus enim lorem blandit dictum morbi" Name="Erat nulla lectus" IsPrivate="True" Pinned="False" IsPinned="True" Prefs="Conubia eget cubilia dolor" />
+    <SampleData:BoardsItem Id="816499" Desc="Commodo proin eros sem libero conubia cubilia sit ligula litora nibh augue nisi luctus dapibus" Name="Egestas phasellus facilisi pellentesque" IsPrivate="True" Pinned="False" IsPinned="False" Prefs="Elit fames" />
+    <SampleData:BoardsItem Id="921802" Desc="Nisl magnis faucibus mattis dolor mauris nunc habitant fames vel mollis felis odio euismod ipsum montes" Name="Nostra ornare nam sed" IsPrivate="True" Pinned="False" IsPinned="True" Prefs="Dapibus facilisi" />
+    <SampleData:BoardsItem Id="237455" Desc="Justo lacus inceptos feugiat platea lorem dis magna gravida" Name="Vestibulum primis" IsPrivate="True" Pinned="False" IsPinned="False" Prefs="Sed mauris nullam sem" />
+    <SampleData:BoardsItem Id="497923" Desc="Interdum lobortis est nascetur iaculis lacinia laoreet natoque massa orci pharetra" Name="Rutrum pede hac" IsPrivate="True" Pinned="False" IsPinned="True" Prefs="Felis sit" />
+    <SampleData:BoardsItem Id="430832" Desc="Leo placerat sapien posuere mus metus nec semper morbi sociis pulvinar" Name="Adipiscing neque non" IsPrivate="True" Pinned="False" IsPinned="False" Prefs="Aptent auctor enim vel" />
+    <SampleData:BoardsItem Id="444900" Desc="Per taciti sagittis sed potenti pretium tellus netus sem rhoncus sodales" Name="Condimentum senectus consequat" IsPrivate="True" Pinned="False" IsPinned="True" Prefs="Erat egestas euismod" />
+    <SampleData:BoardsItem Id="150958" Desc="Viverra sociosqu nulla sit aliquam tempor tempus porta" Name="Suscipit convallis" IsPrivate="True" Pinned="False" IsPinned="False" Prefs="Congue ipsum cursus" />
+    <SampleData:BoardsItem Id="607637" Desc="Integer purus quam risus tortor turpis vel nam velit quisque vivamus aliquam quis" Name="Scelerisque parturient aliquet" IsPrivate="True" Pinned="False" IsPinned="True" Prefs="Justo dictum" />
+    <SampleData:BoardsItem Id="551278" Desc="Vitae varius torquent blandit sed dis commodo aenean ultrices mauris est conubia" Name="Sollicitudin dignissim vehicula" IsPrivate="True" Pinned="False" IsPinned="False" Prefs="Lacus feugiat lorem" />
+    <SampleData:BoardsItem Id="530771" Desc="Nullam hac urna class cras curae duis volutpat donec cubilia aptent etiam" Name="Vestibulum pellentesque consectetuer" IsPrivate="True" Pinned="False" IsPinned="True" Prefs="Lectus libero nam sed" />
   </SampleData:SampleDataSource.Boards>
   <SampleData:SampleDataSource.Cards>
     <SampleData:CardsItem Id="869497" Desc="Aliquam class nam maecenas sed aenean mauris integer cras curae duis donec nunc quisque nullam praesent accumsan etiam dis aptent est fusce vivamus" Name="Aenean cras mauris nullam nam aptent duis" Votes="97" Voted="True" CheckItems="7" CheckItemsChecked="7" Due="November 5, 2003">

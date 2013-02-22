@@ -236,6 +236,44 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				}
 			}
 		}
+
+		private bool _IsPinned = false;
+
+		public bool IsPinned
+		{
+			get
+			{
+				return this._IsPinned;
+			}
+
+			set
+			{
+				if (this._IsPinned != value)
+				{
+					this._IsPinned = value;
+					this.OnPropertyChanged("IsPinned");
+				}
+			}
+		}
+
+		private string _Prefs = string.Empty;
+
+		public string Prefs
+		{
+			get
+			{
+				return this._Prefs;
+			}
+
+			set
+			{
+				if (this._Prefs != value)
+				{
+					this._Prefs = value;
+					this.OnPropertyChanged("Prefs");
+				}
+			}
+		}
 	}
 
 	public class Cards : System.Collections.ObjectModel.ObservableCollection<CardsItem>
@@ -1684,6 +1722,10 @@ namespace Expression.Blend.SampleData.SampleDataSource
 		}
 	}
 
+	public class MyCards : System.Collections.ObjectModel.ObservableCollection<MyCardsItem>
+	{ 
+	}
+
 	public class MyCardsItem : System.ComponentModel.INotifyPropertyChanged
 	{
 		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
@@ -1726,7 +1768,7 @@ namespace Expression.Blend.SampleData.SampleDataSource
 		}
 	}
 
-	public class MyCards : System.Collections.ObjectModel.ObservableCollection<MyCardsItem>
+	public class CollectionItemCollection : System.Collections.ObjectModel.ObservableCollection<CollectionItem>
 	{ 
 	}
 
@@ -1741,10 +1783,6 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
 			}
 		}
-	}
-
-	public class CollectionItemCollection : System.Collections.ObjectModel.ObservableCollection<CollectionItem>
-	{ 
 	}
 #endif
 }

@@ -296,6 +296,7 @@
     <Content Include="Assets\Icons\dark\icon-clock-med.png" />
     <Content Include="Assets\Icons\dark\icon-comment-med.png" />
     <Content Include="Assets\Icons\dark\icon-pencil-med.png" />
+    <Content Include="Assets\Icons\dark\icon-pin-med.png" />
     <Content Include="Assets\Icons\dark\icon-proceed-med.png" />
     <Content Include="Assets\Icons\dark\icon-save-med.png" />
     <Content Include="Assets\Icons\dark\icon-tag-med.png" />
