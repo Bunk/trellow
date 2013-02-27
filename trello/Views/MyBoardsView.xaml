@@ -6,6 +6,7 @@
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
 	xmlns:micro="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
 	mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -28,8 +29,10 @@
 							
 							<StackPanel>
 								<TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyLight}" />
-								<TextBlock Text="{Binding Desc}" Foreground="{StaticResource PhoneAccentBrush}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" />
-								<TextBlock Text="{Binding Prefs}" Foreground="{StaticResource PhoneSubtleBrush}" Visibility="{Binding Prefs, Converter={StaticResource VisibilityConverter}}" />
+								<TextBlock Text="{Binding Desc}" Foreground="{StaticResource PhoneAccentBrush}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}" FontFamily="{StaticResource PhoneFontFamilySemiBold}"
+										   toolkit:SlideInEffect.LineIndex="1" />
+								<TextBlock Text="{Binding Prefs}" Foreground="{StaticResource PhoneSubtleBrush}" Visibility="{Binding Prefs, Converter={StaticResource VisibilityConverter}}"
+										   toolkit:SlideInEffect.LineIndex="2" />
 							</StackPanel>
                             
 							<Grid Grid.Column="1" Visibility="{Binding IsPinned, Converter={StaticResource VisibilityConverter}}" VerticalAlignment="Top" HorizontalAlignment="Center">

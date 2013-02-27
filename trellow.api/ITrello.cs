@@ -13,6 +13,8 @@ namespace TrelloNet
 
 	    Task<OAuthToken> Verify(string verifier);
 
+        Task<bool> AccessTokenIsFresh(OAuthToken accessToken);
+
 	    void Authorize(OAuthToken accessToken);
 		
         void Deauthorize();

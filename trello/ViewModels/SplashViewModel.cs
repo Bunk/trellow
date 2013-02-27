@@ -51,16 +51,16 @@ namespace trello.ViewModels
             if (!success)
                 Status = "Invalidating the cache...";
 
-            var validated = _settings.AccessToken != null;
+            var validated = _settings.AccessToken != null && await _api.AccessTokenIsFresh(_settings.AccessToken);
             if (validated)
             {
                 Status = "Signed in";
-                Continue();
+                AccessGranted(_settings.AccessToken);
             }
             else
             {
                 Status = "Signing in...";
-                Login();
+                AccessDenied();
             }
         }
 
@@ -83,19 +83,19 @@ namespace trello.ViewModels
                 var token = await _api.Verify(verifier);
                 if (token != null)
                 {
-                    _settings.AccessToken = token;
-                    Continue();
+                    AccessGranted(token);
                 }
                 else
                 {
-                    Login();
+                    AccessDenied();
                 }
             });
         }
 
-        private async void Continue()
+        private async void AccessGranted(OAuthToken token)
         {
-            // todo: This should probably get queried later as well if it no longer is stored
+            _settings.AccessToken = token;
+
             var profile = await _api.Async.Members.Me();
             _settings.MemberId = profile.Id;
             _settings.Username = profile.Username;
@@ -106,7 +106,7 @@ namespace trello.ViewModels
             _navigationService.Navigate(new Uri("/Views/ShellView.xaml", UriKind.Relative));
         }
 
-        private async void Login()
+        private async void AccessDenied()
         {
             var uri = await _api.GetAuthorizationUri("Trellow", Scope.ReadWriteAccount, Expiration.Never);
             if (uri != null)
@@ -115,7 +115,7 @@ namespace trello.ViewModels
             }
             else
             {
-                Status = "Could not sign in";
+                Status = "Could not sign you in.\n\nPlease ensure you have an active internet connection.";
             }
         }
 

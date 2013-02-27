@@ -32,7 +32,28 @@ namespace TrelloNet
             return _restClient.AuthorizeRequest(verifier);
         }
 
-		public void Authorize(OAuthToken accessToken)
+	    public async Task<bool> AccessTokenIsFresh(OAuthToken accessToken)
+	    {
+	        try
+	        {
+	            var token = await Async.Tokens.WithToken(accessToken.Secret);
+	            return token != null;
+	        }
+            catch (TrelloUnauthorizedException)
+            {
+                return false;
+            }
+            catch (TrelloException)
+            {
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+	    }
+
+	    public void Authorize(OAuthToken accessToken)
 		{
 		    _restClient.AuthorizeAccess(accessToken);
 		}

@@ -1,6 +1,6 @@
 <MarketplaceDetails>
-  <SmallAppTile>store-tile.png</SmallAppTile>
-  <ScreenShots>trello-store-ss1-wvga.png;trello-store-ss2-wvga.png;trello-store-ss3-wvga.png;trello-store-ss4-wvga.png;trello-store-ss5-wvga.png;trello-store-ss6-wvga.png;;;</ScreenShots>
+  <SmallAppTile>trello-store-tile.png</SmallAppTile>
+  <ScreenShots>trello-store-ss1-wvga.png;;;;;;;;</ScreenShots>
   <ScreenShotsWXGA>trello-store-ss1.png;trello-store-ss2.png;trello-store-ss3.png;trello-store-ss4.png;trello-store-ss5.png;trello-store-ss6.png;;;</ScreenShotsWXGA>
-  <ScreenShots720P>trello-store-ss1-720p.png;trello-store-ss2-720p.png;trello-store-ss3-720p.png;trello-store-ss4-720p.png;trello-store-ss5-720p.png;trello-store-ss6-720p.png;;;</ScreenShots720P>
+  <ScreenShots720P>;;;;;;;;</ScreenShots720P>
 </MarketplaceDetails>
