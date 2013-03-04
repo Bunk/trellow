@@ -69,7 +69,7 @@ namespace trello.ViewModels
             {
                 _progress.Show("Loading board members...");
 
-                var boardMembers = await _api.Async.Members.ForBoard(new BoardId(BoardId));
+                var boardMembers = await _api.Members.ForBoard(new BoardId(BoardId));
                 var others = boardMembers.Where(mem => _members.All(m => m.Id != mem.Id));
                 var otherVms = others.Select(mem => new CardMemberViewModel(mem, false));
 

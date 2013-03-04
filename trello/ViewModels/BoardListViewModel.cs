@@ -79,7 +79,7 @@ namespace trello.ViewModels
 
             try
             {
-                var cards = await _api.Async.Cards.ForList(new ListId(Id));
+                var cards = await _api.Cards.ForList(new ListId(Id));
                 var vms = cards.Select(card => _cardFactory().InitializeWith(card));
 
                 Cards.Clear();

@@ -7,6 +7,22 @@ using trellow.api.Checklists;
 
 namespace trello.Services.Handlers
 {
+    public class ProgressScope : IDisposable
+    {
+        private readonly IProgressService _progress;
+
+        public ProgressScope(IProgressService progress, string message = "Loading...")
+        {
+            _progress = progress;
+            _progress.Show(message);
+        }
+
+        public void Dispose()
+        {
+            _progress.Hide();
+        }
+    }
+
     public class CardDetailCommandHandler : IHandle<CardNameChanged>,
                                             IHandle<CardDescriptionChanged>,
                                             IHandle<CheckItemChanged>,
@@ -28,25 +44,11 @@ namespace trello.Services.Handlers
             eventAggregator.Subscribe(this);
         }
 
-        private class ProgressService : IDisposable
-        {
-            private readonly IProgressService _progress;
-
-            public ProgressService(IProgressService progress)
-            {
-                _progress = progress;
-                _progress.Show("Updating...");
-            }
-
-            public void Dispose()
-            {
-                _progress.Hide();
-            }
-        }
+        
 
         private async void Handle(Func<ITrello, Task> handler)
         {
-            using (new ProgressService(_progress))
+            using (new ProgressScope(_progress, "Updating..."))
             {
                 try
                 {
@@ -65,32 +67,32 @@ namespace trello.Services.Handlers
 
         public void Handle(CardDescriptionChanged message)
         {
-            Handle(api => api.Async.Cards.ChangeDescription(new CardId(message.CardId), message.Description));
+            Handle(api => api.Cards.ChangeDescription(new CardId(message.CardId), message.Description));
         }
 
         public void Handle(CardDueDateChanged message)
         {
-            Handle(api => api.Async.Cards.ChangeDueDate(new CardId(message.CardId), message.DueDate));
+            Handle(api => api.Cards.ChangeDueDate(new CardId(message.CardId), message.DueDate));
         }
 
         public void Handle(CardLabelAdded message)
         {
-            Handle(api => api.Async.Cards.AddLabel(new CardId(message.CardId), message.Color));
+            Handle(api => api.Cards.AddLabel(new CardId(message.CardId), message.Color));
         }
 
         public void Handle(CardLabelRemoved message)
         {
-            Handle(api => api.Async.Cards.RemoveLabel(new CardId(message.CardId), message.Color));
+            Handle(api => api.Cards.RemoveLabel(new CardId(message.CardId), message.Color));
         }
 
         public void Handle(CardNameChanged message)
         {
-            Handle(api => api.Async.Cards.ChangeName(new CardId(message.CardId), message.Name));
+            Handle(api => api.Cards.ChangeName(new CardId(message.CardId), message.Name));
         }
 
         public void Handle(CheckItemChanged message)
         {
-            Handle(api => api.Async.Cards.ChangeCheckItemState(new CardId(message.CardId),
+            Handle(api => api.Cards.ChangeCheckItemState(new CardId(message.CardId),
                                                                new ChecklistId(message.ChecklistId),
                                                                new CheckItemId(message.CheckItemId),
                                                                message.Value));
@@ -98,17 +100,17 @@ namespace trello.Services.Handlers
 
         public void Handle(CardMemberAdded message)
         {
-            Handle(api => api.Async.Cards.AddMember(new CardId(message.CardId), new MemberId(message.MemberId)));
+            Handle(api => api.Cards.AddMember(new CardId(message.CardId), new MemberId(message.MemberId)));
         }
 
         public void Handle(CardMemberRemoved message)
         {
-            Handle(api => api.Async.Cards.RemoveMember(new CardId(message.CardId), new MemberId(message.MemberId)));
+            Handle(api => api.Cards.RemoveMember(new CardId(message.CardId), new MemberId(message.MemberId)));
         }
 
         public void Handle(CardCommented message)
         {
-            Handle(api => api.Async.Cards.AddComment(new CardId(message.CardId), message.Text));
+            Handle(api => api.Cards.AddComment(new CardId(message.CardId), message.Text));
         }
     }
 }

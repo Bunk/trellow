@@ -3,12 +3,10 @@ using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Controls;
-using Strilanc.Value;
 using TrelloNet;
 using trello.Services;
 using trello.Views;
 using trellow.api;
-using trellow.api.Data;
 using trellow.api.Data.Services;
 using trellow.api.OAuth;
 
@@ -51,7 +49,7 @@ namespace trello.ViewModels
             if (!success)
                 Status = "Invalidating the cache...";
 
-            var validated = _settings.AccessToken != null && await _api.AccessTokenIsFresh(_settings.AccessToken);
+            var validated = await _api.AccessTokenIsFresh(_settings.AccessToken);
             if (validated)
             {
                 Status = "Signed in";
@@ -96,7 +94,7 @@ namespace trello.ViewModels
         {
             _settings.AccessToken = token;
 
-            var profile = await _api.Async.Members.Me();
+            var profile = await _api.Members.Me();
             _settings.MemberId = profile.Id;
             _settings.Username = profile.Username;
             _settings.Fullname = profile.FullName;

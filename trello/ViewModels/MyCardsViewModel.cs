@@ -46,8 +46,8 @@ namespace trello.ViewModels
 
             try
             {
-                var cards = (await _api.Async.Cards.ForMe());
-                var boards = (await _api.Async.Boards.ForMe());
+                var cards = (await _api.Cards.ForMe());
+                var boards = (await _api.Boards.ForMe());
 
                 var vms = cards
                     .Select(card =>

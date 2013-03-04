@@ -76,7 +76,7 @@ namespace trello.ViewModels
             var card = new Card();
             try
             {
-                card = await _api.Async.Cards.WithId(Id);
+                card = await _api.Cards.WithId(Id);
             }
             catch
             {

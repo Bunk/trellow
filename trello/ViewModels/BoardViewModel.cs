@@ -80,8 +80,8 @@ namespace trello.ViewModels
 
             try
             {
-                var board = await _api.Async.Boards.WithId(Id);
-                var lists = await _api.Async.Lists.ForBoard(board);
+                var board = await _api.Boards.WithId(Id);
+                var lists = await _api.Lists.ForBoard(board);
 
                 InitializeBoard(board);
                 InitializeLists(lists);

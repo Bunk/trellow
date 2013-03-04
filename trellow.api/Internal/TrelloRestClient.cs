@@ -5,15 +5,30 @@ using System.Net;
 using System.Threading.Tasks;
 using RestSharp;
 using RestSharp.Authenticators;
+using trellow.api;
 using trellow.api.Data.Services;
 using trellow.api.OAuth;
 
 namespace TrelloNet.Internal
 {
-    public abstract class BaseRestClient : RestClient
+    public interface IRequestClient
     {
-        protected BaseRestClient() { }
-        protected BaseRestClient(string baseUrl) : base(baseUrl) { }
+        Task<IRestResponse> RequestAsync(IRestRequest request);
+
+        Task<T> RequestAsync<T>(IRestRequest request) where T : class, new();
+
+        Task<IEnumerable<T>> RequestListAsync<T>(IRestRequest request);
+    }
+
+    public interface IOAuthRequestClient : IRequestClient, IOAuth
+    {
+        
+    }
+
+    public class SimpleRestClient : RestClient, IRequestClient
+    {
+        protected SimpleRestClient() { }
+        protected SimpleRestClient(string baseUrl) : base(baseUrl) { }
 
         public Task<IRestResponse> RequestAsync(IRestRequest request)
         {
@@ -91,7 +106,7 @@ namespace TrelloNet.Internal
         }
     }
 
-    public class OAuthRestClient : BaseRestClient
+    public class OAuthRestClient : SimpleRestClient, IOAuthRequestClient
     {
         private readonly string _publicKey;
         private readonly string _privateKey;
@@ -109,7 +124,7 @@ namespace TrelloNet.Internal
             _publicKey = apiKey.Key;
             _privateKey = apiKey.Secret;
 
-            AuthorizeAccess(accessToken);
+            Authorize(accessToken);
         }
 
         public async Task<Uri> GetAuthorizationUri(string applicationName, Scope scope, Expiration expiration, Uri callbackUri = null)
@@ -132,24 +147,29 @@ namespace TrelloNet.Internal
                                 .AddParameter("expiration", expiration.ToExpirationString()));
         }
 
-        public async Task<OAuthToken> AuthorizeRequest(string verifier)
+        public async Task<OAuthToken> Verify(string verifier)
         {
             Authenticator = OAuth1Authenticator.ForAccessToken(_publicKey, _privateKey, _requestToken.Key,
                                                                _requestToken.Secret, verifier);
 
             var response = await RequestAsync(new RestRequest("OAuthGetAccessToken"));
-            
+
             var query = response.Content.ParseQueryString();
             _accessToken = BuildOAuthToken(query);
             if (_accessToken != null)
-                AuthorizeAccess(_accessToken);
+                Authorize(_accessToken);
 
             return _accessToken;
         }
 
-        public void AuthorizeAccess(OAuthToken token)
+        public void Authorize(OAuthToken token)
         {
             Authenticator = OAuth1Authenticator.ForProtectedResource(_publicKey, _privateKey, token.Key, token.Secret);
+        }
+
+        public void Deauthorize()
+        {
+            Authenticator = null;
         }
 
         private static OAuthToken BuildOAuthToken(Dictionary<string, string> response)
@@ -175,16 +195,13 @@ namespace TrelloNet.Internal
 	{
 		private const string BASE_URL = "https://trello.com/1";
 
-        public TrelloRestClient(OAuthToken apiKey)
-			: base(BASE_URL, apiKey)
-		{
-			AddHandler("application/json", new TrelloDeserializer());
-		}
-
-        public TrelloRestClient(OAuthToken apiKey, OAuthToken accessToken)
-            : base(BASE_URL, apiKey, accessToken)
+        public TrelloRestClient(ITrelloApiSettings settings)
+            : base(BASE_URL, new OAuthToken(settings.ApiConsumerKey, settings.ApiConsumerSecret))
         {
             AddHandler("application/json", new TrelloDeserializer());
+
+            if (settings.AccessToken != null)
+                Authorize(settings.AccessToken);
         }
 	}
 }

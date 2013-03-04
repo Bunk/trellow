@@ -257,7 +257,7 @@ namespace trello.ViewModels
 
             try
             {
-                var actions = await _api.Async.Actions.ForCard(new CardId(Id),
+                var actions = await _api.Actions.ForCard(new CardId(Id),
                                                                new[] {ActionType.CommentCard},
                                                                paging: new Paging(25, 0));
 

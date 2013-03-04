@@ -6,9 +6,9 @@ namespace TrelloNet.Internal
 {
 	internal class AsyncCards : IAsyncCards
 	{
-		private readonly TrelloRestClient _restClient;
+        private readonly IRequestClient _restClient;
 
-		public AsyncCards(TrelloRestClient restClient)
+		public AsyncCards(IRequestClient restClient)
 		{
 			_restClient = restClient;
 		}

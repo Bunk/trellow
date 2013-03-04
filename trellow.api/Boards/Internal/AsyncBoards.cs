@@ -5,9 +5,9 @@ namespace TrelloNet.Internal
 {
 	internal class AsyncBoards : IAsyncBoards
 	{
-		private readonly TrelloRestClient _restClient;
+		private readonly IRequestClient _restClient;
 
-		public AsyncBoards(TrelloRestClient restClient)
+		public AsyncBoards(IRequestClient restClient)
 		{
 			_restClient = restClient;
 		}

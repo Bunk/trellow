@@ -8,27 +8,19 @@ using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
 using TrelloNet;
 using trello.Assets;
-using trello.Services;
 
 namespace trello.ViewModels
 {
     [UsedImplicitly]
     public sealed class MyBoardsViewModel : PivotItemViewModel, IConfigureTheAppBar
     {
-        private readonly Func<BoardViewModel> _boardFactory;
         private readonly ITrello _api;
         private readonly INavigationService _navigationService;
-        private readonly IProgressService _progress;
 
-        public MyBoardsViewModel(INavigationService navigationService,
-                                 IProgressService progress,
-                                 ITrello api,
-                                 Func<BoardViewModel> boardFactory)
+        public MyBoardsViewModel(INavigationService navigationService, ITrello api)
         {
             _navigationService = navigationService;
-            _progress = progress;
             _api = api;
-            _boardFactory = boardFactory;
 
             DisplayName = "boards";
 
@@ -65,11 +57,9 @@ namespace trello.ViewModels
 
         private async void RefreshBoards()
         {
-            _progress.Show("Refreshing...");
-
             try
             {
-                var boards = (await _api.Async.Boards.ForMe());
+                var boards = (await _api.Boards.ForMe());
 
                 Boards.Clear();
                 Boards.AddRange(boards.Select(BuildBoard));
@@ -79,7 +69,6 @@ namespace trello.ViewModels
                 MessageBox.Show("Your boards could not be loaded at this time.  " +
                                 "Please ensure that you have an internet connection.");
             }
-            _progress.Hide();
         }
 
         private BoardViewModel BuildBoard(Board board)

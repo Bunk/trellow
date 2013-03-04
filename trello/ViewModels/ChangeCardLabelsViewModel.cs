@@ -35,7 +35,7 @@ namespace trello.ViewModels
             _progress.Show("Loading names...");
             try
             {
-                var board = await _api.Async.Boards.ForCard(new CardId(CardId));
+                var board = await _api.Boards.ForCard(new CardId(CardId));
                 foreach (var lbl in Labels)
                 {
                     string name;

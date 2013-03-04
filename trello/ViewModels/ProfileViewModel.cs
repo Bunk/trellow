@@ -97,7 +97,7 @@ namespace trello.ViewModels
             _progress.Show("Loading...");
             try
             {
-                var profile = await _api.Async.Members.Me();
+                var profile = await _api.Members.Me();
                 InitializeWith(profile);
             }
             catch

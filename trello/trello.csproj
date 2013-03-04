@@ -99,11 +99,10 @@
     <Compile Include="Assets\AssetUri.cs" />
     <Compile Include="AsyncLazy.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Caliburn.Micro\ContainerExtensions.cs" />
     <Compile Include="Caliburn.Micro\ExtensionMethods.cs" />
-    <Compile Include="Caliburn.Micro\SimpleContainer.cs" />
     <Compile Include="Caliburn.Micro\TelerikConventions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Extensions\SimpleContainerExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="KeyEqualityComparer.cs" />
     <Compile Include="LocalizedStrings.cs" />
@@ -117,6 +116,7 @@
     <Compile Include="SampleData\SampleDataSource\SampleDataSource.xaml.cs">
       <DependentUpon>SampleDataSource.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\Cache\CachingRestClient.cs" />
     <Compile Include="Services\Handlers\CardDueDateChanged.cs" />
     <Compile Include="Services\Handlers\CardLabelAdded.cs" />
     <Compile Include="Services\Handlers\CardLabelRemoved.cs" />
