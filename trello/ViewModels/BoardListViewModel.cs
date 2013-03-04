@@ -1,12 +1,10 @@
 using System;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using TrelloNet;
 using trello.Assets;
-using trello.Services;
 
 namespace trello.ViewModels
 {
@@ -14,10 +12,8 @@ namespace trello.ViewModels
     public class BoardListViewModel : PivotItemViewModel, IConfigureTheAppBar
     {
         private readonly ITrello _api;
-        private readonly IProgressService _progress;
         private readonly Func<CardViewModel> _cardFactory;
         private string _name;
-        private bool _subscribed;
         private string _id;
 
         public string Id
@@ -44,25 +40,11 @@ namespace trello.ViewModels
             }
         }
 
-        public bool Subscribed
-        {
-            get { return _subscribed; }
-            set
-            {
-                if (value.Equals(_subscribed)) return;
-                _subscribed = value;
-                NotifyOfPropertyChange(() => Subscribed);
-            }
-        }
-
         public IObservableCollection<CardViewModel> Cards { get; set; }
 
-        public BoardListViewModel(ITrello api,
-                                  IProgressService progress,
-                                  Func<CardViewModel> cardFactory)
+        public BoardListViewModel(ITrello api, Func<CardViewModel> cardFactory)
         {
             _api = api;
-            _progress = progress;
             _cardFactory = cardFactory;
 
             Cards = new BindableCollection<CardViewModel>();
@@ -75,23 +57,11 @@ namespace trello.ViewModels
 
         private async void RefreshLists()
         {
-            _progress.Show("Refreshing...");
+            var cards = await _api.Cards.ForList(new ListId(Id));
+            var vms = cards.Select(card => _cardFactory().InitializeWith(card));
 
-            try
-            {
-                var cards = await _api.Cards.ForList(new ListId(Id));
-                var vms = cards.Select(card => _cardFactory().InitializeWith(card));
-
-                Cards.Clear();
-                Cards.AddRange(vms);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Could not load this list.  Please ensure " +
-                                "that you have an active internet connection.");
-            }
-
-            _progress.Hide();
+            Cards.Clear();
+            Cards.AddRange(vms);
         }
 
         public BoardListViewModel InitializeWith(List list)
@@ -116,12 +86,10 @@ namespace trello.ViewModels
 
         private static void AddCard()
         {
-
         }
 
         private void RemoveCard()
         {
-            
         }
     }
 }
