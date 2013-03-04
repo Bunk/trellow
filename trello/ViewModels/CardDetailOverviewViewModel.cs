@@ -305,7 +305,7 @@ namespace trello.ViewModels
 
         public void Handle(CardLabelRemoved message)
         {
-            LabelViewModel found = Labels.FirstOrDefault(lbl => lbl.Color == message.Color.ToString());
+            var found = Labels.FirstOrDefault(lbl => lbl.Color == message.Color.ToString());
             if (found != null)
                 Labels.Remove(found);
         }
@@ -391,6 +391,9 @@ namespace trello.ViewModels
         [UsedImplicitly]
         public void Comment(string comment)
         {
+            if (string.IsNullOrWhiteSpace(comment))
+                return;
+
             CommentText = null;
 
             _eventAggregator.Publish(new CardCommented
