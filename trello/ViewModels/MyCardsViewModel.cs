@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using TrelloNet;
 using trello.Assets;
-using trello.Services;
 
 namespace trello.ViewModels
 {
@@ -15,18 +13,14 @@ namespace trello.ViewModels
     public sealed class MyCardsViewModel : PivotItemViewModel, IConfigureTheAppBar
     {
         private readonly ITrello _api;
-        private readonly IProgressService _progress;
         private readonly Func<CardViewModel> _cardFactory;
         private readonly Random _randomizer;
 
         public IObservableCollection<IGrouping<string, CardViewModel>> Cards { get; set; }
 
-        public MyCardsViewModel(ITrello api,
-                                IProgressService progress,
-                                Func<CardViewModel> cardFactory)
+        public MyCardsViewModel(ITrello api, Func<CardViewModel> cardFactory)
         {
             _api = api;
-            _progress = progress;
             _cardFactory = cardFactory;
 
             DisplayName = "cards";
@@ -42,38 +36,31 @@ namespace trello.ViewModels
 
         private async void RefreshCards()
         {
-            _progress.Show("Refreshing");
-
-            try
+            var cards = (await _api.Cards.ForMe()).ToList();
+            if (cards.Count == 0)
             {
-                var cards = (await _api.Cards.ForMe());
-                var boards = (await _api.Boards.ForMe());
-
-                var vms = cards
-                    .Select(card =>
-                    {
-                        var vm = _cardFactory().InitializeWith(card);
-
-                        var board = boards.FirstOrDefault(x => x.Id == card.IdBoard);
-                        if (board != null)
-                            vm.BoardName = board.Name;
-
-                        return vm;
-                    })
-                    .GroupBy(card => card.BoardName);
-
                 Cards.Clear();
-                Cards.AddRange(vms);
-
-                UpdateLiveTile(cards.ToList());
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Your cards could not be loaded.  Please " +
-                                "ensure that you have an active internet connection.");
+                return;
             }
 
-            _progress.Hide();
+            var boards = (await _api.Boards.ForMe()).ToList();
+            var vms = cards
+                .Select(card =>
+                {
+                    var vm = _cardFactory().InitializeWith(card);
+
+                    var board = boards.FirstOrDefault(x => x.Id == card.IdBoard);
+                    if (board != null)
+                        vm.BoardName = board.Name;
+
+                    return vm;
+                })
+                .GroupBy(card => card.BoardName);
+
+            Cards.Clear();
+            Cards.AddRange(vms);
+
+            UpdateLiveTile(cards);
         }
 
         private void UpdateLiveTile(IReadOnlyCollection<Card> cards)

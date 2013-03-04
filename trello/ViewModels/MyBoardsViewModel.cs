@@ -57,18 +57,10 @@ namespace trello.ViewModels
 
         private async void RefreshBoards()
         {
-            try
-            {
-                var boards = (await _api.Boards.ForMe());
+            var boards = (await _api.Boards.ForMe());
 
-                Boards.Clear();
-                Boards.AddRange(boards.Select(BuildBoard));
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Your boards could not be loaded at this time.  " +
-                                "Please ensure that you have an internet connection.");
-            }
+            Boards.Clear();
+            Boards.AddRange(boards.Select(BuildBoard));
         }
 
         private BoardViewModel BuildBoard(Board board)

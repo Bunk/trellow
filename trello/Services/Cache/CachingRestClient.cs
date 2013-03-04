@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using RestSharp;
 using TrelloNet.Internal;
 using trello.Services.Handlers;
@@ -7,6 +10,60 @@ using trellow.api.Data;
 
 namespace trello.Services.Cache
 {
+    public class ErrorHandlingRestClient : IRequestClient
+    {
+        private readonly IRequestClient _client;
+
+        public ErrorHandlingRestClient(IRequestClient client)
+        {
+            _client = client;
+        }
+
+        public async Task<IRestResponse> RequestAsync(IRestRequest request)
+        {
+            try
+            {
+                return await _client.RequestAsync(request);
+            }
+            catch(Exception ex)
+            {
+                return NoResults(new RestResponse());
+            }
+        }
+
+        public async Task<T> RequestAsync<T>(IRestRequest request) where T : class, new()
+        {
+            try
+            {
+                return await _client.RequestAsync<T>(request);
+            }
+            catch (Exception ex)
+            {
+                return default(T);
+            }
+        }
+
+        public async Task<IEnumerable<T>> RequestListAsync<T>(IRestRequest request)
+        {
+            try
+            {
+                var value = await _client.RequestListAsync<T>(request);
+                return value ?? NoResults(Enumerable.Empty<T>());
+            }
+            catch (Exception ex)
+            {
+                return NoResults(Enumerable.Empty<T>());
+            }
+        }
+
+        private T NoResults<T>(T value)
+        {
+            MessageBox.Show("There was an error making the request.  Please " +
+                            "ensure that you have an active internet connection.");
+            return value;
+        }
+    }
+
     public class ProgressAwareRestClient : IRequestClient
     {
         private readonly IRequestClient _client;

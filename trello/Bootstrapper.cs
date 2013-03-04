@@ -76,7 +76,7 @@ namespace trello
             var handler = container.Get<TrelloRestClient>();
             var progress = container.Get<IProgressService>();
 
-            return new ProgressAwareRestClient(handler, progress);
+            return new ErrorHandlingRestClient(new ProgressAwareRestClient(handler, progress));
         }
 
         protected override PhoneApplicationFrame CreatePhoneApplicationFrame()
