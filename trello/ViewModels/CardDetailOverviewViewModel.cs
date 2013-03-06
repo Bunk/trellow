@@ -14,6 +14,7 @@ using trellow.api;
 
 namespace trello.ViewModels
 {
+    [UsedImplicitly]
     public sealed class CardDetailOverviewViewModel : PivotItemViewModel,
                                                       IConfigureTheAppBar,
                                                       IHandle<CardDescriptionChanged>,
@@ -371,12 +372,9 @@ namespace trello.ViewModels
         [UsedImplicitly]
         public void ChangeLabels()
         {
-            IEnumerable<Color> selected = Labels.Select(lbl => (Color) Enum.Parse(typeof (Color), lbl.Color));
+            var selected = Labels.Select(lbl => (Color) Enum.Parse(typeof (Color), lbl.Color));
 
-            ChangeCardLabelsViewModel model = new ChangeCardLabelsViewModel(GetView(), _eventAggregator, _api, _progress)
-            {
-                CardId = Id
-            }
+            var model = new ChangeCardLabelsViewModel(GetView(), Id, _eventAggregator, _api, _progress)
                 .Initialize(selected);
 
             _windowManager.ShowDialog(model);

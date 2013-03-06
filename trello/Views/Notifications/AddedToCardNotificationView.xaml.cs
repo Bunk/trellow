@@ -8,11 +8,11 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
-namespace trello.Views.CardDetail
+namespace trello.Views.Notifications
 {
-    public partial class Activity : UserControl
+    public partial class AddedToCardNotificationView : UserControl
     {
-        public Activity()
+        public AddedToCardNotificationView()
         {
             InitializeComponent();
         }

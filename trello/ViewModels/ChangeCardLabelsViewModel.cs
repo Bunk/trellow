@@ -21,11 +21,13 @@ namespace trello.ViewModels
 
         public IObservableCollection<Label> Labels { get; set; }
 
-        public ChangeCardLabelsViewModel(object root, IEventAggregator eventAggregator, ITrello api, IProgressService progress) : base(root)
+        public ChangeCardLabelsViewModel(object root, string cardId, IEventAggregator eventAggregator, ITrello api, IProgressService progress) : base(root)
         {
             _eventAggregator = eventAggregator;
             _api = api;
             _progress = progress;
+
+            CardId = cardId;
 
             Labels = new BindableCollection<Label>();
         }
