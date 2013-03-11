@@ -1,10 +1,9 @@
-﻿using System.Windows;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using TrelloNet;
-using trello.Services;
+using trello.Extensions;
 using trellow.api;
 
 namespace trello.ViewModels
@@ -12,7 +11,6 @@ namespace trello.ViewModels
     public class ProfileViewModel : ViewModelBase, IConfigureTheAppBar
     {
         private readonly ITrello _api;
-        private readonly IProgressService _progress;
         private readonly IEventAggregator _eventAggregator;
         private string _username;
         private string _fullName;
@@ -77,12 +75,10 @@ namespace trello.ViewModels
 
         public ProfileViewModel(ITrello api,
                                 ITrelloApiSettings settings,
-                                IProgressService progress,
                                 INavigationService navigation,
                                 IEventAggregator eventAggregator) : base(settings, navigation)
         {
             _api = api;
-            _progress = progress;
             _eventAggregator = eventAggregator;
         }
 
@@ -94,32 +90,19 @@ namespace trello.ViewModels
 
         protected override async void OnInitialize()
         {
-            _progress.Show("Loading...");
-            try
-            {
-                var profile = await _api.Members.Me();
-                InitializeWith(profile);
-            }
-            catch
-            {
-                MessageBox.Show("Could not load your profile.  Please ensure " +
-                                "that you have an active internet connection.");
-            }
-            _progress.Hide();
+            var profile = await _api.Members.Me();
+            InitializeWith(profile);
         }
 
         private void InitializeWith(Member profile)
         {
-            const string profileImageFormat =
-                "https://trello-avatars.s3.amazonaws.com/{0}/{1}.png";
-
-            if (profile == null) 
+            if (profile == null)
                 return;
 
             Username = profile.Username;
             FullName = profile.FullName;
             Email = profile.Email;
-            ImageUri = string.Format(profileImageFormat, profile.AvatarHash, 170);
+            ImageUri = profile.AvatarHash.ToAvatarUrl(AvatarSize.Portrait);
             Bio = profile.Bio;
         }
 

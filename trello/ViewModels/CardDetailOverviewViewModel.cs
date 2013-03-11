@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using TrelloNet;
+using trello.Extensions;
 using trello.Services;
 using trello.Services.Handlers;
 using trello.ViewModels.Activities;
@@ -232,8 +233,7 @@ namespace trello.ViewModels
             Due = card.Due;
             Checklists = card.Checklists.Count;
             CheckItems = card.Checklists.Aggregate(0, (i, model) => i + model.CheckItems.Count);
-            CheckItemsChecked = card.Checklists.Aggregate(0,
-                                                          (i, model) => i + model.CheckItems.Count(item => item.Checked));
+            CheckItemsChecked = card.Checklists.Aggregate(0, (i, model) => i + model.CheckItems.Count(item => item.Checked));
             Votes = card.Badges.Votes;
             Attachments = card.Attachments.Count;
             Members = card.Members.Count;
@@ -247,35 +247,20 @@ namespace trello.ViewModels
             Labels.Clear();
             Labels.AddRange(lbls);
 
-            MyAvatarUrl = string.Format("https://trello-avatars.s3.amazonaws.com/{0}/170.png", _settings.AvatarHash);
+            MyAvatarUrl = _settings.AvatarHash.ToAvatarUrl(AvatarSize.Portrait);
 
             return this;
         }
 
         protected override async void OnInitialize()
         {
-            _progress.Show("Loading comments...");
+            var types = new[] {ActionType.CommentCard};
+            var actions = await _api.Actions.ForCard(new CardId(Id), types, paging: new Paging(25, 0));
 
-            try
-            {
-                var actions = await _api.Actions.ForCard(new CardId(Id),
-                                                               new[] {ActionType.CommentCard},
-                                                               paging: new Paging(25, 0));
+            var vms = actions.Select(ActivityViewModel.InitializeWith).ToList();
 
-                var vms = actions.Select(ActivityViewModel.InitializeWith).ToList();
-
-                Comments.Clear();
-                Comments.AddRange(vms);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Could not load this card.  Please ensure that you " +
-                                "have an active internet connection.");
-            }
-            finally
-            {
-                _progress.Hide();
-            }
+            Comments.Clear();
+            Comments.AddRange(vms);
         }
 
         public ApplicationBar Configure(ApplicationBar existing)
