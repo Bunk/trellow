@@ -130,10 +130,8 @@
     <Compile Include="Actions\CreateOrganizationAction.cs" />
     <Compile Include="Actions\DeleteAttachmentFromCardAction.cs" />
     <Compile Include="Actions\IActionId.cs" />
-    <Compile Include="Actions\IActions.cs" />
     <Compile Include="Actions\IAsyncActions.cs" />
     <Compile Include="Actions\Internal\ActionConverter.cs" />
-    <Compile Include="Actions\Internal\Actions.cs" />
     <Compile Include="Actions\Internal\ActionsChangeTextRequest.cs" />
     <Compile Include="Actions\Internal\ActionsDeleteRequest.cs" />
     <Compile Include="Actions\Internal\ActionsForBoardRequest.cs" />
@@ -275,10 +273,6 @@
     <Compile Include="Data\Stages\ResponseContext.cs" />
     <Compile Include="Data\Services\RestClientExtensions.cs" />
     <Compile Include="Expiration.cs" />
-    <Compile Include="Extensions\AutoPaging\AutoPaged.cs" />
-    <Compile Include="Extensions\AutoPaging\AutoPagedActions.cs" />
-    <Compile Include="Extensions\AutoPaging\AutoPagedNotifications.cs" />
-    <Compile Include="Extensions\AutoPaging\AutoPagingExtensions.cs" />
     <Compile Include="IAsyncTrello.cs" />
     <Compile Include="Internal\AsyncTrello.cs" />
     <Compile Include="Internal\BooleanExtensions.cs" />

@@ -57,22 +57,14 @@ namespace trello
             _container.Singleton<ITrelloApiSettings, TrelloSettings>();
             
 #if DISCONNECTED
-            _container.Singleton<ITrello, Trello>();
-            _container.Singleton<IRequestClient, TrelloRestClient>();
+            _container.Singleton<IRequestClient, JsonFileRestClient>();
 #else
-            _container.Singleton<INetworkService, NetworkService>();
-            _container.Singleton<IProgressService, ProgressService>();
-            _container.Singleton<ITrelloApiSettings, TrelloSettings>();
-            _container.Singleton<ITrello, Trello>();
             _container.Singleton<IRequestClient, TrelloRestClient>();
 #endif
             var network = _container.Get<INetworkService>();
-            var client = BuildRequest(_container);
+            var client = AugmentClient(_container);
             var trello = new Trello(network, client);
-            _container.Instance(trello);
-
-            // This builds the pipeline for trello facade requests
-            _container.Handler<IRequestClient>(BuildRequest);
+            _container.Instance<ITrello>(trello);
 
             TelerikConventions.Install();
 
@@ -80,9 +72,8 @@ namespace trello
             _container.GetInstance(typeof (CardDetailCommandHandler), null);
         }
 
-        private static IRequestClient BuildRequest(SimpleContainer container)
+        private static IRequestClient AugmentClient(SimpleContainer container)
         {
-            var settings = container.Get<ITrelloApiSettings>();
             var progress = container.Get<IProgressService>();
             var handler = container.Get<IRequestClient>();
 

@@ -155,6 +155,7 @@
     <Compile Include="Services\Handlers\CardMemberAdded.cs" />
     <Compile Include="Services\Handlers\CheckItemChanged.cs" />
     <Compile Include="Services\Handlers\ChecklistItemTapped.cs" />
+    <Compile Include="Services\JsonFileRestClient.cs" />
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="Services\NetworkStatusChanged.cs" />
     <Compile Include="Services\Stages\CacheStage.cs" />
@@ -346,9 +347,13 @@
     <Content Include="SampleData\lists\list-50e2676ad8fbe1a157003e6d.json" />
     <Content Include="SampleData\lists\list-50e2676ad8fbe1a157003e6e.json" />
     <Content Include="SampleData\lists\list-50e2676ad8fbe1a157003e6c.json" />
-    <Content Include="SampleData\members\members-me.json" />
+    <Content Include="SampleData\members\me.json" />
     <Content Include="SampleData\cards\card-50e2676ad8fbe1a157003e70.json" />
     <Content Include="SampleData\cards\card-50e2676ad8fbe1a157003e7b.json" />
+    <Content Include="SampleData\tokens\publicKey.json" />
+    <Content Include="SampleData\members\me-boards.json" />
+    <Content Include="SampleData\members\me-cards.json" />
+    <Content Include="SampleData\members\me-notifications.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\AlignmentGrid.png" />
