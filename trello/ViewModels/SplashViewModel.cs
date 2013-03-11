@@ -95,13 +95,16 @@ namespace trello.ViewModels
             _settings.AccessToken = token;
 
             var profile = await _api.Members.Me();
-            _settings.MemberId = profile.Id;
-            _settings.Username = profile.Username;
-            _settings.Fullname = profile.FullName;
-            _settings.AvatarHash = profile.AvatarHash;
+            if (profile != null)
+            {
+                _settings.MemberId = profile.Id;
+                _settings.Username = profile.Username;
+                _settings.Fullname = profile.FullName;
+                _settings.AvatarHash = profile.AvatarHash;
+            }
 
             UsingView(view => view.Browser.Visibility = Visibility.Collapsed);
-            _navigationService.Navigate(new Uri("/Views/ShellView.xaml", UriKind.Relative));
+            _navigationService.UriFor<ShellViewModel>().Navigate();
         }
 
         private async void AccessDenied()
