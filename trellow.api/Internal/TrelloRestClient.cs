@@ -5,10 +5,8 @@ namespace TrelloNet.Internal
 {
     public class TrelloRestClient : OAuthRestClient
 	{
-		private const string BASE_URL = "https://trello.com/1";
-
         public TrelloRestClient(ITrelloApiSettings settings)
-            : base(BASE_URL, new OAuthToken(settings.ApiConsumerKey, settings.ApiConsumerSecret))
+            : base(settings.ApiRoot, new OAuthToken(settings.ApiConsumerKey, settings.ApiConsumerSecret))
         {
             AddHandler("application/json", new TrelloDeserializer());
 
