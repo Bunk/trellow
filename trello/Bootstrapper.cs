@@ -28,9 +28,7 @@ namespace trello
             _container.Instance(RootFrame);
 
             _container.Singleton<ICache, FileSystemCache>();
-            _container.Singleton<IProgressService, ProgressService>();
-            _container.Singleton<INetworkService, NetworkService>();
-
+            
             // View Models
             _container.Singleton<SplashViewModel>();
             _container.Singleton<ShellViewModel>();
@@ -54,15 +52,17 @@ namespace trello
             _container.Singleton<CardDetailCommandHandler>();
 
             // Request handling
+            _container.Singleton<INetworkService, NetworkService>();
+            _container.Singleton<IProgressService, ProgressService>();
             _container.Singleton<ITrelloApiSettings, TrelloSettings>();
             _container.Singleton<ITrello, Trello>();
-            _container.Singleton<TrelloRestClient>();
-            
-            // todo: This is a little ugly--segregating the OAuth interface proves
-            //       difficult when RestSharp doesn't seem to segregate that way
-            _container.Handler<IOAuth>(c => c.GetInstance(typeof (TrelloRestClient), null));
-            
-            // todo: AOP would allow us to get away from decorators and avoid this issue here
+
+            var network = _container.Get<INetworkService>();
+            var client = BuildRequest(_container);
+            var trello = new Trello(network, client);
+            _container.Instance(trello);
+
+            // This builds the pipeline for trello facade requests
             _container.Handler<IRequestClient>(BuildRequest);
 
             TelerikConventions.Install();
@@ -73,8 +73,9 @@ namespace trello
 
         private static IRequestClient BuildRequest(SimpleContainer container)
         {
-            var handler = container.Get<TrelloRestClient>();
+            var settings = container.Get<ITrelloApiSettings>();
             var progress = container.Get<IProgressService>();
+            var handler = new TrelloRestClient(settings);
 
             return new ErrorHandlingRestClient(new ProgressAwareRestClient(handler, progress));
         }

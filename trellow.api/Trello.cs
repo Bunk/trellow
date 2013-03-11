@@ -10,14 +10,12 @@ namespace TrelloNet
 	public class Trello : ITrello
 	{
 	    private readonly INetworkService _networkService;
-		private readonly IRequestClient _client;
-	    private readonly IOAuth _auth;
+        private readonly IRequestClient _client;
 
-	    public Trello(INetworkService networkService, IRequestClient client, IOAuth auth)
+	    public Trello(INetworkService networkService, IRequestClient client)
 		{
 		    _networkService = networkService;
 		    _client = client;
-		    _auth = auth;
 
 		    Members = new AsyncMembers(_client);
             Boards = new AsyncBoards(_client);
@@ -71,22 +69,22 @@ namespace TrelloNet
 
 	    public Task<Uri> GetAuthorizationUri(string applicationName, Scope scope, Expiration expiration, Uri callbackUri = null)
 	    {
-	        return _auth.GetAuthorizationUri(applicationName, scope, expiration, callbackUri);
+	        return _client.GetAuthorizationUri(applicationName, scope, expiration, callbackUri);
 	    }
 
 	    public Task<OAuthToken> Verify(string verifier)
 	    {
-	        return _auth.Verify(verifier);
+	        return _client.Verify(verifier);
 	    }
 
 	    public void Authorize(OAuthToken accessToken)
 	    {
-	        _auth.Authorize(accessToken);
+	        _client.Authorize(accessToken);
 	    }
 
 	    public void Deauthorize()
 	    {
-	        _auth.Deauthorize();
+	        _client.Deauthorize();
 	    }
 	}
 }

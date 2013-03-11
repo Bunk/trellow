@@ -117,6 +117,8 @@
       <DependentUpon>SampleDataSource.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\Cache\CachingRestClient.cs" />
+    <Compile Include="Services\Cache\ErrorHandlingRestClient.cs" />
+    <Compile Include="Services\Cache\ProgressAwareRestClient.cs" />
     <Compile Include="Services\Handlers\CardDueDateChanged.cs" />
     <Compile Include="Services\Handlers\CardLabelAdded.cs" />
     <Compile Include="Services\Handlers\CardLabelRemoved.cs" />
