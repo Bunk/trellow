@@ -55,8 +55,17 @@ namespace trello
             _container.Singleton<INetworkService, NetworkService>();
             _container.Singleton<IProgressService, ProgressService>();
             _container.Singleton<ITrelloApiSettings, TrelloSettings>();
+            
+#if DISCONNECTED
             _container.Singleton<ITrello, Trello>();
-
+            _container.Singleton<IRequestClient, TrelloRestClient>();
+#else
+            _container.Singleton<INetworkService, NetworkService>();
+            _container.Singleton<IProgressService, ProgressService>();
+            _container.Singleton<ITrelloApiSettings, TrelloSettings>();
+            _container.Singleton<ITrello, Trello>();
+            _container.Singleton<IRequestClient, TrelloRestClient>();
+#endif
             var network = _container.Get<INetworkService>();
             var client = BuildRequest(_container);
             var trello = new Trello(network, client);
@@ -75,7 +84,7 @@ namespace trello
         {
             var settings = container.Get<ITrelloApiSettings>();
             var progress = container.Get<IProgressService>();
-            var handler = new TrelloRestClient(settings);
+            var handler = container.Get<IRequestClient>();
 
             return new ErrorHandlingRestClient(new ProgressAwareRestClient(handler, progress));
         }
