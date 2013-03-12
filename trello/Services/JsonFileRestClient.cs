@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 using RestSharp;
 using TrelloNet;
@@ -12,6 +12,7 @@ using trellow.api.OAuth;
 
 namespace trello.Services
 {
+    [UsedImplicitly]
     public class JsonFileRestClient : IRequestClient
     {
         private const string Rootpath = "SampleData";
@@ -96,7 +97,7 @@ namespace trello.Services
             using (var stream = File.OpenText(filename))
             {
                 var content = await stream.ReadToEndAsync();
-                return JsonConvert.DeserializeObject<T>(content);
+                return Deserialize<T>(content);
             }
         }
 
@@ -108,8 +109,13 @@ namespace trello.Services
             using (var stream = File.OpenText(filename))
             {
                 var content = await stream.ReadToEndAsync();
-                return JsonConvert.DeserializeObject<List<T>>(content);
+                return Deserialize<List<T>>(content);
             }
+        }
+
+        private static T Deserialize<T>(string data)
+        {
+            return JsonConvert.DeserializeObject<T>(data, new NotificationConverter(), new ActionConverter());
         }
     }
 }

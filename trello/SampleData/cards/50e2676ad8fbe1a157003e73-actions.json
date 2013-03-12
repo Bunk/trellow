@@ -1,0 +1,52 @@
+﻿[
+   {
+      "id":"512812a817a8a8c6760006ac",
+      "idMemberCreator":"50e26769d8fbe1a157003e62",
+      "data":{
+         "board":{
+            "name":"Welcome Board",
+            "id":"50e2676ad8fbe1a157003e63"
+         },
+         "card":{
+            "idShort":4,
+            "name":"You can attach pictures and files...",
+            "id":"50e2676ad8fbe1a157003e73"
+         },
+         "text":"woo!"
+      },
+      "type":"commentCard",
+      "date":"2013-02-23T00:51:52.980Z",
+      "memberCreator":{
+         "id":"50e26769d8fbe1a157003e62",
+         "avatarHash":"5f9c2c7e4c3b53fa0dd0ec7e94319b48",
+         "fullName":"JD Courtoy",
+         "initials":"JD",
+         "username":"jcourtoy"
+      }
+   },
+   {
+      "id":"510ae56e95d31e4c5700208d",
+      "idMemberCreator":"50e26769d8fbe1a157003e62",
+      "data":{
+         "text":"Sweet, I've got activity working for attachments and card creation.",
+         "board":{
+            "name":"Welcome Board",
+            "id":"50e2676ad8fbe1a157003e63"
+         },
+         "card":{
+            "name":"You can attach pictures and files...",
+            "idShort":4,
+            "id":"50e2676ad8fbe1a157003e73"
+         }
+      },
+      "type":"commentCard",
+      "date":"2013-01-31T21:43:10.786Z",
+      "memberCreator":{
+         "id":"50e26769d8fbe1a157003e62",
+         "avatarHash":"5f9c2c7e4c3b53fa0dd0ec7e94319b48",
+         "fullName":"JD Courtoy",
+         "initials":"JD",
+         "username":"jcourtoy"
+      }
+   }
+]

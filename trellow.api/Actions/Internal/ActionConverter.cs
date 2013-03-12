@@ -4,7 +4,7 @@ using Newtonsoft.Json.Linq;
 
 namespace TrelloNet.Internal
 {
-	internal class ActionConverter : JsonCreationConverter<Action>
+	public class ActionConverter : JsonCreationConverter<Action>
 	{
 		private static readonly Dictionary<string, Func<JObject, Action>> TypeMap = new Dictionary<string, Func<JObject, Action>>
 		{

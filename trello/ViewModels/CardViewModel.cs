@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Caliburn.Micro;
+using JetBrains.Annotations;
 using TrelloNet;
 
 namespace trello.ViewModels
@@ -79,6 +80,7 @@ namespace trello.ViewModels
             return this;
         }
 
+        [UsedImplicitly]
         public void Open()
         {
             _navigationService.UriFor<CardDetailPivotViewModel>()

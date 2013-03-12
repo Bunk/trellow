@@ -1,0 +1,26 @@
+﻿[
+   {
+      "id":"50e2676ad8fbe1a157003e6c",
+      "name":"Basics",
+      "closed":false,
+      "idBoard":"50e2676ad8fbe1a157003e63",
+      "pos":16384,
+      "subscribed":false
+   },
+   {
+      "id":"50e2676ad8fbe1a157003e6d",
+      "name":"Intermediate",
+      "closed":false,
+      "idBoard":"50e2676ad8fbe1a157003e63",
+      "pos":32768,
+      "subscribed":false
+   },
+   {
+      "id":"50e2676ad8fbe1a157003e6e",
+      "name":"Advanced",
+      "closed":false,
+      "idBoard":"50e2676ad8fbe1a157003e63",
+      "pos":49152,
+      "subscribed":false
+   }
+]
