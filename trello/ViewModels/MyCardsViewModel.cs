@@ -59,35 +59,6 @@ namespace trello.ViewModels
 
             Cards.Clear();
             Cards.AddRange(vms);
-
-            UpdateLiveTile(cards);
-        }
-
-        private void UpdateLiveTile(IReadOnlyCollection<Card> cards)
-        {
-            var tile = ShellTile.ActiveTiles.First();
-
-            var data = new FlipTileData
-            {
-                Count = cards.Count,
-                BackTitle = "",
-                BackContent = "",
-                WideBackContent = ""
-            };
-
-            if (cards.Any())
-            {
-                var index = _randomizer.Next(0, cards.Count);
-                var first = cards.ElementAt(index);
-                var name = first.Desc != null ? first.Name : "";
-                var desc = first.Desc ?? "";
-
-                data.BackTitle = name;
-                data.BackContent = desc;
-                data.WideBackContent = desc;
-            }
-
-            tile.Update(data);
         }
 
         public ApplicationBar Configure(ApplicationBar existing)
