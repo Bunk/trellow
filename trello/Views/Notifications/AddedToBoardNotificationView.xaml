@@ -3,7 +3,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+	xmlns:triggers="clr-namespace:trello.Views.Triggers;assembly=trello"
+	xmlns:cm="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -32,5 +34,11 @@
 			</TextBlock.Inlines>
 		</TextBlock>
 		<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Date, Converter={StaticResource RelativeTimeConverter}}" FontSize="{StaticResource PhoneFontSizeSmall}" Foreground="{StaticResource PhoneSubtleBrush}" />
+
+		<i:Interaction.Triggers>
+			<triggers:GestureServiceTrigger Gesture="Tap">
+				<cm:ActionMessage MethodName="Navigate" />
+			</triggers:GestureServiceTrigger>
+		</i:Interaction.Triggers>
     </Grid>
 </UserControl>

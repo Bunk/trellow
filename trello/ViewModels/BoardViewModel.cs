@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
+using JetBrains.Annotations;
 using TrelloNet;
 using trellow.api;
 
 namespace trello.ViewModels
 {
+    [UsedImplicitly]
     public class BoardViewModel : PivotViewModel
     {
         private readonly ITrello _api;
@@ -16,6 +18,7 @@ namespace trello.ViewModels
         private string _desc;
         private bool _isPrivate;
 
+        [UsedImplicitly]
         public string Id
         {
             get { return _id; }
@@ -27,6 +30,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public string Name
         {
             get { return _name; }
@@ -38,6 +42,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public string Desc
         {
             get { return _desc; }
@@ -49,6 +54,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public bool IsPrivate
         {
             get { return _isPrivate; }
@@ -59,6 +65,9 @@ namespace trello.ViewModels
                 NotifyOfPropertyChange(() => IsPrivate);
             }
         }
+
+        [UsedImplicitly]
+        public string SelectedListId { get; set; }
 
         public BoardViewModel(ITrelloApiSettings settings,
                               ITrello api,
@@ -80,7 +89,19 @@ namespace trello.ViewModels
             InitializeBoard(board);
             InitializeLists(lists);
 
-            ActivateItem(Items[0]);
+            var selectedIndex = 0;
+            if (!string.IsNullOrEmpty(SelectedListId))
+            {
+                var items = Items.OfType<BoardListViewModel>().ToArray();
+                for (var i = 0; i < items.Count(); i++)
+                {
+                    if (items[i].Id != SelectedListId) continue;
+
+                    selectedIndex = i;
+                    break;
+                }
+            }
+            ActivateItem(Items[selectedIndex]);
         }
 
         public BoardViewModel InitializeLists(IEnumerable<List> lists)

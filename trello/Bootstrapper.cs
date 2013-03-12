@@ -11,6 +11,7 @@ using trello.Services;
 using trello.Services.Cache;
 using trello.Services.Handlers;
 using trello.ViewModels;
+using trello.ViewModels.Notifications;
 using trellow.api;
 using trellow.api.Data;
 
@@ -47,6 +48,7 @@ namespace trello
             _container.PerRequest<ChecklistViewModel>();
             _container.PerRequest<ChecklistItemViewModel>();
             _container.PerRequest<AttachmentViewModel>();
+            _container.AllTransientTypesOf<NotificationViewModel>();
 
             // Event handlers
             _container.Singleton<CardDetailCommandHandler>();

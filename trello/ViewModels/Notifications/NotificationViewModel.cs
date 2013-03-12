@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using Caliburn.Micro;
 using TrelloNet;
 using JetBrains.Annotations;
 using Strilanc.Value;
@@ -33,15 +34,15 @@ namespace trello.ViewModels.Notifications
             var dtoType = dto.GetType();
             var vmName = "trello.ViewModels.Notifications." + dtoType.Name + "ViewModel";
             var type = Assembly.GetExecutingAssembly().GetType(vmName, false);
-            if (type == null)
+            if (type == null || type == typeof(NotificationViewModel)) // abstract type
                 return May<NotificationViewModel>.NoValue;
 
-            var ctor = type.GetConstructor(Type.EmptyTypes);
-            if (ctor == null)
+            // Try to use the container
+            var instance = IoC.GetInstance(type, null) as NotificationViewModel;
+            if (instance == null)
                 return May<NotificationViewModel>.NoValue;
 
-            var instance = ctor.Invoke(null) as NotificationViewModel;
-            return instance == null ? May<NotificationViewModel>.NoValue : instance.Init(dto);
+            return instance.Init(dto);
         }
 
         protected virtual NotificationViewModel Init(Notification dto)

@@ -1,3 +1,4 @@
+using Caliburn.Micro;
 using JetBrains.Annotations;
 using TrelloNet;
 
@@ -6,6 +7,8 @@ namespace trello.ViewModels.Notifications
     [UsedImplicitly]
 	public class MentionedOnCardNotificationViewModel : NotificationViewModel
 	{
+        private readonly INavigationService _navigation;
+
         [UsedImplicitly]
 		public CardName Card { get; set; }
 
@@ -14,6 +17,11 @@ namespace trello.ViewModels.Notifications
 
         [UsedImplicitly]
 		public string Text { get; set; }
+
+        public MentionedOnCardNotificationViewModel(INavigationService navigation)
+        {
+            _navigation = navigation;
+        }
 
         protected override NotificationViewModel Init(Notification dto)
         {
@@ -25,6 +33,14 @@ namespace trello.ViewModels.Notifications
             Text = x.Data.Text;
 
             return this;
+        }
+
+        [UsedImplicitly]
+        public void Navigate()
+        {
+            _navigation.UriFor<CardDetailPivotViewModel>()
+                       .WithParam(x => x.Id, Card.Id)
+                       .Navigate();
         }
 	}
 }

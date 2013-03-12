@@ -10,7 +10,7 @@ using Strilanc.Value;
 
 namespace trello.ViewModels
 {
-    public class MyNotificationsViewModel : PivotItemViewModel, IConfigureTheAppBar
+    public sealed class MyNotificationsViewModel : PivotItemViewModel, IConfigureTheAppBar
     {
         private readonly INavigationService _navigation;
         private readonly ITrello _api;
