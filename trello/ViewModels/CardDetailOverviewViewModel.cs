@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
@@ -9,13 +8,12 @@ using TrelloNet;
 using trello.Services;
 using trello.Services.Handlers;
 using trello.ViewModels.Activities;
-using trello.Views;
 using trellow.api;
 
 namespace trello.ViewModels
 {
     public sealed class CardDetailOverviewViewModel : PivotItemViewModel,
-                                                      IConfigureTheAppBar,
+                                                      //IConfigureTheAppBar,
                                                       IHandle<CardDescriptionChanged>,
                                                       IHandle<CardDueDateChanged>,
                                                       IHandle<CardLabelAdded>,
@@ -371,21 +369,14 @@ namespace trello.ViewModels
         [UsedImplicitly]
         public void ChangeLabels()
         {
-            IEnumerable<Color> selected = Labels.Select(lbl => (Color) Enum.Parse(typeof (Color), lbl.Color));
+            var selected = Labels.Select(lbl => (Color) Enum.Parse(typeof (Color), lbl.Color));
 
-            ChangeCardLabelsViewModel model = new ChangeCardLabelsViewModel(GetView(), _eventAggregator, _api, _progress)
+            var model = new ChangeCardLabelsViewModel(GetView(), _eventAggregator, _api, _progress)
             {
                 CardId = Id
-            }
-                .Initialize(selected);
+            }.Initialize(selected);
 
             _windowManager.ShowDialog(model);
-        }
-
-        [UsedImplicitly]
-        public void DeleteCard()
-        {
-            MessageBox.Show("We should delete the card now.");
         }
 
         [UsedImplicitly]

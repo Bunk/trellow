@@ -15,20 +15,17 @@ namespace trello.ViewModels
     [UsedImplicitly]
     public sealed class MyBoardsViewModel : PivotItemViewModel, IConfigureTheAppBar
     {
-        private readonly Func<BoardViewModel> _boardFactory;
         private readonly ITrello _api;
         private readonly INavigationService _navigationService;
         private readonly IProgressService _progress;
 
         public MyBoardsViewModel(INavigationService navigationService,
                                  IProgressService progress,
-                                 ITrello api,
-                                 Func<BoardViewModel> boardFactory)
+                                 ITrello api)
         {
             _navigationService = navigationService;
             _progress = progress;
             _api = api;
-            _boardFactory = boardFactory;
 
             DisplayName = "boards";
 

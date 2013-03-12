@@ -49,14 +49,18 @@ namespace trello.ViewModels
                 var cards = (await _api.Async.Cards.ForMe());
                 var boards = (await _api.Async.Boards.ForMe());
 
-                var vms = cards
+                var enumerable = cards as IList<Card> ?? cards.ToList();
+                var vms = enumerable
                     .Select(card =>
                     {
                         var vm = _cardFactory().InitializeWith(card);
 
-                        var board = boards.FirstOrDefault(x => x.Id == card.IdBoard);
-                        if (board != null)
-                            vm.BoardName = board.Name;
+                        if (boards != null)
+                        {
+                            var board = boards.FirstOrDefault(x => x.Id == card.IdBoard);
+                            if (board != null)
+                                vm.BoardName = board.Name;
+                        }
 
                         return vm;
                     })
@@ -65,7 +69,7 @@ namespace trello.ViewModels
                 Cards.Clear();
                 Cards.AddRange(vms);
 
-                UpdateLiveTile(cards.ToList());
+                UpdateLiveTile(enumerable.ToList());
             }
             catch (Exception)
             {

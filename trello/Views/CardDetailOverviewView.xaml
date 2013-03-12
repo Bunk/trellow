@@ -6,6 +6,7 @@
 	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
 	xmlns:micro="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
 	xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+	xmlns:telerikTextbox="clr-namespace:Telerik.Windows.Controls.PhoneTextBox;assembly=Telerik.Windows.Controls.Primitives"
 	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
 	xmlns:local="clr-namespace:trello.Views.Triggers;assembly=trello"
 	xmlns:ctrl="clr-namespace:trello.Views.Controls;assembly=trello"
@@ -204,7 +205,6 @@
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="Auto" />
 							<ColumnDefinition />
-							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 
 						<Image Width="70" Height="70">
@@ -213,11 +213,14 @@
 							</Image.Source>
 						</Image>
 
-						<TextBox Name="CommentText" Grid.Column="1" />
-
-						<Button micro:Message.Attach="Comment(CommentText)" Grid.Column="2" BorderThickness="0" Padding="0">
-							<Image Margin="0,0,0,0" Grid.Column="2" Width="40" Height="40" Source="/Assets/Icons/dark/icon-comment-med.png" />
-						</Button>
+						<telerikPrimitives:RadTextBox Name="CommentText" Grid.Column="1" ActionButtonVisibility="Visible"
+							micro:Message.Attach="[Event ActionButtonTap] = [Action Comment($this.Text)]">
+							<telerikPrimitives:RadTextBox.ActionButtonStyle>
+								<Style TargetType="telerikTextbox:TextBoxActionButton">
+									<Setter Property="RestStateImageSource" Value="/Assets/Icons/dark/icon-comment-med.png" />
+								</Style>
+							</telerikPrimitives:RadTextBox.ActionButtonStyle>
+						</telerikPrimitives:RadTextBox>
 					</Grid>
 					<ItemsControl x:Name="Comments" Grid.Row="1" Margin="0,10,0,0" />
 				</StackPanel>
