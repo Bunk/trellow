@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:converters="clr-namespace:trello.Views.Converters">
+	xmlns:converters="clr-namespace:trello.Views.Converters"
+	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit">
 	
 	<converters:VisibilityConverter x:Key="VisibilityConverter" />
 	<converters:VisibilityConverter x:Key="InvertedVisibilityConverter" Invert="True" />
@@ -10,5 +11,6 @@
 	<converters:BytesStringConverter x:Key="BytesStringConverter" />
 	<converters:DueDateColorConverter x:Key="DueDateConverter" DefaultBrush="{StaticResource PhoneAccentBrush}" />
 	<converters:LabelColorConverter x:Key="LabelColorConverter" />
+	<toolkit:RelativeTimeConverter x:Key="RelativeTimeConverter" />
 
 </ResourceDictionary>

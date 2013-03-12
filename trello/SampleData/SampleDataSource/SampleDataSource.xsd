@@ -14,6 +14,8 @@
       <xs:element name="SimpleActivity" type="tns:SimpleActivity" />
       <xs:element name="CommentActivity" type="tns:CommentActivity" />
       <xs:element name="MyCards" type="tns:MyCards" />
+      <xs:element name="NotificationAddedToBoard" type="tns:NotificationAddedToBoard" />
+      <xs:element name="NotificationCommentCard" type="tns:NotificationCommentCard" />
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="Boards">
@@ -212,4 +214,25 @@
     </xs:sequence>
   </xs:complexType>
   <xs:complexType name="CollectionItem" />
+  <xs:complexType name="NotificationAddedToBoard">
+    <xs:sequence>
+      <xs:element name="Board" type="tns:Board1" />
+    </xs:sequence>
+    <xs:attribute blend:Format="Name" name="MemberCreator" type="xs:string" />
+    <xs:attribute blend:Format="Date" name="Date" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="Board1">
+    <xs:attribute name="Name" type="xs:string" />
+    <xs:attribute name="Id" type="xs:double" />
+  </xs:complexType>
+  <xs:complexType name="NotificationCommentCard">
+    <xs:sequence>
+      <xs:element name="Card" type="tns:Card1" />
+    </xs:sequence>
+    <xs:attribute blend:Format="Name" name="MemberCreator" type="xs:string" />
+    <xs:attribute blend:FormatParameters="12,8" name="Text" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="Card1">
+    <xs:attribute name="Name" type="xs:string" />
+  </xs:complexType>
 </xs:schema>

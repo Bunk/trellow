@@ -9,7 +9,31 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="480" d:DesignWidth="480">
     
-    <Grid x:Name="LayoutRoot" Background="{StaticResource PhoneChromeBrush}">
-
+    <Grid x:Name="LayoutRoot" d:DataContext="{Binding NotificationCommentCard, Source={StaticResource SampleDataSource}}">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
+		</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition />
+		</Grid.ColumnDefinitions>
+		<Image Grid.RowSpan="2" Grid.Column="0" Width="70" Height="70" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,15,0">
+			<Image.Source>
+				<BitmapImage UriSource="{Binding MemberCreatorAvatarUri}" />
+			</Image.Source>
+		</Image>
+        <TextBlock Grid.Row="0" Grid.Column="1" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap">
+			<TextBlock.Inlines>
+				<Run Text="{Binding MemberCreator}" FontWeight="Bold" />
+				<Run Text="mentioned you on " />
+				<Run Text="{Binding Card.Name}" FontWeight="SemiBold" />
+			</TextBlock.Inlines>
+		</TextBlock>
+		<Border Grid.Row="1" Grid.Column="1" Padding="10" Background="{StaticResource PhoneChromeBrush}" BorderThickness="5" CornerRadius="10">
+			<TextBlock Text="{Binding Text}" TextWrapping="Wrap" />
+		</Border>
+		<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Date, Converter={StaticResource RelativeTimeConverter}}" FontSize="{StaticResource PhoneFontSizeSmall}" Foreground="{StaticResource PhoneSubtleBrush}" />
     </Grid>
 </UserControl>

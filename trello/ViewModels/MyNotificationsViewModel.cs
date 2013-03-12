@@ -23,6 +23,7 @@ namespace trello.ViewModels
             _navigation = navigation;
             _api = api;
 
+            DisplayName = "notifications";
             Notifications = new BindableCollection<NotificationViewModel>();
         }
 
@@ -68,10 +69,10 @@ namespace trello.ViewModels
                 NotificationType.MentionedOnCard
             };
             var notifications = await _api.Notifications.ForMe(types, paging: new Paging(15, 0));
-            var vms = notifications.Select(NotificationViewModel.Create).WhereHasValue();
+            var vms = notifications.Select(NotificationViewModel.Create).WhereHasValue().ToList();
 
             Notifications.Clear();
             Notifications.AddRange(vms);
-        } 
+        }
     }
 }

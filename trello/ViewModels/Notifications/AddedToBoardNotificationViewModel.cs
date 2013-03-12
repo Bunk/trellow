@@ -12,7 +12,9 @@ namespace trello.ViewModels.Notifications
         {
             base.Init(dto);
 
-            Board = ((AddedToBoardNotification) dto).Data.Board;
+            var realDto = (AddedToBoardNotification) dto;
+
+            Board = realDto.Data.Board;
 
             return this;
         }

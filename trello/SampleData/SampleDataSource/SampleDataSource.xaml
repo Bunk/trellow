@@ -545,4 +545,18 @@
       </SampleData:MyCardsItem.Collection>
     </SampleData:MyCardsItem>
   </SampleData:SampleDataSource.MyCards>
+  <SampleData:SampleDataSource.NotificationAddedToBoard>
+    <SampleData:NotificationAddedToBoard MemberCreator="Aaberg, Jesper" Date="November 5, 2003">
+      <SampleData:NotificationAddedToBoard.Board>
+        <SampleData:Board1 Name="Maecenas aliquam class integer" Id="30" />
+      </SampleData:NotificationAddedToBoard.Board>
+    </SampleData:NotificationAddedToBoard>
+  </SampleData:SampleDataSource.NotificationAddedToBoard>
+  <SampleData:SampleDataSource.NotificationCommentCard>
+    <SampleData:NotificationCommentCard MemberCreator="Aaberg, Jesper" Text="Maecenas class aliquam cras curae duis nunc integer donec praesent">
+      <SampleData:NotificationCommentCard.Card>
+        <SampleData:Card1 Name="Aenean class" />
+      </SampleData:NotificationCommentCard.Card>
+    </SampleData:NotificationCommentCard>
+  </SampleData:SampleDataSource.NotificationCommentCard>
 </SampleData:SampleDataSource>

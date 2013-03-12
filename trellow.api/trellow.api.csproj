@@ -311,6 +311,7 @@
     <Compile Include="Lists\ListFilter.cs" />
     <Compile Include="Lists\ListId.cs" />
     <Compile Include="Lists\NewList.cs" />
+    <Compile Include="MemberName.cs" />
     <Compile Include="Members\IAsyncMembers.cs" />
     <Compile Include="Members\IMemberId.cs" />
     <Compile Include="Members\IMembers.cs" />

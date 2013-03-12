@@ -7,7 +7,13 @@ namespace TrelloNet
 		public string Id { get; set; }
 		public bool Unread { get; set; }
 		public DateTime Date { get; set; }
-		public string IdMemberCreator { get; set; }	
+		public string IdMemberCreator { get; set; }
+        public Member MemberCreator { get; set; }
+
+        public Notification()
+        {
+            MemberCreator = new Member();
+        }
 
 		public string GetNotificationId()
 		{

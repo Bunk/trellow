@@ -124,6 +124,44 @@ namespace Expression.Blend.SampleData.SampleDataSource
 				return this._MyCards;
 			}
 		}
+
+		private NotificationAddedToBoard _NotificationAddedToBoard = new NotificationAddedToBoard();
+
+		public NotificationAddedToBoard NotificationAddedToBoard
+		{
+			get
+			{
+				return this._NotificationAddedToBoard;
+			}
+
+			set
+			{
+				if (this._NotificationAddedToBoard != value)
+				{
+					this._NotificationAddedToBoard = value;
+					this.OnPropertyChanged("NotificationAddedToBoard");
+				}
+			}
+		}
+
+		private NotificationCommentCard _NotificationCommentCard = new NotificationCommentCard();
+
+		public NotificationCommentCard NotificationCommentCard
+		{
+			get
+			{
+				return this._NotificationCommentCard;
+			}
+
+			set
+			{
+				if (this._NotificationCommentCard != value)
+				{
+					this._NotificationCommentCard = value;
+					this.OnPropertyChanged("NotificationCommentCard");
+				}
+			}
+		}
 	}
 
 	public class Boards : System.Collections.ObjectModel.ObservableCollection<BoardsItem>
@@ -1781,6 +1819,229 @@ namespace Expression.Blend.SampleData.SampleDataSource
 			if (this.PropertyChanged != null)
 			{
 				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+	}
+
+	public class NotificationAddedToBoard : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private Board1 _Board = new Board1();
+
+		public Board1 Board
+		{
+			get
+			{
+				return this._Board;
+			}
+
+			set
+			{
+				if (this._Board != value)
+				{
+					this._Board = value;
+					this.OnPropertyChanged("Board");
+				}
+			}
+		}
+
+		private string _MemberCreator = string.Empty;
+
+		public string MemberCreator
+		{
+			get
+			{
+				return this._MemberCreator;
+			}
+
+			set
+			{
+				if (this._MemberCreator != value)
+				{
+					this._MemberCreator = value;
+					this.OnPropertyChanged("MemberCreator");
+				}
+			}
+		}
+
+		private string _Date = string.Empty;
+
+		public string Date
+		{
+			get
+			{
+				return this._Date;
+			}
+
+			set
+			{
+				if (this._Date != value)
+				{
+					this._Date = value;
+					this.OnPropertyChanged("Date");
+				}
+			}
+		}
+	}
+
+	public class Board1 : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private string _Name = string.Empty;
+
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+
+			set
+			{
+				if (this._Name != value)
+				{
+					this._Name = value;
+					this.OnPropertyChanged("Name");
+				}
+			}
+		}
+
+		private double _Id = 0;
+
+		public double Id
+		{
+			get
+			{
+				return this._Id;
+			}
+
+			set
+			{
+				if (this._Id != value)
+				{
+					this._Id = value;
+					this.OnPropertyChanged("Id");
+				}
+			}
+		}
+	}
+
+	public class NotificationCommentCard : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private string _MemberCreator = string.Empty;
+
+		public string MemberCreator
+		{
+			get
+			{
+				return this._MemberCreator;
+			}
+
+			set
+			{
+				if (this._MemberCreator != value)
+				{
+					this._MemberCreator = value;
+					this.OnPropertyChanged("MemberCreator");
+				}
+			}
+		}
+
+		private Card1 _Card = new Card1();
+
+		public Card1 Card
+		{
+			get
+			{
+				return this._Card;
+			}
+
+			set
+			{
+				if (this._Card != value)
+				{
+					this._Card = value;
+					this.OnPropertyChanged("Card");
+				}
+			}
+		}
+
+		private string _Text = string.Empty;
+
+		public string Text
+		{
+			get
+			{
+				return this._Text;
+			}
+
+			set
+			{
+				if (this._Text != value)
+				{
+					this._Text = value;
+					this.OnPropertyChanged("Text");
+				}
+			}
+		}
+	}
+
+	public class Card1 : System.ComponentModel.INotifyPropertyChanged
+	{
+		public event System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+		protected virtual void OnPropertyChanged(string propertyName)
+		{
+			if (this.PropertyChanged != null)
+			{
+				this.PropertyChanged(this, new System.ComponentModel.PropertyChangedEventArgs(propertyName));
+			}
+		}
+
+		private string _Name = string.Empty;
+
+		public string Name
+		{
+			get
+			{
+				return this._Name;
+			}
+
+			set
+			{
+				if (this._Name != value)
+				{
+					this._Name = value;
+					this.OnPropertyChanged("Name");
+				}
 			}
 		}
 	}
