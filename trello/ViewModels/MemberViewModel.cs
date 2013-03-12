@@ -1,4 +1,5 @@
 using TrelloNet;
+using trello.Extensions;
 
 namespace trello.ViewModels
 {
@@ -22,8 +23,8 @@ namespace trello.ViewModels
             FullName = member.FullName;
             Username = member.Username;
             Bio = member.Bio;
-            ImageUriThumb = string.Format("https://trello-avatars.s3.amazonaws.com/{0}/30.png", member.AvatarHash);
-            ImageUriLarge = string.Format("https://trello-avatars.s3.amazonaws.com/{0}/170.png", member.AvatarHash);
+            ImageUriThumb = member.AvatarHash.ToAvatarUrl(AvatarSize.Thumb);
+            ImageUriLarge = member.AvatarHash.ToAvatarUrl(AvatarSize.Portrait);
         }
 
         public MemberViewModel(Action.ActionMember memberCreator)
@@ -31,8 +32,8 @@ namespace trello.ViewModels
             Id = memberCreator.Id;
             FullName = memberCreator.FullName;
             Username = memberCreator.Username;
-            ImageUriThumb = string.Format("https://trello-avatars.s3.amazonaws.com/{0}/30.png", memberCreator.AvatarHash);
-            ImageUriLarge = string.Format("https://trello-avatars.s3.amazonaws.com/{0}/170.png", memberCreator.AvatarHash);
+            ImageUriThumb = memberCreator.AvatarHash.ToAvatarUrl(AvatarSize.Thumb);
+            ImageUriLarge = memberCreator.AvatarHash.ToAvatarUrl(AvatarSize.Portrait);
         }
     }
 }

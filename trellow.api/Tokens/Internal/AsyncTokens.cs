@@ -4,9 +4,9 @@ namespace TrelloNet.Internal
 {
 	internal class AsyncTokens : IAsyncTokens
 	{
-		private readonly TrelloRestClient _restClient;
+		private readonly IRequestClient _restClient;
 
-		public AsyncTokens(TrelloRestClient restClient)
+		public AsyncTokens(IRequestClient restClient)
 		{
 			_restClient = restClient;
 		}

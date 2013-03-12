@@ -3,12 +3,10 @@ using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Controls;
-using Strilanc.Value;
 using TrelloNet;
 using trello.Services;
 using trello.Views;
 using trellow.api;
-using trellow.api.Data;
 using trellow.api.Data.Services;
 using trellow.api.OAuth;
 
@@ -51,16 +49,16 @@ namespace trello.ViewModels
             if (!success)
                 Status = "Invalidating the cache...";
 
-            var validated = _settings.AccessToken != null;
+            var validated = await _api.AccessTokenIsFresh(_settings.AccessToken);
             if (validated)
             {
                 Status = "Signed in";
-                Continue();
+                AccessGranted(_settings.AccessToken);
             }
             else
             {
                 Status = "Signing in...";
-                Login();
+                AccessDenied();
             }
         }
 
@@ -83,30 +81,33 @@ namespace trello.ViewModels
                 var token = await _api.Verify(verifier);
                 if (token != null)
                 {
-                    _settings.AccessToken = token;
-                    Continue();
+                    AccessGranted(token);
                 }
                 else
                 {
-                    Login();
+                    AccessDenied();
                 }
             });
         }
 
-        private async void Continue()
+        private async void AccessGranted(OAuthToken token)
         {
-            // todo: This should probably get queried later as well if it no longer is stored
-            var profile = await _api.Async.Members.Me();
-            _settings.MemberId = profile.Id;
-            _settings.Username = profile.Username;
-            _settings.Fullname = profile.FullName;
-            _settings.AvatarHash = profile.AvatarHash;
+            _settings.AccessToken = token;
+
+            var profile = await _api.Members.Me();
+            if (profile != null)
+            {
+                _settings.MemberId = profile.Id;
+                _settings.Username = profile.Username;
+                _settings.Fullname = profile.FullName;
+                _settings.AvatarHash = profile.AvatarHash;
+            }
 
             UsingView(view => view.Browser.Visibility = Visibility.Collapsed);
-            _navigationService.Navigate(new Uri("/Views/ShellView.xaml", UriKind.Relative));
+            _navigationService.UriFor<ShellViewModel>().Navigate();
         }
 
-        private async void Login()
+        private async void AccessDenied()
         {
             var uri = await _api.GetAuthorizationUri("Trellow", Scope.ReadWriteAccount, Expiration.Never);
             if (uri != null)
@@ -115,7 +116,7 @@ namespace trello.ViewModels
             }
             else
             {
-                Status = "Could not sign in";
+                Status = "Could not sign you in.\n\nPlease ensure you have an active internet connection.";
             }
         }
 

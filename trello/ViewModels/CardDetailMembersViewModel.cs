@@ -5,6 +5,7 @@ using System.Windows.Data;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using TrelloNet;
+using trello.Extensions;
 using trello.Services;
 using trello.Services.Handlers;
 
@@ -69,7 +70,7 @@ namespace trello.ViewModels
             {
                 _progress.Show("Loading board members...");
 
-                var boardMembers = await _api.Async.Members.ForBoard(new BoardId(BoardId));
+                var boardMembers = await _api.Members.ForBoard(new BoardId(BoardId));
                 var others = boardMembers.Where(mem => _members.All(m => m.Id != mem.Id));
                 var otherVms = others.Select(mem => new CardMemberViewModel(mem, false));
 
@@ -156,7 +157,7 @@ namespace trello.ViewModels
                 FullName = member.FullName;
                 Username = member.Username;
                 Attached = attached;
-                AvatarUrl = string.Format("https://trello-avatars.s3.amazonaws.com/{0}/170.png", member.AvatarHash);
+                AvatarUrl = member.AvatarHash.ToAvatarUrl(AvatarSize.Portrait);
             }
 
             public bool Toggle()

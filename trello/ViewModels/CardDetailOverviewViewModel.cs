@@ -5,6 +5,7 @@ using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using TrelloNet;
+using trello.Extensions;
 using trello.Services;
 using trello.Services.Handlers;
 using trello.ViewModels.Activities;
@@ -12,6 +13,7 @@ using trellow.api;
 
 namespace trello.ViewModels
 {
+    [UsedImplicitly]
     public sealed class CardDetailOverviewViewModel : PivotItemViewModel,
                                                       //IConfigureTheAppBar,
                                                       IHandle<CardDescriptionChanged>,
@@ -229,8 +231,7 @@ namespace trello.ViewModels
             Due = card.Due;
             Checklists = card.Checklists.Count;
             CheckItems = card.Checklists.Aggregate(0, (i, model) => i + model.CheckItems.Count);
-            CheckItemsChecked = card.Checklists.Aggregate(0,
-                                                          (i, model) => i + model.CheckItems.Count(item => item.Checked));
+            CheckItemsChecked = card.Checklists.Aggregate(0, (i, model) => i + model.CheckItems.Count(item => item.Checked));
             Votes = card.Badges.Votes;
             Attachments = card.Attachments.Count;
             Members = card.Members.Count;
@@ -244,35 +245,20 @@ namespace trello.ViewModels
             Labels.Clear();
             Labels.AddRange(lbls);
 
-            MyAvatarUrl = string.Format("https://trello-avatars.s3.amazonaws.com/{0}/170.png", _settings.AvatarHash);
+            MyAvatarUrl = _settings.AvatarHash.ToAvatarUrl(AvatarSize.Portrait);
 
             return this;
         }
 
         protected override async void OnInitialize()
         {
-            _progress.Show("Loading comments...");
+            var types = new[] {ActionType.CommentCard};
+            var actions = await _api.Actions.ForCard(new CardId(Id), types, paging: new Paging(25, 0));
 
-            try
-            {
-                var actions = await _api.Async.Actions.ForCard(new CardId(Id),
-                                                               new[] {ActionType.CommentCard},
-                                                               paging: new Paging(25, 0));
+            var vms = actions.Select(ActivityViewModel.InitializeWith).ToList();
 
-                var vms = actions.Select(ActivityViewModel.InitializeWith).ToList();
-
-                Comments.Clear();
-                Comments.AddRange(vms);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Could not load this card.  Please ensure that you " +
-                                "have an active internet connection.");
-            }
-            finally
-            {
-                _progress.Hide();
-            }
+            Comments.Clear();
+            Comments.AddRange(vms);
         }
 
         public ApplicationBar Configure(ApplicationBar existing)
@@ -303,7 +289,7 @@ namespace trello.ViewModels
 
         public void Handle(CardLabelRemoved message)
         {
-            LabelViewModel found = Labels.FirstOrDefault(lbl => lbl.Color == message.Color.ToString());
+            var found = Labels.FirstOrDefault(lbl => lbl.Color == message.Color.ToString());
             if (found != null)
                 Labels.Remove(found);
         }
@@ -371,10 +357,8 @@ namespace trello.ViewModels
         {
             var selected = Labels.Select(lbl => (Color) Enum.Parse(typeof (Color), lbl.Color));
 
-            var model = new ChangeCardLabelsViewModel(GetView(), _eventAggregator, _api, _progress)
-            {
-                CardId = Id
-            }.Initialize(selected);
+            var model = new ChangeCardLabelsViewModel(GetView(), Id, _eventAggregator, _api, _progress)
+                .Initialize(selected);
 
             _windowManager.ShowDialog(model);
         }
@@ -382,6 +366,9 @@ namespace trello.ViewModels
         [UsedImplicitly]
         public void Comment(string comment)
         {
+            if (string.IsNullOrWhiteSpace(comment))
+                return;
+
             CommentText = null;
 
             _eventAggregator.Publish(new CardCommented

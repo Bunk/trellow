@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using TrelloNet;
-using trello.Services;
 using trellow.api;
 
 namespace trello.ViewModels
@@ -12,7 +10,6 @@ namespace trello.ViewModels
     public class BoardViewModel : PivotViewModel
     {
         private readonly ITrello _api;
-        private readonly IProgressService _progress;
         private readonly Func<BoardListViewModel> _listFactory;
         private string _name;
         private string _id;
@@ -65,36 +62,25 @@ namespace trello.ViewModels
 
         public BoardViewModel(ITrelloApiSettings settings,
                               ITrello api,
-                              IProgressService progress,
                               INavigationService navigation,
                               Func<BoardListViewModel> listFactory) : base(settings, navigation)
         {
             _api = api;
-            _progress = progress;
             _listFactory = listFactory;
         }
 
         protected override async void OnInitialize()
         {
-            _progress.Show("Loading...");
+            var board = await _api.Boards.WithId(Id);
+            if (board == null)
+                return;
 
-            try
-            {
-                var board = await _api.Async.Boards.WithId(Id);
-                var lists = await _api.Async.Lists.ForBoard(board);
+            var lists = await _api.Lists.ForBoard(board);
 
-                InitializeBoard(board);
-                InitializeLists(lists);
+            InitializeBoard(board);
+            InitializeLists(lists);
 
-                ActivateItem(Items[0]);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("The board could not be loaded.  Please " +
-                                "ensure that you have an active internet connection.");
-            }
-
-            _progress.Hide();
+            ActivateItem(Items[0]);
         }
 
         public BoardViewModel InitializeLists(IEnumerable<List> lists)

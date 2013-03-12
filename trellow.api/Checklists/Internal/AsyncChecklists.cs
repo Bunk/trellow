@@ -5,9 +5,9 @@ namespace TrelloNet.Internal
 {
 	internal class AsyncChecklists : IAsyncChecklists
 	{
-		private readonly TrelloRestClient _restClient;
+		private readonly IRequestClient _restClient;
 
-		public AsyncChecklists(TrelloRestClient restClient)
+		public AsyncChecklists(IRequestClient restClient)
 		{
 			_restClient = restClient;
 		}

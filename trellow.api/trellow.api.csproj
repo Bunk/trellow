@@ -255,6 +255,8 @@
     <Compile Include="Internal\EnumExtentions.cs" />
     <Compile Include="Internal\ExpirationExtentions.cs" />
     <Compile Include="Internal\Guard.cs" />
+    <Compile Include="Internal\OAuthRestClient.cs" />
+    <Compile Include="IRequestClient.cs" />
     <Compile Include="Internal\JsonCreationConverter.cs" />
     <Compile Include="Internal\MemberTokenAuthenticator.cs" />
     <Compile Include="Internal\ReadFilter.cs" />
@@ -263,6 +265,7 @@
     <Compile Include="Internal\TrelloDeserializer.cs" />
     <Compile Include="Internal\TrelloEnumConverter.cs" />
     <Compile Include="Internal\TrelloRestClient.cs" />
+    <Compile Include="IOAuth.cs" />
     <Compile Include="ITrello.cs" />
     <Compile Include="ListName.cs" />
     <Compile Include="Lists\IAsyncLists.cs" />
@@ -325,7 +328,7 @@
     <Compile Include="Notifications\RemovedFromBoardNotification.cs" />
     <Compile Include="Notifications\RemovedFromCardNotification.cs" />
     <Compile Include="Notifications\RemovedFromOrganizationNotification.cs" />
-    <Compile Include="OAuth\OAuthToken.cs" />
+    <Compile Include="OAuthToken.cs" />
     <Compile Include="Organizations\IAsyncOrganizations.cs" />
     <Compile Include="Organizations\Internal\AsyncOrganizations.cs" />
     <Compile Include="Organizations\Internal\Organizations.cs" />

@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
 using TrelloNet;
 using trello.Assets;
-using trello.Services;
 
 namespace trello.ViewModels
 {
@@ -17,14 +14,13 @@ namespace trello.ViewModels
     {
         private readonly ITrello _api;
         private readonly INavigationService _navigationService;
-        private readonly IProgressService _progress;
 
-        public MyBoardsViewModel(INavigationService navigationService,
-                                 IProgressService progress,
-                                 ITrello api)
+        [UsedImplicitly]
+        public IObservableCollection<BoardViewModel> Boards { get; private set; }
+
+        public MyBoardsViewModel(INavigationService navigationService, ITrello api)
         {
             _navigationService = navigationService;
-            _progress = progress;
             _api = api;
 
             DisplayName = "boards";
@@ -32,18 +28,21 @@ namespace trello.ViewModels
             Boards = new BindableCollection<BoardViewModel>();
         }
 
-        public IObservableCollection<BoardViewModel> Boards { get; private set; }
+        protected override void OnInitialize()
+        {
+            RefreshBoards();
+        }
 
         public ApplicationBar Configure(ApplicationBar existing)
         {
-            var refresh = new ApplicationBarIconButton(new AssetUri("Icons/dark/appbar.refresh.rest.png"))
-            {Text = "refresh"};
+            var refresh = new ApplicationBarIconButton(new AssetUri("Icons/dark/appbar.refresh.rest.png")) { Text = "refresh" };
             refresh.Click += (sender, args) => RefreshBoards();
             existing.Buttons.Add(refresh);
 
             return existing;
         }
 
+        [UsedImplicitly]
         public void Open(ListBoxItemTapEventArgs args)
         {
             var context = args.Item.DataContext as BoardViewModel;
@@ -55,33 +54,13 @@ namespace trello.ViewModels
                 .Navigate();
         }
 
-        protected override void OnInitialize()
-        {
-            RefreshBoards();
-        }
-
+        [UsedImplicitly]
         private async void RefreshBoards()
         {
-            _progress.Show("Refreshing...");
+            var boards = (await _api.Boards.ForMe());
 
-            try
-            {
-                var boards = (await _api.Async.Boards.ForMe());
-
-                Boards.Clear();
-                Boards.AddRange(boards.Select(BuildBoard));
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("Your boards could not be loaded at this time.  " +
-                                "Please ensure that you have an internet connection.");
-            }
-            _progress.Hide();
-        }
-
-        private BoardViewModel BuildBoard(Board board)
-        {
-            return new BoardViewModel().Initialize(board);
+            Boards.Clear();
+            Boards.AddRange(boards.Select(b => new BoardViewModel().Initialize(b)));
         }
 
         public class BoardViewModel : PropertyChangedBase

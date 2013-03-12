@@ -12,7 +12,7 @@ namespace trello.Services
 
         May<T> Get<T>(string key);
 
-        void Set<T>(string key, May<T> value);
+        May<T> Set<T>(string key, May<T> value);
 
         Task<bool> Initialize();
     }
@@ -34,7 +34,7 @@ namespace trello.Services
                        : May<T>.NoValue;
         }
 
-        public void Set<T>(string key, May<T> value)
+        public May<T> Set<T>(string key, May<T> value)
         {
             value.IfHasValueThenDo(x =>
             {
@@ -42,6 +42,8 @@ namespace trello.Services
                 if (!existing.HasValue || IsDifferent(existing.ForceGetValue(), x))
                     Store(key, x);
             });
+
+            return value;
         }
 
         public virtual Task<bool> Initialize()

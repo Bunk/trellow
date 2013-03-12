@@ -5,9 +5,9 @@ namespace TrelloNet.Internal
 {
     internal class AsyncActions : IAsyncActions
     {
-        private readonly TrelloRestClient _restClient;
+        private readonly IRequestClient _restClient;
 
-        public AsyncActions(TrelloRestClient restClient)
+        public AsyncActions(IRequestClient restClient)
         {
             _restClient = restClient;
         }

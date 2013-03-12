@@ -5,10 +5,11 @@ using System.Windows;
 using Caliburn.Micro;
 using Microsoft.Phone.Controls;
 using TrelloNet;
+using TrelloNet.Internal;
+using trello.Extensions;
 using trello.Services;
 using trello.Services.Cache;
 using trello.Services.Handlers;
-using trello.Services.Stages;
 using trello.ViewModels;
 using trellow.api;
 using trellow.api.Data;
@@ -27,19 +28,14 @@ namespace trello
             _container.Instance(RootFrame);
 
             _container.Singleton<ICache, FileSystemCache>();
-            _container.Singleton<IProgressService, ProgressService>();
-            _container.Singleton<INetworkService, NetworkService>();
-
-            _container.Singleton<ProgressIndicatorStage>();
-            _container.Singleton<CacheStage>();
-
+            
+            // View Models
             _container.Singleton<SplashViewModel>();
             _container.Singleton<ShellViewModel>();
             _container.Singleton<MyBoardsViewModel>();
             _container.Singleton<MyCardsViewModel>();
             _container.Singleton<MessageListViewModel>();
             _container.Singleton<ProfileViewModel>();
-
             _container.PerRequest<BoardViewModel>();
             _container.PerRequest<BoardListViewModel>();
             _container.PerRequest<CardViewModel>();
@@ -52,23 +48,36 @@ namespace trello
             _container.PerRequest<ChecklistItemViewModel>();
             _container.PerRequest<AttachmentViewModel>();
 
+            // Event handlers
             _container.Singleton<CardDetailCommandHandler>();
 
+            // Request handling
+            _container.Singleton<INetworkService, NetworkService>();
+            _container.Singleton<IProgressService, ProgressService>();
             _container.Singleton<ITrelloApiSettings, TrelloSettings>();
-            _container.Handler<ITrello>(container =>
-            {
-                var settings = (ITrelloApiSettings) container.GetInstance(typeof (ITrelloApiSettings), null);
-                var api = new Trello(settings.ApiConsumerKey, settings.ApiConsumerSecret);
-                if (settings.AccessToken != null)
-                    api.Authorize(settings.AccessToken);
+            _container.Singleton<ITrello, Trello>();
 
-                return api;
-            });
+            var network = _container.Get<INetworkService>();
+            var client = BuildRequest(_container);
+            var trello = new Trello(network, client);
+            _container.Instance(trello);
+
+            // This builds the pipeline for trello facade requests
+            _container.Handler<IRequestClient>(BuildRequest);
 
             TelerikConventions.Install();
 
             // Force creation
             _container.GetInstance(typeof (CardDetailCommandHandler), null);
+        }
+
+        private static IRequestClient BuildRequest(SimpleContainer container)
+        {
+            var settings = container.Get<ITrelloApiSettings>();
+            var progress = container.Get<IProgressService>();
+            var handler = new TrelloRestClient(settings);
+
+            return new ErrorHandlingRestClient(new ProgressAwareRestClient(handler, progress));
         }
 
         protected override PhoneApplicationFrame CreatePhoneApplicationFrame()

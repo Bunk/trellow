@@ -1,18 +1,19 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace TrelloNet.Internal
 {
-	internal class AsyncMembers : IAsyncMembers
+	public class AsyncMembers : IAsyncMembers
 	{
-		private readonly TrelloRestClient _restClient;
+		private readonly IRequestClient _restClient;
 
-		internal AsyncMembers(TrelloRestClient restClient)
+	    public AsyncMembers(IRequestClient restClient)
 		{
-			_restClient = restClient;
+		    _restClient = restClient;
 		}
 
-		public Task<Member> WithId(string memberIdOrUsername)
+	    public Task<Member> WithId(string memberIdOrUsername)
 		{
 			return _restClient.RequestAsync<Member>(new MembersRequest(memberIdOrUsername));
 		}

@@ -99,11 +99,10 @@
     <Compile Include="Assets\AssetUri.cs" />
     <Compile Include="AsyncLazy.cs" />
     <Compile Include="Bootstrapper.cs" />
-    <Compile Include="Caliburn.Micro\ContainerExtensions.cs" />
     <Compile Include="Caliburn.Micro\ExtensionMethods.cs" />
-    <Compile Include="Caliburn.Micro\SimpleContainer.cs" />
     <Compile Include="Caliburn.Micro\TelerikConventions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Extensions\SimpleContainerExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="KeyEqualityComparer.cs" />
     <Compile Include="LocalizedStrings.cs" />
@@ -117,6 +116,9 @@
     <Compile Include="SampleData\SampleDataSource\SampleDataSource.xaml.cs">
       <DependentUpon>SampleDataSource.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Services\Cache\CachingRestClient.cs" />
+    <Compile Include="Services\Cache\ErrorHandlingRestClient.cs" />
+    <Compile Include="Services\Cache\ProgressAwareRestClient.cs" />
     <Compile Include="Services\Handlers\CardDueDateChanged.cs" />
     <Compile Include="Services\Handlers\CardLabelAdded.cs" />
     <Compile Include="Services\Handlers\CardLabelRemoved.cs" />
@@ -141,6 +143,7 @@
     <Compile Include="ViewModels\CardDetailPivotViewModel.cs" />
     <Compile Include="ViewModels\ChangeCardDescriptionViewModel.cs" />
     <Compile Include="ViewModels\LabelViewModel.cs" />
+    <Compile Include="ViewModels\MyNotificationsViewModel.cs" />
     <Compile Include="ViewModels\MyBoardsViewModel.cs" />
     <Compile Include="ViewModels\BoardViewModel.cs" />
     <Compile Include="Services\Handlers\CardDetailCommandHandler.cs" />
@@ -157,6 +160,13 @@
     <Compile Include="ViewModels\MemberViewModel.cs" />
     <Compile Include="ViewModels\MessageListViewModel.cs" />
     <Compile Include="Services\Handlers\CardNameChanged.cs" />
+    <Compile Include="ViewModels\Notifications\NotificationViewModel.cs" />
+    <Compile Include="ViewModels\Notifications\AddedToBoardNotificationViewModel.cs" />
+    <Compile Include="ViewModels\Notifications\AddedToCardNotificationViewModel.cs" />
+    <Compile Include="ViewModels\Notifications\ChangeCardNotificationViewModel.cs" />
+    <Compile Include="ViewModels\Notifications\CloseBoardNotificationViewModel.cs" />
+    <Compile Include="ViewModels\Notifications\CommentCardNotificationViewModel.cs" />
+    <Compile Include="ViewModels\Notifications\MentionedOnCardNotificationViewModel.cs" />
     <Compile Include="ViewModels\PivotFix.cs" />
     <Compile Include="ViewModels\PivotViewModel.cs" />
     <Compile Include="ViewModels\ProfileViewModel.cs" />
@@ -204,9 +214,6 @@
     <Compile Include="Views\BoardCardView.xaml.cs">
       <DependentUpon>BoardCardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CardDetail\Activity.xaml.cs">
-      <DependentUpon>Activity.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\MyCardsView.xaml.cs">
       <DependentUpon>MyCardsView.xaml</DependentUpon>
     </Compile>
@@ -241,6 +248,27 @@
     </Compile>
     <Compile Include="Views\MessageListView.xaml.cs">
       <DependentUpon>MessageListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MyNotificationsView.xaml.cs">
+      <DependentUpon>MyNotificationsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notifications\AddedToBoardNotificationView.xaml.cs">
+      <DependentUpon>AddedToBoardNotificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notifications\AddedToCardNotificationView.xaml.cs">
+      <DependentUpon>AddedToCardNotificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notifications\ChangeCardNotificationView.xaml.cs">
+      <DependentUpon>ChangeCardNotificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notifications\CloseBoardNotificationView.xaml.cs">
+      <DependentUpon>CloseBoardNotificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notifications\CommentCardNotificationView.xaml.cs">
+      <DependentUpon>CommentCardNotificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notifications\MentionedOnCardNotificationView.xaml.cs">
+      <DependentUpon>MentionedOnCardNotificationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ProfileView.xaml.cs">
       <DependentUpon>ProfileView.xaml</DependentUpon>
@@ -519,10 +547,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CardDetail\Activity.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\MyCardsView.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
@@ -562,6 +586,34 @@
     <Page Include="Views\MessageListView.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MyNotificationsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Notifications\AddedToBoardNotificationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Notifications\AddedToCardNotificationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Notifications\ChangeCardNotificationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Notifications\CloseBoardNotificationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Notifications\CommentCardNotificationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Notifications\MentionedOnCardNotificationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ProfileView.xaml">
       <SubType>Designer</SubType>

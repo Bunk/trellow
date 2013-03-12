@@ -15,6 +15,8 @@ namespace trellow.api
 
         string AvatarHash { get; set; }
 
+        string ApiRoot { get; }
+
         string ApiConsumerKey { get; }
 
         string ApiConsumerSecret { get; }
@@ -56,6 +58,11 @@ namespace trellow.api
         {
             get { return GetOrDefault<string>("AvatarHash"); }
             set { Set("AvatarHash", value);}
+        }
+
+        public string ApiRoot
+        {
+            get { return "https://trello.com/1"; }
         }
 
         public string ApiConsumerKey

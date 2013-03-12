@@ -5,9 +5,9 @@ namespace TrelloNet.Internal
 {
 	internal class AsyncNotifications : IAsyncNotifications
 	{
-		private readonly TrelloRestClient _restClient;
+		private readonly IRequestClient _restClient;
 
-		public AsyncNotifications(TrelloRestClient restClient)
+		public AsyncNotifications(IRequestClient restClient)
 		{
 			_restClient = restClient;
 		}

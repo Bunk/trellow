@@ -21,11 +21,13 @@ namespace trello.ViewModels
 
         public IObservableCollection<Label> Labels { get; set; }
 
-        public ChangeCardLabelsViewModel(object root, IEventAggregator eventAggregator, ITrello api, IProgressService progress) : base(root)
+        public ChangeCardLabelsViewModel(object root, string cardId, IEventAggregator eventAggregator, ITrello api, IProgressService progress) : base(root)
         {
             _eventAggregator = eventAggregator;
             _api = api;
             _progress = progress;
+
+            CardId = cardId;
 
             Labels = new BindableCollection<Label>();
         }
@@ -35,7 +37,7 @@ namespace trello.ViewModels
             _progress.Show("Loading names...");
             try
             {
-                var board = await _api.Async.Boards.ForCard(new CardId(CardId));
+                var board = await _api.Boards.ForCard(new CardId(CardId));
                 foreach (var lbl in Labels)
                 {
                     string name;
