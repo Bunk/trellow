@@ -50,7 +50,7 @@ namespace trello.ViewModels
             Cards = new BindableCollection<CardViewModel>();
         }
 
-        protected override void OnViewLoaded(object view)
+        protected override void OnInitialize()
         {
             RefreshLists();
         }

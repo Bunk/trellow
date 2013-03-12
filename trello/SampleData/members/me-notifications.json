@@ -1,0 +1,59 @@
+﻿[
+   {
+      "id":"512e4aa0affa44b34d002634",
+      "unread":false,
+      "type":"cardDueSoon",
+      "date":"2013-02-27T18:04:16.906Z",
+      "data":{
+         "board":{
+            "name":"Hopes & Dreams",
+            "id":"50e349854fe3a7266b001207"
+         },
+         "card":{
+            "due":"2013-02-28T18:00:00.000Z",
+            "idShort":1,
+            "name":"Finish this WP8 Trello app!",
+            "id":"50e349adfd6ecef00d004095"
+         }
+      },
+      "idMemberCreator":null
+   },
+   {
+      "id":"5121edb83757804b05002e1a",
+      "unread":false,
+      "type":"cardDueSoon",
+      "date":"2013-02-18T09:00:40.269Z",
+      "data":{
+         "board":{
+            "name":"Welcome Board",
+            "id":"50e2676ad8fbe1a157003e63"
+         },
+         "card":{
+            "due":"2013-02-19T09:00:00.000Z",
+            "idShort":4,
+            "name":"You can attach pictures and files...",
+            "id":"50e2676ad8fbe1a157003e73"
+         }
+      },
+      "idMemberCreator":null
+   },
+   {
+      "id":"511bd582dd7d66e3520057b2",
+      "unread":false,
+      "type":"cardDueSoon",
+      "date":"2013-02-13T18:03:46.328Z",
+      "data":{
+         "board":{
+            "name":"Welcome Board",
+            "id":"50e2676ad8fbe1a157003e63"
+         },
+         "card":{
+            "due":"2013-02-14T18:00:00.000Z",
+            "idShort":4,
+            "name":"You can attach pictures and files...",
+            "id":"50e2676ad8fbe1a157003e73"
+         }
+      },
+      "idMemberCreator":null
+   }
+]

@@ -1,0 +1,26 @@
+﻿{
+id: "513e44ba65025584560008dc",
+identifier: "Trellow",
+idMember: "50e26769d8fbe1a157003e62",
+dateCreated: "2013-03-11T20:55:22.468Z",
+dateExpires: null,
+permissions: 
+    [{
+        idModel: "50e26769d8fbe1a157003e62",
+        modelType: "Member",
+        read: true,
+        write: true
+    },
+    {
+        idModel: "*",
+        modelType: "Board",
+        read: true,
+        write: true
+    },
+    {
+        idModel: "*",
+        modelType: "Organization",
+        read: true,
+        write: true
+    }]
+}

@@ -33,6 +33,7 @@ namespace trello.ViewModels
 
         public bool IsCover { get; set; }
 
+        [UsedImplicitly]
         public async void Launch()
         {
             var success = await Launcher.LaunchUriAsync(Uri);
@@ -42,7 +43,7 @@ namespace trello.ViewModels
                     "Connection Problem", MessageBoxButton.OK);
         }
 
-        public AttachmentViewModel InitializeWith(Card.Attachment att)
+        public AttachmentViewModel InitializeWith(Card.Attachment att, string coverId)
         {
             if (att.Previews.Any())
             {
@@ -60,6 +61,7 @@ namespace trello.ViewModels
             Date = att.Date != null ? att.Date.Value.ToLocalTime() : (DateTime?)null;
             Bytes = att.Bytes;
             Uri = att.Url.ToUri();
+            IsCover = att.Id == coverId;
 
             var extension = Path.GetExtension(att.Url);
             if (extension != null)

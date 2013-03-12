@@ -49,6 +49,10 @@ namespace trello.ViewModels
             if (!success)
                 Status = "Invalidating the cache...";
 
+#if DISCONNECTED
+            _settings.AccessToken = new OAuthToken("publicKey", "privateKey");
+#endif
+
             var validated = await _api.AccessTokenIsFresh(_settings.AccessToken);
             if (validated)
             {

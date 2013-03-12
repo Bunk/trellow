@@ -19,7 +19,8 @@ namespace trello.ViewModels
 
         public CardDetailAttachmentsViewModel Initialize(Card card)
         {
-            var atts = card.Attachments.Select(att => new AttachmentViewModel().InitializeWith(att));
+            var cover = card.IdAttachmentCover;
+            var atts = card.Attachments.Select(att => new AttachmentViewModel().InitializeWith(att, cover));
             Attachments.Clear();
             Attachments.AddRange(atts);
 

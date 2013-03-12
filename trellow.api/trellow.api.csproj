@@ -84,6 +84,36 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'local|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\local\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'local|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\local\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'local|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\local\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="Actions\Action.cs" />
     <Compile Include="Actions\ActionType.cs" />
@@ -100,10 +130,8 @@
     <Compile Include="Actions\CreateOrganizationAction.cs" />
     <Compile Include="Actions\DeleteAttachmentFromCardAction.cs" />
     <Compile Include="Actions\IActionId.cs" />
-    <Compile Include="Actions\IActions.cs" />
     <Compile Include="Actions\IAsyncActions.cs" />
     <Compile Include="Actions\Internal\ActionConverter.cs" />
-    <Compile Include="Actions\Internal\Actions.cs" />
     <Compile Include="Actions\Internal\ActionsChangeTextRequest.cs" />
     <Compile Include="Actions\Internal\ActionsDeleteRequest.cs" />
     <Compile Include="Actions\Internal\ActionsForBoardRequest.cs" />
@@ -245,10 +273,6 @@
     <Compile Include="Data\Stages\ResponseContext.cs" />
     <Compile Include="Data\Services\RestClientExtensions.cs" />
     <Compile Include="Expiration.cs" />
-    <Compile Include="Extensions\AutoPaging\AutoPaged.cs" />
-    <Compile Include="Extensions\AutoPaging\AutoPagedActions.cs" />
-    <Compile Include="Extensions\AutoPaging\AutoPagedNotifications.cs" />
-    <Compile Include="Extensions\AutoPaging\AutoPagingExtensions.cs" />
     <Compile Include="IAsyncTrello.cs" />
     <Compile Include="Internal\AsyncTrello.cs" />
     <Compile Include="Internal\BooleanExtensions.cs" />
