@@ -26,13 +26,13 @@
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
 
-				<Image Margin="0,0,15,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="55" Height="55">
+				<Image Margin="0,0,15,0" VerticalAlignment="Top" HorizontalAlignment="Center" Width="70" Height="70">
 					<Image.Source>
 						<BitmapImage UriSource="{Binding Member.ImageUriLarge}" />
 					</Image.Source>
 				</Image>
 
-				<TextBlock Grid.Column="1" TextWrapping="Wrap" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeMedium}" VerticalAlignment="Center" >
+				<TextBlock Grid.Column="1" TextWrapping="Wrap" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeMedium}" VerticalAlignment="Top" >
 					<TextBlock.Inlines>
 						<Run Text="{Binding Member.FullName}" Foreground="{StaticResource PhoneAccentBrush}" />
 					</TextBlock.Inlines>
@@ -53,7 +53,7 @@
 					<TextBlock Text="{Binding Date, StringFormat='\{0:d MMMM\} at \{0:h\:mm tt\}'}" FontFamily="{StaticResource PhoneFontFamilyLight}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeSmall}" />
 					<TextBlock Visibility="{Binding LastEditedDate, Converter={StaticResource VisibilityConverter}}" FontFamily="{StaticResource PhoneFontFamilyLight}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeSmall}">
 						<TextBlock.Inlines>
-							<Run Text="- edited" />
+							<Run Text=" edited on" />
 							<Run Text="{Binding LastEditedDate, StringFormat='\{0:d MMMM\} at \{0:h\:mm tt\}'}" />
 						</TextBlock.Inlines>
 					</TextBlock>

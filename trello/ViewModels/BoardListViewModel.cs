@@ -9,7 +9,7 @@ using trello.Assets;
 namespace trello.ViewModels
 {
     [UsedImplicitly]
-    public class BoardListViewModel : PivotItemViewModel, IConfigureTheAppBar
+    public class BoardListViewModel : PivotItemViewModel//, IConfigureTheAppBar
     {
         private readonly ITrello _api;
         private readonly Func<CardViewModel> _cardFactory;
