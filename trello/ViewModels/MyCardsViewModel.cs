@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
@@ -14,7 +13,6 @@ namespace trello.ViewModels
     {
         private readonly ITrello _api;
         private readonly Func<CardViewModel> _cardFactory;
-        private readonly Random _randomizer;
 
         public IObservableCollection<IGrouping<string, CardViewModel>> Cards { get; set; }
 
@@ -26,7 +24,6 @@ namespace trello.ViewModels
             DisplayName = "cards";
 
             Cards = new BindableCollection<IGrouping<string, CardViewModel>>();
-            _randomizer = new Random();
         }
 
         protected override void OnInitialize()
