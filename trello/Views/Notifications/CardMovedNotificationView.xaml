@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="trello.Views.Notifications.MentionedOnCardNotificationView"
+﻿<UserControl x:Class="trello.Views.Notifications.CardMovedNotificationView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -16,7 +16,6 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="Auto" />
@@ -24,20 +23,19 @@
 		</Grid.ColumnDefinitions>
 		<Image Grid.RowSpan="2" Grid.Column="0" Width="70" Height="70" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0,0,15,0">
 			<Image.Source>
-				<BitmapImage UriSource="{Binding MemberCreatorAvatarUri}" />
+				<BitmapImage UriSource="{Binding MemberCreatorAvatarUrl}" />
 			</Image.Source>
 		</Image>
         <TextBlock Grid.Row="0" Grid.Column="1" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap">
 			<TextBlock.Inlines>
 				<Run Text="{Binding MemberCreator}" FontWeight="Bold" />
-				<Run Text="mentioned you on " />
+				<Run Text="moved" />
 				<Run Text="{Binding Card.Name}" FontWeight="SemiBold" />
+				<Run Text="to" />
+				<Run Text="{Binding ToList.Name}" FontWeight="SemiBold" />
 			</TextBlock.Inlines>
 		</TextBlock>
-		<Border Grid.Row="1" Grid.Column="1" Padding="10" Background="{StaticResource PhoneChromeBrush}" BorderThickness="5" CornerRadius="10">
-			<TextBlock Text="{Binding Text}" TextWrapping="Wrap" />
-		</Border>
-		<TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Date, Converter={StaticResource RelativeTimeConverter}}" FontSize="{StaticResource PhoneFontSizeSmall}" Foreground="{StaticResource PhoneSubtleBrush}" />
+		<TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding Date, Converter={StaticResource RelativeTimeConverter}}" FontSize="{StaticResource PhoneFontSizeSmall}" Foreground="{StaticResource PhoneSubtleBrush}" />
 
 		<i:Interaction.Triggers>
 			<triggers:GestureServiceTrigger Gesture="Tap">

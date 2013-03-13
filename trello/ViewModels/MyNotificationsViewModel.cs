@@ -3,26 +3,27 @@ using System.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
+using Strilanc.Value;
 using TrelloNet;
 using trello.Assets;
 using trello.ViewModels.Notifications;
-using Strilanc.Value;
 
 namespace trello.ViewModels
 {
-    public class MyNotificationsViewModel : PivotItemViewModel, IConfigureTheAppBar
+    public sealed class MyNotificationsViewModel : PivotItemViewModel, IConfigureTheAppBar
     {
         private readonly INavigationService _navigation;
         private readonly ITrello _api;
 
         [UsedImplicitly]
-        public IObservableCollection<NotificationViewModel> Notifications { get; set; } 
+        public IObservableCollection<NotificationViewModel> Notifications { get; set; }
 
         public MyNotificationsViewModel(INavigationService navigation, ITrello api)
         {
             _navigation = navigation;
             _api = api;
 
+            DisplayName = "notifications";
             Notifications = new BindableCollection<NotificationViewModel>();
         }
 
@@ -33,7 +34,10 @@ namespace trello.ViewModels
 
         public ApplicationBar Configure(ApplicationBar existing)
         {
-            var refresh = new ApplicationBarIconButton(new AssetUri("Icons/dark/appbar.refresh.rest.png")) { Text = "refresh" };
+            var refresh = new ApplicationBarIconButton(new AssetUri("Icons/dark/appbar.refresh.rest.png"))
+            {
+                Text = "refresh"
+            };
             refresh.Click += (sender, args) => RefreshNotifications();
             existing.Buttons.Add(refresh);
 
@@ -44,16 +48,16 @@ namespace trello.ViewModels
         public void OpenCard(string cardId)
         {
             _navigation.UriFor<CardDetailPivotViewModel>()
-                .WithParam(vm => vm.Id, cardId)
-                .Navigate();
+                       .WithParam(vm => vm.Id, cardId)
+                       .Navigate();
         }
 
         [UsedImplicitly]
         public void OpenBoard(string boardId)
         {
             _navigation.UriFor<BoardViewModel>()
-                .WithParam(vm => vm.Id, boardId)
-                .Navigate();
+                       .WithParam(vm => vm.Id, boardId)
+                       .Navigate();
         }
 
         private async void RefreshNotifications()
@@ -67,11 +71,26 @@ namespace trello.ViewModels
                 NotificationType.CommentCard,
                 NotificationType.MentionedOnCard
             };
-            var notifications = await _api.Notifications.ForMe(types, paging: new Paging(15, 0));
+            var notifications = (await _api.Notifications.ForMe(types, paging: new Paging(15, 0))).ToList();
             var vms = notifications.Select(NotificationViewModel.Create).WhereHasValue();
 
             Notifications.Clear();
             Notifications.AddRange(vms);
-        } 
+
+            UpdateLiveTile(notifications);
+        }
+
+        private static void UpdateLiveTile(ICollection<Notification> notifications)
+        {
+            var tile = ShellTile.ActiveTiles.First();
+
+            var data = new StandardTileData
+            {
+                Count = notifications.Count,
+                BackTitle = "",
+                BackContent = ""
+            };
+            tile.Update(data);
+        }
     }
 }

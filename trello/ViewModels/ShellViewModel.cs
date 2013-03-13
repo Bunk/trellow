@@ -1,16 +1,19 @@
 ﻿using Caliburn.Micro;
+using JetBrains.Annotations;
 using trellow.api;
 
 namespace trello.ViewModels
 {
+    [UsedImplicitly]
     public class ShellViewModel : PivotViewModel
     {
         private readonly MyBoardsViewModel _myBoards;
         private readonly MyCardsViewModel _myCards;
-        private readonly MessageListViewModel _messages;
+        private readonly MyNotificationsViewModel _myNotifications;
         private string _subtitle;
         private string _title;
 
+        [UsedImplicitly]
         public string Title
         {
             get { return _title; }
@@ -22,6 +25,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public string Subtitle
         {
             get { return _subtitle; }
@@ -37,12 +41,12 @@ namespace trello.ViewModels
                               INavigationService navigation,
                               MyBoardsViewModel myBoards,
                               MyCardsViewModel myCards,
-                              MessageListViewModel messages)
+                              MyNotificationsViewModel myNotifications)
             : base(settings, navigation)
         {
             _myBoards = myBoards;
             _myCards = myCards;
-            _messages = messages;
+            _myNotifications = myNotifications;
 
             Title = "TRELLOW";
             Subtitle = settings.Fullname;
@@ -54,7 +58,7 @@ namespace trello.ViewModels
 
             Items.Add(_myBoards);
             Items.Add(_myCards);
-            Items.Add(_messages);
+            Items.Add(_myNotifications);
 
             ActivateItem(_myBoards);
 

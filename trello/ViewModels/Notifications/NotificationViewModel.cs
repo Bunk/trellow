@@ -1,8 +1,10 @@
 using System;
 using System.Reflection;
+using Caliburn.Micro;
 using TrelloNet;
 using JetBrains.Annotations;
 using Strilanc.Value;
+using trello.Extensions;
 
 namespace trello.ViewModels.Notifications
 {
@@ -20,36 +22,35 @@ namespace trello.ViewModels.Notifications
         [UsedImplicitly]
         public string IdMemberCreator { get; set; }
 
+        [UsedImplicitly]
+        public string MemberCreator { get; set; }
+
+        [UsedImplicitly]
+        public string MemberCreatorAvatarUrl { get; set; }
+
         public static May<NotificationViewModel> Create(Notification dto)
         {
             // Factory method... use convention '{NotifictionName}' + 'ViewModel'
             var dtoType = dto.GetType();
-            var vmName = dtoType.Name + "ViewModel";
+            var vmName = "trello.ViewModels.Notifications." + dtoType.Name + "ViewModel";
             var type = Assembly.GetExecutingAssembly().GetType(vmName, false);
-            if (type == null)
+            if (type == null || type == typeof(NotificationViewModel)) // abstract type
                 return May<NotificationViewModel>.NoValue;
 
-            var ctor = type.GetConstructor(Type.EmptyTypes);
-            if (ctor == null)
-                return May<NotificationViewModel>.NoValue;
-
-            var instance = ctor.Invoke(null) as NotificationViewModel;
+            // Try to use the container
+            var instance = IoC.GetInstance(type, null) as NotificationViewModel;
             if (instance == null)
                 return May<NotificationViewModel>.NoValue;
 
-            instance.Init(dto);
-
-            var initMethod = type.GetMethod("Init", new[] {dtoType});
-            if (initMethod != null)
-                initMethod.Invoke(instance, new object[] {dto});
-
-            return instance;
+            return instance.Init(dto);
         }
 
         protected virtual NotificationViewModel Init(Notification dto)
         {
             Id = dto.Id;
             IdMemberCreator = dto.IdMemberCreator;
+            MemberCreator = dto.MemberCreator.FullName;
+            MemberCreatorAvatarUrl = dto.MemberCreator.AvatarHash.ToAvatarUrl();
             Date = dto.Date;
             Unread = dto.Unread;
 

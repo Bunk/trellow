@@ -189,7 +189,6 @@
     <Compile Include="Services\Handlers\CardDescriptionChanged.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\MemberViewModel.cs" />
-    <Compile Include="ViewModels\MessageListViewModel.cs" />
     <Compile Include="Services\Handlers\CardNameChanged.cs" />
     <Compile Include="ViewModels\Notifications\NotificationViewModel.cs" />
     <Compile Include="ViewModels\Notifications\AddedToBoardNotificationViewModel.cs" />
@@ -288,6 +287,9 @@
     </Compile>
     <Compile Include="Views\Notifications\AddedToCardNotificationView.xaml.cs">
       <DependentUpon>AddedToCardNotificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notifications\CardMovedNotificationView.xaml.cs">
+      <DependentUpon>CardMovedNotificationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Notifications\ChangeCardNotificationView.xaml.cs">
       <DependentUpon>ChangeCardNotificationView.xaml</DependentUpon>
@@ -630,6 +632,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Notifications\AddedToCardNotificationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Notifications\CardMovedNotificationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
