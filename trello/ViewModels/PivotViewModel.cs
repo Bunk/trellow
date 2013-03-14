@@ -86,12 +86,21 @@ namespace trello.ViewModels
             signout.Click += (sender, args) => SignOut();
             bar.MenuItems.Add(signout);
 
+            var about = new ApplicationBarMenuItem("about");
+            about.Click += (sender, args) => About();
+            bar.MenuItems.Add(about);
+
             return bar;
+        }
+
+        private void About()
+        {
+            Navigation.UriFor<AboutViewModel>().Navigate();
         }
 
         private void OpenProfile()
         {
-            Navigation.Navigate(new Uri("/Views/ProfileView.xaml", UriKind.Relative));
+            Navigation.UriFor<ProfileViewModel>().Navigate();
         }
 
         private void OpenSettings()
@@ -105,11 +114,10 @@ namespace trello.ViewModels
                 "All cached data will be removed from your phone and must be loaded again next time you sign in.\n\n" +
                 "Do you really want to sign out?",
                 "confirm sign out", MessageBoxButton.OKCancel);
-            if (result == MessageBoxResult.OK)
-            {
-                Settings.AccessToken = null;
-                Navigation.Navigate(new Uri("/Views/SplashView.xaml", UriKind.Relative));
-            }
+            if (result != MessageBoxResult.OK) return;
+
+            Settings.AccessToken = null;
+            Navigation.UriFor<SplashViewModel>().Navigate();
         }
 
         protected void UsingView<T>(Action<T> action) where T : class

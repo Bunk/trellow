@@ -32,6 +32,7 @@ namespace trello
             
             // View Models
             _container.Singleton<SplashViewModel>();
+            _container.Singleton<AboutViewModel>();
             _container.Singleton<ShellViewModel>();
             _container.Singleton<MyBoardsViewModel>();
             _container.Singleton<MyCardsViewModel>();
