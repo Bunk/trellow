@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using Strilanc.Value;
 using TrelloNet;
+using TrelloNet.Internal;
 using trello.Assets;
 using trello.ViewModels.Boards;
 using trello.ViewModels.Notifications;
@@ -72,7 +73,7 @@ namespace trello.ViewModels
                 NotificationType.CommentCard,
                 NotificationType.MentionedOnCard
             };
-            var notifications = (await _api.Notifications.ForMe(types, paging: new Paging(15, 0))).ToList();
+            var notifications = (await _api.Notifications.ForMe(types, ReadFilter.Unread, new Paging(15, 0))).ToList();
             var vms = notifications.Select(NotificationViewModel.Create).WhereHasValue();
 
             Notifications.Clear();
