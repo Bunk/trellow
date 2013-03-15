@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using trello.Services.Handlers;
@@ -9,15 +10,20 @@ using trellow.api.Cards;
 namespace trello.ViewModels
 {
     [UsedImplicitly]
-    public class ChecklistViewModel : ViewModelBase, IHandle<CheckItemChanged>
+    public class ChecklistViewModel : ViewModelBase, 
+        IHandle<CheckItemChanged>,
+        IHandle<CheckItemCreated>
     {
+        private readonly IEventAggregator _eventAggregator;
         private readonly Func<ChecklistItemViewModel> _itemFactory;
         private string _name;
+        private string _text;
 
         private string Id { get; set; }
 
         private string CardId { get; set; }
 
+        [UsedImplicitly]
         public string Name
         {
             get { return _name; }
@@ -26,6 +32,18 @@ namespace trello.ViewModels
                 if (value == _name) return;
                 _name = value;
                 NotifyOfPropertyChange(() => Name);
+            }
+        }
+
+        [UsedImplicitly]
+        public string Text
+        {
+            get { return _text; }
+            set
+            {
+                if (value == _text) return;
+                _text = value;
+                NotifyOfPropertyChange(() => Text);
             }
         }
 
@@ -42,8 +60,8 @@ namespace trello.ViewModels
                                   Func<ChecklistItemViewModel> itemFactory) : base(settings, navigation)
         {
             _itemFactory = itemFactory;
-
-            eventAggregator.Subscribe(this);
+            _eventAggregator = eventAggregator;
+            _eventAggregator.Subscribe(this);
 
             Items = new BindableCollection<ChecklistItemViewModel>();
         }
@@ -61,10 +79,35 @@ namespace trello.ViewModels
             return this;
         }
 
+        [UsedImplicitly]
+        public void Add(string text)
+        {
+            _eventAggregator.Publish(new CheckItemCreationRequested
+            {
+                ChecklistId = Id,
+                Name = text
+            });
+            Text = null;
+        }
+
+        [UsedImplicitly]
+        public bool CanAdd(string text)
+        {
+            return !string.IsNullOrWhiteSpace(text);
+        }
+
         public void Handle(CheckItemChanged message)
         {
             NotifyOfPropertyChange(() => ItemsChecked);
             NotifyOfPropertyChange(() => Items);
+        }
+
+        public void Handle(CheckItemCreated message)
+        {
+            if (message.ChecklistId != Id) return;
+
+            var vm = _itemFactory().InitializeWith(CardId, Id, message.CheckItem);
+            Items.Add(vm);
         }
     }
 }

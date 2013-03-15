@@ -24,7 +24,8 @@
 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
-			<RowDefinition Height="*" />
+			<RowDefinition Height="Auto" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
 		<Border Grid.Row="0" Padding="10,20,10,10">
@@ -54,12 +55,12 @@
 			</Grid>
 		</Border>
 
-		<ItemsControl ItemsSource="{Binding Items}" Grid.Row="1">
+		<ItemsControl Grid.Row="1" ItemsSource="{Binding Items}">
 			<ItemsControl.ItemTemplate>
 				<DataTemplate>
 					<Grid>
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="Auto" />
+							<ColumnDefinition Width="68" />
 							<ColumnDefinition />
 						</Grid.ColumnDefinitions>
 
@@ -75,6 +76,23 @@
 				</DataTemplate>
 			</ItemsControl.ItemTemplate>
 		</ItemsControl>
+
+		<Grid Grid.Row="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+
+			<TextBox Name="Text" Grid.Column="0">
+				<TextBox.InputScope>
+					<InputScope>
+						<InputScopeName NameValue="Text" />
+					</InputScope>
+				</TextBox.InputScope>
+			</TextBox>
+
+			<Button Name="Add" Grid.Column="1">Add</Button>
+		</Grid>
 
     </Grid>
 </UserControl>

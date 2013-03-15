@@ -39,9 +39,9 @@ namespace trellow.api.Checklists.Internal
 			return _restClient.RequestAsync(new ChecklistsChangeNameRequest(checklist, name));
 		}
 
-		public Task AddCheckItem(IChecklistId checklist, string name)
+		public Task<CheckItem> AddCheckItem(IChecklistId checklist, string name)
 		{
-			return _restClient.RequestAsync(new ChecklistsAddCheckItemRequest(checklist, name));
+			return _restClient.RequestAsync<CheckItem>(new ChecklistsAddCheckItemRequest(checklist, name));
 		}
 
 		public Task RemoveCheckItem(IChecklistId checklist, string checkItemId)

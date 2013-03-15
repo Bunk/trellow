@@ -50,7 +50,7 @@ namespace trellow.api.Checklists
 		/// Required permissions: write
 		/// </summary>
 		/// <param name="name">A string with a length from 1 to 16384.</param>
-		Task AddCheckItem(IChecklistId checklist, string name);
+		Task<CheckItem> AddCheckItem(IChecklistId checklist, string name);
 
 		/// <summary>
 		/// DELETE /checklists/[checklist_id]/checkitems/[idCheckItem]

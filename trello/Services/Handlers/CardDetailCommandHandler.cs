@@ -20,7 +20,8 @@ namespace trello.Services.Handlers
                                             IHandle<CardMemberRemoved>,
                                             IHandle<CardCommented>,
                                             IHandle<CardDeleted>,
-                                            IHandle<CardCreationRequested>
+                                            IHandle<CardCreationRequested>,
+                                            IHandle<CheckItemCreationRequested>
     {
         private readonly IEventAggregator _events;
         private readonly ITrello _api;
@@ -112,9 +113,19 @@ namespace trello.Services.Handlers
             Handle(async api =>
             {
                 var created = await api.Cards.Add(new NewCard(message.Name, new ListId(message.ListId)));
-                _events.Publish(new CardCreated
+                _events.Publish(new CardCreated {Card = created});
+            });
+        }
+
+        public void Handle(CheckItemCreationRequested message)
+        {
+            Handle(async api =>
+            {
+                var created = await api.Checklists.AddCheckItem(new ChecklistId(message.ChecklistId), message.Name);
+                _events.Publish(new CheckItemCreated
                 {
-                    Card = created
+                    ChecklistId = message.ChecklistId,
+                    CheckItem = created
                 });
             });
         }

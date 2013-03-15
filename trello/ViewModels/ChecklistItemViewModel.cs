@@ -2,6 +2,7 @@ using Caliburn.Micro;
 using JetBrains.Annotations;
 using trello.Services.Handlers;
 using trellow.api.Cards;
+using trellow.api.Checklists;
 
 namespace trello.ViewModels
 {
@@ -16,6 +17,7 @@ namespace trello.ViewModels
         private string _name;
         private bool _checked;
 
+        [UsedImplicitly]
         public string Id
         {
             get { return _id; }
@@ -27,6 +29,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public string Name
         {
             get { return _name; }
@@ -38,6 +41,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public bool Checked
         {
             get { return _checked; }
@@ -54,6 +58,7 @@ namespace trello.ViewModels
         {
             _eventAggregator = eventAggregator;
 
+            // note: Should not leak--handling a reference to myself
             PropertyChanged += (sender, args) =>
             {
                 if (!IsNotifying) 
@@ -78,6 +83,9 @@ namespace trello.ViewModels
             Checked = !Checked;
         }
 
+        /// <summary>
+        /// This is used to initialize a check list item that is already attached to a pre-existing card.
+        /// </summary>
         public ChecklistItemViewModel InitializeWith(string cardId, string listId, Card.CheckItem item)
         {
             using (new SuppressNotificationScope(this))
@@ -90,6 +98,23 @@ namespace trello.ViewModels
                 Checked = item.Checked;
             }
 
+            return this;
+        }
+
+        /// <summary>
+        /// This is used to initialize a check list item that has been created and returned from the API
+        /// </summary>
+        public ChecklistItemViewModel InitializeWith(string cardId, string listId, CheckItem item)
+        {
+            using (new SuppressNotificationScope(this))
+            {
+                _idCard = cardId;
+                _idList = listId;
+
+                Id = item.Id;
+                Name = item.Name;
+                Checked = false;
+            }
             return this;
         }
     }
