@@ -12,8 +12,8 @@ namespace trello.ViewModels.Boards
     [UsedImplicitly]
     public class BoardListViewModel : PivotItemViewModel,
                                       IConfigureTheAppBar,
-        IHandle<CardCreated>,
-        IHandle<CardDeleted>
+                                      IHandle<CardCreated>,
+                                      IHandle<CardDeleted>
     {
         private readonly ITrello _api;
         private readonly INavigationService _navigation;
@@ -66,7 +66,7 @@ namespace trello.ViewModels.Boards
         public IObservableCollection<CardViewModel> Cards { get; set; }
 
         public BoardListViewModel(ITrello api,
-            INavigationService navigation,
+                                  INavigationService navigation,
                                   IEventAggregator events,
                                   IWindowManager windows,
                                   Func<CardViewModel> cardFactory)
