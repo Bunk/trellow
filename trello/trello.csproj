@@ -149,12 +149,14 @@
     <Compile Include="Services\Cache\CachingRestClient.cs" />
     <Compile Include="Services\Cache\ErrorHandlingRestClient.cs" />
     <Compile Include="Services\Cache\ProgressAwareRestClient.cs" />
+    <Compile Include="Services\Handlers\CardDeleted.cs" />
     <Compile Include="Services\Handlers\CardDueDateChanged.cs" />
     <Compile Include="Services\Handlers\CardLabelAdded.cs" />
     <Compile Include="Services\Handlers\CardLabelRemoved.cs" />
     <Compile Include="Services\Handlers\CardMemberAdded.cs" />
     <Compile Include="Services\Handlers\CheckItemChanged.cs" />
     <Compile Include="Services\Handlers\ChecklistItemTapped.cs" />
+    <Compile Include="Services\Handlers\ProgressScope.cs" />
     <Compile Include="Services\JsonFileRestClient.cs" />
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="Services\NetworkStatusChanged.cs" />
