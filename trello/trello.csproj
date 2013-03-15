@@ -149,12 +149,14 @@
     <Compile Include="Services\Cache\CachingRestClient.cs" />
     <Compile Include="Services\Cache\ErrorHandlingRestClient.cs" />
     <Compile Include="Services\Cache\ProgressAwareRestClient.cs" />
+    <Compile Include="Services\Handlers\CardDeleted.cs" />
     <Compile Include="Services\Handlers\CardDueDateChanged.cs" />
     <Compile Include="Services\Handlers\CardLabelAdded.cs" />
     <Compile Include="Services\Handlers\CardLabelRemoved.cs" />
     <Compile Include="Services\Handlers\CardMemberAdded.cs" />
     <Compile Include="Services\Handlers\CheckItemChanged.cs" />
     <Compile Include="Services\Handlers\ChecklistItemTapped.cs" />
+    <Compile Include="Services\Handlers\ProgressScope.cs" />
     <Compile Include="Services\JsonFileRestClient.cs" />
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="Services\NetworkStatusChanged.cs" />
@@ -164,6 +166,7 @@
     <Compile Include="Services\Cache\InMemoryCache.cs" />
     <Compile Include="Services\Stages\ProgressIndicatorStage.cs" />
     <Compile Include="SuppressNotificationScope.cs" />
+    <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\ActivityViewModel.cs" />
     <Compile Include="ViewModels\AttachmentViewModel.cs" />
     <Compile Include="ViewModels\BoardListViewModel.cs" />
@@ -205,6 +208,9 @@
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="ViewModels\SplashViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Activities\ActivityView.xaml.cs">
       <DependentUpon>ActivityView.xaml</DependentUpon>
     </Compile>
@@ -531,6 +537,10 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </DesignTimeOnly>
+    <Page Include="Views\AboutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Activities\ActivityView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

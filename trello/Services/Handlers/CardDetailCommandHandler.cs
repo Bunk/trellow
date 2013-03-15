@@ -7,22 +7,6 @@ using trellow.api.Checklists;
 
 namespace trello.Services.Handlers
 {
-    public class ProgressScope : IDisposable
-    {
-        private readonly IProgressService _progress;
-
-        public ProgressScope(IProgressService progress, string message = "Loading...")
-        {
-            _progress = progress;
-            _progress.Show(message);
-        }
-
-        public void Dispose()
-        {
-            _progress.Hide();
-        }
-    }
-
     public class CardDetailCommandHandler : IHandle<CardNameChanged>,
                                             IHandle<CardDescriptionChanged>,
                                             IHandle<CheckItemChanged>,
@@ -31,7 +15,8 @@ namespace trello.Services.Handlers
                                             IHandle<CardLabelRemoved>,
                                             IHandle<CardMemberAdded>,
                                             IHandle<CardMemberRemoved>,
-        IHandle<CardCommented>
+        IHandle<CardCommented>,
+        IHandle<CardDeleted>
     {
         private readonly ITrello _api;
         private readonly IProgressService _progress;
@@ -43,8 +28,6 @@ namespace trello.Services.Handlers
 
             eventAggregator.Subscribe(this);
         }
-
-        
 
         private async void Handle(Func<ITrello, Task> handler)
         {
@@ -111,6 +94,11 @@ namespace trello.Services.Handlers
         public void Handle(CardCommented message)
         {
             Handle(api => api.Cards.AddComment(new CardId(message.CardId), message.Text));
+        }
+
+        public void Handle(CardDeleted message)
+        {
+            Handle(api => api.Cards.Delete(new CardId(message.CardId)));
         }
     }
 }

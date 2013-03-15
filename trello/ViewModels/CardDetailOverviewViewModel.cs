@@ -15,7 +15,7 @@ namespace trello.ViewModels
 {
     [UsedImplicitly]
     public sealed class CardDetailOverviewViewModel : PivotItemViewModel,
-                                                      //IConfigureTheAppBar,
+                                                      IConfigureTheAppBar,
                                                       IHandle<CardDescriptionChanged>,
                                                       IHandle<CardDueDateChanged>,
                                                       IHandle<CardLabelAdded>,
@@ -26,6 +26,7 @@ namespace trello.ViewModels
         private readonly ITrello _api;
         private readonly ITrelloApiSettings _settings;
         private readonly IEventAggregator _eventAggregator;
+        private readonly INavigationService _navigation;
         private readonly IProgressService _progress;
         private readonly IWindowManager _windowManager;
         private int _attachments;
@@ -208,6 +209,7 @@ namespace trello.ViewModels
                                            ITrelloApiSettings settings,
                                            IProgressService progress,
                                            IEventAggregator eventAggregator,
+                                           INavigationService navigation,
                                            IWindowManager windowManager)
         {
             DisplayName = "overview";
@@ -216,6 +218,7 @@ namespace trello.ViewModels
             _settings = settings;
             _progress = progress;
             _eventAggregator = eventAggregator;
+            _navigation = navigation;
             _windowManager = windowManager;
             _eventAggregator.Subscribe(this);
 
@@ -231,7 +234,8 @@ namespace trello.ViewModels
             Due = card.Due;
             Checklists = card.Checklists.Count;
             CheckItems = card.Checklists.Aggregate(0, (i, model) => i + model.CheckItems.Count);
-            CheckItemsChecked = card.Checklists.Aggregate(0, (i, model) => i + model.CheckItems.Count(item => item.Checked));
+            CheckItemsChecked = card.Checklists.Aggregate(0,
+                                                          (i, model) => i + model.CheckItems.Count(item => item.Checked));
             Votes = card.Badges.Votes;
             Attachments = card.Attachments.Count;
             Members = card.Members.Count;
@@ -263,12 +267,14 @@ namespace trello.ViewModels
 
         public ApplicationBar Configure(ApplicationBar existing)
         {
-            existing.Buttons.Add(new AppBarButton
+            var button = new ApplicationBarIconButton
             {
                 Text = "delete card",
-                IconUri = new Uri("/Assets/Icons/dark/appbar.delete.rest.png", UriKind.Relative),
-                Message = "DeleteCard"
-            });
+                IconUri = new Uri("/Assets/Icons/dark/appbar.delete.rest.png", UriKind.Relative)
+            };
+            button.Click += (sender, args) => DeleteCard();
+            existing.Buttons.Add(button);
+
             return existing;
         }
 
@@ -389,6 +395,19 @@ namespace trello.ViewModels
                 Text = comment,
                 Timestamp = DateTime.Now
             });
+        }
+
+        [UsedImplicitly]
+        public void DeleteCard()
+        {
+            var result = MessageBox.Show(
+                "This card will be removed forever.  This is a permanent action that cannot be undone.\n\n" +
+                "Do you really want to delete it?",
+                "confirm delete", MessageBoxButton.OKCancel);
+            if (result != MessageBoxResult.OK) return;
+
+            _eventAggregator.Publish(new CardDeleted {CardId = Id});
+            _navigation.GoBack();
         }
     }
 }
