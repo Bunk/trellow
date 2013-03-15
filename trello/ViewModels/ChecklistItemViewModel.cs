@@ -1,3 +1,4 @@
+using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using trello.Services.Handlers;
@@ -81,6 +82,12 @@ namespace trello.ViewModels
         public void Toggle()
         {
             Checked = !Checked;
+        }
+
+        [UsedImplicitly]
+        public void Remove()
+        {
+            _eventAggregator.Publish(new CheckItemRemoved { ChecklistId = _idList, CheckItemId = Id });
         }
 
         /// <summary>

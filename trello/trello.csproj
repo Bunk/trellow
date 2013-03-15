@@ -130,6 +130,7 @@
     <Compile Include="AsyncLazy.cs" />
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Caliburn.Micro\ExtensionMethods.cs" />
+    <Compile Include="Caliburn.Micro\PhoneToolkitConventions.cs" />
     <Compile Include="Caliburn.Micro\TelerikConventions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Extensions\SimpleContainerExtensions.cs" />
@@ -158,6 +159,7 @@
     <Compile Include="Services\Handlers\CardMemberAdded.cs" />
     <Compile Include="Services\Handlers\CheckItemChanged.cs" />
     <Compile Include="Services\Handlers\CheckItemCreationRequested.cs" />
+    <Compile Include="Services\Handlers\CheckItemRemoved.cs" />
     <Compile Include="Services\Handlers\ChecklistItemTapped.cs" />
     <Compile Include="Services\Handlers\ProgressScope.cs" />
     <Compile Include="Services\JsonFileRestClient.cs" />

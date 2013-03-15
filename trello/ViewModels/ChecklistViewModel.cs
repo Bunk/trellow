@@ -12,7 +12,8 @@ namespace trello.ViewModels
     [UsedImplicitly]
     public class ChecklistViewModel : ViewModelBase, 
         IHandle<CheckItemChanged>,
-        IHandle<CheckItemCreated>
+        IHandle<CheckItemCreated>,
+        IHandle<CheckItemRemoved>
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly Func<ChecklistItemViewModel> _itemFactory;
@@ -108,6 +109,17 @@ namespace trello.ViewModels
 
             var vm = _itemFactory().InitializeWith(CardId, Id, message.CheckItem);
             Items.Add(vm);
+        }
+
+        public void Handle(CheckItemRemoved message)
+        {
+            if (message.ChecklistId != Id) return;
+
+            var found = Items.Where(x => x.Id == message.CheckItemId).ToArray();
+            foreach (var item in found)
+                Items.Remove(item);
+
+            NotifyOfPropertyChange(() => ItemsChecked);
         }
     }
 }

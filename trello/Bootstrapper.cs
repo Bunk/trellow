@@ -70,6 +70,7 @@ namespace trello
             var trello = new Trello(network, client);
             _container.Instance<ITrello>(trello);
 
+            PhoneToolkitConventions.Install();
             TelerikConventions.Install();
 
             // Force creation

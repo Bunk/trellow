@@ -6,6 +6,7 @@
 	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
 	xmlns:converters="clr-namespace:trello.Views.Converters"
 	xmlns:triggers="clr-namespace:trello.Views.Triggers;assembly=trello"
+	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
 	xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
 	xmlns:telerikData="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.DataVisualization"
@@ -63,6 +64,12 @@
 							<ColumnDefinition Width="68" />
 							<ColumnDefinition />
 						</Grid.ColumnDefinitions>
+
+						<toolkit:ContextMenuService.ContextMenu>
+							<toolkit:ContextMenu>
+								<toolkit:MenuItem Header="remove" cm:Message.Attach="Remove" />
+							</toolkit:ContextMenu>
+						</toolkit:ContextMenuService.ContextMenu>
 
 						<CheckBox x:Name="Checked" Grid.Column="0" IsChecked="{Binding Checked, Mode=TwoWay}" />
 						<TextBlock x:Name="Name" Grid.Column="1" Text="{Binding Name}" TextWrapping="Wrap" VerticalAlignment="Center" Style="{Binding Checked, Converter={StaticResource CheckboxTextConverter}}">

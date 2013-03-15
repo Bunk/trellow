@@ -21,7 +21,8 @@ namespace trello.Services.Handlers
                                             IHandle<CardCommented>,
                                             IHandle<CardDeleted>,
                                             IHandle<CardCreationRequested>,
-                                            IHandle<CheckItemCreationRequested>
+                                            IHandle<CheckItemCreationRequested>,
+        IHandle<CheckItemRemoved>
     {
         private readonly IEventAggregator _events;
         private readonly ITrello _api;
@@ -128,6 +129,11 @@ namespace trello.Services.Handlers
                     CheckItem = created
                 });
             });
+        }
+
+        public void Handle(CheckItemRemoved message)
+        {
+            Handle(api => api.Checklists.RemoveCheckItem(new ChecklistId(message.ChecklistId), message.CheckItemId));
         }
     }
 }
