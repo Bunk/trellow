@@ -15,18 +15,21 @@ namespace trello.Services.Handlers
                                             IHandle<CardLabelRemoved>,
                                             IHandle<CardMemberAdded>,
                                             IHandle<CardMemberRemoved>,
-        IHandle<CardCommented>,
-        IHandle<CardDeleted>
+                                            IHandle<CardCommented>,
+                                            IHandle<CardDeleted>,
+                                            IHandle<CardCreationRequested>
     {
+        private readonly IEventAggregator _events;
         private readonly ITrello _api;
         private readonly IProgressService _progress;
 
-        public CardDetailCommandHandler(IEventAggregator eventAggregator, ITrello api, IProgressService progress)
+        public CardDetailCommandHandler(IEventAggregator events, ITrello api, IProgressService progress)
         {
+            _events = events;
             _api = api;
             _progress = progress;
 
-            eventAggregator.Subscribe(this);
+            events.Subscribe(this);
         }
 
         private async void Handle(Func<ITrello, Task> handler)
@@ -76,9 +79,9 @@ namespace trello.Services.Handlers
         public void Handle(CheckItemChanged message)
         {
             Handle(api => api.Cards.ChangeCheckItemState(new CardId(message.CardId),
-                                                               new ChecklistId(message.ChecklistId),
-                                                               new CheckItemId(message.CheckItemId),
-                                                               message.Value));
+                                                         new ChecklistId(message.ChecklistId),
+                                                         new CheckItemId(message.CheckItemId),
+                                                         message.Value));
         }
 
         public void Handle(CardMemberAdded message)
@@ -99,6 +102,18 @@ namespace trello.Services.Handlers
         public void Handle(CardDeleted message)
         {
             Handle(api => api.Cards.Delete(new CardId(message.CardId)));
+        }
+
+        public void Handle(CardCreationRequested message)
+        {
+            Handle(async api =>
+            {
+                var created = await api.Cards.Add(new NewCard(message.Name, new ListId(message.ListId)));
+                _events.Publish(new CardCreated
+                {
+                    Card = created
+                });
+            });
         }
     }
 }

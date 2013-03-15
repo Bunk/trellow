@@ -6,6 +6,7 @@ using Microsoft.Phone.Shell;
 using Strilanc.Value;
 using TrelloNet;
 using trello.Assets;
+using trello.ViewModels.Boards;
 using trello.ViewModels.Notifications;
 
 namespace trello.ViewModels

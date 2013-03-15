@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace trello.Views
+namespace trello.Views.Boards
 {
     public partial class BoardListView : UserControl
     {

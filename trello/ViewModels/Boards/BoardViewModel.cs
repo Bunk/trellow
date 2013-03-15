@@ -6,7 +6,7 @@ using JetBrains.Annotations;
 using TrelloNet;
 using trellow.api;
 
-namespace trello.ViewModels
+namespace trello.ViewModels.Boards
 {
     [UsedImplicitly]
     public class BoardViewModel : PivotViewModel

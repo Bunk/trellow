@@ -5,17 +5,25 @@ using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using TrelloNet;
 using trello.Assets;
+using trello.Services.Handlers;
 
-namespace trello.ViewModels
+namespace trello.ViewModels.Boards
 {
     [UsedImplicitly]
-    public class BoardListViewModel : PivotItemViewModel//, IConfigureTheAppBar
+    public class BoardListViewModel : PivotItemViewModel,
+                                      IConfigureTheAppBar,
+        IHandle<CardCreated>
     {
         private readonly ITrello _api;
+        private readonly INavigationService _navigation;
+        private readonly IEventAggregator _events;
+        private readonly IWindowManager _windows;
         private readonly Func<CardViewModel> _cardFactory;
         private string _name;
         private string _id;
+        private string _boardId;
 
+        [UsedImplicitly]
         public string Id
         {
             get { return _id; }
@@ -27,6 +35,19 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
+        public string BoardId
+        {
+            get { return _boardId; }
+            set
+            {
+                if (value == _boardId) return;
+                _boardId = value;
+                NotifyOfPropertyChange(() => BoardId);
+            }
+        }
+
+        [UsedImplicitly]
         public string Name
         {
             get { return _name; }
@@ -40,11 +61,19 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public IObservableCollection<CardViewModel> Cards { get; set; }
 
-        public BoardListViewModel(ITrello api, Func<CardViewModel> cardFactory)
+        public BoardListViewModel(ITrello api,
+            INavigationService navigation,
+                                  IEventAggregator events,
+                                  IWindowManager windows,
+                                  Func<CardViewModel> cardFactory)
         {
             _api = api;
+            _navigation = navigation;
+            _events = events;
+            _windows = windows;
             _cardFactory = cardFactory;
 
             Cards = new BindableCollection<CardViewModel>();
@@ -53,6 +82,16 @@ namespace trello.ViewModels
         protected override void OnInitialize()
         {
             RefreshLists();
+        }
+
+        protected override void OnActivate()
+        {
+            _events.Subscribe(this);
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            _events.Unsubscribe(this);
         }
 
         private async void RefreshLists()
@@ -67,6 +106,7 @@ namespace trello.ViewModels
         public BoardListViewModel InitializeWith(List list)
         {
             Id = list.Id;
+            BoardId = list.IdBoard;
             Name = list.Name;
 
             return this;
@@ -75,21 +115,31 @@ namespace trello.ViewModels
         public ApplicationBar Configure(ApplicationBar existing)
         {
             var addButton = new ApplicationBarIconButton(new AssetUri("Icons/dark/appbar.add.rest.png"))
-            {
-                Text = "add card"
-            };
+            {Text = "add card"};
             addButton.Click += (sender, args) => AddCard();
             existing.Buttons.Add(addButton);
 
             return existing;
         }
 
-        private static void AddCard()
+        private void AddCard()
         {
+            var model = new AddCardViewModel(GetView(), _events)
+            {
+                BoardId = BoardId,
+                ListId = Id
+            };
+            _windows.ShowDialog(model);
         }
 
-        private void RemoveCard()
+        public void Handle(CardCreated message)
         {
+            var vm = _cardFactory().InitializeWith(message.Card);
+            Cards.Add(vm);
+
+            _navigation.UriFor<CardDetailPivotViewModel>()
+                .WithParam(x => x.Id, vm.Id)
+                .Navigate();
         }
     }
 }

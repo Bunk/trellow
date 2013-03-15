@@ -149,6 +149,8 @@
     <Compile Include="Services\Cache\CachingRestClient.cs" />
     <Compile Include="Services\Cache\ErrorHandlingRestClient.cs" />
     <Compile Include="Services\Cache\ProgressAwareRestClient.cs" />
+    <Compile Include="Services\Handlers\CardCreated.cs" />
+    <Compile Include="Services\Handlers\CardCreationRequested.cs" />
     <Compile Include="Services\Handlers\CardDeleted.cs" />
     <Compile Include="Services\Handlers\CardDueDateChanged.cs" />
     <Compile Include="Services\Handlers\CardLabelAdded.cs" />
@@ -169,7 +171,8 @@
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\ActivityViewModel.cs" />
     <Compile Include="ViewModels\AttachmentViewModel.cs" />
-    <Compile Include="ViewModels\BoardListViewModel.cs" />
+    <Compile Include="ViewModels\Boards\AddCardViewModel.cs" />
+    <Compile Include="ViewModels\Boards\BoardListViewModel.cs" />
     <Compile Include="ViewModels\CardDetailAttachmentsViewModel.cs" />
     <Compile Include="ViewModels\CardDetailChecklistViewModel.cs" />
     <Compile Include="ViewModels\CardDetailMembersViewModel.cs" />
@@ -179,7 +182,7 @@
     <Compile Include="ViewModels\LabelViewModel.cs" />
     <Compile Include="ViewModels\MyNotificationsViewModel.cs" />
     <Compile Include="ViewModels\MyBoardsViewModel.cs" />
-    <Compile Include="ViewModels\BoardViewModel.cs" />
+    <Compile Include="ViewModels\Boards\BoardViewModel.cs" />
     <Compile Include="Services\Handlers\CardDetailCommandHandler.cs" />
     <Compile Include="ViewModels\MyCardsViewModel.cs" />
     <Compile Include="ViewModels\CardViewModel.cs" />
@@ -220,6 +223,9 @@
     <Compile Include="Views\Activities\SimpleActivityView.xaml.cs">
       <DependentUpon>SimpleActivityView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Boards\AddCardView.xaml.cs">
+      <DependentUpon>AddCardView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CardDetailAttachmentsView.xaml.cs">
       <DependentUpon>CardDetailAttachmentsView.xaml</DependentUpon>
     </Compile>
@@ -241,14 +247,11 @@
     <Compile Include="Views\MyBoardsView.xaml.cs">
       <DependentUpon>MyBoardsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BoardListView.xaml.cs">
+    <Compile Include="Views\Boards\BoardListView.xaml.cs">
       <DependentUpon>BoardListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BoardView.xaml.cs">
+    <Compile Include="Views\Boards\BoardView.xaml.cs">
       <DependentUpon>BoardView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\BoardCardView.xaml.cs">
-      <DependentUpon>BoardCardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MyCardsView.xaml.cs">
       <DependentUpon>MyCardsView.xaml</DependentUpon>
@@ -531,7 +534,10 @@
     <Reference Include="Telerik.Windows.Controls.Primitives, Version=2012.3.1311.3040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
     <Reference Include="Telerik.Windows.Core, Version=2012.3.1311.3040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ViewModels\Cards\" />
+    <Folder Include="Views\Cards\" />
+  </ItemGroup>
   <ItemGroup>
     <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
@@ -550,6 +556,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Activities\SimpleActivityView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Boards\AddCardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -581,15 +591,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\BoardListView.xaml">
+    <Page Include="Views\Boards\BoardListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\BoardView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\BoardCardView.xaml">
+    <Page Include="Views\Boards\BoardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

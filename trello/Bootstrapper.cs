@@ -11,6 +11,7 @@ using trello.Services;
 using trello.Services.Cache;
 using trello.Services.Handlers;
 using trello.ViewModels;
+using trello.ViewModels.Boards;
 using trello.ViewModels.Notifications;
 using trellow.api;
 using trellow.api.Data;
@@ -38,6 +39,7 @@ namespace trello
             _container.Singleton<MyCardsViewModel>();
             _container.Singleton<MyNotificationsViewModel>();
             _container.Singleton<ProfileViewModel>();
+
             _container.PerRequest<BoardViewModel>();
             _container.PerRequest<BoardListViewModel>();
             _container.PerRequest<CardViewModel>();

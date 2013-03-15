@@ -3,6 +3,7 @@ using System.Xml.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Tasks;
+using trello.ViewModels.Boards;
 
 namespace trello.ViewModels
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Phone.Controls;
 
-namespace trello.Views
+namespace trello.Views.Boards
 {
     public partial class BoardView : PhoneApplicationPage
     {

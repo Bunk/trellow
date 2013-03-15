@@ -49,7 +49,7 @@ namespace trello.ViewModels
             if (context == null)
                 return;
 
-            _navigationService.UriFor<ViewModels.BoardViewModel>()
+            _navigationService.UriFor<Boards.BoardViewModel>()
                 .WithParam(x => x.Id, context.Id)
                 .Navigate();
         }
