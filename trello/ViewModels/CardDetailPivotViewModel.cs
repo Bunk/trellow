@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using TrelloNet;
@@ -21,6 +22,7 @@ namespace trello.ViewModels
         }
 
         private readonly ITrello _api;
+        private readonly INavigationService _navigation;
         private readonly Func<CardDetailChecklistViewModel> _checklists;
         private readonly Func<CardDetailAttachmentsViewModel> _attachments;
         private readonly Func<CardDetailMembersViewModel> _members;
@@ -54,6 +56,7 @@ namespace trello.ViewModels
             : base(settings, navigation)
         {
             _api = api;
+            _navigation = navigation;
             _windowManager = windowManager;
             _overview = overview;
             _checklists = checklists;
@@ -66,7 +69,14 @@ namespace trello.ViewModels
 
         protected override async void OnInitialize()
         {
-            var card = await _api.Cards.WithId(Id) ?? new Card();
+            var card = await _api.Cards.WithId(Id);
+            if (card == null)
+            {
+                MessageBox.Show("The card could not be found.  Usually this means that someone else has removed it " +
+                                "while you were browsing.");
+                _navigation.GoBack();
+                return;
+            }
 
             Name = card.Name;
 

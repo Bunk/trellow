@@ -78,10 +78,6 @@ namespace trello.ViewModels
             accountSettings.Click += (sender, args) => OpenProfile();
             bar.MenuItems.Add(accountSettings);
 
-            var appSettings = new ApplicationBarMenuItem("settings");
-            appSettings.Click += (sender, args) => OpenSettings();
-            bar.MenuItems.Add(appSettings);
-
             var signout = new ApplicationBarMenuItem("sign out");
             signout.Click += (sender, args) => SignOut();
             bar.MenuItems.Add(signout);
@@ -101,11 +97,6 @@ namespace trello.ViewModels
         private void OpenProfile()
         {
             Navigation.UriFor<ProfileViewModel>().Navigate();
-        }
-
-        private void OpenSettings()
-        {
-            MessageBox.Show("Settings");
         }
 
         private void SignOut()
