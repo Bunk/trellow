@@ -12,7 +12,8 @@ namespace trello.ViewModels.Boards
     [UsedImplicitly]
     public class BoardListViewModel : PivotItemViewModel,
                                       IConfigureTheAppBar,
-        IHandle<CardCreated>
+        IHandle<CardCreated>,
+        IHandle<CardDeleted>
     {
         private readonly ITrello _api;
         private readonly INavigationService _navigation;
@@ -76,22 +77,14 @@ namespace trello.ViewModels.Boards
             _windows = windows;
             _cardFactory = cardFactory;
 
+            _events.Subscribe(this);
+
             Cards = new BindableCollection<CardViewModel>();
         }
 
         protected override void OnInitialize()
         {
             RefreshLists();
-        }
-
-        protected override void OnActivate()
-        {
-            _events.Subscribe(this);
-        }
-
-        protected override void OnDeactivate(bool close)
-        {
-            _events.Unsubscribe(this);
         }
 
         private async void RefreshLists()
@@ -140,6 +133,14 @@ namespace trello.ViewModels.Boards
             _navigation.UriFor<CardDetailPivotViewModel>()
                 .WithParam(x => x.Id, vm.Id)
                 .Navigate();
+        }
+
+        public void Handle(CardDeleted message)
+        {
+            // note: make sure this is idempotent since it will be called for each list on an opened board
+            var found = Cards.Where(card => card.Id == message.CardId).ToArray();
+            foreach (var card in found)
+                Cards.Remove(card);
         }
     }
 }
