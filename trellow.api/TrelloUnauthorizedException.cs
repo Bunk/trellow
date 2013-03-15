@@ -1,6 +1,6 @@
 using System.Net;
 
-namespace TrelloNet
+namespace trellow.api
 {
 	public class TrelloUnauthorizedException : TrelloException
 	{

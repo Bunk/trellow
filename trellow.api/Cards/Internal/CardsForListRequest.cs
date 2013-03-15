@@ -1,4 +1,8 @@
-namespace TrelloNet.Internal
+using trellow.api.Internal;
+using trellow.api.Lists;
+using trellow.api.Lists.Internal;
+
+namespace trellow.api.Cards.Internal
 {
 	internal class CardsForListRequest : ListsRequest
 	{

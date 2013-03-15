@@ -1,7 +1,7 @@
 using System;
-using TrelloNet.Internal;
+using trellow.api.Actions.Internal;
 
-namespace TrelloNet
+namespace trellow.api.Actions
 {
 	public static class Since
 	{

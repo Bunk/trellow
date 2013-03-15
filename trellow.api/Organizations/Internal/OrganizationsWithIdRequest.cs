@@ -1,4 +1,4 @@
-namespace TrelloNet.Internal
+namespace trellow.api.Organizations.Internal
 {
 	internal class OrganizationsWithIdRequest : OrganizationsRequest
 	{

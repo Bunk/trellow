@@ -1,6 +1,6 @@
-using TrelloNet.Internal;
+using trellow.api.Internal;
 
-namespace TrelloNet
+namespace trellow.api.Organizations
 {
 	public class OrganizationId : IOrganizationId
 	{

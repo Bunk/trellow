@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using RestSharp;
 using System.Linq;
+using trellow.api.Actions;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Internal
 {
 	internal static class RestRequestExtensions
 	{

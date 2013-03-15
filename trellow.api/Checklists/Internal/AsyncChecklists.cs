@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using trellow.api.Boards;
+using trellow.api.Cards;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Checklists.Internal
 {
 	internal class AsyncChecklists : IAsyncChecklists
 	{

@@ -1,5 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
+using trellow.api.Actions;
+using Action = trellow.api.Actions.Action;
 
 namespace trello.ViewModels.Activities
 {
@@ -11,10 +13,10 @@ namespace trello.ViewModels.Activities
 
         public DateTime Timestamp { get; set; }
 
-        public static ActivityViewModel InitializeWith(TrelloNet.Action activity)
+        public static ActivityViewModel InitializeWith(Action activity)
         {
             var model = new ActivityViewModel();
-            var act = activity as TrelloNet.CommentCardAction;
+            var act = activity as CommentCardAction;
             if (act != null)
             {
                 model = new CommentActivityViewModel

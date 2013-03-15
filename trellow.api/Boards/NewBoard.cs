@@ -1,4 +1,4 @@
-namespace TrelloNet
+namespace trellow.api.Boards
 {
 	public class NewBoard
 	{		

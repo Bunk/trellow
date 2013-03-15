@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using RestSharp;
-using TrelloNet;
-using TrelloNet.Internal;
-using trellow.api.OAuth;
+using trellow.api;
+using trellow.api.Actions.Internal;
+using trellow.api.Notifications.Internal;
 
 namespace trello.Services
 {

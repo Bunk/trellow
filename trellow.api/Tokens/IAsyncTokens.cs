@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace TrelloNet
+namespace trellow.api.Tokens
 {
 	public interface IAsyncTokens
 	{

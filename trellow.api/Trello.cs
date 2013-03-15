@@ -1,11 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TrelloNet.Internal;
+using trellow.api.Actions;
+using trellow.api.Actions.Internal;
+using trellow.api.Boards;
+using trellow.api.Boards.Internal;
+using trellow.api.Cards;
+using trellow.api.Cards.Internal;
+using trellow.api.Checklists;
+using trellow.api.Checklists.Internal;
 using trellow.api.Data;
-using trellow.api.OAuth;
+using trellow.api.Lists;
+using trellow.api.Lists.Internal;
+using trellow.api.Members;
+using trellow.api.Members.Internal;
+using trellow.api.Notifications;
+using trellow.api.Notifications.Internal;
+using trellow.api.Organizations;
+using trellow.api.Organizations.Internal;
+using trellow.api.Search;
+using trellow.api.Search.Internal;
+using trellow.api.Tokens;
+using trellow.api.Tokens.Internal;
 
-namespace TrelloNet
+namespace trellow.api
 {
 	public class Trello : ITrello
 	{

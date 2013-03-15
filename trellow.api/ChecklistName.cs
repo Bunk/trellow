@@ -1,4 +1,6 @@
-namespace TrelloNet
+using trellow.api.Checklists;
+
+namespace trellow.api
 {
 	public class ChecklistName : IChecklistId
 	{

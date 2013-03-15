@@ -1,4 +1,6 @@
-namespace TrelloNet
+using trellow.api.Boards;
+
+namespace trellow.api
 {
     public class BoardName : IBoardId
 	{

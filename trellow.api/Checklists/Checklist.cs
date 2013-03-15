@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace TrelloNet
+namespace trellow.api.Checklists
 {
 	public class Checklist<TCheckItem> : IChecklistId, IUpdatableChecklist where TCheckItem : CheckItem
 	{

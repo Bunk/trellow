@@ -1,6 +1,8 @@
 using RestSharp;
+using trellow.api.Checklists;
+using trellow.api.Internal;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Cards.Internal
 {
 	internal abstract class CardChangeCheckItemRequest : CardsRequest
 	{

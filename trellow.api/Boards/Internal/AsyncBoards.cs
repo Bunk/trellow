@@ -1,8 +1,14 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using trellow.api.Cards;
+using trellow.api.Checklists;
+using trellow.api.Lists;
+using trellow.api.Members;
+using trellow.api.Organizations;
+using trellow.api.Search;
+using trellow.api.Search.Internal;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Boards.Internal
 {
 	internal class AsyncBoards : IAsyncBoards
 	{

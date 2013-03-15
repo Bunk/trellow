@@ -1,6 +1,8 @@
 using RestSharp;
+using trellow.api.Internal;
+using trellow.api.Members;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Cards.Internal
 {
 	internal class CardsAddMemberRequest : CardsRequest
 	{

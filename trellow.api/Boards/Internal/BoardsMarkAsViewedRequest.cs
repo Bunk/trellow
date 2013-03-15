@@ -1,6 +1,6 @@
 using RestSharp;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Boards.Internal
 {
 	internal class BoardsMarkAsViewedRequest : BoardsRequest
 	{

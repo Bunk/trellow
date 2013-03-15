@@ -1,5 +1,5 @@
 ﻿
-namespace TrelloNet
+namespace trellow.api.Boards
 {
     public enum BoardMemberType
     {

@@ -1,4 +1,6 @@
-namespace TrelloNet.Internal
+using trellow.api.Tokens.Internal;
+
+namespace trellow.api.Members.Internal
 {
 	internal class MembersForTokenRequest : TokensRequest
 	{

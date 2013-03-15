@@ -1,7 +1,7 @@
 using System;
 using System.Net;
 
-namespace TrelloNet
+namespace trellow.api
 {
 	public class TrelloException : Exception
 	{

@@ -2,7 +2,7 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Internal
 {
 	public abstract class JsonCreationConverter<T> : JsonConverter
 	{

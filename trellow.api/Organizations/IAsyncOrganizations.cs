@@ -1,8 +1,10 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TrelloNet.Internal;
+using trellow.api.Boards;
+using trellow.api.Members;
+using trellow.api.Search;
 
-namespace TrelloNet
+namespace trellow.api.Organizations
 {
 	public interface IAsyncOrganizations
 	{

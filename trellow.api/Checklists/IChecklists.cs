@@ -1,6 +1,8 @@
 using System.Collections.Generic;
+using trellow.api.Boards;
+using trellow.api.Cards;
 
-namespace TrelloNet
+namespace trellow.api.Checklists
 {
 	public interface IChecklists
 	{

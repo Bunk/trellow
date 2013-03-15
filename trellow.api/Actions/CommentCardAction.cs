@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrelloNet
+namespace trellow.api.Actions
 {
 	public class CommentCardAction : Action
 	{

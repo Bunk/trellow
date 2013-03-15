@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using Caliburn.Micro;
-using TrelloNet;
 using trello.Services.Handlers;
+using trellow.api.Cards;
 
 namespace trello.ViewModels
 {

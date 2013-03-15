@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using trellow.api.Internal;
+using trellow.api.Lists;
+using trellow.api.Lists.Internal;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Actions.Internal
 {
 	internal class ActionsForListRequest : ListsRequest
 	{

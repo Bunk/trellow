@@ -1,4 +1,6 @@
-namespace TrelloNet
+using trellow.api.Lists;
+
+namespace trellow.api.Cards
 {
 	public class NewCard
 	{

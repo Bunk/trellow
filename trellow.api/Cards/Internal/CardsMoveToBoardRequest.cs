@@ -1,6 +1,9 @@
 using RestSharp;
+using trellow.api.Boards;
+using trellow.api.Internal;
+using trellow.api.Lists;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Cards.Internal
 {
 	internal class CardsMoveToBoardRequest : CardsRequest
 	{

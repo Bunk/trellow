@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Internal
 {
 	internal static class ScopeExtensions
 	{

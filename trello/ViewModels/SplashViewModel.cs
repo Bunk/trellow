@@ -3,12 +3,10 @@ using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Controls;
-using TrelloNet;
 using trello.Services;
 using trello.Views;
 using trellow.api;
 using trellow.api.Data.Services;
-using trellow.api.OAuth;
 
 namespace trello.ViewModels
 {

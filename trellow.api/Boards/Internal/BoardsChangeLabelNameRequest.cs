@@ -1,6 +1,8 @@
 using RestSharp;
+using trellow.api.Cards;
+using trellow.api.Internal;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Boards.Internal
 {
 	internal class BoardsChangeLabelNameRequest : BoardsRequest
 	{

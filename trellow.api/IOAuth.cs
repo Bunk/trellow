@@ -1,8 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using trellow.api.OAuth;
 
-namespace TrelloNet
+namespace trellow.api
 {
     public interface IOAuth
     {

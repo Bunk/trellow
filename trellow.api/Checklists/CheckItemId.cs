@@ -1,5 +1,4 @@
-﻿using TrelloNet;
-using TrelloNet.Internal;
+﻿using trellow.api.Internal;
 
 namespace trellow.api.Checklists
 {

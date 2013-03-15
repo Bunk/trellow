@@ -1,8 +1,12 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using trellow.api.Boards;
+using trellow.api.Cards;
+using trellow.api.Organizations;
+using trellow.api.Search;
+using trellow.api.Search.Internal;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Members.Internal
 {
 	public class AsyncMembers : IAsyncMembers
 	{

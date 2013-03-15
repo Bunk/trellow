@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using trellow.api.Boards;
+using trellow.api.Boards.Internal;
+using trellow.api.Internal;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Actions.Internal
 {
 	internal class ActionsForBoardRequest : BoardsRequest
 	{

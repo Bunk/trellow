@@ -1,7 +1,7 @@
 using Caliburn.Micro;
 using JetBrains.Annotations;
-using TrelloNet;
 using trello.Services.Handlers;
+using trellow.api.Cards;
 
 namespace trello.ViewModels
 {

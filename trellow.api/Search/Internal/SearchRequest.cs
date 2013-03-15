@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using RestSharp;
 using System.Linq;
+using trellow.api.Internal;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Search.Internal
 {
 	internal class SearchRequest : RestRequest
 	{

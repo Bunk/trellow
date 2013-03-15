@@ -1,10 +1,10 @@
 using System;
 using System.Reflection;
 using Caliburn.Micro;
-using TrelloNet;
 using JetBrains.Annotations;
 using Strilanc.Value;
 using trello.Extensions;
+using trellow.api.Notifications;
 
 namespace trello.ViewModels.Notifications
 {

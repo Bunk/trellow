@@ -1,6 +1,6 @@
-using TrelloNet.Internal;
+using trellow.api.Internal;
 
-namespace TrelloNet
+namespace trellow.api.Lists
 {
 	public class ListId : IListId
 	{

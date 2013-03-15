@@ -1,4 +1,6 @@
-namespace TrelloNet
+using trellow.api.Boards;
+
+namespace trellow.api.Actions
 {
 	public class MoveCardFromBoardAction : Action
 	{

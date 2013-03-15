@@ -1,7 +1,9 @@
 using System.Collections.Generic;
-using TrelloNet.Internal;
+using trellow.api.Boards;
+using trellow.api.Members;
+using trellow.api.Search;
 
-namespace TrelloNet
+namespace trellow.api.Organizations
 {
 	public interface IOrganizations
 	{

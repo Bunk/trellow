@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using trellow.api.Cards;
 
-namespace TrelloNet
+namespace trellow.api.Boards
 {
 	public class Board : IBoardId, IUpdatableBoard
 	{

@@ -1,6 +1,6 @@
 using System;
 
-namespace TrelloNet
+namespace trellow.api.Cards
 {
 	public interface IUpdatableCard
 	{

@@ -1,6 +1,9 @@
 using System.Collections.Generic;
+using trellow.api.Cards;
+using trellow.api.Cards.Internal;
+using trellow.api.Internal;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Actions.Internal
 {
 	internal class ActionsForCardRequest : CardsRequest
 	{

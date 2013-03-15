@@ -1,4 +1,6 @@
-﻿namespace TrelloNet
+﻿using trellow.api.Notifications;
+
+namespace trellow.api.Actions
 {
 	public class CreateOrganizationAction : Action
 	{

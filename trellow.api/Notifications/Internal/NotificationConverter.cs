@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using trellow.api.Actions;
+using trellow.api.Internal;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Notifications.Internal
 {
 	public class NotificationConverter : JsonCreationConverter<Notification>
 	{

@@ -1,7 +1,8 @@
 using Caliburn.Micro;
 using JetBrains.Annotations;
-using TrelloNet;
 using trello.ViewModels.Boards;
+using trellow.api;
+using trellow.api.Notifications;
 
 namespace trello.ViewModels.Notifications
 {

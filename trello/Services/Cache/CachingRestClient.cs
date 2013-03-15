@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using RestSharp;
-using TrelloNet;
-using TrelloNet.Internal;
+using trellow.api;
 using trellow.api.Data;
-using trellow.api.OAuth;
 
 namespace trello.Services.Cache
 {

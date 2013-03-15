@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
-using TrelloNet.Internal;
+using trellow.api.Internal;
 
-namespace TrelloNet
+namespace trellow.api.Boards
 {
 	[JsonConverter(typeof(TrelloEnumConverter))]
 	public enum VotingPermission

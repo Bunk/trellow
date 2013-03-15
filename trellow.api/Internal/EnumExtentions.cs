@@ -1,6 +1,6 @@
 using System;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Internal
 {
 	internal static class EnumExtentions
 	{

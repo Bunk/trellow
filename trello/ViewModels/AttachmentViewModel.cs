@@ -4,9 +4,9 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
-using TrelloNet;
 using Windows.System;
 using trello.Extensions;
+using trellow.api.Cards;
 
 namespace trello.ViewModels
 {

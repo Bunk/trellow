@@ -1,8 +1,9 @@
 using System;
 using System.Globalization;
 using RestSharp;
+using trellow.api.Internal;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Cards.Internal
 {
 	internal class CardsUpdateRequest : CardsRequest
 	{

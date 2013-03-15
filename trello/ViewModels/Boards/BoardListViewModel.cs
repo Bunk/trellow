@@ -3,9 +3,10 @@ using System.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
-using TrelloNet;
 using trello.Assets;
 using trello.Services.Handlers;
+using trellow.api;
+using trellow.api.Lists;
 
 namespace trello.ViewModels.Boards
 {

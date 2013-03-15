@@ -1,4 +1,6 @@
-namespace TrelloNet
+using trellow.api.Actions;
+
+namespace trellow.api.Notifications
 {
 	public class ChangeCardNotification : Notification
 	{

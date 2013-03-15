@@ -1,9 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using trellow.api.OAuth;
+using trellow.api.Actions;
+using trellow.api.Boards;
+using trellow.api.Cards;
+using trellow.api.Checklists;
+using trellow.api.Lists;
+using trellow.api.Members;
+using trellow.api.Notifications;
+using trellow.api.Organizations;
+using trellow.api.Search;
+using trellow.api.Tokens;
 
-namespace TrelloNet
+namespace trellow.api
 {
 	public interface ITrello : IOAuth
 	{

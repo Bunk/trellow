@@ -1,4 +1,4 @@
-namespace TrelloNet
+namespace trellow.api.Tokens
 {
 	public interface ITokens
 	{

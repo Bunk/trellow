@@ -4,8 +4,9 @@ using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
-using TrelloNet;
 using trello.Assets;
+using trellow.api;
+using trellow.api.Boards;
 
 namespace trello.ViewModels
 {

@@ -1,6 +1,6 @@
 using RestSharp;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Notifications.Internal
 {
 	internal class NotificationsRequest : RestRequest
 	{

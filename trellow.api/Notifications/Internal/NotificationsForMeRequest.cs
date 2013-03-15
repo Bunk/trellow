@@ -1,8 +1,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using RestSharp;
+using trellow.api.Internal;
+using trellow.api.Members;
+using trellow.api.Members.Internal;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Notifications.Internal
 {
 	internal class NotificationsForMeRequest : MembersRequest
 	{

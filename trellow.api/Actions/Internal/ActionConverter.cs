@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using trellow.api.Internal;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Actions.Internal
 {
 	public class ActionConverter : JsonCreationConverter<Action>
 	{

@@ -1,4 +1,4 @@
-namespace TrelloNet
+namespace trellow.api.Notifications
 {
 	public class CloseBoardNotification : Notification
 	{

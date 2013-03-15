@@ -1,6 +1,6 @@
-using TrelloNet.Internal;
+using trellow.api.Internal;
 
-namespace TrelloNet
+namespace trellow.api.Checklists
 {
 	public class ChecklistId : IChecklistId
 	{

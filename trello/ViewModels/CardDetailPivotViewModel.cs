@@ -2,7 +2,6 @@
 using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
-using TrelloNet;
 using trello.Services.Handlers;
 using trello.Views;
 using trellow.api;

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using RestSharp;
 
-namespace TrelloNet.Internal
+namespace trellow.api
 {
     public interface IRequestClient : IOAuth
     {

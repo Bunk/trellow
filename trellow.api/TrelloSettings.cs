@@ -1,5 +1,4 @@
 ﻿using JetBrains.Annotations;
-using trellow.api.OAuth;
 
 namespace trellow.api
 {

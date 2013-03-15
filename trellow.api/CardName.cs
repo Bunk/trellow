@@ -1,4 +1,6 @@
-namespace TrelloNet
+using trellow.api.Cards;
+
+namespace trellow.api
 {
 	public class CardName : ICardId
 	{

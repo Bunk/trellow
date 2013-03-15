@@ -1,6 +1,11 @@
 using System.Collections.Generic;
+using trellow.api.Actions;
+using trellow.api.Boards;
+using trellow.api.Cards;
+using trellow.api.Members;
+using trellow.api.Organizations;
 
-namespace TrelloNet
+namespace trellow.api.Search
 {
 	public class SearchResults
 	{

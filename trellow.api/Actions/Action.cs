@@ -1,6 +1,7 @@
 using System;
+using trellow.api.Members;
 
-namespace TrelloNet
+namespace trellow.api.Actions
 {
 	public class Action : IActionId
 	{

@@ -1,5 +1,6 @@
 using JetBrains.Annotations;
-using TrelloNet;
+using trellow.api;
+using trellow.api.Notifications;
 
 namespace trello.ViewModels.Notifications
 {

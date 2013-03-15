@@ -1,6 +1,7 @@
 using RestSharp;
+using trellow.api.Internal;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Checklists.Internal
 {
 	internal class ChecklistsAddCheckItemRequest : ChecklistsRequest
 	{

@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Deserializers;
+using trellow.api.Actions.Internal;
+using trellow.api.Notifications.Internal;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Internal
 {
 	internal class TrelloDeserializer : IDeserializer
 	{		

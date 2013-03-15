@@ -1,4 +1,6 @@
-namespace TrelloNet
+using trellow.api.Organizations;
+
+namespace trellow.api.Notifications
 {
 	public class OrganizationName : IOrganizationId
 	{

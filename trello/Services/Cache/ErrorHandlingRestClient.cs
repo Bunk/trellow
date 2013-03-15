@@ -5,9 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using RestSharp;
-using TrelloNet;
-using TrelloNet.Internal;
-using trellow.api.OAuth;
+using trellow.api;
 
 namespace trello.Services.Cache
 {

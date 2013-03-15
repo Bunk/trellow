@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Internal
 {
 	/// <summary>
 	/// If the enum member we are trying to deserialize to is not found, it will return the first value in the enum instead of throwing.

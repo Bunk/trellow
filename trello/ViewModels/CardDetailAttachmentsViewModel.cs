@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
-using TrelloNet;
+using trellow.api.Cards;
 
 namespace trello.ViewModels
 {

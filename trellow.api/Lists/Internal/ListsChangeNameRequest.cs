@@ -1,6 +1,7 @@
 using RestSharp;
+using trellow.api.Internal;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Lists.Internal
 {
 	internal class ListsChangeNameRequest : ListsRequest
 	{

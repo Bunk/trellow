@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using TrelloNet.Internal;
+using trellow.api.Internal;
 
-namespace TrelloNet
+namespace trellow.api.Notifications
 {
 	public interface INotifications
 	{

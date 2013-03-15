@@ -1,6 +1,8 @@
 using RestSharp;
+using trellow.api.Internal;
+using trellow.api.Lists;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Cards.Internal
 {
 	internal class CardsMoveRequest : CardsRequest
 	{

@@ -3,8 +3,8 @@ using System.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
-using TrelloNet;
 using trello.Assets;
+using trellow.api;
 
 namespace trello.ViewModels
 {

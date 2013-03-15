@@ -1,7 +1,4 @@
-﻿using trellow.api;
-using trellow.api.OAuth;
-
-namespace TrelloNet.Internal
+﻿namespace trellow.api.Internal
 {
     public class TrelloRestClient : OAuthRestClient
 	{

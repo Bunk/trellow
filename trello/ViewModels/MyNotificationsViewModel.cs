@@ -4,11 +4,12 @@ using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using Strilanc.Value;
-using TrelloNet;
-using TrelloNet.Internal;
 using trello.Assets;
 using trello.ViewModels.Boards;
 using trello.ViewModels.Notifications;
+using trellow.api;
+using trellow.api.Internal;
+using trellow.api.Notifications;
 
 namespace trello.ViewModels
 {

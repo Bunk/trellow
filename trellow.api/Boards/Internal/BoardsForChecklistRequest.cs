@@ -1,4 +1,7 @@
-namespace TrelloNet.Internal
+using trellow.api.Checklists;
+using trellow.api.Checklists.Internal;
+
+namespace trellow.api.Boards.Internal
 {
 	internal class BoardsForChecklistRequest : ChecklistsRequest
 	{

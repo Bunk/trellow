@@ -1,6 +1,6 @@
 using System;
 
-namespace trellow.api.OAuth
+namespace trellow.api
 {
     public class OAuthToken
     {

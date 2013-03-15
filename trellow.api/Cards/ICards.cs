@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
-using TrelloNet.Internal;
+using trellow.api.Boards;
+using trellow.api.Checklists;
+using trellow.api.Lists;
+using trellow.api.Members;
+using trellow.api.Search;
 
-namespace TrelloNet
+namespace trellow.api.Cards
 {
 	public interface ICards
 	{

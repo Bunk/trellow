@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using trellow.api.Internal;
+using trellow.api.Members;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Notifications.Internal
 {
 	internal class AsyncNotifications : IAsyncNotifications
 	{

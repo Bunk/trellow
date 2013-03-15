@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 using RestSharp;
 using RestSharp.Authenticators;
 using trellow.api.Data.Services;
-using trellow.api.OAuth;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Internal
 {
     public class OAuthRestClient : RestClient, IRequestClient
     {

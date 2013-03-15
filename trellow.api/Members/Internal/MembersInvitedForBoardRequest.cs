@@ -1,4 +1,7 @@
-namespace TrelloNet.Internal
+using trellow.api.Boards;
+using trellow.api.Boards.Internal;
+
+namespace trellow.api.Members.Internal
 {
 	internal class MembersInvitedForBoardRequest : BoardsRequest
 	{

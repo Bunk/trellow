@@ -1,4 +1,8 @@
-namespace TrelloNet.Internal
+using trellow.api.Internal;
+using trellow.api.Organizations;
+using trellow.api.Organizations.Internal;
+
+namespace trellow.api.Boards.Internal
 {
 	internal class BoardsForOrganizationRequest : OrganizationsRequest
 	{

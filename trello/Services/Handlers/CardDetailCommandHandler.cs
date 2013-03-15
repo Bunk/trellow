@@ -2,8 +2,11 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
-using TrelloNet;
+using trellow.api;
+using trellow.api.Cards;
 using trellow.api.Checklists;
+using trellow.api.Lists;
+using trellow.api.Members;
 
 namespace trello.Services.Handlers
 {

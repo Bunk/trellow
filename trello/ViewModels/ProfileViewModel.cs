@@ -2,9 +2,9 @@
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
-using TrelloNet;
 using trello.Extensions;
 using trellow.api;
+using trellow.api.Members;
 
 namespace trello.ViewModels
 {

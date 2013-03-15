@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using Newtonsoft.Json;
+using trellow.api.Checklists;
+using trellow.api.Members;
 
-namespace TrelloNet
+namespace trellow.api.Cards
 {
     public class Card : ICardId, IUpdatableCard
     {
@@ -103,7 +105,7 @@ namespace TrelloNet
         // A Card has a list of Checklists and a Checklist has a list of CheckItems, but a CheckItem does not include the state (checked/unchecked).
         // A Card also has a list of CheckItemState with the ID of it's CheckItem and the state (which always seems to be "complete").
         // After we have deserialized go through each CheckItemState and set Checked to true on the corresponding CheckItem.
-        public class CheckItem : TrelloNet.CheckItem
+        public class CheckItem : Checklists.CheckItem
         {
             public bool Checked { get; set; }
         }

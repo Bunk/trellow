@@ -1,4 +1,4 @@
-namespace TrelloNet
+namespace trellow.api.Lists
 {
 	public class List : IListId, IUpdatableList
 	{

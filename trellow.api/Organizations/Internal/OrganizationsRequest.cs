@@ -1,6 +1,7 @@
 using RestSharp;
+using trellow.api.Internal;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Organizations.Internal
 {
 	internal class OrganizationsRequest : RestRequest
 	{

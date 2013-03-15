@@ -1,6 +1,6 @@
 using RestSharp;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Cards.Internal
 {
 	internal class CardsDeleteRequest : CardsRequest
 	{

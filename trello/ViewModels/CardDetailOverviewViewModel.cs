@@ -4,12 +4,14 @@ using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
-using TrelloNet;
 using trello.Extensions;
 using trello.Services;
 using trello.Services.Handlers;
 using trello.ViewModels.Activities;
 using trellow.api;
+using trellow.api.Actions;
+using trellow.api.Cards;
+using trellow.api.Members;
 
 namespace trello.ViewModels
 {

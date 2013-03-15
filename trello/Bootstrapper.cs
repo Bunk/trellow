@@ -4,8 +4,6 @@ using System.Diagnostics;
 using System.Windows;
 using Caliburn.Micro;
 using Microsoft.Phone.Controls;
-using TrelloNet;
-using TrelloNet.Internal;
 using trello.Extensions;
 using trello.Services;
 using trello.Services.Cache;
@@ -15,6 +13,7 @@ using trello.ViewModels.Boards;
 using trello.ViewModels.Notifications;
 using trellow.api;
 using trellow.api.Data;
+using trellow.api.Internal;
 
 namespace trello
 {

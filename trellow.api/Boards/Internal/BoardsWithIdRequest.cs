@@ -1,4 +1,4 @@
-namespace TrelloNet.Internal
+namespace trellow.api.Boards.Internal
 {
 	internal class BoardsWithIdRequest : BoardsRequest
 	{

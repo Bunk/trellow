@@ -1,6 +1,7 @@
 using RestSharp;
+using trellow.api.Internal;
 
-namespace TrelloNet.Internal
+namespace trellow.api.Tokens.Internal
 {
 	internal class TokensRequest : RestRequest
 	{

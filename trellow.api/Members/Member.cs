@@ -1,4 +1,4 @@
-﻿namespace TrelloNet
+﻿namespace trellow.api.Members
 {
 	public class Member : IMemberId
 	{

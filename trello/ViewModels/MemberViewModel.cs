@@ -1,5 +1,6 @@
-using TrelloNet;
 using trello.Extensions;
+using trellow.api.Actions;
+using trellow.api.Members;
 
 namespace trello.ViewModels
 {

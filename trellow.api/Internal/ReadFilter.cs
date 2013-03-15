@@ -1,4 +1,4 @@
-namespace TrelloNet.Internal
+namespace trellow.api.Internal
 {
 	public enum ReadFilter
 	{		

@@ -1,4 +1,6 @@
-namespace TrelloNet
+using trellow.api.Lists;
+
+namespace trellow.api
 {
 	public class ListName : IListId
 	{
