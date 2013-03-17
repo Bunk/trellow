@@ -13,10 +13,10 @@ using trellow.api.Cards;
 namespace trello.ViewModels
 {
     [UsedImplicitly]
-    public sealed class CardDetailChecklistViewModel : PivotItemViewModel, 
-        IConfigureTheAppBar,
-        IHandle<CheckItemChanged>,
-        IHandle<ChecklistCreated>
+    public sealed class CardDetailChecklistViewModel : PivotItemViewModel,
+                                                       IConfigureTheAppBar,
+                                                       IHandle<CheckItemChanged>,
+                                                       IHandle<ChecklistCreated>
     {
         private readonly Func<ChecklistViewModel> _checklistFactory;
         private readonly IEventAggregator _eventAggregator;
@@ -29,7 +29,7 @@ namespace trello.ViewModels
         public IObservableCollection<ChecklistViewModel> Checklists { get; set; }
 
         public CardDetailChecklistViewModel(IEventAggregator eventAggregator,
-            ITrello api,
+                                            ITrello api,
                                             IWindowManager window,
                                             Func<ChecklistViewModel> checklistFactory)
         {
