@@ -99,6 +99,8 @@ namespace trello.ViewModels
 
         public void Handle(CheckItemChanged message)
         {
+            if (message.ChecklistId != Id) return;
+
             NotifyOfPropertyChange(() => ItemsChecked);
             NotifyOfPropertyChange(() => Items);
         }

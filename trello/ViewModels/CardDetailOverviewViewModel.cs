@@ -22,7 +22,7 @@ namespace trello.ViewModels
                                                       IHandle<CardDueDateChanged>,
                                                       IHandle<CardLabelAdded>,
                                                       IHandle<CardLabelRemoved>,
-                                                      IHandle<CardDetailChecklistViewModel.ChecklistAggregationsUpdated>,
+                                                      IHandle<CardDetailChecklistViewModel.AggregationsUpdated>,
                                                       IHandle<CardDetailMembersViewModel.MemberAggregationsUpdated>
     {
         private readonly ITrello _api;
@@ -302,7 +302,7 @@ namespace trello.ViewModels
                 Labels.Remove(found);
         }
 
-        public void Handle(CardDetailChecklistViewModel.ChecklistAggregationsUpdated message)
+        public void Handle(CardDetailChecklistViewModel.AggregationsUpdated message)
         {
             Checklists = message.ChecklistCount;
             CheckItems = message.CheckItemsCount;

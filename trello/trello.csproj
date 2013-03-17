@@ -160,6 +160,8 @@
     <Compile Include="Services\Handlers\CheckItemChanged.cs" />
     <Compile Include="Services\Handlers\CheckItemCreationRequested.cs" />
     <Compile Include="Services\Handlers\CheckItemRemoved.cs" />
+    <Compile Include="Services\Handlers\ChecklistCreated.cs" />
+    <Compile Include="Services\Handlers\ChecklistCreationRequested.cs" />
     <Compile Include="Services\Handlers\ChecklistItemTapped.cs" />
     <Compile Include="Services\Handlers\ProgressScope.cs" />
     <Compile Include="Services\JsonFileRestClient.cs" />
@@ -181,6 +183,7 @@
     <Compile Include="ViewModels\CardDetailMembersViewModel.cs" />
     <Compile Include="ViewModels\CardDetailOverviewViewModel.cs" />
     <Compile Include="ViewModels\CardDetailPivotViewModel.cs" />
+    <Compile Include="ViewModels\Cards\AddChecklistViewModel.cs" />
     <Compile Include="ViewModels\ChangeCardDescriptionViewModel.cs" />
     <Compile Include="ViewModels\LabelViewModel.cs" />
     <Compile Include="ViewModels\MyNotificationsViewModel.cs" />
@@ -243,6 +246,9 @@
     </Compile>
     <Compile Include="Views\CardDetailPivotView.xaml.cs">
       <DependentUpon>CardDetailPivotView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\AddChecklistView.xaml.cs">
+      <DependentUpon>AddChecklistView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChangeCardDescriptionView.xaml.cs">
       <DependentUpon>ChangeCardDescriptionView.xaml</DependentUpon>
@@ -537,10 +543,7 @@
     <Reference Include="Telerik.Windows.Controls.Primitives, Version=2012.3.1311.3040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
     <Reference Include="Telerik.Windows.Core, Version=2012.3.1311.3040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\Cards\" />
-    <Folder Include="Views\Cards\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <DesignTimeOnly Include="SampleData\SampleDataSource\SampleDataSource.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
@@ -585,6 +588,10 @@
     <Page Include="Views\CardDetailPivotView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\AddChecklistView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ChangeCardDescriptionView.xaml">
       <SubType>Designer</SubType>

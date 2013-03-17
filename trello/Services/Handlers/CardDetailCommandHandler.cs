@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using trellow.api;
+using trellow.api.Boards;
 using trellow.api.Cards;
 using trellow.api.Checklists;
 using trellow.api.Lists;
@@ -22,7 +23,8 @@ namespace trello.Services.Handlers
                                             IHandle<CardDeleted>,
                                             IHandle<CardCreationRequested>,
                                             IHandle<CheckItemCreationRequested>,
-        IHandle<CheckItemRemoved>
+                                            IHandle<CheckItemRemoved>,
+                                            IHandle<ChecklistCreationRequested>
     {
         private readonly IEventAggregator _events;
         private readonly ITrello _api;
@@ -134,6 +136,23 @@ namespace trello.Services.Handlers
         public void Handle(CheckItemRemoved message)
         {
             Handle(api => api.Checklists.RemoveCheckItem(new ChecklistId(message.ChecklistId), message.CheckItemId));
+        }
+
+        public void Handle(ChecklistCreationRequested message)
+        {
+            Handle(async api =>
+            {
+                var created = await api.Checklists.Add(message.Name, new BoardId(message.BoardId));
+                await api.Cards.AddChecklist(new CardId(message.CardId), created);
+                
+                _events.Publish(new ChecklistCreated
+                {
+                    CardId = message.CardId,
+                    BoardId = message.BoardId,
+                    ChecklistId = created.Id,
+                    Name = created.Name
+                });
+            });
         }
     }
 }
