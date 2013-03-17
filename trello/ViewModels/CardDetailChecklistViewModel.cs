@@ -7,7 +7,6 @@ using Microsoft.Phone.Shell;
 using trello.Assets;
 using trello.Services.Handlers;
 using trello.ViewModels.Cards;
-using trellow.api;
 using trellow.api.Cards;
 
 namespace trello.ViewModels
@@ -20,7 +19,6 @@ namespace trello.ViewModels
     {
         private readonly Func<ChecklistViewModel> _checklistFactory;
         private readonly IEventAggregator _eventAggregator;
-        private readonly ITrello _api;
         private readonly IWindowManager _window;
         private string _boardId;
         private string _cardId;
@@ -29,14 +27,12 @@ namespace trello.ViewModels
         public IObservableCollection<ChecklistViewModel> Checklists { get; set; }
 
         public CardDetailChecklistViewModel(IEventAggregator eventAggregator,
-                                            ITrello api,
                                             IWindowManager window,
                                             Func<ChecklistViewModel> checklistFactory)
         {
             DisplayName = "checklists";
 
             _eventAggregator = eventAggregator;
-            _api = api;
             _window = window;
             _eventAggregator.Subscribe(this);
             _checklistFactory = checklistFactory;
