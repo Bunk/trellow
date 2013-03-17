@@ -17,12 +17,11 @@ namespace trello.ViewModels
     {
         private readonly IEventAggregator _eventAggregator;
         private readonly Func<ChecklistItemViewModel> _itemFactory;
+        private string _cardId;
         private string _name;
         private string _text;
 
-        private string Id { get; set; }
-
-        private string CardId { get; set; }
+        public string Id { get; private set; }
 
         [UsedImplicitly]
         public string Name
@@ -71,9 +70,9 @@ namespace trello.ViewModels
         {
             Id = list.Id;
             Name = list.Name;
-            CardId = list.IdCard;
+            _cardId = list.IdCard;
 
-            var items = list.CheckItems.Select(item => _itemFactory().InitializeWith(CardId, Id, item));
+            var items = list.CheckItems.Select(item => _itemFactory().InitializeWith(_cardId, Id, item));
             Items.Clear();
             Items.AddRange(items);
 
@@ -81,7 +80,7 @@ namespace trello.ViewModels
         }
 
         [UsedImplicitly]
-        public void Add(string text)
+        public void AddItem(string text)
         {
             _eventAggregator.Publish(new CheckItemCreationRequested
             {
@@ -92,9 +91,19 @@ namespace trello.ViewModels
         }
 
         [UsedImplicitly]
-        public bool CanAdd(string text)
+        public bool CanAddItem(string text)
         {
             return !string.IsNullOrWhiteSpace(text);
+        }
+
+        [UsedImplicitly]
+        public void Remove()
+        {
+            _eventAggregator.Publish(new ChecklistRemoved
+            {
+                CardId = _cardId,
+                ChecklistId = Id
+            });
         }
 
         public void Handle(CheckItemChanged message)
@@ -109,7 +118,7 @@ namespace trello.ViewModels
         {
             if (message.ChecklistId != Id) return;
 
-            var vm = _itemFactory().InitializeWith(CardId, Id, message.CheckItem);
+            var vm = _itemFactory().InitializeWith(_cardId, Id, message.CheckItem);
             Items.Add(vm);
         }
 

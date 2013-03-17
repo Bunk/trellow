@@ -21,7 +21,7 @@
 		<converters:StyleConverter x:Key="CheckboxTextConverter" AlternateStyle="{StaticResource CheckboxChecked}" />
 	</UserControl.Resources>
 
-    <Grid x:Name="LayoutRoot" Background="Transparent" d:DataContext="{Binding Checklists[0]}">
+    <Grid x:Name="LayoutRoot" Background="Transparent" d:DataContext="{Binding Checklists[0]}" Margin="0,0,0,15">
 
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
@@ -30,6 +30,11 @@
 		</Grid.RowDefinitions>
 
 		<Border Grid.Row="0" Padding="10,20,10,10">
+			<toolkit:ContextMenuService.ContextMenu>
+				<toolkit:ContextMenu>
+					<toolkit:MenuItem Header="remove" cm:Message.Attach="Remove" />
+				</toolkit:ContextMenu>
+			</toolkit:ContextMenuService.ContextMenu>
 			<Grid>
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto" />
@@ -98,7 +103,7 @@
 				</TextBox.InputScope>
 			</TextBox>
 
-			<Button Name="Add" Grid.Column="1">Add</Button>
+			<Button Name="AddItem" Grid.Column="1">Add</Button>
 		</Grid>
 
     </Grid>

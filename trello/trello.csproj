@@ -163,6 +163,7 @@
     <Compile Include="Services\Handlers\ChecklistCreated.cs" />
     <Compile Include="Services\Handlers\ChecklistCreationRequested.cs" />
     <Compile Include="Services\Handlers\ChecklistItemTapped.cs" />
+    <Compile Include="Services\Handlers\ChecklistRemoved.cs" />
     <Compile Include="Services\Handlers\ProgressScope.cs" />
     <Compile Include="Services\JsonFileRestClient.cs" />
     <Compile Include="Services\NetworkService.cs" />

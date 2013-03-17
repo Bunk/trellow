@@ -24,7 +24,8 @@ namespace trello.Services.Handlers
                                             IHandle<CardCreationRequested>,
                                             IHandle<CheckItemCreationRequested>,
                                             IHandle<CheckItemRemoved>,
-                                            IHandle<ChecklistCreationRequested>
+                                            IHandle<ChecklistCreationRequested>,
+                                            IHandle<ChecklistRemoved>
     {
         private readonly IEventAggregator _events;
         private readonly ITrello _api;
@@ -144,7 +145,7 @@ namespace trello.Services.Handlers
             {
                 var created = await api.Checklists.Add(message.Name, new BoardId(message.BoardId));
                 await api.Cards.AddChecklist(new CardId(message.CardId), created);
-                
+
                 _events.Publish(new ChecklistCreated
                 {
                     CardId = message.CardId,
@@ -153,6 +154,11 @@ namespace trello.Services.Handlers
                     Name = created.Name
                 });
             });
+        }
+
+        public void Handle(ChecklistRemoved message)
+        {
+            Handle(api => api.Cards.RemoveChecklist(new CardId(message.CardId), new ChecklistId(message.ChecklistId)));
         }
     }
 }

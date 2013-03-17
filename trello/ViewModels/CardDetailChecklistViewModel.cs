@@ -15,7 +15,8 @@ namespace trello.ViewModels
     public sealed class CardDetailChecklistViewModel : PivotItemViewModel,
                                                        IConfigureTheAppBar,
                                                        IHandle<CheckItemChanged>,
-                                                       IHandle<ChecklistCreated>
+                                                       IHandle<ChecklistCreated>,
+                                                       IHandle<ChecklistRemoved>
     {
         private readonly Func<ChecklistViewModel> _checklistFactory;
         private readonly IEventAggregator _eventAggregator;
@@ -75,6 +76,15 @@ namespace trello.ViewModels
             _window.ShowDialog(vm);
         }
 
+        public class AggregationsUpdated
+        {
+            public int ChecklistCount { get; set; }
+
+            public int CheckItemsCount { get; set; }
+
+            public int CheckItemsCheckedCount { get; set; }
+        }
+
         public void Handle(CheckItemChanged message)
         {
             if (message.CardId != _cardId) return;
@@ -104,13 +114,13 @@ namespace trello.ViewModels
             Checklists.Insert(0, list);
         }
 
-        public class AggregationsUpdated
+        public void Handle(ChecklistRemoved message)
         {
-            public int ChecklistCount { get; set; }
+            if (message.CardId != _cardId) return;
 
-            public int CheckItemsCount { get; set; }
-
-            public int CheckItemsCheckedCount { get; set; }
+            var found = Checklists.Where(x => x.Id == message.ChecklistId).ToArray();
+            foreach (var list in found)
+                Checklists.Remove(list);
         }
     }
 }
