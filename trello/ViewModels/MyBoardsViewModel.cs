@@ -58,7 +58,7 @@ namespace trello.ViewModels
         [UsedImplicitly]
         private async void RefreshBoards()
         {
-            var boards = (await _api.Boards.ForMe());
+            var boards = (await _api.Boards.ForMe(BoardFilter.Open));
 
             Boards.Clear();
             Boards.AddRange(boards.Select(b => new BoardViewModel().Initialize(b)));
