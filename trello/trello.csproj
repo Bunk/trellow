@@ -187,7 +187,6 @@
     <Compile Include="ViewModels\CardDetailPivotViewModel.cs" />
     <Compile Include="ViewModels\Cards\AddChecklistViewModel.cs" />
     <Compile Include="ViewModels\ChangeCardDescriptionViewModel.cs" />
-    <Compile Include="ViewModels\Checklists\RenameChecklistItemViewModel.cs" />
     <Compile Include="ViewModels\Checklists\RenameChecklistViewModel.cs" />
     <Compile Include="ViewModels\LabelViewModel.cs" />
     <Compile Include="ViewModels\MyNotificationsViewModel.cs" />
