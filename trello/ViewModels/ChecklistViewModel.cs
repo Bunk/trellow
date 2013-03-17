@@ -1,21 +1,23 @@
 ﻿using System;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using trello.Services.Handlers;
+using trello.ViewModels.Checklists;
 using trellow.api;
 using trellow.api.Cards;
 
 namespace trello.ViewModels
 {
     [UsedImplicitly]
-    public class ChecklistViewModel : ViewModelBase, 
-        IHandle<CheckItemChanged>,
-        IHandle<CheckItemCreated>,
-        IHandle<CheckItemRemoved>
+    public class ChecklistViewModel : ViewModelBase,
+                                      IHandle<CheckItemChanged>,
+                                      IHandle<CheckItemCreated>,
+                                      IHandle<CheckItemRemoved>,
+                                      IHandle<ChecklistNameChanged>
     {
         private readonly IEventAggregator _eventAggregator;
+        private readonly IWindowManager _windows;
         private readonly Func<ChecklistItemViewModel> _itemFactory;
         private string _cardId;
         private string _name;
@@ -57,10 +59,12 @@ namespace trello.ViewModels
         public ChecklistViewModel(ITrelloApiSettings settings,
                                   INavigationService navigation,
                                   IEventAggregator eventAggregator,
+                                  IWindowManager windows,
                                   Func<ChecklistItemViewModel> itemFactory) : base(settings, navigation)
         {
             _itemFactory = itemFactory;
             _eventAggregator = eventAggregator;
+            _windows = windows;
             _eventAggregator.Subscribe(this);
 
             Items = new BindableCollection<ChecklistItemViewModel>();
@@ -106,6 +110,16 @@ namespace trello.ViewModels
             });
         }
 
+        [UsedImplicitly]
+        public void Rename()
+        {
+            var vm = new RenameChecklistViewModel(GetView(), _eventAggregator, Id)
+            {
+                Name = Name
+            };
+            _windows.ShowDialog(vm);
+        }
+
         public void Handle(CheckItemChanged message)
         {
             if (message.ChecklistId != Id) return;
@@ -131,6 +145,13 @@ namespace trello.ViewModels
                 Items.Remove(item);
 
             NotifyOfPropertyChange(() => ItemsChecked);
+        }
+
+        public void Handle(ChecklistNameChanged message)
+        {
+            if (message.ChecklistId != Id) return;
+
+            Name = message.Name;
         }
     }
 }

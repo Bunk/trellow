@@ -163,6 +163,7 @@
     <Compile Include="Services\Handlers\ChecklistCreated.cs" />
     <Compile Include="Services\Handlers\ChecklistCreationRequested.cs" />
     <Compile Include="Services\Handlers\ChecklistItemTapped.cs" />
+    <Compile Include="Services\Handlers\ChecklistNameChanged.cs" />
     <Compile Include="Services\Handlers\ChecklistRemoved.cs" />
     <Compile Include="Services\Handlers\ProgressScope.cs" />
     <Compile Include="Services\JsonFileRestClient.cs" />
@@ -186,6 +187,7 @@
     <Compile Include="ViewModels\CardDetailPivotViewModel.cs" />
     <Compile Include="ViewModels\Cards\AddChecklistViewModel.cs" />
     <Compile Include="ViewModels\ChangeCardDescriptionViewModel.cs" />
+    <Compile Include="ViewModels\Checklists\RenameChecklistViewModel.cs" />
     <Compile Include="ViewModels\LabelViewModel.cs" />
     <Compile Include="ViewModels\MyNotificationsViewModel.cs" />
     <Compile Include="ViewModels\MyBoardsViewModel.cs" />
@@ -253,6 +255,9 @@
     </Compile>
     <Compile Include="Views\ChangeCardDescriptionView.xaml.cs">
       <DependentUpon>ChangeCardDescriptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Checklists\RenameChecklistView.xaml.cs">
+      <DependentUpon>RenameChecklistView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MyBoardsView.xaml.cs">
       <DependentUpon>MyBoardsView.xaml</DependentUpon>
@@ -597,6 +602,10 @@
     <Page Include="Views\ChangeCardDescriptionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Checklists\RenameChecklistView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\MyBoardsView.xaml">
       <SubType>Designer</SubType>

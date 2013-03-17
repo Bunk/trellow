@@ -90,12 +90,10 @@ namespace trello.ViewModels
         [UsedImplicitly]
         public void ChangeName()
         {
-            var model = new ChangeCardNameViewModel(GetView(), _eventAggregator)
+            var model = new ChangeCardNameViewModel(GetView(), _eventAggregator, Id)
             {
-                CardId = Id,
                 Name = Name
             };
-
             _windowManager.ShowDialog(model);
         }
 

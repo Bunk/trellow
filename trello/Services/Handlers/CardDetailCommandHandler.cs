@@ -25,7 +25,8 @@ namespace trello.Services.Handlers
                                             IHandle<CheckItemCreationRequested>,
                                             IHandle<CheckItemRemoved>,
                                             IHandle<ChecklistCreationRequested>,
-                                            IHandle<ChecklistRemoved>
+                                            IHandle<ChecklistRemoved>,
+                                            IHandle<ChecklistNameChanged>
     {
         private readonly IEventAggregator _events;
         private readonly ITrello _api;
@@ -159,6 +160,11 @@ namespace trello.Services.Handlers
         public void Handle(ChecklistRemoved message)
         {
             Handle(api => api.Cards.RemoveChecklist(new CardId(message.CardId), new ChecklistId(message.ChecklistId)));
+        }
+
+        public void Handle(ChecklistNameChanged message)
+        {
+            Handle(api => api.Checklists.ChangeName(new ChecklistId(message.ChecklistId), message.Name));
         }
     }
 }

@@ -1,14 +1,19 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using trello.Services.Handlers;
 
-namespace trello.ViewModels
+namespace trello.ViewModels.Checklists
 {
     [UsedImplicitly]
-    public class ChangeCardNameViewModel : DialogViewModel
+    public class RenameChecklistViewModel : DialogViewModel
     {
-        private readonly IEventAggregator _eventAggregator;
-        private readonly string _cardId;
+        private readonly IEventAggregator _events;
+        private readonly string _checklistId;
         private string _name;
 
         [UsedImplicitly]
@@ -23,18 +28,18 @@ namespace trello.ViewModels
             }
         }
 
-        public ChangeCardNameViewModel(object root, IEventAggregator eventAggregator, string cardId) : base(root)
+        public RenameChecklistViewModel(object root, IEventAggregator events, string checklistId) : base(root)
         {
-            _eventAggregator = eventAggregator;
-            _cardId = cardId;
+            _events = events;
+            _checklistId = checklistId;
         }
 
         [UsedImplicitly]
         public void Accept()
         {
-            _eventAggregator.Publish(new CardNameChanged
+            _events.Publish(new ChecklistNameChanged
             {
-                CardId = _cardId, 
+                ChecklistId = _checklistId,
                 Name = Name
             });
             TryClose();
