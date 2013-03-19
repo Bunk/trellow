@@ -44,7 +44,7 @@ namespace trello.ViewModels
             var vms = cards
                 .Select(card =>
                 {
-                    var vm = _cardFactory().InitializeWith(card);
+                    var vm = _cardFactory().InitializeWith(card, null);
 
                     var board = boards.FirstOrDefault(x => x.Id == card.IdBoard);
                     if (board != null)

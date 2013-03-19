@@ -4,7 +4,9 @@ using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using trello.Assets;
+using trello.Interactions;
 using trello.Services.Handlers;
+using trello.Views.Boards;
 using trellow.api;
 using trellow.api.Lists;
 
@@ -24,6 +26,7 @@ namespace trello.ViewModels.Boards
         private string _name;
         private string _id;
         private string _boardId;
+        private InteractionManager _interactionManager;
 
         [UsedImplicitly]
         public string Id
@@ -86,12 +89,25 @@ namespace trello.ViewModels.Boards
         protected override void OnInitialize()
         {
             RefreshLists();
+
+            _interactionManager = new InteractionManager();
+
+            var view = GetView() as BoardListView;
+            if (view == null) return;
+
+            var reorderInteraction = new DragToReorderInteraction(view.Cards, view.DragImage);
+
+            _interactionManager.AddInteraction(reorderInteraction);
         }
 
         private async void RefreshLists()
         {
             var cards = await _api.Cards.ForList(new ListId(Id));
-            var vms = cards.Select(card => _cardFactory().InitializeWith(card));
+            var vms = cards.Select(card =>
+            {
+                var vm = _cardFactory().InitializeWith(card, _interactionManager);
+                return vm;
+            });
 
             Cards.Clear();
             Cards.AddRange(vms);
@@ -128,7 +144,7 @@ namespace trello.ViewModels.Boards
 
         public void Handle(CardCreated message)
         {
-            var vm = _cardFactory().InitializeWith(message.Card);
+            var vm = _cardFactory().InitializeWith(message.Card, null);
             Cards.Add(vm);
 
             _navigation.UriFor<CardDetailPivotViewModel>()

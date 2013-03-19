@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="clr-namespace:trello.Views.Cards"
     xmlns:cm="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
 	xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
@@ -16,22 +17,22 @@
     
     <Grid x:Name="LayoutRoot" Background="Transparent">
 		
-		<telerikPrimitives:RadDataBoundListBox x:Name="Cards"
-                                               Margin="12,0,12,0"
-                                               telerikCore:InteractionEffectManager.IsInteractionEnabled="True">
-			<telerikPrimitives:RadContextMenu.ContextMenu>
-				<telerikPrimitives:RadContextMenu x:Name="BoardsMenu">
-					<telerikPrimitives:RadContextMenuItem Content="remove" />
-				</telerikPrimitives:RadContextMenu>
-			</telerikPrimitives:RadContextMenu.ContextMenu>
-			<telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+		<ItemsControl Name="Cards" Margin="12,0,12,0">
+			<ItemsControl.ItemTemplate>
 				<DataTemplate>
-					<ContentControl cm:View.Model="{Binding}" 
-					VerticalContentAlignment="Stretch" 
-					HorizontalContentAlignment="Stretch" />
+					<ContentControl cm:View.Model="{Binding}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" />
 				</DataTemplate>
-			</telerikPrimitives:RadDataBoundListBox.ItemTemplate>
-        </telerikPrimitives:RadDataBoundListBox>
+			</ItemsControl.ItemTemplate>
+			<ItemsControl.Template>
+				<ControlTemplate TargetType="ItemsControl">
+					<ScrollViewer Name="ScrollViewer" ManipulationMode="Control">
+						<ItemsPresenter />
+					</ScrollViewer>
+				</ControlTemplate>
+			</ItemsControl.Template>
+		</ItemsControl>
+
+		<local:DragImage Name="DragImage" VerticalAlignment="Top" Visibility="Collapsed" />
 		
     </Grid>
 </UserControl>

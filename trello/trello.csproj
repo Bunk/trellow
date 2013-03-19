@@ -133,8 +133,15 @@
     <Compile Include="Caliburn.Micro\PhoneToolkitConventions.cs" />
     <Compile Include="Caliburn.Micro\TelerikConventions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Extensions\FrameworkElementExtensions.cs" />
+    <Compile Include="Extensions\LinqToVisualTree.cs" />
     <Compile Include="Extensions\SimpleContainerExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\UIElementExtensions.cs" />
+    <Compile Include="Interactions\DragToReorderInteraction.cs" />
+    <Compile Include="Interactions\IInteraction.cs" />
+    <Compile Include="Interactions\InteractionBase.cs" />
+    <Compile Include="Interactions\InteractionManager.cs" />
     <Compile Include="KeyEqualityComparer.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -252,6 +259,9 @@
     </Compile>
     <Compile Include="Views\Cards\AddChecklistView.xaml.cs">
       <DependentUpon>AddChecklistView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\DragImage.xaml.cs">
+      <DependentUpon>DragImage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChangeCardDescriptionView.xaml.cs">
       <DependentUpon>ChangeCardDescriptionView.xaml</DependentUpon>
@@ -598,6 +608,10 @@
     <Page Include="Views\Cards\AddChecklistView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cards\DragImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ChangeCardDescriptionView.xaml">
       <SubType>Designer</SubType>

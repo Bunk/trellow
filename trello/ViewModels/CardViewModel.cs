@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
+using trello.Interactions;
 using trellow.api.Cards;
 
 namespace trello.ViewModels
@@ -9,6 +11,7 @@ namespace trello.ViewModels
     public class CardViewModel : Screen
     {
         private readonly INavigationService _navigationService;
+        private InteractionManager _interactionManager;
 
         public string Id { get; set; }
 
@@ -50,8 +53,10 @@ namespace trello.ViewModels
             Labels = new BindableCollection<LabelViewModel>();
         }
 
-        public CardViewModel InitializeWith(Card card)
+        public CardViewModel InitializeWith(Card card, InteractionManager interactionManager)
         {
+            _interactionManager = interactionManager;
+
             var cover = card.Attachments.SingleOrDefault(att => att.Id == card.IdAttachmentCover);
 
             BoardName = card.Board != null ? card.Board.Name : null;
@@ -78,6 +83,13 @@ namespace trello.ViewModels
             Labels.AddRange(card.Labels.Select(lbl => new LabelViewModel(lbl.Color.ToString(), lbl.Name)));
 
             return this;
+        }
+
+        protected override void OnViewLoaded(object view)
+        {
+            var element = view as FrameworkElement;
+            if (element != null && _interactionManager != null)
+                _interactionManager.AddElement(element);
         }
 
         [UsedImplicitly]
