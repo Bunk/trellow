@@ -146,7 +146,6 @@ namespace trello.Services.Handlers
             {
                 var created = await api.Checklists.Add(message.Name, new BoardId(message.BoardId));
                 await api.Cards.AddChecklist(new CardId(message.CardId), created);
-
                 _events.Publish(new ChecklistCreated
                 {
                     CardId = message.CardId,

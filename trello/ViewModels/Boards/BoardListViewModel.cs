@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
@@ -95,9 +97,8 @@ namespace trello.ViewModels.Boards
             var view = GetView() as BoardListView;
             if (view == null) return;
 
-            var reorderInteraction = new DragToReorderInteraction(view.Cards, view.DragImage);
-
-            _interactionManager.AddInteraction(reorderInteraction);
+            var interaction = new DragToReorderInteraction(view.Cards, view.DragImage);
+            _interactionManager.AddInteraction(interaction);
         }
 
         private async void RefreshLists()

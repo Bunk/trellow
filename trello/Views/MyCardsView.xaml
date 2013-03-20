@@ -33,7 +33,13 @@
 									<ItemsControl.ItemTemplate>
 										<DataTemplate>
 											<StackPanel>
-												<ContentControl cm:View.Model="{Binding}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" />
+												<ContentControl cm:View.Model="{Binding}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+													<i:Interaction.Triggers>
+														<triggers:GestureServiceTrigger Gesture="Tap">
+															<cm:ActionMessage MethodName="Open" />
+														</triggers:GestureServiceTrigger>
+													</i:Interaction.Triggers>
+												</ContentControl>
 											</StackPanel>
 										</DataTemplate>
 									</ItemsControl.ItemTemplate>

@@ -134,11 +134,5 @@
 			</Grid>
 
 		</Grid>
-
-		<i:Interaction.Triggers>
-			<triggers:GestureServiceTrigger Gesture="Tap">
-				<cm:ActionMessage MethodName="Open" />
-			</triggers:GestureServiceTrigger>
-		</i:Interaction.Triggers>
     </Border>
 </UserControl>

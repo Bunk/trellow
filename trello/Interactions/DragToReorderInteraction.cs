@@ -29,6 +29,7 @@ namespace trello.Interactions
         private readonly IObservableCollection<CardViewModel> _cards;
         private readonly DispatcherTimer _autoScrollTimer;
         private readonly ScrollViewer _scrollViewer;
+        private Panel _itemsPanel;
 
         private Action<int> _indexChanged; 
 
@@ -74,6 +75,9 @@ namespace trello.Interactions
 
             IsActive = true;
 
+            if (_itemsPanel == null)
+                _itemsPanel = FindPanel(_scrollViewer);
+
             // copy the dragged element into an image to visually move it
             _initialDraggedItem = sender as FrameworkElement;
             if (_initialDraggedItem == null)
@@ -95,6 +99,32 @@ namespace trello.Interactions
             _lastDragIndex = _initialDragIndex;
 
             _autoScrollTimer.Start();
+        }
+
+        private void HoldDelta(object sender, ManipulationDeltaEventArgs e)
+        {
+            if (!IsActive) return;
+
+            // Avoid bubbling to any scroll viewers
+            e.Handled = true;
+
+            var top = _dragImage.GetVerticalOffset().Value;
+            var offset = top + e.DeltaManipulation.Translation.Y;
+            var heightDelta = _initialDraggedItem.ActualHeight - _dragImage.ActualHeight;
+
+            if (offset < 0) // At the top of the list
+            {
+                offset = 0;
+                UpdateDropTarget(offset);
+            }
+            else
+            {
+                // Check at the midpoint of the drag image
+                UpdateDropTarget(offset + _dragImage.ActualHeight/2);
+            }
+
+            // Move the drag image
+            _dragImage.SetVerticalOffset(offset);
         }
 
         private void HoldCompleted(object sender, ManipulationCompletedEventArgs e)
@@ -135,20 +165,21 @@ namespace trello.Interactions
             });
         }
 
-        private void HoldDelta(object sender, ManipulationDeltaEventArgs e)
+        private static Panel FindPanel(ScrollViewer scrollViewer)
         {
-            if (!IsActive) return;
+            var presenter = (ItemsPresenter) scrollViewer.Content;
+            return (Panel) VisualTreeHelper.GetChild(presenter, 0);
+        }
 
-            // Avoid bubbling to any scroll viewers
-            e.Handled = true;
+        private void UpdateDropTarget(double targetOffset)
+        {
+            var original = _initialDraggedItem.GetRelativePositionIn(_list);
+            var targetPosition = new Point(original.X, targetOffset);
+            var elements = VisualTreeHelper.FindElementsInHostCoordinates(targetPosition, _itemsPanel);
+            var targetItem = elements.FirstOrDefault();
+            if (targetItem == null) return;
 
-            // Move the image
-            var offset = _dragImage.GetVerticalOffset().Value + e.DeltaManipulation.Translation.Y;
-            _dragImage.SetVerticalOffset(offset);
 
-            var index = GetPotentialDragIndex();
-            if (index != _lastDragIndex)
-                _indexChanged(index);
         }
 
         private void UpdateDragImage(UIElement draggedItem)
