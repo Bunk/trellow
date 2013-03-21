@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
 using Caliburn.Micro;
 using LinqToVisualTree;
 using trello.Extensions;
 using trello.ViewModels;
+using trello.Views;
 using trello.Views.Cards;
 
 namespace trello.Interactions
@@ -21,17 +17,15 @@ namespace trello.Interactions
     public class DragToReorderInteraction : InteractionBase
     {
         private int _initialDragIndex;
-        private int _lastDragIndex;
         private FrameworkElement _initialDraggedItem;
+        private int _lastDragIndex;
+        private double _lastDragLocation;
 
         private readonly ItemsControl _list;
         private readonly DragImage _dragImage;
         private readonly IObservableCollection<CardViewModel> _cards;
-        private readonly DispatcherTimer _autoScrollTimer;
         private readonly ScrollViewer _scrollViewer;
         private Panel _itemsPanel;
-
-        private Action<int> _indexChanged; 
 
         public DragToReorderInteraction(ItemsControl list, DragImage dragImage)
         {
@@ -41,19 +35,6 @@ namespace trello.Interactions
 
             _scrollViewer = FindScrollViewer(list);
 
-            _autoScrollTimer = new DispatcherTimer {Interval = TimeSpan.FromMilliseconds(50)};
-            _autoScrollTimer.Tick += (sender, args) =>
-            {
-                //ShuffleItems();
-            };
-
-            _indexChanged = i =>
-            {
-                Debug.WriteLine("Index changed to: {0}", i);
-                _lastDragIndex = i;
-                ShuffleItems();
-            };
-
             IsEnabled = true;
         }
 
@@ -62,6 +43,12 @@ namespace trello.Interactions
             element.Hold += HoldGesture;
             element.ManipulationDelta += HoldDelta;
             element.ManipulationCompleted += HoldCompleted;
+
+            var position = element.GetRelativePositionIn(Application.Current.RootVisual);
+            var relative = element.GetRelativePositionIn(_list);
+            var index = GetPotentialIndex(element);
+
+            Debug.WriteLine("Index: [{0}], Pos: [{1}], Rel: [{2}]", index, position, relative);
         }
 
         private static ScrollViewer FindScrollViewer(ItemsControl list)
@@ -87,7 +74,13 @@ namespace trello.Interactions
             }
 
             // copy the drag image
-            UpdateDragImage(_initialDraggedItem);
+            var draggedPosition = _initialDraggedItem.GetRelativePositionIn(_list);
+            var bitmap = new WriteableBitmap(_initialDraggedItem, null);
+            _dragImage.Image.Source = bitmap;
+            _dragImage.Visibility = Visibility.Visible;
+            _dragImage.Opacity = 1.0;
+            _dragImage.SetVerticalOffset(draggedPosition.Y);
+            //_dragImage.SetRotation(5);
 
             // hide it
             _initialDraggedItem.Opacity = 0.0;
@@ -97,8 +90,7 @@ namespace trello.Interactions
 
             _initialDragIndex = _cards.IndexOf((CardViewModel) _initialDraggedItem.DataContext);
             _lastDragIndex = _initialDragIndex;
-
-            _autoScrollTimer.Start();
+            _lastDragLocation = draggedPosition.Y;
         }
 
         private void HoldDelta(object sender, ManipulationDeltaEventArgs e)
@@ -109,18 +101,23 @@ namespace trello.Interactions
             e.Handled = true;
 
             var top = _dragImage.GetVerticalOffset().Value;
-            var offset = top + e.DeltaManipulation.Translation.Y;
-            var heightDelta = _initialDraggedItem.ActualHeight - _dragImage.ActualHeight;
+            var mid = _dragImage.ActualHeight/2;
+            var translation = e.DeltaManipulation.Translation.Y;
+            var downward = translation > 0;
+            var offset = top + translation;
+            var potential = offset + mid;// +_scrollViewer.VerticalOffset;
 
-            if (offset < 0) // At the top of the list
+            if (offset <= 0)
             {
                 offset = 0;
-                UpdateDropTarget(offset);
+                potential = 0;
             }
-            else
+
+            var newIndex = GetPotentialLocation(_lastDragIndex, potential, downward);
+            if (newIndex != _lastDragIndex)
             {
-                // Check at the midpoint of the drag image
-                UpdateDropTarget(offset + _dragImage.ActualHeight/2);
+                _lastDragLocation = ShiftItems(newIndex);
+                _lastDragIndex = newIndex;
             }
 
             // Move the drag image
@@ -132,17 +129,14 @@ namespace trello.Interactions
             if (!IsActive) return;
 
             IsActive = false;
-            _autoScrollTimer.Stop();
 
             // fade in the list
             _list.Animate(null, 1.0, UIElement.OpacityProperty, 200, 0);
 
-            // animate the dragged item into place
-            var dragIndex = GetPotentialDragIndex();
-            var targetLocation = GetTotalHeightAbove(dragIndex) - _scrollViewer.VerticalOffset;
-            //var targetLocation = dragIndex*_initialDraggedItem.ActualHeight - _scrollViewer.VerticalOffset;
+            var dragIndex = _lastDragIndex;
+            var targetLocation = _lastDragLocation - _scrollViewer.VerticalOffset;
             var transform = _dragImage.GetVerticalOffset().Transform;
-            transform.Animate(null, targetLocation, TranslateTransform.YProperty, 200, 0, completed: () =>
+            transform.Animate(null, targetLocation, CompositeTransform.TranslateYProperty, 200, 0, completed: () =>
             {
                 // move the dragged item
                 var draggedItem = _cards[_initialDragIndex];
@@ -158,7 +152,7 @@ namespace trello.Interactions
                 }
 
                 // fade out the dragged image
-                _dragImage.Animate(null, 0.0, UIElement.OpacityProperty, 1000, 0, completed: () =>
+                _dragImage.Animate(null, 0.0, UIElement.OpacityProperty, 700, 0, completed: () =>
                 {
                     _dragImage.Visibility = Visibility.Collapsed;
                 });
@@ -171,79 +165,87 @@ namespace trello.Interactions
             return (Panel) VisualTreeHelper.GetChild(presenter, 0);
         }
 
-        private void UpdateDropTarget(double targetOffset)
+        private int GetPotentialIndex(FrameworkElement item)
         {
-            var original = _initialDraggedItem.GetRelativePositionIn(_list);
-            var targetPosition = new Point(original.X, targetOffset);
-            var elements = VisualTreeHelper.FindElementsInHostCoordinates(targetPosition, _itemsPanel);
-            var targetItem = elements.FirstOrDefault();
-            if (targetItem == null) return;
-
-
+            return _list.Items.IndexOf(item.DataContext);
         }
 
-        private void UpdateDragImage(UIElement draggedItem)
+        private CardView GetPotentialItem(double midPointRelativeToList)
         {
-            // todo: rotate the item like they do on trello.com
-            var bitmap = new WriteableBitmap(draggedItem, null);
-            _dragImage.Image.Source = bitmap;
-            _dragImage.Visibility = Visibility.Visible;
-            _dragImage.Opacity = 1.0;
-            _dragImage.SetVerticalOffset(draggedItem.GetRelativePositionIn(_list).Y);
+            var listPosition = _list.GetRelativePositionIn(Application.Current.RootVisual);
+            var targetPoint = new Point(listPosition.X, listPosition.Y + midPointRelativeToList);
+            var elements = VisualTreeHelper
+                .FindElementsInHostCoordinates(targetPoint, Application.Current.RootVisual)
+                .OfType<CardView>();
+            return elements.FirstOrDefault();
         }
 
-        private int GetPotentialDragIndex()
+        private int GetPotentialLocation(int currentIndex, double dragPoint, bool downwardMotion)
         {
-            var dragIndex = 0;
-            var position = _dragImage.GetRelativePositionIn(_list).Y + _scrollViewer.VerticalOffset;
-            var midpoint = position + (_dragImage.ActualHeight/2);
-
-            for (var i = 0; i < _cards.Count; i++)
+            var targetItem = GetPotentialItem(dragPoint);
+            if (targetItem == null)
             {
-                var currCard = (FrameworkElement) _list.ItemContainerGenerator.ContainerFromIndex(i);
-                var currCardTop = currCard.GetRelativePositionIn(_list).Y + _scrollViewer.VerticalOffset;
-                var currCardBot = currCardTop + currCard.ActualHeight;
-                
-                if (midpoint >= currCardTop && midpoint < currCardBot)
-                {
-                    Debug.WriteLine("Drag: [{0}], Top: [{1}], Bottom: [{2}], Index: [{3}]", midpoint,
-                                    currCardTop, currCardBot, i);
-                    dragIndex = i;
-                    break;
-                }
+                return currentIndex;
             }
 
-            return dragIndex;
+            var targetPosition = targetItem.GetRelativePositionIn(_list);
+            var targetVertical = targetPosition.Y + _scrollViewer.VerticalOffset;
+            var targetMid = targetVertical + (targetItem.ActualHeight/2);
+            var targetIndex = _list.Items.IndexOf(targetItem.DataContext);
+            var potentialIndex = currentIndex;
+            
+            if (downwardMotion && dragPoint >= targetMid)
+                potentialIndex = targetIndex; // target should be moved above the drag item
+
+            if (!downwardMotion && dragPoint <= targetMid)
+                potentialIndex = targetIndex; // target should be moved below the drag item
+
+            Debug.WriteLine("Drag: [{0},{1}], Target: [{2},{3}], Potential: [{4}]",
+                            dragPoint, currentIndex, targetMid, targetIndex, potentialIndex);
+
+            return potentialIndex;
         }
 
-        private double GetTotalHeightAbove(int index)
+        private double GetPotentialTop(int index)
         {
+            // Note: Items may have shifted during flight, so use the previous index
             if (index <= 0) return 0;
 
             var element = _list.ItemContainerGenerator.ContainerFromIndex(index - 1) as FrameworkElement;
             if (element == null) return 0;
 
-            var position = element.GetRelativePositionIn(_list).Y;
+            var position = element.GetVerticalOffset().Value + _scrollViewer.VerticalOffset;
+            //var position = element.GetRelativePositionIn(_list).Y + _scrollViewer.VerticalOffset;
             var size = element.ActualHeight;
             return position + size;
         }
 
-        private void ShuffleItems()
+        private double ShiftItems(int newIndex)
         {
-            var currentIndex = GetPotentialDragIndex();
-            
-            // iterate over the items
+            var offsetFromTop = 0.0;
             var offset = _dragImage.ActualHeight;
             for (var i = 0; i < _cards.Count; i++)
             {
                 var item = _list.ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
-                if (i <= currentIndex && i > _initialDragIndex)
+                if (item == null) continue;
+
+                // Calculate the total height above the new position
+                var itemHeight = item.ActualHeight;
+                if (i <= newIndex && i > _initialDragIndex)
+                    offsetFromTop += itemHeight;
+                else if (i < newIndex && i < _initialDragIndex)
+                    offsetFromTop += itemHeight;
+
+                // Shift the item up or down
+                if (i <= newIndex && i > _initialDragIndex)
                     OffsetItem(-offset, item);
-                else if (i >= currentIndex && i < _initialDragIndex)
+                else if (i >= newIndex && i < _initialDragIndex)
                     OffsetItem(offset, item);
                 else
                     OffsetItem(0, item);
             }
+
+            return offsetFromTop;
         }
 
         private void OffsetItem(double offset, FrameworkElement element)
@@ -252,7 +254,7 @@ namespace trello.Interactions
             if (targetLocation == offset) return;
 
             var transform = element.GetVerticalOffset().Transform;
-            transform.Animate(null, offset, TranslateTransform.YProperty, 500, 0);
+            transform.Animate(null, offset, CompositeTransform.TranslateYProperty, 500, 0);
 
             element.Tag = offset;
         }

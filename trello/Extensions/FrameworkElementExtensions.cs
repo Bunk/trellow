@@ -10,7 +10,7 @@ namespace trello.Extensions
         public struct TransformOffset
         {
             public double Value { get; set; }
-            public TranslateTransform Transform { get; set; }
+            public CompositeTransform Transform { get; set; }
         }
 
         public static void Animate(this DependencyObject target, double? from, double? to, object propertyPath,
@@ -42,29 +42,42 @@ namespace trello.Extensions
 
         public static TransformOffset GetVerticalOffset(this FrameworkElement fe)
         {
-            var trans = fe.RenderTransform as TranslateTransform;
+            var trans = fe.RenderTransform as CompositeTransform;
             if (trans == null)
             {
-                trans = new TranslateTransform { Y = 0 };
+                trans = new CompositeTransform { TranslateY = 0 };
                 fe.RenderTransform = trans;
             }
             return new TransformOffset
             {
                 Transform = trans,
-                Value = trans.Y
+                Value = trans.TranslateY
             };
         }
 
         public static void SetVerticalOffset(this FrameworkElement fe, double offset)
         {
-            var translateTransform = fe.RenderTransform as TranslateTransform;
-            if (translateTransform == null)
+            var composite = fe.RenderTransform as CompositeTransform;
+            if (composite == null)
             {
-                fe.RenderTransform = new TranslateTransform {Y = offset};
+                fe.RenderTransform = new CompositeTransform {TranslateY = offset};
             }
             else
             {
-                translateTransform.Y = offset;
+                composite.TranslateY = offset;
+            }
+        }
+
+        public static void SetRotation(this FrameworkElement fe, double degrees)
+        {
+            var composite = fe.RenderTransform as CompositeTransform;
+            if (composite == null)
+            {
+                fe.RenderTransform = new CompositeTransform {Rotation = degrees};
+            }
+            else
+            {
+                composite.Rotation = degrees;
             }
         }
     }
