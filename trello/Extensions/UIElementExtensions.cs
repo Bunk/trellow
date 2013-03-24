@@ -9,5 +9,10 @@ namespace trello.Extensions
             return element.TransformToVisual(other)
                 .Transform(new Point(0, 0));
         }
+
+        public static Point GetMidpoint(this Point point, Size size)
+        {
+            return new Point(point.X + size.Width / 2, point.Y + size.Height / 2);
+        }
     }
 }
