@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -17,17 +18,22 @@ namespace trello.Interactions
 {
     public class ReorderItem
     {
-        public FrameworkElement Element { get; set; }
+        public Object ViewModel { get; set; }
 
         public Rect Position { get; set; }
 
-        public void Reposition(Point offset)
+        public void Reposition(FrameworkElement element, Point offset)
         {
-            var rect = new Rect(Position.X + offset.X,
-                                Position.Y + offset.Y,
+            var rect = new Rect(offset.X,
+                                offset.Y,
                                 Position.Width,
                                 Position.Height);
+
+            OffsetItem(element, offset.Y - Position.Y);
+
             Position = rect;
+
+            //OffsetItem(element, rect.Top);
         }
 
         public static ReorderItem Create(FrameworkElement element, FrameworkElement relativeTo)
@@ -37,15 +43,35 @@ namespace trello.Interactions
             var item = new ReorderItem
             {
                 Position = rect,
-                Element = element
+                ViewModel = element.DataContext
             };
             return item;
+        }
+
+//        private void OffsetItem(FrameworkElement element, double y)
+//        {
+//            element.SetVerticalOffset(y);
+//        }
+
+        private void OffsetItem(FrameworkElement element, double offset)
+        {
+            // cache the location so that subsequent requests to move to the same location
+            // are idempotent
+            var targetLocation = element.Tag != null ? (double)element.Tag : 0;
+            if (targetLocation == offset) return;
+
+            var vertical = element.GetVerticalOffset();
+            var transform = vertical.Transform;
+            transform.Animate(null, offset, CompositeTransform.TranslateYProperty, 500, 0);
+
+            element.Tag = offset;
         }
     }
 
     public class DragToReorderInteraction : InteractionBase
     {
-        private FrameworkElement _initialDraggedItem;
+        private FrameworkElement _draggedContainer;
+        private CardViewModel _draggedModel;
         private int _initialDragIndex;
         private int _lastDragIndex;
         private double _lastDragLocation;
@@ -70,39 +96,23 @@ namespace trello.Interactions
             IsEnabled = true;
         }
 
-        private static void PrintReorderList(IDictionary<FrameworkElement, int> items)
-        {
-            Debug.WriteLine("----------------------");
-            foreach (var kvp in items)
-            {
-                var val = ((CardViewModel) kvp.Key.DataContext).Name;
-                Debug.WriteLine("[{0}] - {1}", kvp.Value, val);
-            }
-        }
-
         public override void AddElement(FrameworkElement element)
         {
             element.Hold += HoldGesture;
             element.ManipulationDelta += HoldDelta;
             element.ManipulationCompleted += HoldCompleted;
 
-            var item = ReorderItem.Create(element, _list);
+            var viewModel = element.DataContext;
+            var container = (FrameworkElement) _list.ItemContainerGenerator.ContainerFromItem(viewModel);
+            var item = ReorderItem.Create(container, _list);
             _reorderItems.Add(item);
             _reorderItems.Sort((lhs, rhs) => lhs.Position.Top.CompareTo(rhs.Position.Top));
-
-            var index = GetIndexOf(new Point(item.Position.Left, item.Position.Top));
-
-            Debug.WriteLine("Index: [{0}], Pos: [{1}]", index, item.Position);
         }
 
-        private int GetIndexOf(Point point)
+        private void PrintReorder()
         {
             for (var i = 0; i < _reorderItems.Count; i++)
-            {
-                if (_reorderItems[i].Position.ContainsInclusive(point))
-                    return i;
-            }
-            return -1;
+                Debug.WriteLine("Index: [{0}], Pos: [{1}]", i, _reorderItems[i].Position);
         }
 
         private static ScrollViewer FindScrollViewer(ItemsControl list)
@@ -120,33 +130,35 @@ namespace trello.Interactions
                 _itemsPanel = FindPanel(_scrollViewer);
 
             // copy the dragged element into an image to visually move it
-            _initialDraggedItem = sender as FrameworkElement;
-            if (_initialDraggedItem == null)
+            var dragged = sender as FrameworkElement;
+            if (dragged == null)
             {
                 IsActive = false;
                 return;
             }
 
+            _draggedModel = (CardViewModel) dragged.DataContext;
+            _draggedContainer = (FrameworkElement)_list.ItemContainerGenerator.ContainerFromItem(_draggedModel);
+            //_draggedContainer.Opacity = 0.0;
+
             // copy the drag image
-            var draggedPosition = _initialDraggedItem.GetRelativePositionIn(_list);
-            var bitmap = new WriteableBitmap(_initialDraggedItem, null);
+            var draggedPosition = dragged.GetRelativePositionIn(_list);
+            var bitmap = new WriteableBitmap(dragged, null);
             _dragImage.Image.Source = bitmap;
             _dragImage.Visibility = Visibility.Visible;
             _dragImage.Opacity = 1.0;
             _dragImage.SetVerticalOffset(draggedPosition.Y);
-            //_dragImage.SetRotation(5);
-
-            // hide it
-            _initialDraggedItem.Opacity = 0.0;
+            _dragImage.SetRotation(3);
 
             // fade out the list
             _list.Animate(1.0, 0.7, UIElement.OpacityProperty, 300, 0);
 
-            _initialDragIndex = _cards.IndexOf((CardViewModel) _initialDraggedItem.DataContext);
+            _initialDragIndex = _cards.IndexOf(_draggedModel);
             _lastDragIndex = _initialDragIndex;
-            _lastDragLocation = draggedPosition.GetMidpoint(_initialDraggedItem.RenderSize).Y;
+            _lastDragLocation = draggedPosition.GetMidpoint(dragged.RenderSize).Y;
             _potentialLocationTop = draggedPosition.Y;
-            _locationIndex = Reindex(_list);
+
+            PrintReorder();
         }
 
         private void HoldDelta(object sender, ManipulationDeltaEventArgs e)
@@ -170,9 +182,9 @@ namespace trello.Interactions
 
             var downward = potential > _lastDragLocation;
             var newIndex = GetPotentialLocation(_lastDragIndex, potential, downward);
-            if (newIndex != _lastDragIndex)
+            if (_lastDragIndex != newIndex)
             {
-                _potentialLocationTop = ShiftItems(newIndex);
+                _potentialLocationTop = Shift(_lastDragIndex, newIndex);
                 _lastDragIndex = newIndex;
             }
 
@@ -187,26 +199,24 @@ namespace trello.Interactions
 
             IsActive = false;
 
+            PrintReorder();
+
             // fade in the list
             _list.Animate(null, 1.0, UIElement.OpacityProperty, 200, 0);
 
             var dragIndex = _lastDragIndex;
-            var targetLocation = _potentialLocationTop - _scrollViewer.VerticalOffset;
+            var targetItem = _reorderItems[_lastDragIndex];
+            var targetLocation = targetItem.Position.Top - _scrollViewer.VerticalOffset;
             var transform = _dragImage.GetVerticalOffset().Transform;
             transform.Animate(null, targetLocation, CompositeTransform.TranslateYProperty, 200, 0, completed: () =>
             {
                 // move the dragged item
-                var draggedItem = _cards[_initialDragIndex];
-                _cards.Remove(draggedItem);
-                _cards.Insert(dragIndex, draggedItem);
-
+                _cards.Remove(_draggedModel);
+                _cards.Insert(dragIndex, _draggedModel);
                 _cards.Refresh();
 
-                if (_initialDraggedItem != null)
-                {
-                    _initialDraggedItem.Opacity = 1.0;
-                    _initialDraggedItem = null;
-                }
+                // reshow the hidden item
+                _draggedContainer.Opacity = 1.0;
 
                 // fade out the dragged image
                 _dragImage.Animate(null, 0.0, UIElement.OpacityProperty, 700, 0, completed: () =>
@@ -222,21 +232,10 @@ namespace trello.Interactions
             return (Panel) VisualTreeHelper.GetChild(presenter, 0);
         }
 
-        private int GetPotentialIndex(FrameworkElement item)
+        private ReorderItem GetPotentialItem(double midPointRelativeToList)
         {
-            return _list.Items.IndexOf(item.DataContext);
-        }
-
-        private CardView GetPotentialItem(double midPointRelativeToList)
-        {
-            var listPosition = _list.GetRelativePositionIn(Application.Current.RootVisual);
-            var targetPoint = new Point(listPosition.X, listPosition.Y + midPointRelativeToList);
-            var elements = VisualTreeHelper
-                .FindElementsInHostCoordinates(targetPoint, Application.Current.RootVisual)
-                .OfType<CardView>();
-
-            // in the case of overlapping cards, we want to return the furthest below card
-            return elements.FirstOrDefault(e => e != _initialDraggedItem);
+            var index = IndexOf(new Point(0, midPointRelativeToList));
+            return index < 0 ? null : _reorderItems[index];
         }
 
         private int GetPotentialLocation(int currentIndex, double dragPoint, bool downwardMotion)
@@ -247,139 +246,128 @@ namespace trello.Interactions
                 return currentIndex;
             }
 
-            var targetPosition = targetItem.GetRelativePositionIn(_list);
-            var targetVertical = targetPosition.Y + _scrollViewer.VerticalOffset;
-            var targetMid = targetVertical + (targetItem.ActualHeight/2);
-            var targetBot = targetVertical + targetItem.ActualHeight + 1;
-            
-            // this isn't returning the correct index if you go up and come back down
-            //var targetIndex = _list.Items.IndexOf(targetItem.DataContext);
-            //var targetIndex = FindVisualIndex(targetItem);
-            var targetIndex = GetItemIndex(targetItem);
+            var targetPosition = targetItem.Position;
+            var targetVertical = targetPosition.Top + _scrollViewer.VerticalOffset;
+            var targetMid = targetVertical + (targetPosition.Height/2);
+
+            var targetIndex = _reorderItems.IndexOf(targetItem);
             
             var potentialIndex = currentIndex;
 
-            if (downwardMotion && dragPoint >= targetMid)
-                potentialIndex = targetIndex; // target should be moved above the drag item
+            if (potentialIndex != targetIndex)
+            {
+                if (downwardMotion && dragPoint >= targetMid)
+                    potentialIndex = targetIndex; // target should be moved above the drag item
 
-            if (!downwardMotion && dragPoint <= targetMid)
-                potentialIndex = targetIndex; // target should be moved below the drag item
+                if (!downwardMotion && dragPoint <= targetMid)
+                    potentialIndex = targetIndex; // target should be moved below the drag item
 
-            var targetName = ((CardViewModel) targetItem.DataContext).Name;
-            Debug.WriteLine("Drag [{0}], Target: [{1} '{2}'], Potential: [{3}], Motion: [{4}]",
-                            dragPoint, targetMid, targetName, potentialIndex,
-                            downwardMotion ? "Down" : "Up");
+                var targetName = ((CardViewModel)targetItem.ViewModel).Name;
+                Debug.WriteLine("Drag [{0}], Target: [{1} '{2}'], Potential: [{3}], Motion: [{4}]",
+                                dragPoint, targetMid, targetName, potentialIndex,
+                                downwardMotion ? "Down" : "Up");
+            }
 
             return potentialIndex;
         }
 
-        private int GetItemIndex(CardView targetItem)
+        private void ShiftItems(int indexFrom, int indexTo)
         {
-            var targetMid = targetItem.GetRelativePositionIn(_list).Y +
-                            _scrollViewer.VerticalOffset +
-                            targetItem.ActualHeight/2;
+            if (indexFrom == indexTo) return;
 
-            return IndexOf(_locationIndex, new Point(0, targetMid));
+            if (indexFrom > indexTo)
+                IntExtensions.Swap(ref indexFrom, ref indexTo);
+
+            var itemA = _reorderItems[indexFrom];
+            var itemB = _reorderItems[indexTo];
+
+            var aTop = itemA.Position.Top + itemB.Position.Height;
+            var bTop = itemA.Position.Top;
+
+            var containerA = (FrameworkElement)_list.ItemContainerGenerator.ContainerFromItem(itemA.ViewModel);
+            var containerB = (FrameworkElement)_list.ItemContainerGenerator.ContainerFromItem(itemB.ViewModel);
+
+            var test = containerA.GetRelativePositionIn(_list).Y;
+            var test2 = containerB.GetRelativePositionIn(_list).Y;
+
+            Debug.WriteLine("[{0}] -> [{1}]", test, test2);
+
+            itemA.Reposition(containerA, new Point(0, aTop));
+            itemB.Reposition(containerB, new Point(0, bTop));
         }
 
-        //private IDictionary<string, int> _locationIndex;
+        private double Shift(int oldIndex, int newIndex)
+        {
+            if (oldIndex == newIndex)
+                throw new InvalidOperationException("You should only shift when indexes change.");
 
-        private IList<Rect> _locationIndex;
+            if (oldIndex > newIndex)
+                IntExtensions.Swap(ref oldIndex, ref newIndex);
 
-//        private static IDictionary<string, int> Reindex(ItemsControl control)
-//        {
-//            var index = new Dictionary<string, int>();
-//
-//            var cards = control.Items.OfType<CardViewModel>()
-//                .Select((card, i) =>
+            for (var i = oldIndex; i < newIndex; i++)
+            {
+                ShiftItems(i, i + 1);
+            }
+
+            _reorderItems.Sort((lhs, rhs) => lhs.Position.Top.CompareTo(rhs.Position.Top));
+
+#if DEBUG
+            PrintReorder();
+#endif
+
+            return _reorderItems.Take(newIndex).Sum(x => x.Position.Top);
+
+//                for (var i = 0; i < _list.Items.Count; i++)
 //                {
-//                    var item = (FrameworkElement) control.ItemContainerGenerator.ContainerFromIndex(i);
-//                    return new
+//                    var item = _list.ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
+//                    if (item == null) continue;
+//
+//                    var position = item.GetRelativePositionIn(_list);
+//
+//                    // This doesn't work because we're actively modifying the collection in this loop
+//                    // Need to cache the array
+//                    var testpoint = item.GetRelativePositionIn(_list);
+//                    testpoint.Y++;
+//                    var itemIndex = IndexOf(cache, testpoint);
+//
+//                    // Calculate the total height above the new position
+//                    var itemHeight = item.ActualHeight;
+//                    if (itemIndex <= newIndex && itemIndex > oldIndex)
+//                        offsetFromTop += itemHeight;
+//                    else if (itemIndex < newIndex && itemIndex < oldIndex)
+//                        offsetFromTop += itemHeight;
+//
+//                    // Shift the item up or down
+//                    if (itemIndex <= newIndex && itemIndex > oldIndex)
 //                    {
-//                        Id = ((CardViewModel) item.DataContext).Id,
-//                        Area = new Rect(item.GetRelativePositionIn(control), item.RenderSize)
-//                    };
-//                })
-//                .OrderBy(x => x.Area.Top)
-//                .ToList();
+//                        OffsetItem(-offset, item);
+//                        OffsetIndex(-offset, item);
+//                    }
+//                    else if (itemIndex >= newIndex && itemIndex < oldIndex)
+//                    {
+//                        OffsetItem(offset, item);
+//                        OffsetIndex(offset, item);
+//                    }
+//                }
 //
-//            for (var i = 0; i < cards.Count; i++)
-//            {
-//                var card = cards[i];
-//                index[card.Id] = i;
-//            }
+//            // Deal with the single moving card
+//            _locationIndex[oldIndex] = placeholder;
 //
-//            return index;
+//            _locationIndex = _locationIndex.OrderBy(x => x.Top).ToList();
+//
+//            return offsetFromTop;
+        }
+
+//        private void OffsetIndex(double offset, FrameworkElement element)
+//        {
+//            var vertical = element.GetVerticalOffset().Value;
+//            var index = GetIndexOf(new Point(0, vertical));
+//            if (index == -1) return;
+//
+//            _reorderItems[index].Reposition(new Point(0, offset));
+//
+//            _locationIndex[index] = new Rect(new Point(0, vertical + offset), element.RenderSize);
 //        }
-
-        private static IList<Rect> Reindex(ItemsControl control)
-        {
-            var list = new List<Rect>();
-            for (var i = 0; i < control.Items.Count; i++)
-            {
-                var item = (FrameworkElement) control.ItemContainerGenerator.ContainerFromIndex(i);
-                var position = item.GetRelativePositionIn(control);
-                list.Add(new Rect(position, item.RenderSize));
-            }
-            return list.OrderBy(x => x.Top).ToList();
-        }
-
-        private double ShiftItems(int newIndex)
-        {
-            var offsetFromTop = 0.0;
-            var offset = _dragImage.ActualHeight;
-            var placeholder = _locationIndex[newIndex];
-
-            var cache = new Rect[_locationIndex.Count];
-            _locationIndex.CopyTo(cache, 0);
-
-            for (var i = 0; i < _list.Items.Count; i++)
-            {
-                var item = _list.ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
-                if (item == null) continue;
-
-                // This doesn't work because we're actively modifying the collection in this loop
-                // Need to cache the array
-                var testpoint = item.GetRelativePositionIn(_list);
-                testpoint.Y++;
-                var itemIndex = IndexOf(cache, testpoint);
-
-                // Calculate the total height above the new position
-                var itemHeight = item.ActualHeight;
-                if (itemIndex <= newIndex && itemIndex > _lastDragIndex)
-                    offsetFromTop += itemHeight;
-                else if (itemIndex < newIndex && itemIndex < _lastDragIndex)
-                    offsetFromTop += itemHeight;
-
-                // Shift the item up or down
-                if (itemIndex <= newIndex && itemIndex > _lastDragIndex)
-                {
-                    OffsetItem(-offset, item);
-                    OffsetIndex(-offset, item);
-                }
-                else if (itemIndex >= newIndex && itemIndex < _lastDragIndex)
-                {
-                    OffsetItem(offset, item);
-                    OffsetIndex(offset, item);
-                }
-            }
-
-            // Deal with the single moving card
-            _locationIndex[_lastDragIndex] = placeholder;
-
-            _locationIndex = _locationIndex.OrderBy(x => x.Top).ToList();
-
-            return offsetFromTop;
-        }
-
-        private void OffsetIndex(double offset, FrameworkElement element)
-        {
-            var vertical = element.GetVerticalOffset().Value;
-            var index = IndexOf(_locationIndex, new Point(0, vertical));
-            if (index == -1) return;
-
-            _locationIndex[index] = new Rect(new Point(0, vertical + offset), element.RenderSize);
-        }
 
         private void OffsetItem(double offset, FrameworkElement element)
         {
@@ -393,12 +381,13 @@ namespace trello.Interactions
             element.Tag = offset;
         }
 
-        private int IndexOf(IList<Rect> list, Point point)
+        private int IndexOf(Point point)
         {
+            var items = _reorderItems.ToList();
             // basic hit test within a rectangle
-            for (var i = 0; i <= list.Count; i++)
+            for (var i = 0; i < items.Count; i++)
             {
-                if (list[i].ContainsInclusive(point))
+                if (items[i].Position.ContainsInclusive(point))
                     return i;
             }
             return -1;
