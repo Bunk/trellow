@@ -18,18 +18,18 @@ namespace trello.Interactions
 {
     public class ReorderItem
     {
-        public Object ViewModel { get; set; }
+        //public Object ViewModel { get; set; }
 
         public Rect Position { get; set; }
 
-        public void Reposition(FrameworkElement element, Point offset)
+        public void Reposition(Point offset)
         {
             var rect = new Rect(offset.X,
                                 offset.Y,
                                 Position.Width,
                                 Position.Height);
 
-            OffsetItem(element, offset.Y - Position.Y);
+            //OffsetItem(element, offset.Y - Position.Y);
 
             Position = rect;
 
@@ -43,7 +43,7 @@ namespace trello.Interactions
             var item = new ReorderItem
             {
                 Position = rect,
-                ViewModel = element.DataContext
+                //ViewModel = element.DataContext
             };
             return item;
         }
@@ -74,7 +74,7 @@ namespace trello.Interactions
         private CardViewModel _draggedModel;
         private int _initialDragIndex;
         private int _lastDragIndex;
-        private double _lastDragLocation;
+        private Point _lastDragLocation;
         private double _potentialLocationTop;
 
         private readonly ItemsControl _list;
@@ -155,7 +155,7 @@ namespace trello.Interactions
 
             _initialDragIndex = _cards.IndexOf(_draggedModel);
             _lastDragIndex = _initialDragIndex;
-            _lastDragLocation = draggedPosition.GetMidpoint(dragged.RenderSize).Y;
+            _lastDragLocation = new Point(0, draggedPosition.GetMidpoint(dragged.RenderSize).Y);
             _potentialLocationTop = draggedPosition.Y;
 
             PrintReorder();
@@ -180,7 +180,7 @@ namespace trello.Interactions
                 potential = 0;
             }
 
-            var downward = potential > _lastDragLocation;
+            var downward = potential > _lastDragLocation.Y;
             var newIndex = GetPotentialLocation(_lastDragIndex, potential, downward);
             if (_lastDragIndex != newIndex)
             {
@@ -190,7 +190,7 @@ namespace trello.Interactions
 
             // Move the drag image
             _dragImage.SetVerticalOffset(offset);
-            _lastDragLocation = potential;
+            _lastDragLocation = new Point(0, potential);
         }
 
         private void HoldCompleted(object sender, ManipulationCompletedEventArgs e)
@@ -262,9 +262,9 @@ namespace trello.Interactions
                 if (!downwardMotion && dragPoint <= targetMid)
                     potentialIndex = targetIndex; // target should be moved below the drag item
 
-                var targetName = ((CardViewModel)targetItem.ViewModel).Name;
-                Debug.WriteLine("Drag [{0}], Target: [{1} '{2}'], Potential: [{3}], Motion: [{4}]",
-                                dragPoint, targetMid, targetName, potentialIndex,
+                //var targetName = ((CardViewModel)targetItem.ViewModel).Name;
+                Debug.WriteLine("Drag [{0}], Target: [{1}], Potential: [{2}], Motion: [{3}]",
+                                dragPoint, targetMid, potentialIndex,
                                 downwardMotion ? "Down" : "Up");
             }
 
@@ -284,16 +284,11 @@ namespace trello.Interactions
             var aTop = itemA.Position.Top + itemB.Position.Height;
             var bTop = itemA.Position.Top;
 
-            var containerA = (FrameworkElement)_list.ItemContainerGenerator.ContainerFromItem(itemA.ViewModel);
-            var containerB = (FrameworkElement)_list.ItemContainerGenerator.ContainerFromItem(itemB.ViewModel);
+            //var containerA = (FrameworkElement)_list.ItemContainerGenerator.ContainerFromItem(itemA.ViewModel);
+            //var containerB = (FrameworkElement)_list.ItemContainerGenerator.ContainerFromItem(itemB.ViewModel);
 
-            var test = containerA.GetRelativePositionIn(_list).Y;
-            var test2 = containerB.GetRelativePositionIn(_list).Y;
-
-            Debug.WriteLine("[{0}] -> [{1}]", test, test2);
-
-            itemA.Reposition(containerA, new Point(0, aTop));
-            itemB.Reposition(containerB, new Point(0, bTop));
+            itemA.Reposition(new Point(0, aTop));
+            itemB.Reposition(new Point(0, bTop));
         }
 
         private double Shift(int oldIndex, int newIndex)
@@ -368,6 +363,36 @@ namespace trello.Interactions
 //
 //            _locationIndex[index] = new Rect(new Point(0, vertical + offset), element.RenderSize);
 //        }
+
+
+        private void ShuffleItemsOnDrag()
+        {
+            // find its current index
+            var dragIndex = IndexOf(_lastDragLocation);
+
+            // iterate over the items in the list and offset as required
+            // offset needs to be calculated for each item
+            double offset = _dragImage.ActualHeight;
+            for (int i = 0; i < _list.Items.Count; i++)
+            {
+                var item = _list.ItemContainerGenerator.ContainerFromIndex(i) as FrameworkElement;
+
+                // determine which direction to offset this item by
+                if (i <= dragIndex && i > _initialDragIndex)
+                {
+                    // 
+                    OffsetItem(-offset, item);
+                }
+                else if (i >= dragIndex && i < _initialDragIndex)
+                {
+                    OffsetItem(offset, item);
+                }
+                else
+                {
+                    OffsetItem(0, item);
+                }
+            }
+        }
 
         private void OffsetItem(double offset, FrameworkElement element)
         {
