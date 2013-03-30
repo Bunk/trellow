@@ -13,7 +13,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     d:DesignHeight="280" d:DesignWidth="480" d:DataContext="{Binding BoardCard, Source={StaticResource SampleDataSource}}">
     
-    <Border Name="LayoutRoot" BorderThickness="1" CornerRadius="0" BorderBrush="{StaticResource PhoneChromeBrush}" Background="{StaticResource PhoneChromeBrush}">
+    <Border Name="LayoutRoot" BorderThickness="1" Margin="0,0,0,15" CornerRadius="0" BorderBrush="{StaticResource PhoneChromeBrush}" Background="{StaticResource PhoneChromeBrush}">
 		<Grid>
 			<Grid.RowDefinitions>
 				<RowDefinition Height="Auto" />
