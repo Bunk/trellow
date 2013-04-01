@@ -150,22 +150,17 @@ namespace trello.Interactions
             var transform = _dragImage.GetVerticalOffset().Transform;
             transform.Animate(null, targetLocation, CompositeTransform.TranslateYProperty, 200, 0, completed: () =>
             {
-                // move the dragged item
-                var item = (CardViewModel) _dragView.DataContext;
-                _cards.Remove(item);
-                _cards.Insert(dragIndex, item);
-                _cards.Refresh();
+                if (dragIndex != _initialDragIndex)
+                {
+                    // move the dragged item
+                    var item = (CardViewModel) _dragView.DataContext;
+                    _cards.Remove(item);
+                    _cards.Insert(dragIndex, item);
+                    _cards.Refresh();
 
-                // todo: fire off the event
-                var evt = new CardMoved {CardId = item.Id};
-                if (dragIndex == _cards.Count - 1)
-                    evt.Pos = "bottom";
-                else if (dragIndex == 0)
-                    evt.Pos = "top";
-                else
-                    evt.Pos = DeterminePos(dragIndex);
-
-                _eventAggregator.Publish(evt);
+                    // fire off the event for subscribers
+                    _eventAggregator.Publish(CreateChangedEvent(item.Id, dragIndex, _cards.ToList()));
+                }
 
                 // reshow the hidden item
                 _dragView.Opacity = 1.0;
@@ -176,16 +171,29 @@ namespace trello.Interactions
             });
         }
 
-        private string DeterminePos(int index)
+        private static CardPriorityChanged CreateChangedEvent(string cardId, int index, IList<CardViewModel> cards)
         {
-            if (index == 0)
-                return "top";
-            if (index == _cards.Count - 1)
-                return "bottom";
+            var evt = new CardPriorityChanged
+            {
+                CardId = cardId
+            };
 
-            var prev = int.Parse(_cards[index - 1].Pos);
-            var next = int.Parse(_cards[index + 1].Pos);
-            return ((prev + next)/2).ToString(CultureInfo.InvariantCulture);
+            if (index == 0)
+            {
+                evt.Type = PositionType.Top;
+            }
+            else if (index == cards.Count - 1)
+            {
+                evt.Type = PositionType.Bottom;
+            }
+            else
+            {
+                var prev = cards[index - 1].Pos;
+                var next = cards[index + 1].Pos;
+                evt.Type = PositionType.Exact;
+                evt.Pos = ((prev + next)/2);
+            }
+            return evt;
         }
 
         private Point GetRelativePosition(UIElement element)

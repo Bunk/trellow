@@ -23,7 +23,7 @@ namespace trello.ViewModels
 
         public string Desc { get; set; }
 
-        public string Pos { get; set; }
+        public double Pos { get; set; }
 
         public DateTime? Due { get; set; }
 
@@ -73,6 +73,7 @@ namespace trello.ViewModels
             CheckItems = card.Badges.CheckItems;
             CheckItemsChecked = card.Badges.CheckItemsChecked;
             Attachments = card.Badges.Attachments;
+            Pos = card.Pos;
 
             CoverUri = cover != null ? cover.Previews.First().Url : null;
             CoverHeight = cover != null ? cover.Previews.First().Height : 0;
