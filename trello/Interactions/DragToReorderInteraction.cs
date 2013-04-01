@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,6 +12,7 @@ using System.Windows.Threading;
 using Caliburn.Micro;
 using LinqToVisualTree;
 using trello.Extensions;
+using trello.Services.Handlers;
 using trello.ViewModels;
 using trello.Views;
 using trello.Views.Cards;
@@ -20,22 +23,24 @@ namespace trello.Interactions
     {
         private const int AutoScrollHitRegionHeight = 80;
 
-        private CardView _dragView;
+        private FrameworkElement _dragView;
         private int _initialDragIndex;
         private int _currentDragIndex;
 
         private readonly ItemsControl _list;
         private readonly DragImage _dragImage;
+        private readonly IEventAggregator _eventAggregator;
         private readonly ScrollViewer _scrollViewer;
         private readonly DispatcherTimer _dispatcherTimer;
-        private readonly IObservableCollection<CardViewModel> _cards;
+        private readonly BindableCollection<CardViewModel> _cards;
         private readonly List<IndexPoint> _indexMap;
 
-        public DragToReorderInteraction(ItemsControl list, DragImage dragImage)
+        public DragToReorderInteraction(ItemsControl list, DragImage dragImage, IEventAggregator eventAggregator)
         {
             _list = list;
             _dragImage = dragImage;
-            _cards = list.ItemsSource as IObservableCollection<CardViewModel>;
+            _eventAggregator = eventAggregator;
+            _cards = list.ItemsSource as BindableCollection<CardViewModel>;
             _indexMap = new List<IndexPoint>();
             _scrollViewer = list.Descendants<ScrollViewer>().Cast<ScrollViewer>().Single();
 
@@ -63,7 +68,7 @@ namespace trello.Interactions
 
         private void HoldGesture(object sender, GestureEventArgs e)
         {
-            if (!IsEnabled) 
+            if (!IsEnabled)
                 return;
 
             IsActive = true;
@@ -75,7 +80,7 @@ namespace trello.Interactions
                 IsActive = false;
                 return;
             }
-            
+
             // copy the drag image
             var draggedPosition = GetRelativePosition(_dragView);
             var bitmap = new WriteableBitmap(_dragView, null);
@@ -86,7 +91,7 @@ namespace trello.Interactions
 
             // this needs to be relative to the scrolled position
             _dragImage.SetVerticalOffset(draggedPosition.Y - _scrollViewer.VerticalOffset);
-            
+
             // hide the underlying item
             _dragView.Opacity = 0.0;
 
@@ -108,7 +113,7 @@ namespace trello.Interactions
             var dragTop = _dragImage.GetVerticalOffset().Value;
             var dragMidpoint = _dragImage.ActualHeight/2;
             var dragPotential = dragTop + e.DeltaManipulation.Translation.Y;
-            var intersectPotential = dragPotential + dragMidpoint +_scrollViewer.VerticalOffset;
+            var intersectPotential = dragPotential + dragMidpoint + _scrollViewer.VerticalOffset;
 
             if (dragPotential <= 0)
             {
@@ -130,7 +135,7 @@ namespace trello.Interactions
 
         private void HoldCompleted(object sender, ManipulationCompletedEventArgs e)
         {
-            if (!IsActive) 
+            if (!IsActive)
                 return;
 
             IsActive = false;
@@ -151,15 +156,36 @@ namespace trello.Interactions
                 _cards.Insert(dragIndex, item);
                 _cards.Refresh();
 
+                // todo: fire off the event
+                var evt = new CardMoved {CardId = item.Id};
+                if (dragIndex == _cards.Count - 1)
+                    evt.Pos = "bottom";
+                else if (dragIndex == 0)
+                    evt.Pos = "top";
+                else
+                    evt.Pos = DeterminePos(dragIndex);
+
+                _eventAggregator.Publish(evt);
+
                 // reshow the hidden item
                 _dragView.Opacity = 1.0;
 
                 // fade out the dragged image
-                _dragImage.Animate(null, 0.0, UIElement.OpacityProperty, 700, 0, completed: () =>
-                {
-                    _dragImage.Visibility = Visibility.Collapsed;
-                });
+                _dragImage.Animate(null, 0.0, UIElement.OpacityProperty, 700, 0,
+                                   completed: () => { _dragImage.Visibility = Visibility.Collapsed; });
             });
+        }
+
+        private string DeterminePos(int index)
+        {
+            if (index == 0)
+                return "top";
+            if (index == _cards.Count - 1)
+                return "bottom";
+
+            var prev = int.Parse(_cards[index - 1].Pos);
+            var next = int.Parse(_cards[index + 1].Pos);
+            return ((prev + next)/2).ToString(CultureInfo.InvariantCulture);
         }
 
         private Point GetRelativePosition(UIElement element)
@@ -195,7 +221,7 @@ namespace trello.Interactions
             var targetMid = targetPosition.Midpoint().Y;
 
             var targetIndex = _indexMap.IndexOf(targetItem);
-            
+
             var potentialIndex = currentIndex;
             if (potentialIndex != targetIndex)
             {
@@ -239,7 +265,7 @@ namespace trello.Interactions
             itemA.Reposition(new Point(0, aTop));
             itemB.Reposition(new Point(0, bTop));
         }
-        
+
         private void ReorganizeLayout()
         {
             var dragIndex = _currentDragIndex;
@@ -314,7 +340,7 @@ namespace trello.Interactions
             {
                 var position = element.GetRelativePositionIn(relativeTo);
                 var rect = new Rect(position, element.RenderSize);
-                return new IndexPoint { Position = rect };
+                return new IndexPoint {Position = rect};
             }
         }
     }

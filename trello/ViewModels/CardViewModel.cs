@@ -23,6 +23,8 @@ namespace trello.ViewModels
 
         public string Desc { get; set; }
 
+        public string Pos { get; set; }
+
         public DateTime? Due { get; set; }
 
         public int Votes { get; set; }
