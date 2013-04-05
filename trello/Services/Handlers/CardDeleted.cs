@@ -4,4 +4,9 @@
     {
         public string CardId { get; set; }
     }
+
+    public class CardArchived
+    {
+        public string CardId { get; set; }
+    }
 }

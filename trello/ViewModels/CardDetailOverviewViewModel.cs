@@ -46,8 +46,10 @@ namespace trello.ViewModels
         private int _coverWidth;
         private string _commentText;
 
+        [UsedImplicitly]
         public string Id { get; private set; }
 
+        [UsedImplicitly]
         public string Name
         {
             get { return _name; }
@@ -60,6 +62,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public string Desc
         {
             get { return _desc; }
@@ -71,6 +74,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public DateTime? Due
         {
             get { return _due; }
@@ -82,6 +86,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public int Checklists
         {
             get { return _checklists; }
@@ -93,6 +98,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public int CheckItems
         {
             get { return _checkItems; }
@@ -104,6 +110,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public int CheckItemsChecked
         {
             get { return _checkItemsChecked; }
@@ -115,6 +122,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public int Votes
         {
             get { return _votes; }
@@ -126,6 +134,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public int Attachments
         {
             get { return _attachments; }
@@ -137,6 +146,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public int Members
         {
             get { return _members; }
@@ -148,6 +158,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public string CoverUri
         {
             get { return _coverUri; }
@@ -159,6 +170,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public int CoverHeight
         {
             get { return _coverHeight; }
@@ -170,6 +182,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public int CoverWidth
         {
             get { return _coverWidth; }
@@ -181,6 +194,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public string MyAvatarUrl
         {
             get { return _myAvatarUrl; }
@@ -192,6 +206,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public string CommentText
         {
             get { return _commentText; }
@@ -203,8 +218,10 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public IObservableCollection<LabelViewModel> Labels { get; set; }
 
+        [UsedImplicitly]
         public IObservableCollection<ActivityViewModel> Comments { get; set; }
 
         public CardDetailOverviewViewModel(ITrello api,
@@ -269,13 +286,17 @@ namespace trello.ViewModels
 
         public ApplicationBar Configure(ApplicationBar existing)
         {
-            var button = new ApplicationBarIconButton
+            var archive = new ApplicationBarIconButton
             {
-                Text = "delete card",
+                Text = "archive card",
                 IconUri = new Uri("/Assets/Icons/dark/appbar.delete.rest.png", UriKind.Relative)
             };
-            button.Click += (sender, args) => DeleteCard();
-            existing.Buttons.Add(button);
+            archive.Click += (sender, args) => ArchiveCard();
+            existing.Buttons.Add(archive);
+
+            var delete = new ApplicationBarMenuItem("delete card");
+            delete.Click += (sender, args) => DeleteCard();
+            existing.MenuItems.Add(delete);
 
             return existing;
         }
@@ -397,6 +418,18 @@ namespace trello.ViewModels
                 Text = comment,
                 Timestamp = DateTime.Now
             });
+        }
+
+        [UsedImplicitly]
+        public void ArchiveCard()
+        {
+            var result = MessageBox.Show(
+                "This card will be archived.  Do you really want to archive it?",
+                "confirm archive", MessageBoxButton.OKCancel);
+            if (result != MessageBoxResult.OK) return;
+
+            _eventAggregator.Publish(new CardArchived {CardId = Id});
+            _navigation.GoBack();
         }
 
         [UsedImplicitly]
