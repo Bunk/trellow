@@ -21,13 +21,14 @@ namespace trello.Services.Handlers
                                             IHandle<CardMemberRemoved>,
                                             IHandle<CardCommented>,
                                             IHandle<CardDeleted>,
+                                            IHandle<CardArchived>,
                                             IHandle<CardCreationRequested>,
                                             IHandle<CheckItemCreationRequested>,
                                             IHandle<CheckItemRemoved>,
                                             IHandle<ChecklistCreationRequested>,
                                             IHandle<ChecklistRemoved>,
                                             IHandle<ChecklistNameChanged>,
-        IHandle<CardPriorityChanged>
+                                            IHandle<CardPriorityChanged>
     {
         private readonly IEventAggregator _events;
         private readonly ITrello _api;
@@ -181,6 +182,11 @@ namespace trello.Services.Handlers
                     Handle(api => api.Cards.ChangePos(new CardId(message.CardId), message.Pos));
                     break;
             }
+        }
+
+        public void Handle(CardArchived message)
+        {
+            Handle(api => api.Cards.Archive(new CardId(message.CardId)));
         }
     }
 }
