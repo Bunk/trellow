@@ -176,6 +176,7 @@
     <Compile Include="Services\Handlers\ChecklistRemoved.cs" />
     <Compile Include="Services\Handlers\ProgressScope.cs" />
     <Compile Include="Services\JsonFileRestClient.cs" />
+    <Compile Include="Services\LocalyticsSession.cs" />
     <Compile Include="Services\NetworkService.cs" />
     <Compile Include="Services\NetworkStatusChanged.cs" />
     <Compile Include="Services\Stages\CacheStage.cs" />
@@ -528,6 +529,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="BugSense-WP8">
+      <HintPath>..\packages\BugSense.WP8.3.4\lib\wp80\BugSense-WP8.dll</HintPath>
+    </Reference>
     <Reference Include="Caliburn.Micro">
       <HintPath>..\packages\Caliburn.Micro.1.4\lib\wp8\Caliburn.Micro.dll</HintPath>
     </Reference>

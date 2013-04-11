@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Windows;
 using Caliburn.Micro;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
 using trello.Extensions;
 using trello.Services;
 using trello.Services.Cache;
@@ -20,6 +21,7 @@ namespace trello
     public class ApplicationBootstrapper : PhoneBootstrapper
     {
         private PhoneContainer _container;
+        private LocalyticsSession _localytics;
 
         protected override void Configure()
         {
@@ -109,12 +111,55 @@ namespace trello
             _container.BuildUp(instance);
         }
 
+        protected override void OnLaunch(object sender, LaunchingEventArgs e)
+        {
+            base.OnLaunch(sender, e);
+
+            CreateAndStartAnalyticsSession();
+        }
+
+        protected override void OnClose(object sender, ClosingEventArgs e)
+        {
+            _localytics.close();
+
+            base.OnClose(sender, e);
+        }
+
+        protected override void OnActivate(object sender, ActivatedEventArgs e)
+        {
+            base.OnActivate(sender, e);
+
+            CreateAndStartAnalyticsSession();
+        }
+
+        protected override void OnDeactivate(object sender, DeactivatedEventArgs e)
+        {
+            _localytics.close();
+
+            base.OnDeactivate(sender, e);
+        }
+
         protected override void OnUnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-            // TODO: Handle these a little better.
-            Debugger.Break();
+            var attributes = new Dictionary<string, string>
+            {
+                {"exception", e.ExceptionObject.Message},
+                {"stack", e.ExceptionObject.StackTrace}
+            };
+            _localytics.tagEvent("App Crash", attributes);
 
             base.OnUnhandledException(sender, e);
+        }
+
+        private void CreateAndStartAnalyticsSession()
+        {
+#if DEBUG
+            _localytics = new LocalyticsSession("084443c212918bc1314eed4-c54e6f14-a2ef-11e2-9a95-00c76edb34ae");
+#else
+            _localytics = new LocalyticsSession("a100e3d768f37ed322e953f-64164842-a2eb-11e2-f180-0086c15f90fa");
+#endif
+            _localytics.open();
+            _localytics.upload();
         }
     }
 }

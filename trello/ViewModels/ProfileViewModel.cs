@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using BugSense;
+using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
@@ -90,6 +91,8 @@ namespace trello.ViewModels
 
         protected override async void OnInitialize()
         {
+            BugSenseHandler.LeaveBreadcrumb("Viewing profile");
+
             var profile = await _api.Members.Me();
             InitializeWith(profile);
         }
