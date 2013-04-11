@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
+using BugSense;
 using RestSharp;
 using trellow.api;
 
@@ -28,8 +29,9 @@ namespace trello.Services.Cache
             {
                 return TrelloError(new RestResponse(), ex);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                BugSenseHandler.Instance.LogException(ex, BuildKvp(request), "api");
                 return NoResults(new RestResponse());
             }
         }
@@ -42,10 +44,12 @@ namespace trello.Services.Cache
             }
             catch (TrelloException ex)
             {
+                BugSenseHandler.Instance.LogException(ex, BuildKvp(request), "api");
                 return TrelloError(default(T), ex);
             }
             catch (Exception ex)
             {
+                BugSenseHandler.Instance.LogException(ex, BuildKvp(request), "api");
                 return default(T);
             }
         }
@@ -59,10 +63,12 @@ namespace trello.Services.Cache
             }
             catch (TrelloException ex)
             {
+                BugSenseHandler.Instance.LogException(ex, BuildKvp(request), "api");
                 return TrelloError(Enumerable.Empty<T>(), ex);
             }
             catch (Exception ex)
             {
+                BugSenseHandler.Instance.LogException(ex, BuildKvp(request), "api");
                 return NoResults(Enumerable.Empty<T>());
             }
         }
@@ -73,8 +79,9 @@ namespace trello.Services.Cache
             {
                 return await _client.GetAuthorizationUri(applicationName, scope, expiration, callbackUri);
             }
-            catch
+            catch (Exception ex)
             {
+                BugSenseHandler.Instance.LogException(ex, "resource", "auth-uri", "api");
                 return ApiError<Uri>();
             }
         }
@@ -85,8 +92,9 @@ namespace trello.Services.Cache
             {
                 return await _client.Verify(verifier);
             }
-            catch
+            catch (Exception ex)
             {
+                BugSenseHandler.Instance.LogException(ex, "resource", "verify", "api");
                 return ApiError<OAuthToken>();
             }
         }
@@ -97,9 +105,10 @@ namespace trello.Services.Cache
             {
                 _client.Authorize(accessToken);
             }
-            catch
+            catch (Exception ex)
             {
-                ApiError();
+                BugSenseHandler.Instance.LogException(ex, "resource", "authorize", "api");
+                ApiError(ex);
             }
         }
 
@@ -109,8 +118,9 @@ namespace trello.Services.Cache
             {
                 _client.Deauthorize();
             }
-            catch
+            catch (Exception ex)
             {
+                BugSenseHandler.Instance.LogException(ex, "resource", "deauthorize", "api");
                 ApiError();
             }
         }
@@ -156,6 +166,27 @@ namespace trello.Services.Cache
 
             MessageBox.Show(message);
             return value;
+        }
+
+        private static Dictionary<string, string> BuildKvp(IRestRequest request)
+        {
+            var props = new Dictionary<string, string>
+            {
+                {"uri", request.Resource},
+                {"method", request.Method.ToString()}
+            };
+
+            AugmentParametersInProps(props, request.Parameters);
+
+            return props;
+        }
+
+        private static void AugmentParametersInProps(Dictionary<string, string> props, IEnumerable<Parameter> parameters)
+        {
+            foreach (var parm in parameters)
+            {
+                props[string.Format("{0}<{1}>", parm.Name, parm.Type)] = parm.Value.ToString();
+            }
         }
     }
 }
