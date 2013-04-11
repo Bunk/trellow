@@ -261,6 +261,12 @@ namespace trello.Interactions
         {
             if (indexFrom == indexTo) return;
 
+            if (indexFrom < 0)
+                indexFrom = 0;
+
+            if (indexTo < 0)
+                indexTo = 0;
+
             if (indexFrom > indexTo)
                 IntExtensions.Swap(ref indexFrom, ref indexTo);
 

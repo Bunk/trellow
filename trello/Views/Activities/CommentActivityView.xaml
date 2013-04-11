@@ -32,32 +32,34 @@
 					</Image.Source>
 				</Image>
 
-				<TextBlock Grid.Column="1" TextWrapping="Wrap" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeMedium}" VerticalAlignment="Top" >
-					<TextBlock.Inlines>
-						<Run Text="{Binding Member.FullName}" Foreground="{StaticResource PhoneAccentBrush}" />
-					</TextBlock.Inlines>
-				</TextBlock>
+				<StackPanel Grid.Column="1">
+					<TextBlock TextWrapping="Wrap" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeMedium}" VerticalAlignment="Top" >
+						<TextBlock.Inlines>
+							<Run Text="{Binding Member.FullName}" Foreground="{StaticResource PhoneAccentBrush}" />
+						</TextBlock.Inlines>
+					</TextBlock>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="{Binding Timestamp, StringFormat='\{0:d MMM\} at \{0:h\:mm tt\}'}" FontFamily="{StaticResource PhoneFontFamilyLight}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeSmall}" />
+						<TextBlock Visibility="{Binding LastEditedDate, Converter={StaticResource VisibilityConverter}}" FontFamily="{StaticResource PhoneFontFamilyLight}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeSmall}">
+							<TextBlock.Inlines>
+								<Run Text=" edited on" />
+								<Run Text="{Binding LastEditedDate, StringFormat='\{0:d MMM\} at \{0:h\:mm tt\}'}" />
+							</TextBlock.Inlines>
+						</TextBlock>
+					</StackPanel>
+				</StackPanel>
+
+				
 			</Grid>
 
 			<Grid Grid.Row="1" Margin="15,0,0,0">
 				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto" />
 					<RowDefinition Height="Auto" />
 				</Grid.RowDefinitions>
 
 				<Border Grid.Row="0" Background="{StaticResource PhoneChromeBrush}" Padding="10" Margin="10,10,0,10" CornerRadius="0">
 					<TextBlock Text="{Binding Text}" TextWrapping="Wrap" FontSize="{StaticResource PhoneFontSizeMedium}" />
 				</Border>
-
-				<StackPanel Grid.Row="1" Orientation="Horizontal">
-					<TextBlock Text="{Binding Date, StringFormat='\{0:d MMMM\} at \{0:h\:mm tt\}'}" FontFamily="{StaticResource PhoneFontFamilyLight}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeSmall}" />
-					<TextBlock Visibility="{Binding LastEditedDate, Converter={StaticResource VisibilityConverter}}" FontFamily="{StaticResource PhoneFontFamilyLight}" Foreground="{StaticResource PhoneSubtleBrush}" FontSize="{StaticResource PhoneFontSizeSmall}">
-						<TextBlock.Inlines>
-							<Run Text=" edited on" />
-							<Run Text="{Binding LastEditedDate, StringFormat='\{0:d MMMM\} at \{0:h\:mm tt\}'}" />
-						</TextBlock.Inlines>
-					</TextBlock>
-				</StackPanel>
 
 			</Grid>
 

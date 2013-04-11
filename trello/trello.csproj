@@ -186,7 +186,7 @@
     <Compile Include="Services\Stages\ProgressIndicatorStage.cs" />
     <Compile Include="SuppressNotificationScope.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
-    <Compile Include="ViewModels\ActivityViewModel.cs" />
+    <Compile Include="ViewModels\Activities\ActivityViewModel.cs" />
     <Compile Include="ViewModels\AttachmentViewModel.cs" />
     <Compile Include="ViewModels\Boards\AddCardViewModel.cs" />
     <Compile Include="ViewModels\Boards\BoardListViewModel.cs" />
