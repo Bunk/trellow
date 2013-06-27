@@ -9,6 +9,7 @@ using System.Windows.Threading;
 using Caliburn.Micro;
 using LinqToVisualTree;
 using trello.Extensions;
+using trello.Services.Handlers;
 using trello.ViewModels;
 using trello.Views;
 using trello.Views.Cards;
@@ -27,6 +28,7 @@ namespace trello.Interactions
         private readonly BindableCollection<CardViewModel> _cardsModel;
 
         private readonly ItemsControl _itemsControl;
+        private readonly IEventAggregator _eventAggregator;
         private readonly DragImage _dragImage;
         private readonly ScrollViewer _scrollViewer;
 
@@ -34,10 +36,11 @@ namespace trello.Interactions
 
         private readonly DispatcherTimer _dispatcherTimer;
 
-        public DragVerticalInteraction(DragImage dragImage, ItemsControl itemsControl)
+        public DragVerticalInteraction(DragImage dragImage, ItemsControl itemsControl, IEventAggregator eventAggregator)
         {
             _dragImage = dragImage;
             _itemsControl = itemsControl;
+            _eventAggregator = eventAggregator;
             _cardsModel = (BindableCollection<CardViewModel>) itemsControl.ItemsSource;
             _scrollViewer = itemsControl.Descendants<ScrollViewer>().Cast<ScrollViewer>().SingleOrDefault();
             Contract.Assume(_scrollViewer != null);
@@ -70,7 +73,7 @@ namespace trello.Interactions
 
         private void HoldStarted(object sender, GestureEventArgs e)
         {
-            if (ShouldIgnoreManipulation(e))
+            if (ShouldIgnoreManipulation())
                 return;
 
             _cardView = sender as CardView;
@@ -138,19 +141,22 @@ namespace trello.Interactions
             transform.Animate(null, targetLocation, CompositeTransform.TranslateYProperty, 200, 0, completed: () =>
             {
                 Complete();
-                if (dragIndex != _initialIndex)
-                {
-                    // move the dragged item
-                    var item = (CardViewModel)_cardView.DataContext;
+                if (dragIndex == _initialIndex) 
+                    return;
 
-                    _cardsModel.Remove(item);
-                    _cardsModel.Insert(dragIndex, item);
-                    _cardsModel.Refresh();
-                }
+                // move the dragged item
+                var item = (CardViewModel)_cardView.DataContext;
+
+                _cardsModel.Remove(item);
+                _cardsModel.Insert(dragIndex, item);
+                _cardsModel.Refresh();
+
+                // fire off the event for subscribers
+                _eventAggregator.Publish(CardPriorityChanged.Create(item.Id, dragIndex, _cardsModel.ToList()));
             });
         }
 
-        private bool ShouldIgnoreManipulation(GestureEventArgs e)
+        private bool ShouldIgnoreManipulation()
         {
             return !IsEnabled && !IsActive;
         }
