@@ -55,7 +55,7 @@ namespace trello.ViewModels
             Labels = new BindableCollection<LabelViewModel>();
         }
 
-        public CardViewModel InitializeWith(Card card, InteractionManager interactionManager)
+        public CardViewModel InitializeWith(Card card, InteractionManager interactionManager = null)
         {
             _interactionManager = interactionManager;
 

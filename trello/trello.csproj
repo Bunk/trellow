@@ -139,7 +139,11 @@
     <Compile Include="Extensions\SimpleContainerExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UIElementExtensions.cs" />
+    <Compile Include="Interactions\HoldCardInteraction.cs" />
+    <Compile Include="Interactions\DragHorizontalInteraction.cs" />
+    <Compile Include="Interactions\DragToMoveListsInteraction.cs" />
     <Compile Include="Interactions\DragToReorderInteraction.cs" />
+    <Compile Include="Interactions\DragVerticalInteraction.cs" />
     <Compile Include="Interactions\IInteraction.cs" />
     <Compile Include="Interactions\InteractionBase.cs" />
     <Compile Include="Interactions\InteractionManager.cs" />
@@ -819,4 +823,7 @@
   -->
   <ProjectExtensions />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>taskkill /f /fi "pid gt 0" /im XDesProc.exe</PreBuildEvent>
+  </PropertyGroup>
 </Project>

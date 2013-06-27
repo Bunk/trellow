@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Specialized;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
@@ -97,8 +95,16 @@ namespace trello.ViewModels.Boards
             var view = GetView() as BoardListView;
             if (view == null) return;
 
-            var interaction = new DragToReorderInteraction(view.Cards, view.DragImage, _events);
-            _interactionManager.AddInteraction(interaction);
+            //var interaction = new DragToReorderInteraction(view.Cards, view.DragImage, _events);
+            //_interactionManager.AddInteraction(interaction);
+
+//            var vertical = new DragVerticalInteraction(view.DragImage, view.Cards);
+//            _interactionManager.AddInteraction(vertical);
+
+            //var horizontal = new DragHorizontalInteraction(view.DragImage, view.Cards);
+            //_interactionManager.AddInteraction(horizontal);
+
+            _interactionManager = new HoldCardInteraction(view.DragImage, view.Cards);
         }
 
         private async void RefreshLists()
@@ -145,7 +151,7 @@ namespace trello.ViewModels.Boards
 
         public void Handle(CardCreated message)
         {
-            var vm = _cardFactory().InitializeWith(message.Card, null);
+            var vm = _cardFactory().InitializeWith(message.Card);
             Cards.Add(vm);
 
             _navigation.UriFor<CardDetailPivotViewModel>()

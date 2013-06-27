@@ -10,6 +10,12 @@ namespace trello.Extensions
                 .Transform(new Point(0, 0));
         }
 
+        public static Point GetRelativePositionIn(this UIElement element, UIElement context, Point offset)
+        {
+            var point = element.GetRelativePositionIn(context);
+            return new Point(point.X + offset.X, point.Y + offset.Y);
+        }
+
         public static Point GetMidpoint(this Point point, Size size)
         {
             return new Point(point.X + size.Width / 2, point.Y + size.Height / 2);

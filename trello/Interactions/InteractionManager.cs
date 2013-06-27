@@ -1,10 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 
 namespace trello.Interactions
 {
-    public class InteractionManager
+    /// <summary>
+    /// Responsible for managing the collaborations between UX interactions.
+    /// </summary>
+    public class InteractionManager : InteractionBase
     {
         private readonly IList<IInteraction> _interactions;
 
@@ -13,27 +17,47 @@ namespace trello.Interactions
             _interactions = new List<IInteraction>();
         }
 
+        /// <summary>
+        /// Adds an interaction to the manager.  Interactions listen to UI
+        /// events and operate on them.
+        /// </summary>
         public void AddInteraction(IInteraction interaction)
         {
             _interactions.Add(interaction);
-            interaction.Activated += (sender, args) => Activated(sender);
-            interaction.Deactivated += (sender, args) => Deactivated();
+            interaction.Activated += (sender, args) => ChildActivated(sender);
+            interaction.Deactivated += (sender, args) => ChildDeactivated();
         }
 
-        public void AddElement(FrameworkElement element)
+        /// <summary>
+        /// Adds an element to the list of elements that collaborate in the
+        /// interaction.
+        /// </summary>
+        public override void AddElement(FrameworkElement element)
         {
             foreach (var interaction in _interactions)
                 interaction.AddElement(element);
         }
 
-        private void Activated(object sender)
+        protected void EachChild(Action<IInteraction> action, Func<IInteraction, bool> where = null)
         {
+            var enumerable = _interactions;
+            if (where != null)
+                enumerable = enumerable.Where(where).ToList();
+
+            foreach (var interaction in enumerable)
+                action(interaction);
+        }
+
+        private void ChildActivated(object sender)
+        {
+            // disable all interactions except the one that sent an activation signal
             foreach (var interaction in _interactions.Where(i => i != sender))
                 interaction.IsEnabled = false;
         }
 
-        private void Deactivated()
+        private void ChildDeactivated()
         {
+            // re-enable all interactions so that they can now handle events
             foreach (var interaction in _interactions)
                 interaction.IsEnabled = true;
         }
