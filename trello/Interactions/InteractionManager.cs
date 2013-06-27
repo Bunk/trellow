@@ -59,13 +59,13 @@ namespace trello.Interactions
                 action(interaction);
         }
 
-        private void ChildActivated(object sender)
+        protected virtual void ChildActivated(object sender)
         {
             // disable all interactions except the one that sent an activation signal
             DisableChildren(i => i != sender);
         }
 
-        private void ChildDeactivated()
+        protected virtual void ChildDeactivated()
         {
             // re-enable all interactions so that they can now handle events
             EnableChildren();

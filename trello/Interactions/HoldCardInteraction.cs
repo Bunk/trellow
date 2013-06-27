@@ -114,5 +114,10 @@ namespace trello.Interactions
             // hide the underlying item
             element.Opacity = 0.0;
         }
+
+        protected override void ChildDeactivated()
+        {
+            // Do not automatically reactivate children since we're handling that manually
+        }
     }
 }
