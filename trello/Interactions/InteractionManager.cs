@@ -39,6 +39,11 @@ namespace trello.Interactions
                 interaction.AddElement(element);
         }
 
+        protected bool AnyChildrenActive
+        {
+            get { return _interactions.Any(i => i.IsActive); }
+        }
+
         protected virtual void ChildCompleted(object sender)
         {
 
@@ -57,15 +62,23 @@ namespace trello.Interactions
         private void ChildActivated(object sender)
         {
             // disable all interactions except the one that sent an activation signal
-            foreach (var interaction in _interactions.Where(i => i != sender))
-                interaction.IsEnabled = false;
+            DisableChildren(i => i != sender);
         }
 
         private void ChildDeactivated()
         {
             // re-enable all interactions so that they can now handle events
-            foreach (var interaction in _interactions)
-                interaction.IsEnabled = true;
+            EnableChildren();
+        }
+
+        protected void EnableChildren(Func<IInteraction, bool> predicate = null)
+        {
+            EachChild(i => i.IsEnabled = true, predicate);
+        }
+
+        protected void DisableChildren(Func<IInteraction, bool> predicate = null)
+        {
+            EachChild(i => i.IsEnabled = false, predicate);
         }
     }
 }

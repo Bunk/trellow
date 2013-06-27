@@ -56,8 +56,6 @@ namespace trello.Interactions
                 AutoScrollLayout();
                 ReorganizeLayout();
             };
-
-            IsEnabled = true;
         }
 
         public override void AddElement(FrameworkElement element)
@@ -86,8 +84,6 @@ namespace trello.Interactions
                 var scrollOffset = new Point(_scrollViewer.HorizontalOffset, _scrollViewer.VerticalOffset);
                 var originalPosition = _cardView.GetRelativePositionIn(_itemsControl, scrollOffset);
                 _initialIndex = _currentIndex = _pointIndex.IndexOf(originalPosition);
-
-                _dispatcherTimer.Start();
             }
         }
 
@@ -128,8 +124,6 @@ namespace trello.Interactions
             if (!IsActive)
                 return;
 
-            IsActive = false;
-
             // stop the timer so that we don't try to re-fix this thing after moving to our
             // final destination.
             _dispatcherTimer.Stop();
@@ -154,6 +148,8 @@ namespace trello.Interactions
                 // fire off the event for subscribers
                 _eventAggregator.Publish(CardPriorityChanged.Create(item.Id, dragIndex, _cardsModel.ToList()));
             });
+
+            IsActive = false;
         }
 
         private bool ShouldIgnoreManipulation()
@@ -167,6 +163,7 @@ namespace trello.Interactions
             if (!IsActive && ShouldActivate(e))
             {
                 IsActive = true;
+                _dispatcherTimer.Start();
             }
             return !IsActive;
         }

@@ -31,12 +31,18 @@ namespace trello.Interactions
         public override void AddElement(FrameworkElement element)
         {
             element.Hold += HoldGesture;
+            element.ManipulationCompleted += HoldCompleted;
 
             EachChild(i => i.AddElement(element));
         }
 
         private void HoldGesture(object sender, GestureEventArgs e)
         {
+            if (!IsEnabled)
+                return;
+
+            IsActive = true;
+
             // copy the dragged element into an image to visually move it
             _originalCard = sender as CardView;
             if (_originalCard == null)
@@ -54,9 +60,28 @@ namespace trello.Interactions
 
             // Popout the selected card
             PopoutCard(_originalCard, _draggedImage, _originalRelativePosition, scrollOffset);
+
+            EnableChildren();
+        }
+
+        private void HoldCompleted(object sender, ManipulationCompletedEventArgs e)
+        {
+            if (!IsActive)
+                return;
+
+            // Defer to children if any are active, otherwise we need to revert ourselves
+            if (!AnyChildrenActive)
+                FinalizeInteraction();
+
+            IsActive = false;
         }
 
         protected override void ChildCompleted(object sender)
+        {
+            FinalizeInteraction();
+        }
+
+        private void FinalizeInteraction()
         {
             // fade in the list
             if (_context != null)
@@ -70,6 +95,8 @@ namespace trello.Interactions
             if (_draggedImage != null)
                 _draggedImage.Animate(null, 0.0, UIElement.OpacityProperty, 700, 0,
                                       completed: () => { _draggedImage.Visibility = Visibility.Collapsed; });
+
+            DisableChildren();
         }
 
         private static void PopoutCard(UIElement element, DragImage image, Point relativePosition, Point scrollPosition)

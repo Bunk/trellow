@@ -95,17 +95,8 @@ namespace trello.ViewModels.Boards
             var view = GetView() as BoardListView;
             if (view == null) return;
 
-            //var interaction = new DragToReorderInteraction(view.Cards, view.DragImage, _events);
-            //_interactionManager.AddInteraction(interaction);
-
-//            var vertical = new DragVerticalInteraction(view.DragImage, view.Cards);
-//            _interactionManager.AddInteraction(vertical);
-
-            //var horizontal = new DragHorizontalInteraction(view.DragImage, view.Cards);
-            //_interactionManager.AddInteraction(horizontal);
-
             _interactionManager = new HoldCardInteraction(view.DragImage, view.Cards);
-            _interactionManager.AddInteraction(new DragVerticalInteraction(view.DragImage, view.Cards));
+            _interactionManager.AddInteraction(new DragVerticalInteraction(view.DragImage, view.Cards, _events));
             _interactionManager.AddInteraction(new DragHorizontalInteraction(view.DragImage, view.Cards));
         }
 
