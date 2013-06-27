@@ -105,6 +105,8 @@ namespace trello.ViewModels.Boards
             //_interactionManager.AddInteraction(horizontal);
 
             _interactionManager = new HoldCardInteraction(view.DragImage, view.Cards);
+            _interactionManager.AddInteraction(new DragVerticalInteraction(view.DragImage, view.Cards));
+            _interactionManager.AddInteraction(new DragHorizontalInteraction(view.DragImage, view.Cards));
         }
 
         private async void RefreshLists()

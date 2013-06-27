@@ -26,6 +26,7 @@ namespace trello.Interactions
             _interactions.Add(interaction);
             interaction.Activated += (sender, args) => ChildActivated(sender);
             interaction.Deactivated += (sender, args) => ChildDeactivated();
+            interaction.Completed += (sender, args) => ChildCompleted(sender);
         }
 
         /// <summary>
@@ -36,6 +37,11 @@ namespace trello.Interactions
         {
             foreach (var interaction in _interactions)
                 interaction.AddElement(element);
+        }
+
+        protected virtual void ChildCompleted(object sender)
+        {
+
         }
 
         protected void EachChild(Action<IInteraction> action, Func<IInteraction, bool> where = null)

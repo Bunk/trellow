@@ -49,9 +49,7 @@ namespace trello.Interactions
 
             IsActive = false;
 
-            // fade out the dragged image
-            _dragImage.Animate(null, 0.0, UIElement.OpacityProperty, 700, 0,
-                               completed: () => { _dragImage.Visibility = Visibility.Collapsed; });
+            Complete();
         }
 
         private bool ShouldIgnoreManipulation(ManipulationDeltaEventArgs e)

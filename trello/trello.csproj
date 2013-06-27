@@ -147,6 +147,7 @@
     <Compile Include="Interactions\IInteraction.cs" />
     <Compile Include="Interactions\InteractionBase.cs" />
     <Compile Include="Interactions\InteractionManager.cs" />
+    <Compile Include="Interactions\PointIndex.cs" />
     <Compile Include="KeyEqualityComparer.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -25,15 +25,12 @@ namespace trello.Interactions
             _context = context;
             _scrollViewer = context.Descendants<ScrollViewer>().Cast<ScrollViewer>().SingleOrDefault();
 
-            AddInteraction(new DragVerticalInteraction(draggedImage, context));
-            AddInteraction(new DragHorizontalInteraction(draggedImage, context));
             IsEnabled = true;
         }
 
         public override void AddElement(FrameworkElement element)
         {
             element.Hold += HoldGesture;
-            element.ManipulationCompleted += HoldCompleted;
 
             EachChild(i => i.AddElement(element));
         }
@@ -59,7 +56,7 @@ namespace trello.Interactions
             PopoutCard(_originalCard, _draggedImage, _originalRelativePosition, scrollOffset);
         }
 
-        private void HoldCompleted(object sender, ManipulationCompletedEventArgs e)
+        protected override void ChildCompleted(object sender)
         {
             // fade in the list
             if (_context != null)

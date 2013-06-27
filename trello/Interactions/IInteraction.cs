@@ -16,5 +16,7 @@ namespace trello.Interactions
         event EventHandler Activated;
 
         event EventHandler Deactivated;
+
+        event EventHandler Completed;
     }
 }
