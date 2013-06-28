@@ -21,12 +21,14 @@ namespace trello.Interactions
         /// Adds an interaction to the manager.  Interactions listen to UI
         /// events and operate on them.
         /// </summary>
-        public void AddInteraction(IInteraction interaction)
+        public virtual void AddInteraction(IInteraction interaction)
         {
             _interactions.Add(interaction);
+
+            interaction.IsEnabled = true;
             interaction.Activated += (sender, args) => ChildActivated(sender);
             interaction.Deactivated += (sender, args) => ChildDeactivated();
-            interaction.Completed += (sender, args) => ChildCompleted(sender);
+            //todo: Possible memory leaks--check on weak references for these
         }
 
         /// <summary>
@@ -44,11 +46,6 @@ namespace trello.Interactions
             get { return _interactions.Any(i => i.IsActive); }
         }
 
-        protected virtual void ChildCompleted(object sender)
-        {
-
-        }
-
         protected void EachChild(Action<IInteraction> action, Func<IInteraction, bool> where = null)
         {
             var enumerable = _interactions;
@@ -62,23 +59,13 @@ namespace trello.Interactions
         protected virtual void ChildActivated(object sender)
         {
             // disable all interactions except the one that sent an activation signal
-            DisableChildren(i => i != sender);
+            EachChild(i => i.IsEnabled = false, i => i != sender);
         }
 
         protected virtual void ChildDeactivated()
         {
             // re-enable all interactions so that they can now handle events
-            EnableChildren();
-        }
-
-        protected void EnableChildren(Func<IInteraction, bool> predicate = null)
-        {
-            EachChild(i => i.IsEnabled = true, predicate);
-        }
-
-        protected void DisableChildren(Func<IInteraction, bool> predicate = null)
-        {
-            EachChild(i => i.IsEnabled = false, predicate);
+            EachChild(i => i.IsEnabled = true);
         }
     }
 }

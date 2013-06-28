@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
+using System.Windows.Controls;
 using Caliburn.Micro;
 using JetBrains.Annotations;
+using LinqToVisualTree;
 using Microsoft.Phone.Shell;
 using trello.Assets;
 using trello.Interactions;
@@ -95,9 +97,11 @@ namespace trello.ViewModels.Boards
             var view = GetView() as BoardListView;
             if (view == null) return;
 
-            _interactionManager = new HoldCardInteraction(view.DragImage, view.Cards);
-            _interactionManager.AddInteraction(new DragVerticalInteraction(view.DragImage, view.Cards, _events));
-            _interactionManager.AddInteraction(new DragHorizontalInteraction(view.DragImage, view.Cards));
+            var scrollViewer = view.Cards.Descendants<ScrollViewer>().Cast<ScrollViewer>().SingleOrDefault();
+            _interactionManager = new HoldCardInteraction(view.DragImage, view.Cards, scrollViewer);
+            _interactionManager.AddInteraction(new DragVerticalInteraction(view.DragImage, view.Cards, scrollViewer,
+                                                                           _events));
+            _interactionManager.AddInteraction(new DragHorizontalInteraction(view.DragImage, view.Cards, _events));
         }
 
         private async void RefreshLists()
@@ -148,8 +152,8 @@ namespace trello.ViewModels.Boards
             Cards.Add(vm);
 
             _navigation.UriFor<CardDetailPivotViewModel>()
-                .WithParam(x => x.Id, vm.Id)
-                .Navigate();
+                       .WithParam(x => x.Id, vm.Id)
+                       .Navigate();
         }
 
         public void Handle(CardDeleted message)

@@ -139,10 +139,9 @@
     <Compile Include="Extensions\SimpleContainerExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UIElementExtensions.cs" />
+    <Compile Include="Interactions\CompositeInteractionManager.cs" />
     <Compile Include="Interactions\HoldCardInteraction.cs" />
     <Compile Include="Interactions\DragHorizontalInteraction.cs" />
-    <Compile Include="Interactions\DragToMoveListsInteraction.cs" />
-    <Compile Include="Interactions\DragToReorderInteraction.cs" />
     <Compile Include="Interactions\DragVerticalInteraction.cs" />
     <Compile Include="Interactions\IInteraction.cs" />
     <Compile Include="Interactions\InteractionBase.cs" />
@@ -170,7 +169,13 @@
     <Compile Include="Services\Handlers\CardLabelAdded.cs" />
     <Compile Include="Services\Handlers\CardLabelRemoved.cs" />
     <Compile Include="Services\Handlers\CardMemberAdded.cs" />
+    <Compile Include="Services\Handlers\CardMovedToList.cs" />
     <Compile Include="Services\Handlers\CardPriorityChanged.cs" />
+    <Compile Include="Services\Handlers\AbstractHandler.cs" />
+    <Compile Include="Services\Handlers\Cards\ChecklistCommandHandler.cs" />
+    <Compile Include="Services\Handlers\Cards\LabelHandler.cs" />
+    <Compile Include="Services\Handlers\Cards\MemberHandler.cs" />
+    <Compile Include="Services\Handlers\Cards\MovementHandler.cs" />
     <Compile Include="Services\Handlers\CheckItemChanged.cs" />
     <Compile Include="Services\Handlers\CheckItemCreationRequested.cs" />
     <Compile Include="Services\Handlers\CheckItemRemoved.cs" />
@@ -207,7 +212,7 @@
     <Compile Include="ViewModels\MyNotificationsViewModel.cs" />
     <Compile Include="ViewModels\MyBoardsViewModel.cs" />
     <Compile Include="ViewModels\Boards\BoardViewModel.cs" />
-    <Compile Include="Services\Handlers\CardDetailCommandHandler.cs" />
+    <Compile Include="Services\Handlers\Cards\DetailCommandHandler.cs" />
     <Compile Include="ViewModels\MyCardsViewModel.cs" />
     <Compile Include="ViewModels\CardViewModel.cs" />
     <Compile Include="Services\IProgressService.cs" />

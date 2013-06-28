@@ -16,6 +16,10 @@ namespace trello.Services.Handlers
 
         public double Pos { get; set; }
 
+        /// <summary>
+        /// Creates a new priority changed event with the correct 'pos' field based on the new card's 
+        /// index relative to other cards in the list.
+        /// </summary>
         public static CardPriorityChanged Create(string cardId, int index, IList<CardViewModel> cards)
         {
             var evt = new CardPriorityChanged

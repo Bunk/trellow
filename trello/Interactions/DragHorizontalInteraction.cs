@@ -2,10 +2,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
 using Caliburn.Micro;
 using trello.Extensions;
+using trello.Services.Handlers;
 using trello.ViewModels;
 using trello.Views.Cards;
 
@@ -17,16 +16,19 @@ namespace trello.Interactions
         private const double FlickVelocity = 2000.0;
 
         private readonly ItemsControl _itemsControl;
+        private readonly IEventAggregator _eventAggregator;
         private readonly DragImage _dragImage;
 
         private readonly BindableCollection<CardViewModel> _cardsModel;
 
-        public DragHorizontalInteraction(DragImage dragImage, ItemsControl itemsControl)
+        public DragHorizontalInteraction(DragImage dragImage, ItemsControl itemsControl,
+                                         IEventAggregator eventAggregator)
         {
             _dragImage = dragImage;
             _itemsControl = itemsControl;
+            _eventAggregator = eventAggregator;
 
-            _cardsModel = (BindableCollection<CardViewModel>)itemsControl.ItemsSource;
+            _cardsModel = (BindableCollection<CardViewModel>) itemsControl.ItemsSource;
         }
 
         public override void AddElement(FrameworkElement element)
@@ -56,27 +58,33 @@ namespace trello.Interactions
             if (!IsActive || !IsEnabled)
                 return;
 
-            var element = sender as FrameworkElement;
-            if (element != null && HasPassedThresholds(element, e))
+            try
             {
-                if (e.TotalManipulation.Translation.X < 0.0)
-                {
-                    // we went to the previous board, so raise that event
-                }
-                else
-                {
-                    // we went to the next board, so raise that event
-                }
+                var element = sender as FrameworkElement;
+                if (element == null || !HasPassedThresholds(element, e))
+                    return;
 
-                // remove the item
-                var item = (CardViewModel)((FrameworkElement)sender).DataContext;
+                var item = (CardViewModel) ((FrameworkElement) sender).DataContext;
+                var evt = new CardMovedToList
+                {
+                    CardId = item.Id,
+                    Direction =
+                        e.TotalManipulation.Translation.X < 0.0
+                            ? ListMovementDirection.Left
+                            : ListMovementDirection.Right
+                };
 
                 _cardsModel.Remove(item);
                 _cardsModel.Refresh();
-            }
 
-            Complete();
-            IsActive = false;
+                // Notify the command handlers
+                _eventAggregator.Publish(evt);
+            }
+            finally
+            {
+                IsActive = false;
+                Complete();
+            }
         }
 
         private bool ShouldIgnoreManipulation(ManipulationDeltaEventArgs e)
@@ -109,7 +117,7 @@ namespace trello.Interactions
 
         private bool HasPassedThresholds(FrameworkElement element, ManipulationCompletedEventArgs e)
         {
-            var midpoint = Math.Abs(e.TotalManipulation.Translation.X) > element.ActualWidth / 2;
+            var midpoint = Math.Abs(e.TotalManipulation.Translation.X) > element.ActualWidth/2;
             var velocity = Math.Abs(e.FinalVelocities.LinearVelocity.X) > FlickVelocity;
             return midpoint || velocity;
         }

@@ -7,7 +7,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Caliburn.Micro;
-using LinqToVisualTree;
 using trello.Extensions;
 using trello.Services.Handlers;
 using trello.ViewModels;
@@ -36,14 +35,18 @@ namespace trello.Interactions
 
         private readonly DispatcherTimer _dispatcherTimer;
 
-        public DragVerticalInteraction(DragImage dragImage, ItemsControl itemsControl, IEventAggregator eventAggregator)
+        public DragVerticalInteraction(DragImage dragImage, ItemsControl itemsControl, ScrollViewer scrollViewer, IEventAggregator eventAggregator)
         {
+            Contract.Requires(dragImage != null);
+            Contract.Requires(itemsControl != null);
+            Contract.Requires(scrollViewer != null);
+            Contract.Requires(eventAggregator != null);
+
             _dragImage = dragImage;
             _itemsControl = itemsControl;
             _eventAggregator = eventAggregator;
-            _cardsModel = (BindableCollection<CardViewModel>) itemsControl.ItemsSource;
-            _scrollViewer = itemsControl.Descendants<ScrollViewer>().Cast<ScrollViewer>().SingleOrDefault();
-            Contract.Assume(_scrollViewer != null);
+            _scrollViewer = scrollViewer;
+            _cardsModel = (BindableCollection<CardViewModel>)itemsControl.ItemsSource;
 
             // This indexes the cards and their positions in the list
             // so that we can more readily determine how to visually reorganize
@@ -135,6 +138,7 @@ namespace trello.Interactions
             transform.Animate(null, targetLocation, CompositeTransform.TranslateYProperty, 200, 0, completed: () =>
             {
                 Complete();
+
                 if (dragIndex == _initialIndex) 
                     return;
 
