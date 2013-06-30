@@ -24,8 +24,8 @@ namespace trello
 
         protected override void Configure()
         {
-            _container = new PhoneContainer(RootFrame);
-            _container.RegisterPhoneServices();
+            _container = new PhoneContainer();
+            _container.RegisterPhoneServices(RootFrame);
 
             _container.Instance(RootFrame);
 
