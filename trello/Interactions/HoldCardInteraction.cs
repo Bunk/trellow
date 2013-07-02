@@ -101,7 +101,6 @@ namespace trello.Interactions
             image.Image.Source = bitmap;
             image.Visibility = Visibility.Visible;
             image.Opacity = 1.0;
-            image.SetRotation(3);
 
             // this needs to be relative to the scrolled position
             image.SetVerticalOffset(relativePosition.Y - scrollPosition.Y);

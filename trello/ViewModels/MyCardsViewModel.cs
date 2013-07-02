@@ -14,6 +14,7 @@ namespace trello.ViewModels
         private readonly ITrello _api;
         private readonly Func<CardViewModel> _cardFactory;
 
+        [UsedImplicitly]
         public IObservableCollection<IGrouping<string, CardViewModel>> Cards { get; set; }
 
         public MyCardsViewModel(ITrello api, Func<CardViewModel> cardFactory)

@@ -169,7 +169,7 @@
     <Compile Include="Services\Handlers\CardLabelAdded.cs" />
     <Compile Include="Services\Handlers\CardLabelRemoved.cs" />
     <Compile Include="Services\Handlers\CardMemberAdded.cs" />
-    <Compile Include="Services\Handlers\CardMovedToList.cs" />
+    <Compile Include="Services\Handlers\CardMovingFromList.cs" />
     <Compile Include="Services\Handlers\CardPriorityChanged.cs" />
     <Compile Include="Services\Handlers\AbstractHandler.cs" />
     <Compile Include="Services\Handlers\Cards\ChecklistCommandHandler.cs" />

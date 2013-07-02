@@ -15,18 +15,23 @@ namespace trello.Interactions
         private const double MinimumDragDistance = 5.0;
         private const double FlickVelocity = 2000.0;
 
-        private readonly ItemsControl _itemsControl;
         private readonly IEventAggregator _eventAggregator;
+        private readonly string _previousListId;
+        private readonly string _nextListId;
         private readonly DragImage _dragImage;
 
         private readonly BindableCollection<CardViewModel> _cardsModel;
 
-        public DragHorizontalInteraction(DragImage dragImage, ItemsControl itemsControl,
-                                         IEventAggregator eventAggregator)
+        public DragHorizontalInteraction(DragImage dragImage,
+                                         ItemsControl itemsControl,
+                                         IEventAggregator eventAggregator,
+                                         string previousListId,
+                                         string nextListId)
         {
             _dragImage = dragImage;
-            _itemsControl = itemsControl;
             _eventAggregator = eventAggregator;
+            _previousListId = previousListId;
+            _nextListId = nextListId;
 
             _cardsModel = (BindableCollection<CardViewModel>) itemsControl.ItemsSource;
         }
@@ -45,9 +50,8 @@ namespace trello.Interactions
             // Avoid bubbling to any scroll viewers
             e.Handled = true;
 
-            var dragTop = _dragImage.GetHorizontalOffset().Value;
-            var dragPotential = dragTop + e.DeltaManipulation.Translation.X;
-            dragPotential = ConstrainDrag(dragPotential);
+            var dragLeft = _dragImage.GetHorizontalOffset().Value;
+            var dragPotential = dragLeft + e.DeltaManipulation.Translation.X;
 
             // Move the drag image
             _dragImage.SetHorizontalOffset(dragPotential);
@@ -65,13 +69,13 @@ namespace trello.Interactions
                     return;
 
                 var item = (CardViewModel) ((FrameworkElement) sender).DataContext;
-                var evt = new CardMovedToList
+                var evt = new CardMovingFromList
                 {
-                    CardId = item.Id,
-                    Direction =
-                        e.TotalManipulation.Translation.X < 0.0
-                            ? ListMovementDirection.Left
-                            : ListMovementDirection.Right
+                    Card = item.OriginalCard,
+                    SourceListId = item.ListId,
+                    DestinationListId = e.TotalManipulation.Translation.X < 0.0
+                                            ? _previousListId
+                                            : _nextListId
                 };
 
                 _cardsModel.Remove(item);
@@ -100,19 +104,6 @@ namespace trello.Interactions
         private static bool ShouldActivate(ManipulationDeltaEventArgs e)
         {
             return Math.Abs(e.CumulativeManipulation.Translation.X) >= MinimumDragDistance;
-        }
-
-        private double ConstrainDrag(double dragPotential)
-        {
-            if (dragPotential <= 0)
-            {
-                dragPotential = 0;
-            }
-            else if (dragPotential >= _itemsControl.RenderSize.Width + 25)
-            {
-                dragPotential = _itemsControl.RenderSize.Width + 25;
-            }
-            return dragPotential;
         }
 
         private bool HasPassedThresholds(FrameworkElement element, ManipulationCompletedEventArgs e)

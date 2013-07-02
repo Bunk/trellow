@@ -88,26 +88,28 @@ namespace trello.ViewModels.Boards
             var lists = await _api.Lists.ForBoard(board);
 
             InitializeBoard(board);
-            InitializeLists(lists);
+            InitializeLists(lists.ToList());
 
-            var selectedIndex = 0;
-            if (!string.IsNullOrEmpty(SelectedListId))
-            {
-                var items = Items.OfType<BoardListViewModel>().ToArray();
-                for (var i = 0; i < items.Count(); i++)
-                {
-                    if (items[i].Id != SelectedListId) continue;
+            var selectedItem = FindSelectedItem(Items, SelectedListId);
 
-                    selectedIndex = i;
-                    break;
-                }
-            }
-            ActivateItem(Items[selectedIndex]);
+            ActivateItem(selectedItem);
         }
 
-        public BoardViewModel InitializeLists(IEnumerable<List> lists)
+        private static IScreen FindSelectedItem(IObservableCollection<IScreen> items, string selectedListId)
         {
-            var vms = lists.Select(list => _listFactory().InitializeWith(list));
+            var selectedIndex = 0;
+            if (!string.IsNullOrEmpty(selectedListId))
+            {
+                var vms = items.OfType<BoardListViewModel>().ToList();
+                selectedIndex = vms.FindIndex(vm => vm.Id == selectedListId);
+            }
+            return items[selectedIndex];
+        }
+
+        public BoardViewModel InitializeLists(List<List> lists)
+        {
+            var vms = lists.Select(list => _listFactory().InitializeWith(lists, list));
+
             Items.Clear();
             Items.AddRange(vms);
 

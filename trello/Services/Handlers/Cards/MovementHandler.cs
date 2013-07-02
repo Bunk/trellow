@@ -1,17 +1,18 @@
-﻿using System.Windows;
-using BugSense;
+﻿using BugSense;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using trellow.api;
 using trellow.api.Cards;
+using trellow.api.Lists;
 
 namespace trello.Services.Handlers.Cards
 {
     [UsedImplicitly]
-    public class MovementHandler : AbstractHandler, IHandle<CardArchived>,
+    public class MovementHandler : AbstractHandler,
+                                   IHandle<CardArchived>,
                                    IHandle<CardDeleted>,
                                    IHandle<CardPriorityChanged>,
-                                   IHandle<CardMovedToList>
+                                   IHandle<CardMovingFromList>
     {
         public MovementHandler(IEventAggregator events, ITrello api, IProgressService progress)
             : base(events, api, progress)
@@ -46,9 +47,10 @@ namespace trello.Services.Handlers.Cards
             }
         }
 
-        public void Handle(CardMovedToList message)
+        public void Handle(CardMovingFromList message)
         {
-            MessageBox.Show("The card would be moved now...");
+            BugSenseHandler.Instance.SendEvent("Move card to list");
+            Handle(api => api.Cards.Move(new CardId(message.Card.Id), new ListId(message.DestinationListId)));
         }
     }
 }
