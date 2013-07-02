@@ -132,8 +132,7 @@ namespace trello.ViewModels.Boards
                                                                            view.Cards,
                                                                            scrollViewer,
                                                                            _events));
-            _interactionManager.AddInteraction(new DragHorizontalInteraction(view.DragImage,
-                                                                             view.Cards,
+            _interactionManager.AddInteraction(new DragHorizontalInteraction(view.Cards,
                                                                              _events,
                                                                              PreviousId,
                                                                              NextId));

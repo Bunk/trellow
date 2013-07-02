@@ -135,6 +135,7 @@
     <Compile Include="EnumerableExtensions.cs" />
     <Compile Include="Extensions\FrameworkElementExtensions.cs" />
     <Compile Include="Extensions\IntExtensions.cs" />
+    <Compile Include="Extensions\ItemsControlExtensions.cs" />
     <Compile Include="Extensions\LinqToVisualTree.cs" />
     <Compile Include="Extensions\SimpleContainerExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

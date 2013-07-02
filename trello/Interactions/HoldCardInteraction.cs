@@ -1,8 +1,11 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using trello.Extensions;
+using trello.ViewModels;
 using trello.Views;
 using trello.Views.Cards;
 
@@ -10,14 +13,14 @@ namespace trello.Interactions
 {
     public class HoldCardInteraction : CompositeInteractionManager
     {
-        private readonly UIElement _context;
+        private readonly ItemsControl _context;
         private readonly DragImage _draggedImage;
         private readonly ScrollViewer _scrollViewer;
 
         private FrameworkElement _cardView;
         private Point _originalRelativePosition;
 
-        public HoldCardInteraction(DragImage draggedImage, UIElement context, ScrollViewer scrollViewer)
+        public HoldCardInteraction(DragImage draggedImage, ItemsControl context, ScrollViewer scrollViewer)
         {
             _draggedImage = draggedImage;
             _context = context;
@@ -38,7 +41,7 @@ namespace trello.Interactions
         {
             // fade in the list
             if (_context != null)
-                _context.Animate(null, 1.0, UIElement.OpacityProperty, 200, 0);
+                UnfadeCards(_context);
 
             // reshow the hidden item
             if (_cardView != null)
@@ -67,18 +70,52 @@ namespace trello.Interactions
             }
             else
             {
+                var selected = (CardViewModel)_cardView.DataContext;
+
                 var scrollOffset = new Point(_scrollViewer.HorizontalOffset, _scrollViewer.VerticalOffset);
                 _originalRelativePosition = _cardView.GetRelativePositionIn(_context, scrollOffset);
 
                 // Fade everything out
+                //if (_context != null)
+                //    _context.Animate(1.0, 0.7, UIElement.OpacityProperty, 300, 0);
+
                 if (_context != null)
-                    _context.Animate(1.0, 0.7, UIElement.OpacityProperty, 300, 0);
+                    FadeCards(_context, selected);
 
                 // Popout the selected card
-                PopoutCard(_cardView, _draggedImage, _originalRelativePosition, scrollOffset);
+                // PopoutCard(_cardView, _draggedImage, _originalRelativePosition, scrollOffset);
 
                 // We can allow children to listen to events now
                 EnableChildInteractions();
+            }
+        }
+
+        private static void FadeCards(ItemsControl context, CardViewModel selected)
+        {
+
+            var containers = context.ItemsSource.OfType<CardViewModel>()
+                                     .Select(vm => new
+                                     {
+                                         container = (FrameworkElement)context.ItemContainerGenerator.ContainerFromItem(vm),
+                                         model = vm
+                                     });
+            foreach (var item in containers)
+            {
+                if (item.model != selected)
+                    item.container.Animate(1.0, 0.5, UIElement.OpacityProperty, 800, 0);
+                else
+                    item.container.Opacity = 1.0;
+            }
+        }
+
+        private static void UnfadeCards(ItemsControl context, Action completed = null)
+        {
+            foreach (var item in context.ItemsSource.OfType<CardViewModel>()
+                                        .Select(vm => context.ItemContainerGenerator.ContainerFromItem(vm))
+                                        .Cast<FrameworkElement>())
+            {
+                if (item != null)
+                    item.Animate(null, 1.0, UIElement.OpacityProperty, 700, 0, completed: completed);
             }
         }
 
