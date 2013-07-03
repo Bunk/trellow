@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Windows;
@@ -11,6 +10,11 @@ namespace trello.Interactions
     {
         private readonly List<Value> _points = new List<Value>();
 
+        /// <summary>
+        /// Returns the index location for a given point in the index.
+        /// </summary>
+        /// <param name="point">The point to do a hit test against.</param>
+        /// <returns>Positive integer if a hit test matches, or -1 if not.</returns>
         public int IndexOf(Point point)
         {
             var points = _points.ToList();
@@ -22,45 +26,73 @@ namespace trello.Interactions
             return -1;
         }
 
+        /// <summary>
+        /// Returns the index location of a given value in the index.
+        /// </summary>
         public int IndexOf(Value point)
         {
             return _points.IndexOf(point);
         }
 
-        public Value GetPotentialItem(double targetPoint)
+        /// <summary>
+        /// Returns the item if the target point has a hit test match in the index.
+        /// </summary>
+        /// <param name="targetPoint">Point to do a hit test against</param>
+        public Value GetPotentialItem(Point targetPoint)
         {
-            var index = IndexOf(new Point(0, targetPoint));
+            var index = IndexOf(targetPoint);
             return index < 0 ? null : _points[index];
         }
 
+        /// <summary>
+        /// Returns the index value at the given index location.
+        /// </summary>
         public Value Get(int index)
         {
             Contract.Assert(index < _points.Count);
             return _points[index];
         }
 
+        /// <summary>
+        /// Adds the specified value into the point index.  The location in the index is determined by
+        /// its y-coordinate relative to other items already in the list.  The resulting index will
+        /// be sorted from lowest y-coordinate to highest.
+        /// </summary>
         public void Add(Value item)
         {
-            _points.Add(item);
+            var insertionIndex = FindSuitableIndex(item.Position);
+            _points.Insert(insertionIndex, item);
         }
 
-        public void Sort(Comparison<Value> func)
+        /// <summary>
+        /// Swaps the indexed items beginning with the old index until the new index.
+        /// </summary>
+        public void ShuffleItems(int oldIndex, int newIndex)
         {
-            _points.Sort(func);
-        }
-
-        public void Reindex(int oldIndex, int newIndex)
-        {
-            if (oldIndex == newIndex)
-                throw new InvalidOperationException("You should only shift when indexes change.");
-
+            // NOTE: moving up / down in the list is not a transitive operation on more than one index change
             if (oldIndex > newIndex)
-                IntExtensions.Swap(ref oldIndex, ref newIndex);
+            {
+                // Moving up in the list
+                for (var i = oldIndex; i > newIndex; i--)
+                    SwapIndex(i, i - 1);
+            }
+            else
+            {
+                // Moving down in the list
+                for (var i = oldIndex; i < newIndex; i++)
+                    SwapIndex(i, i + 1);
+            }
+        }
 
-            for (var i = oldIndex; i < newIndex; i++)
-                SwapIndex(i, i + 1);
-
-            Sort((lhs, rhs) => lhs.Position.Top.CompareTo(rhs.Position.Top));
+        private int FindSuitableIndex(Rect position)
+        {
+            // optimize for appending to the tail as the common case.
+            for (var i = _points.Count - 1; i >= 0; i--)
+            {
+                if (position.Top >= _points[i].Position.Bottom)
+                    return i + 1;
+            }
+            return 0;
         }
 
         private void SwapIndex(int indexFrom, int indexTo)
@@ -84,6 +116,9 @@ namespace trello.Interactions
 
             itemA.Reposition(new Point(0, aTop));
             itemB.Reposition(new Point(0, bTop));
+
+            _points[indexFrom] = itemB;
+            _points[indexTo] = itemA;
         }
 
         public class Value
@@ -102,7 +137,12 @@ namespace trello.Interactions
             {
                 var position = element.GetRelativePositionIn(relativeTo);
                 var rect = new Rect(position, element.RenderSize);
-                return new Value { Position = rect };
+                return new Value {Position = rect};
+            }
+
+            public override string ToString()
+            {
+                return string.Format("({0}) :: (Bottom={1})", Position, Position.Bottom);
             }
         }
     }

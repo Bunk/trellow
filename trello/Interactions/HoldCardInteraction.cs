@@ -43,15 +43,6 @@ namespace trello.Interactions
             if (_context != null)
                 UnfadeCards(_context);
 
-            // reshow the hidden item
-            if (_cardView != null)
-                _cardView.Opacity = 1.0;
-
-            // fade out the dragged image
-            if (_draggedImage != null)
-                _draggedImage.Animate(null, 0.0, UIElement.OpacityProperty, 700, 0,
-                                      completed: () => { _draggedImage.Visibility = Visibility.Collapsed; });
-
             // The composite is complete, so we no longer want children listening (shhh)
             DisableChildInteractions();
         }
@@ -129,22 +120,6 @@ namespace trello.Interactions
                 FinalizeInteraction();
 
             IsActive = false;
-        }
-
-        private static void PopoutCard(UIElement element, DragImage image, Point relativePosition, Point scrollPosition)
-        {
-            // Copy the selected card into a bitmap for use as the movement target
-            var bitmap = new WriteableBitmap(element, null);
-            image.Image.Source = bitmap;
-            image.Visibility = Visibility.Visible;
-            image.Opacity = 1.0;
-
-            // this needs to be relative to the scrolled position
-            image.SetVerticalOffset(relativePosition.Y - scrollPosition.Y);
-            image.SetHorizontalOffset(relativePosition.X - scrollPosition.Y);
-
-            // hide the underlying item
-            element.Opacity = 0.0;
         }
     }
 }
