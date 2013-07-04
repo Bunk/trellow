@@ -69,7 +69,6 @@ namespace trello.Interactions
 
             var item = PointIndex.Value.Create(element, _itemsControl);
             _pointIndex.Add(item);
-            //_pointIndex.Sort((lhs, rhs) => lhs.Position.Top.CompareTo(rhs.Position.Top));
         }
 
         private void HoldStarted(object sender, GestureEventArgs e)
@@ -95,14 +94,13 @@ namespace trello.Interactions
             if (!IsEnabled)
                 return;
 
-            // Avoid bubbling to any scroll viewers
+            if (!IsActive && !ShouldActivate(e))
+                return;
+
             e.Handled = true;
 
             if (!IsActive)
             {
-                if (!ShouldActivate(e))
-                    return;
-
                 IsActive = true;
 
                 var relativePosition = _cardView.GetRelativePositionIn(_itemsControl);
@@ -269,15 +267,15 @@ namespace trello.Interactions
                 return currentIndex;
 
             var targetPosition = targetItem.Position;
-            var targetMid = targetPosition.Midpoint().Y;
+            var targetPoint = dragPoint > 0 ? targetPosition.Midpoint().Y : 0;
             var targetIndex = _pointIndex.IndexOf(targetItem);
 
             var potentialIndex = currentIndex;
             if (potentialIndex != targetIndex)
             {
-                if (downwardMotion && dragPoint >= targetMid)
+                if (downwardMotion && dragPoint >= targetPoint)
                     potentialIndex = targetIndex; // move target above the dragged item
-                if (!downwardMotion && dragPoint <= targetMid)
+                if (!downwardMotion && (dragPoint <= targetPoint))
                     potentialIndex = targetIndex; // move target below the drag item
             }
 

@@ -61,7 +61,15 @@ namespace trello.Interactions
         public void Add(Value item)
         {
             var insertionIndex = FindSuitableIndex(item.Position);
+
             _points.Insert(insertionIndex, item);
+
+            // adjust the values below the newly inserted one in the list accordingly when inserting a new value
+            for (var i = (insertionIndex + 1); i < _points.Count; i++)
+            {
+                var current = _points[i].Position;
+                _points[i].Reposition(new Point(0, current.Y + item.Position.Height));
+            }
         }
 
         /// <summary>
@@ -111,11 +119,12 @@ namespace trello.Interactions
             var itemA = _points[indexFrom];
             var itemB = _points[indexTo];
 
-            var aTop = itemA.Position.Top + itemB.Position.Height;
-            var bTop = itemA.Position.Top;
+            // note: these are mutable, so if we store the values in local scope
+            var posA = itemA.Position.Top + itemB.Position.Height;
+            var posB = itemA.Position.Top;
 
-            itemA.Reposition(new Point(0, aTop));
-            itemB.Reposition(new Point(0, bTop));
+            itemA.Reposition(new Point(0, posA));
+            itemB.Reposition(new Point(0, posB));
 
             _points[indexFrom] = itemB;
             _points[indexTo] = itemA;
@@ -125,10 +134,10 @@ namespace trello.Interactions
         {
             public Rect Position { get; private set; }
 
-            public void Reposition(Point offset)
+            public void Reposition(Point position)
             {
-                Position = new Rect(offset.X,
-                                    offset.Y,
+                Position = new Rect(position.X,
+                                    position.Y,
                                     Position.Width,
                                     Position.Height);
             }

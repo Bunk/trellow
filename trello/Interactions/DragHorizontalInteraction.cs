@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,7 +17,7 @@ namespace trello.Interactions
 {
     public class DragHorizontalInteraction : InteractionBase
     {
-        private const double MinimumDragDistance = 5.0;
+        private const double MinimumDragDistance = 1.0;
         private const double FlickVelocity = 2000.0;
 
         private readonly IEventAggregator _eventAggregator;
@@ -51,36 +52,32 @@ namespace trello.Interactions
             if (!IsEnabled)
                 return;
 
+            if (!IsActive && !ShouldActivate(e))
+                return;
+
+            var element = sender as FrameworkElement;
+            if (element == null)
+                return;
+
             e.Handled = true;
 
             if (!IsActive)
             {
-                if (!ShouldActivate(e))
-                    return;
+                IsActive = true;
 
-                // initialize
-                var element = sender as FrameworkElement;
-                if (element != null)
-                {
-                    IsActive = true;
+                // Initialize
+                element.SetHorizontalOffset(0.0);
 
-                    element.SetHorizontalOffset(0.0);
-
-                    var container = _itemsControl.ItemContainerGenerator.ContainerFromItem(element.DataContext);
-                    _dragCues = container.Descendants()
-                                         .OfType<FrameworkElement>()
-                                         .SingleOrDefault(fe => fe.Name == "MoveCues");
-                }
+                var container = _itemsControl.ItemContainerGenerator.ContainerFromItem(element.DataContext);
+                _dragCues = container.Descendants()
+                                     .OfType<FrameworkElement>()
+                                     .SingleOrDefault(fe => fe.Name == "MoveCues");
             }
             else
             {
-                var element = sender as FrameworkElement;
-                if (element != null)
-                {
-                    var offset = element.GetHorizontalOffset().Value + e.DeltaManipulation.Translation.X;
-                    UpdateDragCues(element, e.CumulativeManipulation.Translation.X, offset);
-                    element.SetHorizontalOffset(offset);
-                }
+                var offset = element.GetHorizontalOffset().Value + e.DeltaManipulation.Translation.X;
+                UpdateDragCues(element, e.CumulativeManipulation.Translation.X, offset);
+                element.SetHorizontalOffset(offset);
             }
         }
 
@@ -125,7 +122,11 @@ namespace trello.Interactions
                 else
                 {
                     // Cancel action
-                    AnimateCancel(element, Complete);
+                    AnimateCancel(element, () =>
+                    {
+                        UpdateDragCues(element, 0, 0);
+                        Complete();
+                    });
                 }
             }
             finally
@@ -138,10 +139,10 @@ namespace trello.Interactions
         private static void AnimateCancel(FrameworkElement element, Action finished)
         {
             var translate = element.GetHorizontalOffset().Transform;
-            translate.Animate(translate.TranslateX, 0, CompositeTransform.TranslateXProperty, 300, 0, new BounceEase
+            translate.Animate(translate.TranslateX, 0, CompositeTransform.TranslateXProperty, 600, 0, new BounceEase
             {
                 Bounces = 2,
-                Bounciness = 5
+                Bounciness = 10
             }, finished);
         }
 
@@ -154,7 +155,7 @@ namespace trello.Interactions
                 translation = -translation;
 
             var translate = element.GetHorizontalOffset().Transform;
-            translate.Animate(translate.TranslateX, translation, CompositeTransform.TranslateXProperty, 300, 0,
+            translate.Animate(translate.TranslateX, translation, CompositeTransform.TranslateXProperty, 600, 0,
                               new SineEase {EasingMode = EasingMode.EaseOut}, () =>
                               {
                                   var deletedItem = element.DataContext as CardViewModel;
@@ -226,7 +227,9 @@ namespace trello.Interactions
         private static void UpdateOpacity<T>(DependencyObject fe, double opacity)
         {
             foreach (FrameworkElement el in fe.Descendants<T>())
+            {
                 el.Opacity = opacity;
+            }
         }
     }
 }
