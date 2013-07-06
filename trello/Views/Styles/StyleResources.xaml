@@ -166,4 +166,14 @@
 		</Setter>
 	</Style>
 
+	<Style x:Key="CheckmarkPath" TargetType="Path">
+		<Setter Property="Data" Value="M-150.204,626.126C-152.317,626.126 -154.429,626.126 -156.541,626.126 -167.642,633.42 -180.629,646.047 -189.668,657.238 -190.916,658.782 -192.945,662.362 -193.701,662.422 -194.041,662.448 -198.024,659.719 -198.614,659.297 -202.818,656.279 -205.779,653.709 -209.257,650.899 -211.248,652.172 -212.879,653.805 -214.153,655.797 -206.627,665.074 -200.283,675.534 -193.124,685.18 -181.491,665.11 -168.473,644.683 -152.796,629.006 -151.735,627.946 -149.817,626.933 -150.204,626.126z" />
+		<Setter Property="Stretch" Value="Uniform" />
+		<Setter Property="Fill" Value="#FF27AE60" />
+		<Setter Property="Width" Value="68" />
+		<Setter Property="Height" Value="68" />
+		<Setter Property="Margin" Value="0,0,0,0" />
+		<Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+	</Style>
+
 </ResourceDictionary>

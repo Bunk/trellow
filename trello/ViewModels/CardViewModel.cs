@@ -17,7 +17,11 @@ namespace trello.ViewModels
 
         public string Name { get; set; }
 
+        public string BoardId { get; set; }
+
         public string BoardName { get; set; }
+
+        public string ListId { get; set; }
 
         public string ListName { get; set; }
 
@@ -47,6 +51,8 @@ namespace trello.ViewModels
 
         public IObservableCollection<LabelViewModel> Labels { get; set; }
 
+        public Card OriginalCard { get; set; }
+
         public CardViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
@@ -55,9 +61,9 @@ namespace trello.ViewModels
             Labels = new BindableCollection<LabelViewModel>();
         }
 
-        public CardViewModel InitializeWith(Card card, InteractionManager interactionManager)
+        public CardViewModel InitializeWith(Card card)
         {
-            _interactionManager = interactionManager;
+            OriginalCard = card;
 
             var cover = card.Attachments.SingleOrDefault(att => att.Id == card.IdAttachmentCover);
 
@@ -65,6 +71,8 @@ namespace trello.ViewModels
             ListName = card.List != null ? card.List.Name : null;
 
             Id = card.Id;
+            BoardId = card.IdBoard;
+            ListId = card.IdList;
             Name = card.Name;
             Desc = card.Desc;
             Due = card.Due;
@@ -85,6 +93,12 @@ namespace trello.ViewModels
             Labels.Clear();
             Labels.AddRange(card.Labels.Select(lbl => new LabelViewModel(lbl.Color.ToString(), lbl.Name)));
 
+            return this;
+        }
+
+        public CardViewModel EnableInteraction(InteractionManager interactionManager)
+        {
+            _interactionManager = interactionManager;
             return this;
         }
 

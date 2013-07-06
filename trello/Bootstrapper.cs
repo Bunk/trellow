@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Windows;
 using Caliburn.Micro;
 using Microsoft.Phone.Controls;
@@ -25,8 +24,8 @@ namespace trello
 
         protected override void Configure()
         {
-            _container = new PhoneContainer(RootFrame);
-            _container.RegisterPhoneServices();
+            _container = new PhoneContainer();
+            _container.RegisterPhoneServices(RootFrame);
 
             _container.Instance(RootFrame);
 
@@ -55,7 +54,7 @@ namespace trello
             _container.AllTransientTypesOf<NotificationViewModel>();
 
             // Event handlers
-            _container.Singleton<CardDetailCommandHandler>();
+            _container.AllSingletonTypesOf<AbstractHandler>();
 
             // Request handling
             _container.Singleton<INetworkService, NetworkService>();
@@ -76,7 +75,7 @@ namespace trello
             TelerikConventions.Install();
 
             // Force creation
-            _container.GetInstance(typeof (CardDetailCommandHandler), null);
+            _container.InstantiateInstancesOf<AbstractHandler>();
         }
 
         private static IRequestClient AugmentClient(SimpleContainer container)
