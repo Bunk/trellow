@@ -45,6 +45,11 @@ namespace trello.Interactions
             
         }
 
+        public virtual void RemoveElement(FrameworkElement element)
+        {
+            
+        }
+
         protected void Complete()
         {
             if (Completed != null)

@@ -96,14 +96,25 @@ namespace trello.ViewModels
             return this;
         }
 
-        public CardViewModel EnableInteraction(InteractionManager interactionManager)
+        public CardViewModel EnableInteractions(InteractionManager interactionManager)
         {
+            // We need to defer to the OnViewLoaded event in order to reference
+            // an actual view.  At this point it hasn't been created, yet.
             _interactionManager = interactionManager;
+            return this;
+        }
+
+        public CardViewModel DisableInteractions()
+        {
+            var view = (FrameworkElement)GetView();
+            _interactionManager.RemoveElement(view);
             return this;
         }
 
         protected override void OnViewLoaded(object view)
         {
+            // the first time the view is loaded, we want to add
+            // this element to the interaction manager
             var element = view as FrameworkElement;
             if (element != null && _interactionManager != null)
                 _interactionManager.AddElement(element);

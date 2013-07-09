@@ -3,6 +3,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Windows;
 using trello.Extensions;
+using trello.ViewModels;
 
 namespace trello.Interactions
 {
@@ -65,11 +66,20 @@ namespace trello.Interactions
             _points.Insert(insertionIndex, item);
 
             // adjust the values below the newly inserted one in the list accordingly when inserting a new value
-            for (var i = (insertionIndex + 1); i < _points.Count; i++)
-            {
-                var current = _points[i].Position;
-                _points[i].Reposition(new Point(0, current.Y + item.Position.Height));
-            }
+            Adjust(insertionIndex + 1, item.Position.Height);
+        }
+
+        public void Remove(string id)
+        {
+            var index = _points.FindIndex(p => p.Id == id);
+            if (index < 0)
+                return;
+
+            var offset = _points[index].Position.Height;
+            _points.RemoveAt(index);
+
+            // adjust the values below the removed
+            Adjust(index, -offset);
         }
 
         /// <summary>
@@ -103,6 +113,15 @@ namespace trello.Interactions
             return 0;
         }
 
+        private void Adjust(int startIndex, double offset)
+        {
+            for (var i = startIndex; i < _points.Count; i++)
+            {
+                var current = _points[i].Position;
+                _points[i].Reposition(new Point(0, current.Y + offset));
+            }
+        }
+
         private void SwapIndex(int indexFrom, int indexTo)
         {
             if (indexFrom == indexTo) return;
@@ -132,6 +151,8 @@ namespace trello.Interactions
 
         public class Value
         {
+            public string Id { get; private set; }
+
             public Rect Position { get; private set; }
 
             public void Reposition(Point position)
@@ -142,11 +163,15 @@ namespace trello.Interactions
                                     Position.Height);
             }
 
-            public static Value Create(FrameworkElement element, FrameworkElement relativeTo)
+            public static Value Create(string id, FrameworkElement element, FrameworkElement relativeTo)
             {
                 var position = element.GetRelativePositionIn(relativeTo);
                 var rect = new Rect(position, element.RenderSize);
-                return new Value {Position = rect};
+                return new Value
+                {
+                    Id = id,
+                    Position = rect
+                };
             }
 
             public override string ToString()

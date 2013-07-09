@@ -107,12 +107,10 @@ namespace trello.Interactions
                         DestinationListId = movedLeft ? _previousListId : _nextListId
                     };
 
-                    // Notify the command handlers
-                    _eventAggregator.Publish(evt);
-
                     // Animate accordingly
                     AnimateMove(element, movedLeft, () =>
                     {
+                        _eventAggregator.Publish(evt);
                         _cardsModel.Remove(item);
                         _cardsModel.Refresh();
 

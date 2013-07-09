@@ -41,6 +41,16 @@ namespace trello.Interactions
                 interaction.AddElement(element);
         }
 
+        /// <summary>
+        /// Removes an element from the list of elements that collaborate in the
+        /// interaction.
+        /// </summary>
+        public override void RemoveElement(FrameworkElement element)
+        {
+            foreach (var interaction in _interactions)
+                interaction.RemoveElement(element);
+        }
+
         protected bool AnyChildrenActive
         {
             get { return _interactions.Any(i => i.IsActive); }

@@ -67,8 +67,19 @@ namespace trello.Interactions
             element.ManipulationDelta += HoldDelta;
             element.ManipulationCompleted += HoldCompleted;
 
-            var item = PointIndex.Value.Create(element, _itemsControl);
+            var vm = (CardViewModel) element.DataContext;
+            var item = PointIndex.Value.Create(vm.Id, element, _itemsControl);
             _pointIndex.Add(item);
+        }
+
+        public override void RemoveElement(FrameworkElement element)
+        {
+            element.Hold -= HoldStarted;
+            element.ManipulationDelta -= HoldDelta;
+            element.ManipulationCompleted -= HoldCompleted;
+
+            var vm = (CardViewModel)element.DataContext;
+            _pointIndex.Remove(vm.Id);
         }
 
         private void HoldStarted(object sender, GestureEventArgs e)
@@ -112,13 +123,17 @@ namespace trello.Interactions
             var dragTop = _dragImage.GetVerticalOffset().Value;
             var dragMid = _dragImage.ActualHeight/2;
             var potentialY = dragTop + e.DeltaManipulation.Translation.Y;
-            var potentialIntersect = potentialY + dragMid + _scrollViewer.VerticalOffset;
             if (potentialY <= 0)
                 potentialY = 0;
+
+            var potentialIntersect = potentialY + dragMid + _scrollViewer.VerticalOffset;
             if (potentialIntersect <= 0)
                 potentialIntersect = 0;
 
             var isDownward = e.DeltaManipulation.Translation.Y > 0;
+            if (!isDownward && dragTop <= 0)
+                potentialIntersect = 0;
+
             var potentialIndex = GetPotentialIndex(_currentIndex, potentialIntersect, isDownward);
             if (_currentIndex != potentialIndex)
             {

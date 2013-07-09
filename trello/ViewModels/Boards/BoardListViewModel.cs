@@ -145,7 +145,7 @@ namespace trello.ViewModels.Boards
             {
                 var vm = _cardFactory()
                     .InitializeWith(card)
-                    .EnableInteraction(_interactionManager);
+                    .EnableInteractions(_interactionManager);
                 return vm;
             });
 
@@ -192,7 +192,7 @@ namespace trello.ViewModels.Boards
         {
             var vm = _cardFactory()
                 .InitializeWith(message.Card)
-                .EnableInteraction(_interactionManager);
+                .EnableInteractions(_interactionManager);
             Cards.Add(vm);
 
             _navigation.UriFor<CardDetailPivotViewModel>()
@@ -210,13 +210,28 @@ namespace trello.ViewModels.Boards
 
         public void Handle(CardMovingFromList message)
         {
-            if (message.DestinationListId != Id) 
-                return;
+            if (message.DestinationListId == Id)
+            {
+                // this list has a new card assigned to it from a
+                // previous list
+                var vm = _cardFactory()
+                    .InitializeWith(message.Card)
+                    .EnableInteractions(_interactionManager);
 
-            var vm = _cardFactory()
-                .InitializeWith(message.Card)
-                .EnableInteraction(_interactionManager);
-            Cards.Insert(0, vm);
+                Cards.Insert(0, vm);
+                Cards.Refresh();
+            }
+            else if (message.SourceListId == Id)
+            {
+                // this list has lost a card assigned to another
+                // list
+                var vm = Cards
+                    .Single(c => c.Id == message.Card.Id)
+                    .DisableInteractions();
+
+                //Cards.Remove(vm);
+                //Cards.Refresh();
+            }
         }
     }
 }
