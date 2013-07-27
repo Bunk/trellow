@@ -1,9 +1,10 @@
 using System;
-using System.Collections.Specialized;
+using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
+using System.Windows.Controls;
 using Caliburn.Micro;
 using JetBrains.Annotations;
+using LinqToVisualTree;
 using Microsoft.Phone.Shell;
 using trello.Assets;
 using trello.Interactions;
@@ -18,7 +19,8 @@ namespace trello.ViewModels.Boards
     public class BoardListViewModel : PivotItemViewModel,
                                       IConfigureTheAppBar,
                                       IHandle<CardCreated>,
-                                      IHandle<CardDeleted>
+                                      IHandle<CardDeleted>,
+        IHandle<CardMovingFromList>
     {
         private readonly ITrello _api;
         private readonly INavigationService _navigation;
@@ -27,6 +29,8 @@ namespace trello.ViewModels.Boards
         private readonly Func<CardViewModel> _cardFactory;
         private string _name;
         private string _id;
+        private string _previousId;
+        private string _nextId;
         private string _boardId;
         private InteractionManager _interactionManager;
 
@@ -39,6 +43,30 @@ namespace trello.ViewModels.Boards
                 if (value == _id) return;
                 _id = value;
                 NotifyOfPropertyChange(() => Id);
+            }
+        }
+
+        [UsedImplicitly]
+        public string PreviousId
+        {
+            get { return _previousId; }
+            set
+            {
+                if (value == _previousId) return;
+                _previousId = value;
+                NotifyOfPropertyChange(() => PreviousId);
+            }
+        }
+
+        [UsedImplicitly]
+        public string NextId
+        {
+            get { return _nextId; }
+            set
+            {
+                if (value == _nextId) return;
+                _nextId = value;
+                NotifyOfPropertyChange(() => NextId);
             }
         }
 
@@ -97,8 +125,17 @@ namespace trello.ViewModels.Boards
             var view = GetView() as BoardListView;
             if (view == null) return;
 
-            var interaction = new DragToReorderInteraction(view.Cards, view.DragImage, _events);
-            _interactionManager.AddInteraction(interaction);
+            var scrollViewer = view.Cards.Descendants<ScrollViewer>().Cast<ScrollViewer>().SingleOrDefault();
+
+            _interactionManager = new HoldCardInteraction(view.DragImage, view.Cards, scrollViewer);
+            _interactionManager.AddInteraction(new DragVerticalInteraction(view.DragImage,
+                                                                           view.Cards,
+                                                                           scrollViewer,
+                                                                           _events));
+            _interactionManager.AddInteraction(new DragHorizontalInteraction(view.Cards,
+                                                                             _events,
+                                                                             PreviousId,
+                                                                             NextId));
         }
 
         private async void RefreshLists()
@@ -106,7 +143,9 @@ namespace trello.ViewModels.Boards
             var cards = await _api.Cards.ForList(new ListId(Id));
             var vms = cards.Select(card =>
             {
-                var vm = _cardFactory().InitializeWith(card, _interactionManager);
+                var vm = _cardFactory()
+                    .InitializeWith(card)
+                    .EnableInteractions(_interactionManager);
                 return vm;
             });
 
@@ -114,11 +153,17 @@ namespace trello.ViewModels.Boards
             Cards.AddRange(vms);
         }
 
-        public BoardListViewModel InitializeWith(List list)
+        public BoardListViewModel InitializeWith(IEnumerable<List> allLists, List list)
         {
             Id = list.Id;
             BoardId = list.IdBoard;
             Name = list.Name;
+
+            // we're going to cheat and use the BCL for a circular list
+            var ll = new LinkedList<List>(allLists);
+            var node = ll.Find(list);
+            if (node != null) PreviousId = (node.Previous ?? ll.Last).Value.Id;
+            if (node != null) NextId = (node.Next ?? ll.First).Value.Id;
 
             return this;
         }
@@ -145,12 +190,14 @@ namespace trello.ViewModels.Boards
 
         public void Handle(CardCreated message)
         {
-            var vm = _cardFactory().InitializeWith(message.Card, null);
+            var vm = _cardFactory()
+                .InitializeWith(message.Card)
+                .EnableInteractions(_interactionManager);
             Cards.Add(vm);
 
             _navigation.UriFor<CardDetailPivotViewModel>()
-                .WithParam(x => x.Id, vm.Id)
-                .Navigate();
+                       .WithParam(x => x.Id, vm.Id)
+                       .Navigate();
         }
 
         public void Handle(CardDeleted message)
@@ -159,6 +206,32 @@ namespace trello.ViewModels.Boards
             var found = Cards.Where(card => card.Id == message.CardId).ToArray();
             foreach (var card in found)
                 Cards.Remove(card);
+        }
+
+        public void Handle(CardMovingFromList message)
+        {
+            if (message.DestinationListId == Id)
+            {
+                // this list has a new card assigned to it from a
+                // previous list
+                var vm = _cardFactory()
+                    .InitializeWith(message.Card)
+                    .EnableInteractions(_interactionManager);
+
+                Cards.Insert(0, vm);
+                Cards.Refresh();
+            }
+            else if (message.SourceListId == Id)
+            {
+                // this list has lost a card assigned to another
+                // list
+                var vm = Cards
+                    .Single(c => c.Id == message.Card.Id)
+                    .DisableInteractions();
+
+                //Cards.Remove(vm);
+                //Cards.Refresh();
+            }
         }
     }
 }

@@ -17,7 +17,11 @@ namespace trello.ViewModels
 
         public string Name { get; set; }
 
+        public string BoardId { get; set; }
+
         public string BoardName { get; set; }
+
+        public string ListId { get; set; }
 
         public string ListName { get; set; }
 
@@ -47,6 +51,8 @@ namespace trello.ViewModels
 
         public IObservableCollection<LabelViewModel> Labels { get; set; }
 
+        public Card OriginalCard { get; set; }
+
         public CardViewModel(INavigationService navigationService)
         {
             _navigationService = navigationService;
@@ -55,9 +61,9 @@ namespace trello.ViewModels
             Labels = new BindableCollection<LabelViewModel>();
         }
 
-        public CardViewModel InitializeWith(Card card, InteractionManager interactionManager)
+        public CardViewModel InitializeWith(Card card)
         {
-            _interactionManager = interactionManager;
+            OriginalCard = card;
 
             var cover = card.Attachments.SingleOrDefault(att => att.Id == card.IdAttachmentCover);
 
@@ -65,6 +71,8 @@ namespace trello.ViewModels
             ListName = card.List != null ? card.List.Name : null;
 
             Id = card.Id;
+            BoardId = card.IdBoard;
+            ListId = card.IdList;
             Name = card.Name;
             Desc = card.Desc;
             Due = card.Due;
@@ -88,8 +96,25 @@ namespace trello.ViewModels
             return this;
         }
 
+        public CardViewModel EnableInteractions(InteractionManager interactionManager)
+        {
+            // We need to defer to the OnViewLoaded event in order to reference
+            // an actual view.  At this point it hasn't been created, yet.
+            _interactionManager = interactionManager;
+            return this;
+        }
+
+        public CardViewModel DisableInteractions()
+        {
+            var view = (FrameworkElement)GetView();
+            _interactionManager.RemoveElement(view);
+            return this;
+        }
+
         protected override void OnViewLoaded(object view)
         {
+            // the first time the view is loaded, we want to add
+            // this element to the interaction manager
             var element = view as FrameworkElement;
             if (element != null && _interactionManager != null)
                 _interactionManager.AddElement(element);

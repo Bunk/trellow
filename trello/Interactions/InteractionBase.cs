@@ -33,6 +33,8 @@ namespace trello.Interactions
 
         public event EventHandler Deactivated;
 
+        public event EventHandler Completed;
+
         public virtual void Initialize()
         {
             
@@ -43,9 +45,15 @@ namespace trello.Interactions
             
         }
 
-        protected void RefreshView()
+        public virtual void RemoveElement(FrameworkElement element)
         {
             
+        }
+
+        protected void Complete()
+        {
+            if (Completed != null)
+                Completed(this, EventArgs.Empty);
         }
     }
 }

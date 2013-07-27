@@ -38,11 +38,3 @@ calcPos: function(index, existingCardList, card, applicableCallback, e) {
 		return currCardPos / 2;
 	}
 }
-
-selectCardPos = 80256
-prevCardPos = 7296
-currCardPos = 43776
-
-
-currCardPos + prevCardPos / 2 = 25536 *
-currCardPos / 2 = 21888

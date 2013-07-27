@@ -55,6 +55,21 @@ namespace trello.Extensions
             };
         }
 
+        public static TransformOffset GetHorizontalOffset(this FrameworkElement fe)
+        {
+            var trans = fe.RenderTransform as CompositeTransform;
+            if (trans == null)
+            {
+                trans = new CompositeTransform { TranslateX = 0 };
+                fe.RenderTransform = trans;
+            }
+            return new TransformOffset
+            {
+                Transform = trans,
+                Value = trans.TranslateX
+            };
+        }
+
         public static void SetVerticalOffset(this FrameworkElement fe, double offset)
         {
             var composite = fe.RenderTransform as CompositeTransform;
@@ -65,6 +80,19 @@ namespace trello.Extensions
             else
             {
                 composite.TranslateY = offset;
+            }
+        }
+
+        public static void SetHorizontalOffset(this FrameworkElement fe, double offset)
+        {
+            var composite = fe.RenderTransform as CompositeTransform;
+            if (composite == null)
+            {
+                fe.RenderTransform = new CompositeTransform { TranslateX = offset };
+            }
+            else
+            {
+                composite.TranslateX = offset;
             }
         }
 

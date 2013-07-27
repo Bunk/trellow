@@ -13,8 +13,12 @@ namespace trello.Interactions
 
         void AddElement(FrameworkElement element);
 
+        void RemoveElement(FrameworkElement element);
+
         event EventHandler Activated;
 
         event EventHandler Deactivated;
+
+        event EventHandler Completed;
     }
 }

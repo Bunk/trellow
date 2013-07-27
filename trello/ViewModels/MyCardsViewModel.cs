@@ -14,6 +14,7 @@ namespace trello.ViewModels
         private readonly ITrello _api;
         private readonly Func<CardViewModel> _cardFactory;
 
+        [UsedImplicitly]
         public IObservableCollection<IGrouping<string, CardViewModel>> Cards { get; set; }
 
         public MyCardsViewModel(ITrello api, Func<CardViewModel> cardFactory)
@@ -44,7 +45,7 @@ namespace trello.ViewModels
             var vms = cards
                 .Select(card =>
                 {
-                    var vm = _cardFactory().InitializeWith(card, null);
+                    var vm = _cardFactory().InitializeWith(card);
 
                     var board = boards.FirstOrDefault(x => x.Id == card.IdBoard);
                     if (board != null)
