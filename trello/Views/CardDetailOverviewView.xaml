@@ -9,8 +9,10 @@
 	xmlns:telerikTextbox="clr-namespace:Telerik.Windows.Controls.PhoneTextBox;assembly=Telerik.Windows.Controls.Primitives"
 	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
 	xmlns:local="clr-namespace:trello.Views.Triggers;assembly=trello"
+    xmlns:b="clr-namespace:trello.Views.Converters;assembly=trello"
 	xmlns:ctrl="clr-namespace:trello.Views.Controls;assembly=trello"
-    mc:Ignorable="d"
+             xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+             mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -47,10 +49,10 @@
 				   Height="{Binding CoverHeight}" Width="{Binding CoverWidth}"
 				   Visibility="{Binding CoverUri, Converter={StaticResource VisibilityConverter}}" />
 
-			<Border Style="{StaticResource ComponentBorder}">
+            <Border Style="{StaticResource ComponentBorder}">
 				<Grid>
 					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
+						<RowDefinition Height="300" />
 					</Grid.RowDefinitions>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
@@ -59,7 +61,94 @@
 
 					<Image Grid.Row="0" Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-pencil-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
 
-					<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Desc}" TextWrapping="Wrap" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}" />
+                    <Grid Grid.Row="0" Grid.Column="1" Margin="7,12,12,12">
+                    <phone:WebBrowser VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                                      VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                                      b:BrowserBehavior.Html="{Binding Desc}"/>
+                    </Grid>
+                    
+                    <!--
+                    <RichTextBox Grid.Row="0" Grid.Column="1" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}"
+                                 IsReadOnly="True">
+                        <Paragraph>
+                            Link: 
+                            <Hyperlink NavigateUri="http://example.com/">http://example.com/</Hyperlink> .
+                        </Paragraph>
+
+                        <Paragraph>
+                            With an ampersand:
+                            <Hyperlink NavigateUri="http://example.com/?foo=1&amp;bar=2">http://example.com/?foo=1&amp;bar=2</Hyperlink>
+                        </Paragraph>
+
+                        <Paragraph>
+                            <InlineUIContainer>
+                                <StackPanel Margin="10,0,0,0">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="15" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0">&#x2022;</TextBlock>
+                                        <StackPanel Grid.Column="1">
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBlock TextWrapping="Wrap"><Bold>Here</Bold></TextBlock>
+                                                <TextBlock TextWrapping="Wrap"> is some text for the first paragraph.  We'll see how long we </TextBlock>
+                                                <TextBlock TextWrapping="Wrap"><Italic>can make this</Italic></TextBlock>
+                                                <TextBlock TextWrapping="Wrap">.  Also, here's an inline </TextBlock>
+                                                <HyperlinkButton>link</HyperlinkButton>
+                                                <TextBlock TextWrapping="Wrap">.</TextBlock>
+                                            </StackPanel>
+                                            <TextBlock TextWrapping="Wrap" Padding="0,0,0,10">
+                                                <Bold>Here</Bold> is some text for the first paragraph.  We'll see
+                                                how long we <Italic>can make this</Italic>.
+                                            </TextBlock>
+                                            <TextBlock TextWrapping="Wrap" Padding="0,0,0,10">
+                                                Here is some text for the second one...
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="15" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0">&#x2022;</TextBlock>
+                                        <TextBlock Grid.Column="1">In a list</TextBlock>
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="15" />
+                                            <ColumnDefinition />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0">&#x2022;</TextBlock>
+                                        <TextBlock Grid.Column="1">It should...</TextBlock>
+                                    </Grid>
+                                    <StackPanel Margin="10,0,0,0">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="15" />
+                                                <ColumnDefinition />
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Grid.Column="0">&#x2022;</TextBlock>
+                                            <TextBlock Grid.Column="1">Something else...</TextBlock>
+                                        </Grid>
+                                    </StackPanel>
+                                </StackPanel>
+                            </InlineUIContainer>
+                        </Paragraph>
+                        
+                        <Paragraph>
+                            <InlineUIContainer>
+                                <Image>
+                                    <Image.Source>
+                                        <BitmapImage UriSource="https://secure.gravatar.com/avatar/dfac96d86e593668a0cd2ed9aa163ebf?s=256" />
+                                    </Image.Source>
+                                </Image>
+                            </InlineUIContainer>
+                        </Paragraph>
+                        
+                    </RichTextBox>-->
+					<!--<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Desc, Converter={StaticResource MarkdownConverter}}" TextWrapping="Wrap" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}" />-->
 
 					<TextBlock Grid.Row="0" Grid.Column="1" Text="No Description" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}, ConverterParameter='true'}" Foreground="{StaticResource PhoneSubtleBrush}" FontStyle="Italic" />
 				</Grid>

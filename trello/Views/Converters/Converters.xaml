@@ -11,6 +11,8 @@
 	<converters:BytesStringConverter x:Key="BytesStringConverter" />
 	<converters:DueDateColorConverter x:Key="DueDateConverter" DefaultBrush="{StaticResource PhoneAccentBrush}" />
 	<converters:LabelColorConverter x:Key="LabelColorConverter" />
+    <converters:MarkdownConverter x:Key="MarkdownConverter" />
+    <converters:BrowserBehavior x:Key="BrowserBehavior" />
 	<toolkit:RelativeTimeConverter x:Key="RelativeTimeConverter" />
 
 </ResourceDictionary>

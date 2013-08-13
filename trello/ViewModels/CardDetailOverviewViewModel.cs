@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Windows;
 using Caliburn.Micro;
+using Farse.Markdown;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using trello.Extensions;
 using trello.Services;
 using trello.Services.Handlers;
 using trello.ViewModels.Activities;
+using trello.Views;
 using trellow.api;
 using trellow.api.Actions;
 using trellow.api.Cards;
@@ -249,7 +252,7 @@ namespace trello.ViewModels
         {
             Id = card.Id;
             Name = card.Name;
-            Desc = card.Desc;
+            Desc = GenerateHtml(card.Desc);
             Due = card.Due;
             Checklists = card.Checklists.Count;
             CheckItems = card.Checklists.Aggregate(0, (i, model) => i + model.CheckItems.Count);
@@ -271,6 +274,56 @@ namespace trello.ViewModels
             MyAvatarUrl = _settings.AvatarHash.ToAvatarUrl(AvatarSize.Portrait);
 
             return this;
+        }
+
+        private string GenerateHtml(string description)
+        {
+            var html = new StringBuilder();
+            var body = HtmlTransform.Transform(description);
+            html.Append("<html>");
+            html.Append(HtmlHeader());
+            html.Append("<body>");
+            html.Append(body);
+            html.Append("</body>");
+            html.Append("</html");
+
+            return html.ToString();
+        }
+
+        public string HtmlHeader() //double viewportWidth)
+        {
+            var head = new StringBuilder();
+            //var viewportWidth = ((CardDetailOverviewView) GetView()).Description.ActualWidth;
+
+            head.Append("<head>");
+            //head.Append(string.Format("<meta name=\"viewport\" value=\"width={0}\" user-scalable=\"no\">",viewportWidth));
+            head.Append("<style>");
+            head.Append("html { -ms-text-size-adjust:200% }");
+            head.Append(string.Format(
+                "body {{background:{0};color:{1};font-family:'Segoe WP';font-size:{2}pt;margin:0;padding:0 }}",
+                GetBrowserColor("PhoneChromeBrush"),
+                GetBrowserColor("PhoneForegroundColor"),
+                (double)Application.Current.Resources["PhoneFontSizeMedium"]));
+            head.Append(string.Format(
+                "a {{color:{0}}}",
+                GetBrowserColor("PhoneAccentColor")));
+            head.Append("</style>");
+            //head.Append(NotifyScript);
+            head.Append("</head>");
+
+            return head.ToString();
+        }
+
+        private static string GetBrowserColor(string sourceResource)
+        {
+            var color = System.Windows.Media.Color.FromArgb(255, 0, 0, 0);
+            var brush = Application.Current.Resources[sourceResource] as System.Windows.Media.SolidColorBrush;
+            if (brush != null)
+                color = brush.Color;
+            else
+                color = (System.Windows.Media.Color)Application.Current.Resources[sourceResource];
+
+            return "#" + color.ToString().Substring(3, 6);
         }
 
         protected override async void OnInitialize()

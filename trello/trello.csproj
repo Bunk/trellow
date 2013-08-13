@@ -283,6 +283,8 @@
     <Compile Include="Views\Checklists\RenameChecklistView.xaml.cs">
       <DependentUpon>RenameChecklistView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Converters\BrowserBehavior.cs" />
+    <Compile Include="Views\Converters\MarkdownConverter.cs" />
     <Compile Include="Views\MyBoardsView.xaml.cs">
       <DependentUpon>MyBoardsView.xaml</DependentUpon>
     </Compile>
@@ -550,6 +552,13 @@
     <Reference Include="Caliburn.Micro.Extensions, Version=1.5.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\wp8\Caliburn.Micro.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="farse.markdown, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\farse.markdown.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Core">
+      <HintPath>..\lib\FSharp.Core.dll</HintPath>
     </Reference>
     <Reference Include="JetBrains.Annotations">
       <HintPath>..\packages\JetBrains.Annotations.7.0\lib\sl3-wp\JetBrains.Annotations.dll</HintPath>
