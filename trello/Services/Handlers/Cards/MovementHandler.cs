@@ -1,6 +1,7 @@
 ﻿using BugSense;
 using Caliburn.Micro;
 using JetBrains.Annotations;
+using trello.Services.Messages;
 using trellow.api;
 using trellow.api.Cards;
 using trellow.api.Lists;

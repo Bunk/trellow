@@ -9,6 +9,7 @@ using System.Windows.Threading;
 using Caliburn.Micro;
 using trello.Extensions;
 using trello.Services.Handlers;
+using trello.Services.Messages;
 using trello.ViewModels;
 using trello.Views;
 using trello.Views.Cards;

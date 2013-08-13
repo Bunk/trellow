@@ -1,6 +1,6 @@
 using trellow.api.Cards;
 
-namespace trello.Services.Handlers
+namespace trello.Services.Messages
 {
     public class CardCreated
     {

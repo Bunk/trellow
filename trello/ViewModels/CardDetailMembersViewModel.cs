@@ -7,6 +7,7 @@ using JetBrains.Annotations;
 using trello.Extensions;
 using trello.Services;
 using trello.Services.Handlers;
+using trello.Services.Messages;
 using trellow.api;
 using trellow.api.Boards;
 using trellow.api.Cards;

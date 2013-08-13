@@ -2,6 +2,7 @@ using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using trello.Services.Handlers;
+using trello.Services.Messages;
 using trellow.api.Cards;
 using trellow.api.Checklists;
 

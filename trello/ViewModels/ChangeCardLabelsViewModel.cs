@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using JetBrains.Annotations;
 using trello.Services;
 using trello.Services.Handlers;
+using trello.Services.Messages;
 using trellow.api;
 using trellow.api.Cards;
 

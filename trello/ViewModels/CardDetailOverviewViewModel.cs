@@ -7,6 +7,7 @@ using Microsoft.Phone.Shell;
 using trello.Extensions;
 using trello.Services;
 using trello.Services.Handlers;
+using trello.Services.Messages;
 using trello.ViewModels.Activities;
 using trellow.api;
 using trellow.api.Actions;
@@ -48,6 +49,8 @@ namespace trello.ViewModels
 
         [UsedImplicitly]
         public string Id { get; private set; }
+
+        public string BoardId { get; private set; }
 
         [UsedImplicitly]
         public string Name
@@ -248,6 +251,7 @@ namespace trello.ViewModels
         public CardDetailOverviewViewModel Initialize(Card card)
         {
             Id = card.Id;
+            BoardId = card.IdBoard;
             Name = card.Name;
             Desc = card.Desc;
             Due = card.Due;
@@ -443,6 +447,15 @@ namespace trello.ViewModels
 
             _eventAggregator.Publish(new CardDeleted {CardId = Id});
             _navigation.GoBack();
+        }
+
+        [UsedImplicitly]
+        public void MoveToBoard()
+        {
+            var model = new MoveCardToBoardViewModel(GetView(), Id, _eventAggregator, _api, _progress)
+                .Initialize(BoardId);
+
+            _windowManager.ShowDialog(model);
         }
     }
 }

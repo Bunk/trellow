@@ -9,6 +9,7 @@ using Microsoft.Phone.Shell;
 using trello.Assets;
 using trello.Interactions;
 using trello.Services.Handlers;
+using trello.Services.Messages;
 using trello.Views.Boards;
 using trellow.api;
 using trellow.api.Lists;

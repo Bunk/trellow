@@ -10,6 +10,7 @@ using Caliburn.Micro;
 using LinqToVisualTree;
 using trello.Extensions;
 using trello.Services.Handlers;
+using trello.Services.Messages;
 using trello.ViewModels;
 using Action = System.Action;
 

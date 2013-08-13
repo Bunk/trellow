@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace trello.Services.Handlers
+namespace trello.Services.Messages
 {
     public class CardDueDateChanged
     {

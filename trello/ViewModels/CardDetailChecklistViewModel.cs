@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using trello.Assets;
 using trello.Services.Handlers;
+using trello.Services.Messages;
 using trello.ViewModels.Cards;
 using trellow.api.Cards;
 

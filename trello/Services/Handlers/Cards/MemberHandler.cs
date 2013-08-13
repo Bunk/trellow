@@ -1,5 +1,6 @@
 ﻿using BugSense;
 using Caliburn.Micro;
+using trello.Services.Messages;
 using trellow.api;
 using trellow.api.Cards;
 using trellow.api.Members;

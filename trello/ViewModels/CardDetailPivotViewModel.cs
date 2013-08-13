@@ -3,6 +3,7 @@ using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using trello.Services.Handlers;
+using trello.Services.Messages;
 using trello.Views;
 using trellow.api;
 
