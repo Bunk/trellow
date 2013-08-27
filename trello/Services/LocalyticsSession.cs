@@ -15,6 +15,8 @@ using System.Globalization;
 using System.IO;
 using System.IO.IsolatedStorage;
 using System.Text;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 public class LocalyticsSession
 {
@@ -194,76 +196,27 @@ public class LocalyticsSession
     /// <summary>
     /// Runs on a seperate thread and is responsible for renaming and uploading files as appropriate
     /// </summary>
-    private void BeginUpload()
+    private async void BeginUpload()
     {
         LogMessage("Beginning upload.");
 
         try
         {
             renameOrAppendSessionFiles();
-
             // begin the upload
             string url = LocalyticsSession.serviceURLBase + this.appKey + "/uploads";
             LogMessage("Uploading to: " + url);
-            HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create(url);
-            myRequest.Method = "POST";
-            myRequest.ContentType = "application/json";
-            myRequest.BeginGetRequestStream(new AsyncCallback(httpRequestCallback), myRequest);
-        }
-        catch (Exception e)
-        {
-            LogMessage("Swallowing exception: " + e.Message);
-        }
-    }
 
-    private static void httpRequestCallback(IAsyncResult asynchronousResult)
-    {
-        try
-        {
-            HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
-            Stream postStream = request.EndGetRequestStream(asynchronousResult);
-            
-            String contents = GetUploadContents();
-            byte[] byteArray = Encoding.UTF8.GetBytes(contents);
-            postStream.Write(byteArray, 0, byteArray.Length);
-            postStream.Close();
-
-            request.BeginGetResponse(new AsyncCallback(GetResponseCallback), request);
-        }
-        catch (Exception e)
-        {
-            LogMessage("Swallowing exception: " + e.Message);
-        }
-    }
-
-    private static void GetResponseCallback(IAsyncResult asynchronousResult)
-    {
-        try
-        {
-            HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
-            HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
-
-            Stream streamResponse = response.GetResponseStream();
-            StreamReader streamRead = new StreamReader(streamResponse);
-            string responseString = streamRead.ReadToEnd();
-
-            LogMessage("Upload complete. Response: " + responseString);
+            HttpClient client = new HttpClient();
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            HttpContent content = new StringContent(GetUploadContents(), Encoding.UTF8, "application/json");
+            HttpResponseMessage response = await client.PostAsync(url, content).ConfigureAwait(false);
+            LogMessage("Upload complete. Response: " + await response.Content.ReadAsStringAsync());
             DeleteUploadFiles();
-
-            streamResponse.Close();
-            streamRead.Close();
-            response.Close();
-        }
-        catch (WebException e)
-        {
-            Debug.WriteLine("WebException raised.");
-            Debug.WriteLine("\n{0}", e.Message);
-            Debug.WriteLine("\n{0}", e.Status);
         }
         catch (Exception e)
         {
-            Debug.WriteLine("Exception raised!");
-            Debug.WriteLine("Message : " + e.Message);
+            LogMessage("Swallowing exception: " + e.Message);
         }
         finally
         {
