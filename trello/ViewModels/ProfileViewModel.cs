@@ -1,7 +1,6 @@
 ﻿using BugSense;
 using Caliburn.Micro;
 using JetBrains.Annotations;
-using Microsoft.Phone.Shell;
 using Microsoft.Phone.Tasks;
 using trello.Extensions;
 using trellow.api;
@@ -9,7 +8,7 @@ using trellow.api.Members;
 
 namespace trello.ViewModels
 {
-    public class ProfileViewModel : ViewModelBase, IConfigureTheAppBar
+    public class ProfileViewModel : ViewModelBase
     {
         private readonly ITrello _api;
         private readonly IEventAggregator _eventAggregator;
@@ -19,6 +18,7 @@ namespace trello.ViewModels
         private string _bio;
         private string _email;
 
+        [UsedImplicitly]
         public string Username
         {
             get { return _username; }
@@ -30,6 +30,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public string FullName
         {
             get { return _fullName; }
@@ -41,6 +42,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public string Email
         {
             get { return _email; }
@@ -52,6 +54,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public string ImageUri
         {
             get { return _imageUri; }
@@ -63,6 +66,7 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public string Bio
         {
             get { return _bio; }
@@ -107,11 +111,6 @@ namespace trello.ViewModels
             Email = profile.Email;
             ImageUri = profile.AvatarHash.ToAvatarUrl(AvatarSize.Portrait);
             Bio = profile.Bio;
-        }
-
-        public ApplicationBar Configure(ApplicationBar existing)
-        {
-            return existing;
         }
     }
 }

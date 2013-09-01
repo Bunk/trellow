@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using Strilanc.Value;
 using trello.Assets;
+using trello.Extensions;
 using trello.ViewModels.Boards;
 using trello.ViewModels.Notifications;
 using trellow.api;
@@ -37,14 +38,8 @@ namespace trello.ViewModels
 
         public ApplicationBar Configure(ApplicationBar existing)
         {
-            var refresh = new ApplicationBarIconButton(new AssetUri("Icons/dark/appbar.refresh.rest.png"))
-            {
-                Text = "refresh"
-            };
-            refresh.Click += (sender, args) => RefreshNotifications();
-            existing.Buttons.Add(refresh);
-
-            return existing;
+            return existing.AddButton("refresh", new AssetUri("Icons/dark/appbar.refresh.rest.png"),
+                                      RefreshNotifications);
         }
 
         [UsedImplicitly]

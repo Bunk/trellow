@@ -323,10 +323,9 @@ namespace trello.ViewModels
 
         public ApplicationBar Configure(ApplicationBar existing)
         {
-            existing.AddButton("archive card", new AssetUri("Icons/dark/appbar.delete.rest.png"),
-                               (sender, args) => ArchiveCard());
-            existing.AddMenuItem("delete card", (s, e) => DeleteCard());
-            existing.AddMenuItem("move card", (s, e) => MoveToBoard());
+            existing.AddButton("archive card", new AssetUri("Icons/dark/appbar.delete.rest.png"), ArchiveCard);
+            existing.AddMenuItem("delete card", DeleteCard);
+            existing.AddMenuItem("move card", MoveToBoard);
 
             return existing;
         }
