@@ -19,13 +19,15 @@
         <TextBlock Grid.Row="0" Style="{StaticResource PhoneTextLargeStyle}">Change description</TextBlock>
         <TextBlock Grid.Row="1" Style="{StaticResource PhoneTextNormalStyle}">Enter a description for this card</TextBlock>
         
-		<TextBox Grid.Row="2" Name="Description" TextWrapping="Wrap" AcceptsReturn="True" MinHeight="450">
-			<TextBox.InputScope>
-				<InputScope>
-					<InputScopeName NameValue="Text" />
-				</InputScope>
-			</TextBox.InputScope>
-		</TextBox>
+        <ScrollViewer Grid.Row="2">
+            <TextBox Name="Description" TextWrapping="Wrap" AcceptsReturn="True" MinHeight="450">
+                <TextBox.InputScope>
+                    <InputScope>
+                        <InputScopeName NameValue="Text" />
+                    </InputScope>
+                </TextBox.InputScope>
+            </TextBox>
+        </ScrollViewer>
 
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>

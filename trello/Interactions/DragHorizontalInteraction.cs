@@ -101,7 +101,7 @@ namespace trello.Interactions
 
                     // Perform the actions
                     var item = (CardViewModel) ((FrameworkElement) sender).DataContext;
-                    var evt = new CardMovingFromList
+                    var evt = new CardMovedToList
                     {
                         Card = item.OriginalCard,
                         SourceListId = item.ListId,

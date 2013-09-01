@@ -174,7 +174,7 @@
     <Compile Include="Services\Messages\CardMemberAdded.cs" />
     <Compile Include="Services\Messages\CardMemberRemoved.cs" />
     <Compile Include="Services\Messages\CardMovedToBoard.cs" />
-    <Compile Include="Services\Messages\CardMovingFromList.cs" />
+    <Compile Include="Services\Messages\CardMovedToList.cs" />
     <Compile Include="Services\Messages\CardPriorityChanged.cs" />
     <Compile Include="Services\Handlers\AbstractHandler.cs" />
     <Compile Include="Services\Handlers\Cards\ChecklistCommandHandler.cs" />
@@ -211,6 +211,7 @@
     <Compile Include="ViewModels\CardDetailOverviewViewModel.cs" />
     <Compile Include="ViewModels\CardDetailPivotViewModel.cs" />
     <Compile Include="ViewModels\Cards\AddChecklistViewModel.cs" />
+    <Compile Include="ViewModels\Cards\MoveCardToBoardViewModel.cs" />
     <Compile Include="ViewModels\ChangeCardDescriptionViewModel.cs" />
     <Compile Include="ViewModels\Checklists\RenameChecklistViewModel.cs" />
     <Compile Include="ViewModels\LabelViewModel.cs" />
@@ -280,6 +281,9 @@
     </Compile>
     <Compile Include="Views\Cards\DragImage.xaml.cs">
       <DependentUpon>DragImage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\MoveCardToBoardView.xaml.cs">
+      <DependentUpon>MoveCardToBoardView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ChangeCardDescriptionView.xaml.cs">
       <DependentUpon>ChangeCardDescriptionView.xaml</DependentUpon>
@@ -644,6 +648,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Cards\DragImage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\MoveCardToBoardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -13,6 +13,7 @@ namespace trello.ViewModels
 
     public abstract class PivotItemViewModel : Screen
     {
+        
     }
 
     public abstract class PivotViewModel : Conductor<IScreen>.Collection.OneActive

@@ -13,8 +13,7 @@ namespace trello.Services.Handlers.Cards
                                         IHandle<CardDescriptionChanged>,
                                         IHandle<CardDueDateChanged>,
                                         IHandle<CardCommented>,
-                                        IHandle<CardCreationRequested>,
-        IHandle<CardMovedToBoard>
+                                        IHandle<CardCreationRequested>
     {
         public DetailCommandHandler(IEventAggregator events, ITrello api, IProgressService progress)
             : base(events, api, progress)
@@ -53,12 +52,6 @@ namespace trello.Services.Handlers.Cards
                 var created = await api.Cards.Add(new NewCard(message.Name, new ListId(message.ListId)));
                 Events.Publish(new CardCreated {Card = created});
             });
-        }
-
-        public void Handle(CardMovedToBoard message)
-        {
-            BugSenseHandler.Instance.SendEvent("Card moved to another board");
-            Handle(api => api.Cards.Move(new CardId(message.CardId), new BoardId(message.BoardId)));
         }
     }
 }

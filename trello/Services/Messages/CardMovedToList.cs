@@ -2,7 +2,7 @@
 
 namespace trello.Services.Messages
 {
-    public class CardMovingFromList
+    public class CardMovedToList
     {
         public Card Card { get; set; }
 

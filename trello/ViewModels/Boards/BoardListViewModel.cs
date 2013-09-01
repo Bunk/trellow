@@ -21,7 +21,7 @@ namespace trello.ViewModels.Boards
                                       IConfigureTheAppBar,
                                       IHandle<CardCreated>,
                                       IHandle<CardDeleted>,
-        IHandle<CardMovingFromList>
+        IHandle<CardMovedToList>
     {
         private readonly ITrello _api;
         private readonly INavigationService _navigation;
@@ -209,7 +209,7 @@ namespace trello.ViewModels.Boards
                 Cards.Remove(card);
         }
 
-        public void Handle(CardMovingFromList message)
+        public void Handle(CardMovedToList message)
         {
             if (message.DestinationListId == Id)
             {

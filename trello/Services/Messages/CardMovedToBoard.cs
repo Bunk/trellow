@@ -5,5 +5,7 @@ namespace trello.Services.Messages
         public string CardId { get; set; }
 
         public string BoardId { get; set; }
+
+        public string ListId { get; set; }
     }
 }
