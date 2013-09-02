@@ -86,7 +86,9 @@
 				</i:Interaction.Triggers>
 			</Border>
 
-			<Border Style="{StaticResource ComponentBorder}">
+            <Border Style="{StaticResource ComponentBorder}" 
+                    Visibility="{Binding Due, Converter={StaticResource VisibilityConverter}}"
+                    Background="{Binding Due, Converter={StaticResource DueDateConverter}}">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
