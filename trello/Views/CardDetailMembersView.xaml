@@ -6,7 +6,6 @@
 	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
 	xmlns:micro="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
 	xmlns:local="clr-namespace:trello.Views.Triggers;assembly=trello"
-	xmlns:ctrl="clr-namespace:trello.Views.Controls;assembly=trello"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -38,16 +37,16 @@
 					<Image Grid.Column="2" Source="/Assets/Icons/dark/appbar.check.rest.png" Margin="0,-10,0,0"
 						   Width="48" Height="48" HorizontalAlignment="Right" VerticalAlignment="Top" 
 						   Visibility="{Binding Attached, Converter={StaticResource VisibilityConverter}}" />
-				</Grid>
+                </Grid>
 
-				<i:Interaction.Triggers>
-					<local:GestureServiceTrigger Gesture="Tap">
-						<micro:ActionMessage MethodName="Toggle">
-							<micro:Parameter Value="{Binding}" />
-						</micro:ActionMessage>
-					</local:GestureServiceTrigger>
-				</i:Interaction.Triggers>
-			</Border>
+                <i:Interaction.Triggers>
+                    <local:GestureServiceTrigger Gesture="Tap">
+                        <micro:ActionMessage MethodName="Toggle">
+                            <micro:Parameter Value="{Binding}" />
+                        </micro:ActionMessage>
+                    </local:GestureServiceTrigger>
+                </i:Interaction.Triggers>
+            </Border>
 		</DataTemplate>
 	</UserControl.Resources>
     
@@ -57,8 +56,9 @@
 			<StackPanel Visibility="{Binding AllMembersCount, Converter={StaticResource VisibilityConverter}}">
 				<StackPanel Margin="0,0,0,30">
 					<TextBlock Text="assigned" Margin="0,0,0,15" Foreground="{StaticResource PhoneSubtleBrush}" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" />		
-					<ListBox ItemsSource="{Binding Members.View}" ItemTemplate="{StaticResource MemberItemTemplate}"
-							 Visibility="{Binding Members.View.Count, Converter={StaticResource VisibilityConverter}}">
+					<ListBox ItemsSource="{Binding Members.View}" 
+                             ItemTemplate="{StaticResource MemberItemTemplate}"
+                             Visibility="{Binding Members.View.Count, Converter={StaticResource VisibilityConverter}}">
 						<ListBox.ItemContainerStyle>
 							<Style TargetType="ListBoxItem">
 								<Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -72,7 +72,8 @@
 				</StackPanel>
 				<StackPanel Visibility="{Binding OtherMembers.View.Count, Converter={StaticResource VisibilityConverter}}">
 					<TextBlock Text="unassigned" Margin="0,0,0,15" Foreground="{StaticResource PhoneSubtleBrush}" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" />		
-					<ListBox ItemsSource="{Binding OtherMembers.View}" ItemTemplate="{StaticResource MemberItemTemplate}">
+					<ListBox ItemsSource="{Binding OtherMembers.View}" 
+                             ItemTemplate="{StaticResource MemberItemTemplate}">
 						<ListBox.ItemContainerStyle>
 							<Style TargetType="ListBoxItem">
 								<Setter Property="HorizontalContentAlignment" Value="Stretch" />

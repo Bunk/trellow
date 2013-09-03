@@ -6,7 +6,6 @@ using Caliburn.Micro;
 using JetBrains.Annotations;
 using trello.Extensions;
 using trello.Services;
-using trello.Services.Handlers;
 using trello.Services.Messages;
 using trellow.api;
 using trellow.api.Boards;
@@ -24,10 +23,13 @@ namespace trello.ViewModels
         private readonly IObservableCollection<CardMemberViewModel> _otherMembers;
         private int _allMembersCount;
 
+        [UsedImplicitly]
         public string Id { get; private set; }
 
+        [UsedImplicitly]
         public string BoardId { get; private set; }
 
+        [UsedImplicitly]
         public int AllMembersCount
         {
             get { return _allMembersCount; }
@@ -39,8 +41,10 @@ namespace trello.ViewModels
             }
         }
 
+        [UsedImplicitly]
         public CollectionViewSource Members { get; set; }
 
+        [UsedImplicitly]
         public CollectionViewSource OtherMembers { get; set; }
 
         public CardDetailMembersViewModel(ITrello api,
@@ -53,7 +57,7 @@ namespace trello.ViewModels
             _progress = progress;
             _eventAggregator = eventAggregator;
 
-            _eventAggregator.Subscribe(this);
+            //_eventAggregator.Subscribe(this);
 
             AllMembersCount = 0;
             _members = new BindableCollection<CardMemberViewModel>();
