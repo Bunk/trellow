@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using trello.ViewModels;
 
-namespace trello.Services.Handlers
+namespace trello.Services.Messages
 {
     public enum PositionType
     {

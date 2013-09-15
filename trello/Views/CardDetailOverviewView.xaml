@@ -7,7 +7,6 @@
 	xmlns:micro="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
 	xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
 	xmlns:telerikTextbox="clr-namespace:Telerik.Windows.Controls.PhoneTextBox;assembly=Telerik.Windows.Controls.Primitives"
-	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
 	xmlns:local="clr-namespace:trello.Views.Triggers;assembly=trello"
 	xmlns:ctrl="clr-namespace:trello.Views.Controls;assembly=trello"
     mc:Ignorable="d"
@@ -47,21 +46,37 @@
 				   Height="{Binding CoverHeight}" Width="{Binding CoverWidth}"
 				   Visibility="{Binding CoverUri, Converter={StaticResource VisibilityConverter}}" />
 
-			<Border Style="{StaticResource ComponentBorder}">
+            <Border Margin="0,0,0,0" Padding="0,5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeSmall}" Foreground="{StaticResource PhoneSubtleBrush}"  >
+                        <TextBlock.Inlines>
+                            <Run Text="{Binding BoardName}" FontWeight="Bold" Foreground="{StaticResource PhoneSubtleBrush}" TextDecorations="Underline" />
+                            <Run Text="in list"></Run>
+                            <Run Text="{Binding ListName}" FontWeight="Bold" Foreground="{StaticResource PhoneSubtleBrush}" TextDecorations="Underline" />
+                        </TextBlock.Inlines>
+                    </TextBlock>
+                </Grid>
+
+                <i:Interaction.Triggers>
+                    <local:GestureServiceTrigger Gesture="Tap">
+                        <micro:ActionMessage MethodName="MoveToBoard" />
+                    </local:GestureServiceTrigger>
+                </i:Interaction.Triggers>
+            </Border>
+
+            <Border Margin="0,0,0,12" Padding="0,5">
 				<Grid>
-					<Grid.RowDefinitions>
-						<RowDefinition Height="Auto" />
-					</Grid.RowDefinitions>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="Auto" />
-						<ColumnDefinition />
-					</Grid.ColumnDefinitions>
+					<TextBlock Text="{Binding Desc}" TextWrapping="Wrap" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeNormal}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}" />
 
-					<Image Grid.Row="0" Grid.Column="0" Width="40" Height="40" Source="/Assets/Icons/dark/icon-pencil-med.png" Margin="0,5,0,0" HorizontalAlignment="Center" VerticalAlignment="Top" />
-
-					<TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Desc}" TextWrapping="Wrap" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}" />
-
-					<TextBlock Grid.Row="0" Grid.Column="1" Text="No Description" Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeMedium}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}, ConverterParameter='true'}" Foreground="{StaticResource PhoneSubtleBrush}" FontStyle="Italic" />
+					<TextBlock Text="Tap to add description..." Margin="7,12,12,12" FontSize="{StaticResource PhoneFontSizeNormal}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}, ConverterParameter='true'}" Foreground="{StaticResource PhoneSubtleBrush}" FontStyle="Italic" />
 				</Grid>
 
 				<i:Interaction.Triggers>
@@ -71,7 +86,9 @@
 				</i:Interaction.Triggers>
 			</Border>
 
-			<Border Style="{StaticResource ComponentBorder}">
+            <Border Style="{StaticResource ComponentBorder}" 
+                    Visibility="{Binding Due, Converter={StaticResource VisibilityConverter}}"
+                    Background="{Binding Due, Converter={StaticResource DueDateConverter}}">
 				<Grid>
 					<Grid.ColumnDefinitions>
 						<ColumnDefinition Width="Auto" />
@@ -89,7 +106,7 @@
 
 					<TextBlock Grid.Column="1" Margin="7,12,12,12" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilyLight}" Visibility="{Binding Due, Converter={StaticResource InvertedVisibilityConverter}}" Foreground="{StaticResource PhoneSubtleBrush}" FontStyle="Italic">
 						<TextBlock.Inlines>
-							<Run Text="No Due Date" />
+							<Run Text="Tap to set a due date" />
 						</TextBlock.Inlines>
 					</TextBlock>
 

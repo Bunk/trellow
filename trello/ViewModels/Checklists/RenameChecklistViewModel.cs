@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using trello.Services.Handlers;
+using trello.Services.Messages;
 
 namespace trello.ViewModels.Checklists
 {

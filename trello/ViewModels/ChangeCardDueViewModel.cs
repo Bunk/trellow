@@ -1,6 +1,7 @@
 using System;
 using Caliburn.Micro;
 using trello.Services.Handlers;
+using trello.Services.Messages;
 
 namespace trello.ViewModels
 {

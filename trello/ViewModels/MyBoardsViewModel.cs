@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
 using trello.Assets;
+using trello.Extensions;
 using trellow.api;
 using trellow.api.Boards;
 
@@ -36,11 +37,7 @@ namespace trello.ViewModels
 
         public ApplicationBar Configure(ApplicationBar existing)
         {
-            var refresh = new ApplicationBarIconButton(new AssetUri("Icons/dark/appbar.refresh.rest.png")) { Text = "refresh" };
-            refresh.Click += (sender, args) => RefreshBoards();
-            existing.Buttons.Add(refresh);
-
-            return existing;
+            return existing.AddButton("refresh", new AssetUri("Icons/dark/appbar.refresh.rest.png"), RefreshBoards);
         }
 
         [UsedImplicitly]
@@ -51,8 +48,8 @@ namespace trello.ViewModels
                 return;
 
             _navigationService.UriFor<Boards.BoardViewModel>()
-                .WithParam(x => x.Id, context.Id)
-                .Navigate();
+                              .WithParam(x => x.Id, context.Id)
+                              .Navigate();
         }
 
         [UsedImplicitly]

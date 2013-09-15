@@ -7,8 +7,9 @@ using JetBrains.Annotations;
 using LinqToVisualTree;
 using Microsoft.Phone.Shell;
 using trello.Assets;
+using trello.Extensions;
 using trello.Interactions;
-using trello.Services.Handlers;
+using trello.Services.Messages;
 using trello.Views.Boards;
 using trellow.api;
 using trellow.api.Lists;
@@ -20,7 +21,7 @@ namespace trello.ViewModels.Boards
                                       IConfigureTheAppBar,
                                       IHandle<CardCreated>,
                                       IHandle<CardDeleted>,
-        IHandle<CardMovingFromList>
+                                      IHandle<CardMovedToList>
     {
         private readonly ITrello _api;
         private readonly INavigationService _navigation;
@@ -170,10 +171,7 @@ namespace trello.ViewModels.Boards
 
         public ApplicationBar Configure(ApplicationBar existing)
         {
-            var addButton = new ApplicationBarIconButton(new AssetUri("Icons/dark/appbar.add.rest.png"))
-            {Text = "add card"};
-            addButton.Click += (sender, args) => AddCard();
-            existing.Buttons.Add(addButton);
+            existing.AddButton("add card", new AssetUri("Icons/dark/appbar.add.rest.png"), AddCard);
 
             return existing;
         }
@@ -208,7 +206,7 @@ namespace trello.ViewModels.Boards
                 Cards.Remove(card);
         }
 
-        public void Handle(CardMovingFromList message)
+        public void Handle(CardMovedToList message)
         {
             if (message.DestinationListId == Id)
             {

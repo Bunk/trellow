@@ -10,6 +10,7 @@ using Caliburn.Micro;
 using LinqToVisualTree;
 using trello.Extensions;
 using trello.Services.Handlers;
+using trello.Services.Messages;
 using trello.ViewModels;
 using Action = System.Action;
 
@@ -100,7 +101,7 @@ namespace trello.Interactions
 
                     // Perform the actions
                     var item = (CardViewModel) ((FrameworkElement) sender).DataContext;
-                    var evt = new CardMovingFromList
+                    var evt = new CardMovedToList
                     {
                         Card = item.OriginalCard,
                         SourceListId = item.ListId,

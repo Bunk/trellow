@@ -4,10 +4,13 @@ using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
+using trello.Assets;
 using trello.Extensions;
 using trello.Services;
-using trello.Services.Handlers;
+using trello.Services.Messages;
 using trello.ViewModels.Activities;
+using trello.ViewModels.Boards;
+using trello.ViewModels.Cards;
 using trellow.api;
 using trellow.api.Actions;
 using trellow.api.Cards;
@@ -22,6 +25,7 @@ namespace trello.ViewModels
                                                       IHandle<CardDueDateChanged>,
                                                       IHandle<CardLabelAdded>,
                                                       IHandle<CardLabelRemoved>,
+                                                      IHandle<CardMovedToBoard>,
                                                       IHandle<CardDetailChecklistViewModel.AggregationsUpdated>,
                                                       IHandle<CardDetailMembersViewModel.MemberAggregationsUpdated>
     {
@@ -31,6 +35,8 @@ namespace trello.ViewModels
         private readonly INavigationService _navigation;
         private readonly IProgressService _progress;
         private readonly IWindowManager _windowManager;
+        private string _boardId;
+        private string _listId;
         private int _attachments;
         private int _checkItems;
         private int _checkItemsChecked;
@@ -45,6 +51,8 @@ namespace trello.ViewModels
         private int _coverHeight;
         private int _coverWidth;
         private string _commentText;
+        private string _boardName;
+        private string _listName;
 
         [UsedImplicitly]
         public string Id { get; private set; }
@@ -59,6 +67,30 @@ namespace trello.ViewModels
                 _name = value;
 
                 NotifyOfPropertyChange(() => Name);
+            }
+        }
+
+        [UsedImplicitly]
+        public string BoardName
+        {
+            get { return _boardName; }
+            set
+            {
+                if (value == _boardName) return;
+                _boardName = value;
+                NotifyOfPropertyChange(() => BoardName);
+            }
+        }
+
+        [UsedImplicitly]
+        public string ListName
+        {
+            get { return _listName; }
+            set
+            {
+                if (value == _listName) return;
+                _listName = value;
+                NotifyOfPropertyChange(() => ListName);
             }
         }
 
@@ -247,8 +279,13 @@ namespace trello.ViewModels
 
         public CardDetailOverviewViewModel Initialize(Card card)
         {
+            _boardId = card.IdBoard;
+            _listId = card.IdList;
+
             Id = card.Id;
             Name = card.Name;
+            BoardName = card.Board.Name;
+            ListName = card.List.Name;
             Desc = card.Desc;
             Due = card.Due;
             Checklists = card.Checklists.Count;
@@ -286,17 +323,12 @@ namespace trello.ViewModels
 
         public ApplicationBar Configure(ApplicationBar existing)
         {
-            var archive = new ApplicationBarIconButton
-            {
-                Text = "archive card",
-                IconUri = new Uri("/Assets/Icons/dark/appbar.delete.rest.png", UriKind.Relative)
-            };
-            archive.Click += (sender, args) => ArchiveCard();
-            existing.Buttons.Add(archive);
+            existing.AddButton("archive card", new AssetUri("Icons/dark/appbar.delete.rest.png"), ArchiveCard);
 
-            var delete = new ApplicationBarMenuItem("delete card");
-            delete.Click += (sender, args) => DeleteCard();
-            existing.MenuItems.Add(delete);
+            existing.AddMenuItem("set due", ChangeDueDate);
+            existing.AddMenuItem("change labels", ChangeLabels);
+            existing.AddMenuItem("move card", MoveToBoard);
+            existing.AddMenuItem("delete card", DeleteCard);
 
             return existing;
         }
@@ -321,6 +353,21 @@ namespace trello.ViewModels
             var found = Labels.FirstOrDefault(lbl => lbl.Color == message.Color.ToString());
             if (found != null)
                 Labels.Remove(found);
+        }
+
+        public void Handle(CardMovedToBoard message)
+        {
+            _navigation
+                .UriFor<BoardViewModel>()
+                .WithParam(vm => vm.Id, message.BoardId)
+                .WithParam(vm => vm.SelectedListId, message.ListId)
+                .Navigate();
+
+            // can't navigate back to card entry
+            _navigation.RemoveBackEntry();
+            // can't navigate back to the previous board entry
+            // todo: maybe there's a way to allow this, so long as we can force it to refresh itself
+            _navigation.RemoveBackEntry();
         }
 
         public void Handle(CardDetailChecklistViewModel.AggregationsUpdated message)
@@ -443,6 +490,15 @@ namespace trello.ViewModels
 
             _eventAggregator.Publish(new CardDeleted {CardId = Id});
             _navigation.GoBack();
+        }
+
+        [UsedImplicitly]
+        public void MoveToBoard()
+        {
+            var model = new MoveCardToBoardViewModel(GetView(), Id, _eventAggregator, _api, _progress)
+                .Initialize(_boardId, _listId);
+
+            _windowManager.ShowDialog(model);
         }
     }
 }

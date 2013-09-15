@@ -5,7 +5,9 @@ using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using trello.Assets;
+using trello.Extensions;
 using trello.Services.Handlers;
+using trello.Services.Messages;
 using trello.ViewModels.Cards;
 using trellow.api.Cards;
 
@@ -55,14 +57,7 @@ namespace trello.ViewModels
 
         public ApplicationBar Configure(ApplicationBar existing)
         {
-            var button = new ApplicationBarIconButton(new AssetUri("/Icons/dark/appbar.add.rest.png"))
-            {
-                Text = "add list"
-            };
-            button.Click += (sender, args) => Add();
-            existing.Buttons.Add(button);
-
-            return existing;
+            return existing.AddButton("add list", new AssetUri("/Icons/dark/appbar.add.rest.png"), Add);
         }
 
         [UsedImplicitly]

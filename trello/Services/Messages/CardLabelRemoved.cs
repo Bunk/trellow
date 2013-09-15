@@ -1,8 +1,8 @@
 ﻿using trellow.api.Cards;
 
-namespace trello.Services.Handlers
+namespace trello.Services.Messages
 {
-    public class CardLabelAdded
+    public class CardLabelRemoved
     {
         public string CardId { get; set; }
 

@@ -4,6 +4,7 @@ using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using trello.Assets;
+using trello.Extensions;
 using trellow.api;
 
 namespace trello.ViewModels
@@ -61,12 +62,7 @@ namespace trello.ViewModels
 
         public ApplicationBar Configure(ApplicationBar existing)
         {
-            var refresh = new ApplicationBarIconButton(new AssetUri("Icons/dark/appbar.refresh.rest.png"))
-            {Text = "refresh"};
-            refresh.Click += (sender, args) => RefreshCards();
-            existing.Buttons.Add(refresh);
-
-            return existing;
+            return existing.AddButton("refresh", new AssetUri("Icons/dark/appbar.refresh.rest.png"), RefreshCards);
         }
     }
 }

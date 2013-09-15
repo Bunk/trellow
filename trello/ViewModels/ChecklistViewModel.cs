@@ -3,6 +3,7 @@ using System.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using trello.Services.Handlers;
+using trello.Services.Messages;
 using trello.ViewModels.Checklists;
 using trellow.api;
 using trellow.api.Cards;
