@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using JetBrains.Annotations;
 using LinqToVisualTree;
 using Microsoft.Phone.Shell;
+using Strilanc.Value;
 using trello.Assets;
 using trello.Extensions;
 using trello.Interactions;
@@ -21,7 +22,8 @@ namespace trello.ViewModels.Boards
                                       IConfigureTheAppBar,
                                       IHandle<CardCreated>,
                                       IHandle<CardDeleted>,
-                                      IHandle<CardMovedToList>
+                                      IHandle<CardMovedToList>,
+        IHandle<CardNameChanged>
     {
         private readonly ITrello _api;
         private readonly INavigationService _navigation;
@@ -117,6 +119,11 @@ namespace trello.ViewModels.Boards
             Cards = new BindableCollection<CardViewModel>();
         }
 
+        protected override void OnViewAttached(object view, object context)
+        {
+            base.OnViewAttached(view, context);
+        }
+
         protected override void OnInitialize()
         {
             RefreshLists();
@@ -139,6 +146,26 @@ namespace trello.ViewModels.Boards
                                                                              NextId));
         }
 
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            base.OnDeactivate(close);
+        }
+
+        protected override void OnViewLoaded(object view)
+        {
+            base.OnViewLoaded(view);
+        }
+
+        protected override void OnViewReady(object view)
+        {
+            base.OnViewReady(view);
+        }
+
         private async void RefreshLists()
         {
             var cards = await _api.Cards.ForList(new ListId(Id));
@@ -152,6 +179,11 @@ namespace trello.ViewModels.Boards
 
             Cards.Clear();
             Cards.AddRange(vms);
+        }
+
+        private May<CardViewModel> FindCard(string id)
+        {
+            return Cards.Where(c => c.Id == id).MayFirst();
         }
 
         public BoardListViewModel InitializeWith(IEnumerable<List> allLists, List list)
@@ -188,6 +220,7 @@ namespace trello.ViewModels.Boards
 
         public void Handle(CardCreated message)
         {
+            // todo: Make this idempotent
             var vm = _cardFactory()
                 .InitializeWith(message.Card)
                 .EnableInteractions(_interactionManager);
@@ -200,10 +233,8 @@ namespace trello.ViewModels.Boards
 
         public void Handle(CardDeleted message)
         {
-            // note: make sure this is idempotent since it will be called for each list on an opened board
-            var found = Cards.Where(card => card.Id == message.CardId).ToArray();
-            foreach (var card in found)
-                Cards.Remove(card);
+            var card = FindCard(message.CardId);
+            card.IfHasValueThenDo(c => Cards.Remove(c));
         }
 
         public void Handle(CardMovedToList message)
@@ -230,6 +261,12 @@ namespace trello.ViewModels.Boards
                 //Cards.Remove(vm);
                 //Cards.Refresh();
             }
+        }
+
+        public void Handle(CardNameChanged message)
+        {
+            var card = FindCard(message.CardId);
+            card.IfHasValueThenDo(c => c.Name = message.Name);
         }
     }
 }

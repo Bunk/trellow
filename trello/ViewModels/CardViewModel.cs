@@ -12,10 +12,20 @@ namespace trello.ViewModels
     {
         private readonly INavigationService _navigationService;
         private InteractionManager _interactionManager;
+        private string _name;
 
         public string Id { get; set; }
 
-        public string Name { get; set; }
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (value == _name) return;
+                _name = value;
+                NotifyOfPropertyChange(() => Name);
+            }
+        }
 
         public string BoardId { get; set; }
 
