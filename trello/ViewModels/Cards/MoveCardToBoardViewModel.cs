@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using BugSense;
 using Caliburn.Micro;
@@ -12,7 +11,6 @@ using trello.Services;
 using trello.Services.Messages;
 using trellow.api;
 using trellow.api.Boards;
-using trellow.api.Cards;
 using trellow.api.Lists;
 
 namespace trello.ViewModels.Cards
@@ -26,7 +24,6 @@ namespace trello.ViewModels.Cards
         private string _originalListId;
         private Board _selectedBoard;
         private List _selectedList;
-        private Action<Board, List> _accepted;
 
         [UsedImplicitly]
         public string CardId { get; set; }
@@ -96,12 +93,6 @@ namespace trello.ViewModels.Cards
             return this;
         }
 
-        public MoveCardToBoardViewModel OnAccepted(Action<Board, List> action)
-        {
-            _accepted = action;
-            return this;
-        }
-
         protected override void OnInitialize()
         {
             LoadBoards(_originalBoardId);
@@ -145,10 +136,7 @@ namespace trello.ViewModels.Cards
 
                 selectedId
                     .Else(lists.Take(1).Select(l => l.Id).MayFirst())
-                    .IfHasValueThenDo(id =>
-                    {
-                        SelectedList = lists.FirstOrDefault(l => l.Id == id);
-                    });
+                    .IfHasValueThenDo(id => { SelectedList = lists.FirstOrDefault(l => l.Id == id); });
             }
             catch (Exception ex)
             {
@@ -172,12 +160,11 @@ namespace trello.ViewModels.Cards
             {
                 CardId = CardId,
                 BoardId = SelectedBoard.Id,
-                ListId = SelectedList.Id
+                BoardName = SelectedBoard.Name,
+                ListId = SelectedList.Id,
+                ListName = SelectedList.Name
             });
             TryClose();
-
-            if (_accepted != null)
-                _accepted(SelectedBoard, SelectedList);
         }
     }
 }

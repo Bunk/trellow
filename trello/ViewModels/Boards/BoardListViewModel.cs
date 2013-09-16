@@ -23,7 +23,8 @@ namespace trello.ViewModels.Boards
                                       IHandle<CardCreated>,
                                       IHandle<CardDeleted>,
                                       IHandle<CardMovedToList>,
-        IHandle<CardNameChanged>
+                                      IHandle<CardMovedToBoard>,
+                                      IHandle<CardNameChanged>
     {
         private readonly ITrello _api;
         private readonly INavigationService _navigation;
@@ -119,11 +120,6 @@ namespace trello.ViewModels.Boards
             Cards = new BindableCollection<CardViewModel>();
         }
 
-        protected override void OnViewAttached(object view, object context)
-        {
-            base.OnViewAttached(view, context);
-        }
-
         protected override void OnInitialize()
         {
             RefreshLists();
@@ -144,26 +140,6 @@ namespace trello.ViewModels.Boards
                                                                              _events,
                                                                              PreviousId,
                                                                              NextId));
-        }
-
-        protected override void OnActivate()
-        {
-            base.OnActivate();
-        }
-
-        protected override void OnDeactivate(bool close)
-        {
-            base.OnDeactivate(close);
-        }
-
-        protected override void OnViewLoaded(object view)
-        {
-            base.OnViewLoaded(view);
-        }
-
-        protected override void OnViewReady(object view)
-        {
-            base.OnViewReady(view);
         }
 
         private async void RefreshLists()
@@ -263,10 +239,29 @@ namespace trello.ViewModels.Boards
             }
         }
 
+        public void Handle(CardMovedToBoard message)
+        {
+            FindCard(message.CardId)
+                .IfHasValueThenDo(card => Cards.Remove(card))
+                .ElseDo(async () =>
+                {
+                    if (message.ListId != Id || message.BoardId != BoardId)
+                        return;
+
+                    // we want to add a new card here
+                    // todo: Could possibly make the card initialize itself
+                    var card = await _api.Cards.WithId(message.CardId);
+                    var vm = _cardFactory()
+                        .InitializeWith(card)
+                        .EnableInteractions(_interactionManager);
+
+                    Cards.Add(vm);
+                });
+        }
+
         public void Handle(CardNameChanged message)
         {
-            var card = FindCard(message.CardId);
-            card.IfHasValueThenDo(c => c.Name = message.Name);
+            FindCard(message.CardId).IfHasValueThenDo(c => c.Name = message.Name);
         }
     }
 }

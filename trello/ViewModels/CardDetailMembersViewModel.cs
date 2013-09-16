@@ -133,6 +133,8 @@ namespace trello.ViewModels
 
         public class MemberAggregationsUpdated
         {
+            public string CardId { get; set; }
+
             public int AssignedMemberCount { get; set; }
         }
 

@@ -6,6 +6,10 @@ namespace trello.Services.Messages
 
         public string BoardId { get; set; }
 
+        public string BoardName { get; set; }
+
         public string ListId { get; set; }
+
+        public string ListName { get; set; }
     }
 }

@@ -73,6 +73,8 @@ namespace trello.ViewModels
 
         public class AggregationsUpdated
         {
+            public string CardId { get; set; }
+
             public int ChecklistCount { get; set; }
 
             public int CheckItemsCount { get; set; }
@@ -86,6 +88,7 @@ namespace trello.ViewModels
 
             var update = new AggregationsUpdated
             {
+                CardId = _cardId,
                 ChecklistCount = Checklists.Count,
                 CheckItemsCount = Checklists.Aggregate(0, (i, model) => i + model.Items.Count),
                 CheckItemsCheckedCount = Checklists.Aggregate(0, (i, model) => i + model.ItemsChecked)

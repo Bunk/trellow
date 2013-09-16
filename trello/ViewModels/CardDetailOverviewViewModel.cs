@@ -25,7 +25,8 @@ namespace trello.ViewModels
                                                       IHandle<CardDueDateChanged>,
                                                       IHandle<CardLabelAdded>,
                                                       IHandle<CardLabelRemoved>,
-                                                      IHandle<CardDetailChecklistViewModel.AggregationsUpdated>,
+        IHandle<CardMovedToBoard>,
+    IHandle<CardDetailChecklistViewModel.AggregationsUpdated>,
                                                       IHandle<CardDetailMembersViewModel.MemberAggregationsUpdated>
     {
         private readonly ITrello _api;
@@ -271,10 +272,20 @@ namespace trello.ViewModels
             _navigation = navigation;
             _windowManager = windowManager;
 
-            _eventAggregator.Subscribe(this);
-
             Labels = new BindableCollection<LabelViewModel>();
             Comments = new BindableCollection<ActivityViewModel>();
+        }
+
+        protected override void OnActivate()
+        {
+            // hook up for event notifications
+            _eventAggregator.Subscribe(this);
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            // we're only interested in event notifications if we're active
+            _eventAggregator.Unsubscribe(this);
         }
 
         public CardDetailOverviewViewModel Initialize(Card card)
@@ -333,38 +344,50 @@ namespace trello.ViewModels
             return existing;
         }
 
+        private void EnsureId(string id, System.Action action)
+        {
+            if (Id == id)
+                action();
+        }
+
         public void Handle(CardDescriptionChanged message)
         {
-            Desc = message.Description;
+            EnsureId(message.CardId, () => Desc = message.Description);
         }
 
         public void Handle(CardDueDateChanged message)
         {
-            Due = message.DueDate;
+            EnsureId(message.CardId, () => Due = message.DueDate);
         }
 
         public void Handle(CardLabelAdded message)
         {
-            Labels.Add(new LabelViewModel(message.Color.ToString(), message.Name));
+            EnsureId(message.CardId, () => Labels.Add(new LabelViewModel(message.Color.ToString(), message.Name)));
         }
 
         public void Handle(CardLabelRemoved message)
         {
-            var found = Labels.FirstOrDefault(lbl => lbl.Color == message.Color.ToString());
-            if (found != null)
-                Labels.Remove(found);
+            EnsureId(message.CardId, () =>
+            {
+                var found = Labels.FirstOrDefault(lbl => lbl.Color == message.Color.ToString());
+                if (found != null)
+                    Labels.Remove(found);
+            });
         }
 
         public void Handle(CardDetailChecklistViewModel.AggregationsUpdated message)
         {
-            Checklists = message.ChecklistCount;
-            CheckItems = message.CheckItemsCount;
-            CheckItemsChecked = message.CheckItemsCheckedCount;
+            EnsureId(message.CardId, () =>
+            {
+                Checklists = message.ChecklistCount;
+                CheckItems = message.CheckItemsCount;
+                CheckItemsChecked = message.CheckItemsCheckedCount;
+            });
         }
 
         public void Handle(CardDetailMembersViewModel.MemberAggregationsUpdated message)
         {
-            Members = message.AssignedMemberCount;
+            EnsureId(message.CardId, () => Members = message.AssignedMemberCount);
         }
 
         [UsedImplicitly]
@@ -481,31 +504,21 @@ namespace trello.ViewModels
         public void MoveToBoard()
         {
             var model = new MoveCardToBoardViewModel(GetView(), Id, _eventAggregator, _api, _progress)
-                .Initialize(_boardId, _listId)
-                .OnAccepted((board, list) =>
-                {
-                    // don't navigate back to the previous board entry
-                    // since we're going to automatically navigate to that board next
-                    var previousBoard = _navigation.UriFor<BoardViewModel>()
-                                                   .WithParam(vm => vm.Id, _boardId)
-                                                   .BuildUri();
-
-                    if (_navigation.CanGoBack &&
-                        _navigation.BackStack.First().Source.OriginalString
-                                   .StartsWith(previousBoard.OriginalString))
-                        _navigation.RemoveBackEntry();
-
-                    _navigation
-                        .UriFor<BoardViewModel>()
-                        .WithParam(vm => vm.Id, board.Id)
-                        .WithParam(vm => vm.SelectedListId, list.Id)
-                        .Navigate();
-
-                    // don't navigate back to same card entry since it's changed
-                    _navigation.RemoveBackEntry();
-                });
+                .Initialize(_boardId, _listId);
 
             _windowManager.ShowDialog(model);
+        }
+
+        public void Handle(CardMovedToBoard message)
+        {
+            EnsureId(message.CardId, () =>
+            {
+                _boardId = message.BoardId;
+                BoardName = message.BoardName;
+                
+                _listId = message.ListId;
+                ListName = message.ListName;
+            });
         }
     }
 }
