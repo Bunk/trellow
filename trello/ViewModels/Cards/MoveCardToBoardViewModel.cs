@@ -26,6 +26,7 @@ namespace trello.ViewModels.Cards
         private string _originalListId;
         private Board _selectedBoard;
         private List _selectedList;
+        private Action<Board, List> _accepted;
 
         [UsedImplicitly]
         public string CardId { get; set; }
@@ -92,6 +93,12 @@ namespace trello.ViewModels.Cards
             _originalBoardId = boardId;
             _originalListId = listId;
 
+            return this;
+        }
+
+        public MoveCardToBoardViewModel OnAccepted(Action<Board, List> action)
+        {
+            _accepted = action;
             return this;
         }
 
@@ -168,6 +175,9 @@ namespace trello.ViewModels.Cards
                 ListId = SelectedList.Id
             });
             TryClose();
+
+            if (_accepted != null)
+                _accepted(SelectedBoard, SelectedList);
         }
     }
 }

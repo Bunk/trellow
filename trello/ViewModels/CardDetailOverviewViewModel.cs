@@ -25,7 +25,6 @@ namespace trello.ViewModels
                                                       IHandle<CardDueDateChanged>,
                                                       IHandle<CardLabelAdded>,
                                                       IHandle<CardLabelRemoved>,
-                                                      IHandle<CardMovedToBoard>,
                                                       IHandle<CardDetailChecklistViewModel.AggregationsUpdated>,
                                                       IHandle<CardDetailMembersViewModel.MemberAggregationsUpdated>
     {
@@ -271,6 +270,7 @@ namespace trello.ViewModels
             _eventAggregator = eventAggregator;
             _navigation = navigation;
             _windowManager = windowManager;
+
             _eventAggregator.Subscribe(this);
 
             Labels = new BindableCollection<LabelViewModel>();
@@ -353,21 +353,6 @@ namespace trello.ViewModels
             var found = Labels.FirstOrDefault(lbl => lbl.Color == message.Color.ToString());
             if (found != null)
                 Labels.Remove(found);
-        }
-
-        public void Handle(CardMovedToBoard message)
-        {
-            _navigation
-                .UriFor<BoardViewModel>()
-                .WithParam(vm => vm.Id, message.BoardId)
-                .WithParam(vm => vm.SelectedListId, message.ListId)
-                .Navigate();
-
-            // can't navigate back to card entry
-            _navigation.RemoveBackEntry();
-            // can't navigate back to the previous board entry
-            // todo: maybe there's a way to allow this, so long as we can force it to refresh itself
-            _navigation.RemoveBackEntry();
         }
 
         public void Handle(CardDetailChecklistViewModel.AggregationsUpdated message)
@@ -454,7 +439,7 @@ namespace trello.ViewModels
                 Text = comment
             });
 
-            Comments.Add(new CommentActivityViewModel
+            Comments.Insert(0, new CommentActivityViewModel
             {
                 Member = new MemberViewModel(new Member
                 {
@@ -496,7 +481,29 @@ namespace trello.ViewModels
         public void MoveToBoard()
         {
             var model = new MoveCardToBoardViewModel(GetView(), Id, _eventAggregator, _api, _progress)
-                .Initialize(_boardId, _listId);
+                .Initialize(_boardId, _listId)
+                .OnAccepted((board, list) =>
+                {
+                    // don't navigate back to the previous board entry
+                    // since we're going to automatically navigate to that board next
+                    var previousBoard = _navigation.UriFor<BoardViewModel>()
+                                                   .WithParam(vm => vm.Id, _boardId)
+                                                   .BuildUri();
+
+                    if (_navigation.CanGoBack &&
+                        _navigation.BackStack.First().Source.OriginalString
+                                   .StartsWith(previousBoard.OriginalString))
+                        _navigation.RemoveBackEntry();
+
+                    _navigation
+                        .UriFor<BoardViewModel>()
+                        .WithParam(vm => vm.Id, board.Id)
+                        .WithParam(vm => vm.SelectedListId, list.Id)
+                        .Navigate();
+
+                    // don't navigate back to same card entry since it's changed
+                    _navigation.RemoveBackEntry();
+                });
 
             _windowManager.ShowDialog(model);
         }
