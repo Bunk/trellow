@@ -9,12 +9,12 @@ using trello.Extensions;
 using trello.Services;
 using trello.Services.Messages;
 using trello.ViewModels.Activities;
-using trello.ViewModels.Boards;
 using trello.ViewModels.Cards;
 using trellow.api;
 using trellow.api.Actions;
 using trellow.api.Cards;
 using trellow.api.Members;
+using Action = System.Action;
 
 namespace trello.ViewModels
 {
@@ -25,8 +25,8 @@ namespace trello.ViewModels
                                                       IHandle<CardDueDateChanged>,
                                                       IHandle<CardLabelAdded>,
                                                       IHandle<CardLabelRemoved>,
-        IHandle<CardMovedToBoard>,
-    IHandle<CardDetailChecklistViewModel.AggregationsUpdated>,
+                                                      IHandle<CardMovedToBoard>,
+                                                      IHandle<CardDetailChecklistViewModel.AggregationsUpdated>,
                                                       IHandle<CardDetailMembersViewModel.MemberAggregationsUpdated>
     {
         private readonly ITrello _api;
@@ -344,50 +344,10 @@ namespace trello.ViewModels
             return existing;
         }
 
-        private void EnsureId(string id, System.Action action)
+        private void EnsureId(string id, Action action)
         {
             if (Id == id)
                 action();
-        }
-
-        public void Handle(CardDescriptionChanged message)
-        {
-            EnsureId(message.CardId, () => Desc = message.Description);
-        }
-
-        public void Handle(CardDueDateChanged message)
-        {
-            EnsureId(message.CardId, () => Due = message.DueDate);
-        }
-
-        public void Handle(CardLabelAdded message)
-        {
-            EnsureId(message.CardId, () => Labels.Add(new LabelViewModel(message.Color.ToString(), message.Name)));
-        }
-
-        public void Handle(CardLabelRemoved message)
-        {
-            EnsureId(message.CardId, () =>
-            {
-                var found = Labels.FirstOrDefault(lbl => lbl.Color == message.Color.ToString());
-                if (found != null)
-                    Labels.Remove(found);
-            });
-        }
-
-        public void Handle(CardDetailChecklistViewModel.AggregationsUpdated message)
-        {
-            EnsureId(message.CardId, () =>
-            {
-                Checklists = message.ChecklistCount;
-                CheckItems = message.CheckItemsCount;
-                CheckItemsChecked = message.CheckItemsCheckedCount;
-            });
-        }
-
-        public void Handle(CardDetailMembersViewModel.MemberAggregationsUpdated message)
-        {
-            EnsureId(message.CardId, () => Members = message.AssignedMemberCount);
         }
 
         [UsedImplicitly]
@@ -515,10 +475,50 @@ namespace trello.ViewModels
             {
                 _boardId = message.BoardId;
                 BoardName = message.BoardName;
-                
+
                 _listId = message.ListId;
                 ListName = message.ListName;
             });
+        }
+
+        public void Handle(CardDescriptionChanged message)
+        {
+            EnsureId(message.CardId, () => Desc = message.Description);
+        }
+
+        public void Handle(CardDueDateChanged message)
+        {
+            EnsureId(message.CardId, () => Due = message.DueDate);
+        }
+
+        public void Handle(CardLabelAdded message)
+        {
+            EnsureId(message.CardId, () => Labels.Add(new LabelViewModel(message.Color.ToString(), message.Name)));
+        }
+
+        public void Handle(CardLabelRemoved message)
+        {
+            EnsureId(message.CardId, () =>
+            {
+                var found = Labels.FirstOrDefault(lbl => lbl.Color == message.Color.ToString());
+                if (found != null)
+                    Labels.Remove(found);
+            });
+        }
+
+        public void Handle(CardDetailChecklistViewModel.AggregationsUpdated message)
+        {
+            EnsureId(message.CardId, () =>
+            {
+                Checklists = message.ChecklistCount;
+                CheckItems = message.CheckItemsCount;
+                CheckItemsChecked = message.CheckItemsCheckedCount;
+            });
+        }
+
+        public void Handle(CardDetailMembersViewModel.MemberAggregationsUpdated message)
+        {
+            EnsureId(message.CardId, () => Members = message.AssignedMemberCount);
         }
     }
 }
