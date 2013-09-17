@@ -268,24 +268,15 @@ namespace trello.ViewModels
             _api = api;
             _settings = settings;
             _progress = progress;
-            _eventAggregator = eventAggregator;
             _navigation = navigation;
             _windowManager = windowManager;
+            _eventAggregator = eventAggregator;
+
+            // we need to listen to other events even when not active
+            _eventAggregator.Subscribe(this);
 
             Labels = new BindableCollection<LabelViewModel>();
             Comments = new BindableCollection<ActivityViewModel>();
-        }
-
-        protected override void OnActivate()
-        {
-            // hook up for event notifications
-            _eventAggregator.Subscribe(this);
-        }
-
-        protected override void OnDeactivate(bool close)
-        {
-            // we're only interested in event notifications if we're active
-            _eventAggregator.Unsubscribe(this);
         }
 
         public CardDetailOverviewViewModel Initialize(Card card)
@@ -511,6 +502,10 @@ namespace trello.ViewModels
             EnsureId(message.CardId, () =>
             {
                 Checklists = message.ChecklistCount;
+
+                // note: ProgressBar control has some quirks  (value must always be <= maximum)
+                // http://geekswithblogs.net/cskardon/archive/2011/02/06/silverlight-progressbar-issues-with-binding.aspx
+                CheckItemsChecked = 0;
                 CheckItems = message.CheckItemsCount;
                 CheckItemsChecked = message.CheckItemsCheckedCount;
             });

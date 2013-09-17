@@ -4,10 +4,12 @@ using System.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
+using Strilanc.Value;
 using trello.Assets;
 using trello.Extensions;
 using trello.Services.Messages;
 using trello.ViewModels.Cards;
+using trello.ViewModels.Checklists;
 using trellow.api.Cards;
 
 namespace trello.ViewModels
@@ -106,32 +108,32 @@ namespace trello.ViewModels
 
         public void Handle(CheckItemChanged message)
         {
-            if (message.CardId != _cardId)
-                return;
-
-            PublishAggregations();
+            Checklists.Where(list => list.Id == message.ChecklistId).MayFirst()
+                      .IfHasValueThenDo(list =>
+                      {
+                          list.UpdateItem(message.CheckItemId, message.Value);
+                          PublishAggregations();
+                      });
         }
 
         public void Handle(CheckItemCreated message)
         {
-            // bug: this currently runs before the items are actually updated
-            // probably want to send the aggregations for the particular list in 
-            // the message
-            if (Checklists.All(list => list.Id != message.ChecklistId))
-                return;
-
-            PublishAggregations();
+            Checklists.Where(x => x.Id == message.ChecklistId).MayFirst()
+                      .IfHasValueThenDo(list =>
+                      {
+                          list.AddItem(message.CheckItem);
+                          PublishAggregations();
+                      });
         }
 
         public void Handle(CheckItemRemoved message)
         {
-            // bug: this currently runs before the items are actually updated
-            // probably want to send the aggregations for the particular list in 
-            // the message
-            if (Checklists.All(list => list.Id != message.ChecklistId))
-                return;
-
-            PublishAggregations();
+            Checklists.Where(x => x.Id == message.ChecklistId).MayFirst()
+                      .IfHasValueThenDo(list =>
+                      {
+                          list.RemoveItem(message.CheckItemId);
+                          PublishAggregations();
+                      });
         }
 
         public void Handle(ChecklistCreated message)

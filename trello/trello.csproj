@@ -226,8 +226,8 @@
     <Compile Include="ViewModels\ChangeCardDueViewModel.cs" />
     <Compile Include="ViewModels\ChangeCardLabelsViewModel.cs" />
     <Compile Include="ViewModels\ChangeCardNameViewModel.cs" />
-    <Compile Include="ViewModels\ChecklistItemViewModel.cs" />
-    <Compile Include="ViewModels\ChecklistViewModel.cs" />
+    <Compile Include="ViewModels\Checklists\ChecklistItemViewModel.cs" />
+    <Compile Include="ViewModels\Checklists\ChecklistViewModel.cs" />
     <Compile Include="Services\Messages\CardDescriptionChanged.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\MemberViewModel.cs" />
@@ -316,7 +316,7 @@
     <Compile Include="Views\ChangeCardNameView.xaml.cs">
       <DependentUpon>ChangeCardNameView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ChecklistView.xaml.cs">
+    <Compile Include="Views\Checklists\ChecklistView.xaml.cs">
       <DependentUpon>ChecklistView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controls\DropShadowTextBlock.xaml.cs">
@@ -696,7 +696,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ChecklistView.xaml">
+    <Page Include="Views\Checklists\ChecklistView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
