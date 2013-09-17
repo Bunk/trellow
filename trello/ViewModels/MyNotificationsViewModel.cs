@@ -7,6 +7,7 @@ using Strilanc.Value;
 using trello.Assets;
 using trello.Extensions;
 using trello.ViewModels.Boards;
+using trello.ViewModels.Cards;
 using trello.ViewModels.Notifications;
 using trellow.api;
 using trellow.api.Internal;

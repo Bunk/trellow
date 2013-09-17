@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using trello.ViewModels;
+using trello.ViewModels.Cards;
 
 namespace trello.Services.Messages
 {

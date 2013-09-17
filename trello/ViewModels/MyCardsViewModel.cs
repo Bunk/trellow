@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using trello.Assets;
 using trello.Extensions;
+using trello.ViewModels.Cards;
 using trellow.api;
 
 namespace trello.ViewModels

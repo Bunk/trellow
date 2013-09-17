@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using trello.Extensions;
 using trello.ViewModels;
+using trello.ViewModels.Cards;
 using trello.Views;
 using trello.Views.Cards;
 

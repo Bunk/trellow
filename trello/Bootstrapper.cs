@@ -10,6 +10,7 @@ using trello.Services.Cache;
 using trello.Services.Handlers;
 using trello.ViewModels;
 using trello.ViewModels.Boards;
+using trello.ViewModels.Cards;
 using trello.ViewModels.Checklists;
 using trello.ViewModels.Notifications;
 using trellow.api;

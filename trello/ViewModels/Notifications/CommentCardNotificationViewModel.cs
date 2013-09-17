@@ -1,5 +1,6 @@
 using Caliburn.Micro;
 using JetBrains.Annotations;
+using trello.ViewModels.Cards;
 using trellow.api;
 using trellow.api.Notifications;
 

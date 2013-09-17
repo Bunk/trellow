@@ -12,6 +12,7 @@ using trello.Extensions;
 using trello.Services.Handlers;
 using trello.Services.Messages;
 using trello.ViewModels;
+using trello.ViewModels.Cards;
 using Action = System.Action;
 
 namespace trello.Interactions

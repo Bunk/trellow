@@ -11,6 +11,7 @@ using trello.Assets;
 using trello.Extensions;
 using trello.Interactions;
 using trello.Services.Messages;
+using trello.ViewModels.Cards;
 using trello.Views.Boards;
 using trellow.api;
 using trellow.api.Cards;
