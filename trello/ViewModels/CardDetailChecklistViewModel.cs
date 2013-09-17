@@ -6,7 +6,6 @@ using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using trello.Assets;
 using trello.Extensions;
-using trello.Services.Handlers;
 using trello.Services.Messages;
 using trello.ViewModels.Cards;
 using trellow.api.Cards;
@@ -17,6 +16,8 @@ namespace trello.ViewModels
     public sealed class CardDetailChecklistViewModel : PivotItemViewModel,
                                                        IConfigureTheAppBar,
                                                        IHandle<CheckItemChanged>,
+                                                       IHandle<CheckItemCreated>,
+                                                       IHandle<CheckItemRemoved>,
                                                        IHandle<ChecklistCreated>,
                                                        IHandle<ChecklistRemoved>
     {
@@ -37,10 +38,19 @@ namespace trello.ViewModels
 
             _eventAggregator = eventAggregator;
             _window = window;
-            _eventAggregator.Subscribe(this);
             _checklistFactory = checklistFactory;
 
             Checklists = new BindableCollection<ChecklistViewModel>();
+        }
+
+        protected override void OnActivate()
+        {
+            _eventAggregator.Subscribe(this);
+        }
+
+        protected override void OnDeactivate(bool close)
+        {
+            _eventAggregator.Unsubscribe(this);
         }
 
         public CardDetailChecklistViewModel Initialize(Card card)
@@ -82,10 +92,8 @@ namespace trello.ViewModels
             public int CheckItemsCheckedCount { get; set; }
         }
 
-        public void Handle(CheckItemChanged message)
+        private void PublishAggregations()
         {
-            if (message.CardId != _cardId) return;
-
             var update = new AggregationsUpdated
             {
                 CardId = _cardId,
@@ -94,6 +102,36 @@ namespace trello.ViewModels
                 CheckItemsCheckedCount = Checklists.Aggregate(0, (i, model) => i + model.ItemsChecked)
             };
             _eventAggregator.Publish(update);
+        }
+
+        public void Handle(CheckItemChanged message)
+        {
+            if (message.CardId != _cardId)
+                return;
+
+            PublishAggregations();
+        }
+
+        public void Handle(CheckItemCreated message)
+        {
+            // bug: this currently runs before the items are actually updated
+            // probably want to send the aggregations for the particular list in 
+            // the message
+            if (Checklists.All(list => list.Id != message.ChecklistId))
+                return;
+
+            PublishAggregations();
+        }
+
+        public void Handle(CheckItemRemoved message)
+        {
+            // bug: this currently runs before the items are actually updated
+            // probably want to send the aggregations for the particular list in 
+            // the message
+            if (Checklists.All(list => list.Id != message.ChecklistId))
+                return;
+
+            PublishAggregations();
         }
 
         public void Handle(ChecklistCreated message)
@@ -110,15 +148,20 @@ namespace trello.ViewModels
             };
             var list = _checklistFactory().InitializeWith(checklist);
             Checklists.Insert(0, list);
+
+            PublishAggregations();
         }
 
         public void Handle(ChecklistRemoved message)
         {
-            if (message.CardId != _cardId) return;
+            if (message.CardId != _cardId) 
+                return;
 
             var found = Checklists.Where(x => x.Id == message.ChecklistId).ToArray();
             foreach (var list in found)
                 Checklists.Remove(list);
+
+            PublishAggregations();
         }
     }
 }

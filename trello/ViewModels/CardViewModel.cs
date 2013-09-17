@@ -13,8 +13,25 @@ namespace trello.ViewModels
         private readonly INavigationService _navigationService;
         private InteractionManager _interactionManager;
         private string _name;
+        private string _boardName;
+        private string _listName;
+        private string _desc;
+        private DateTime? _due;
+        private int _votes;
+        private int _comments;
+        private int _checkItems;
+        private int _checkItemsChecked;
+        private int _attachments;
+        private string _coverUri;
+        private int _coverHeight;
+        private int _coverWidth;
+        private double _pos;
 
         public string Id { get; set; }
+
+        public string BoardId { get; set; }
+
+        public string ListId { get; set; }
 
         public string Name
         {
@@ -27,35 +44,148 @@ namespace trello.ViewModels
             }
         }
 
-        public string BoardId { get; set; }
+        public string BoardName
+        {
+            get { return _boardName; }
+            set
+            {
+                if (value == _boardName) return;
+                _boardName = value;
+                NotifyOfPropertyChange(() => BoardName);
+            }
+        }
 
-        public string BoardName { get; set; }
+        public string ListName
+        {
+            get { return _listName; }
+            set
+            {
+                if (value == _listName) return;
+                _listName = value;
+                NotifyOfPropertyChange(() => ListName);
+            }
+        }
 
-        public string ListId { get; set; }
+        public string Desc
+        {
+            get { return _desc; }
+            set
+            {
+                if (value == _desc) return;
+                _desc = value;
+                NotifyOfPropertyChange(() => Desc);
+            }
+        }
 
-        public string ListName { get; set; }
+        public double Pos
+        {
+            get { return _pos; }
+            set
+            {
+                if (value.Equals(_pos)) return;
+                _pos = value;
+                NotifyOfPropertyChange(() => Pos);
+            }
+        }
 
-        public string Desc { get; set; }
+        public DateTime? Due
+        {
+            get { return _due; }
+            set
+            {
+                if (value.Equals(_due)) return;
+                _due = value;
+                NotifyOfPropertyChange(() => Due);
+            }
+        }
 
-        public double Pos { get; set; }
+        public int Votes
+        {
+            get { return _votes; }
+            set
+            {
+                if (value == _votes) return;
+                _votes = value;
+                NotifyOfPropertyChange(() => Votes);
+            }
+        }
 
-        public DateTime? Due { get; set; }
+        public int Comments
+        {
+            get { return _comments; }
+            set
+            {
+                if (value == _comments) return;
+                _comments = value;
+                NotifyOfPropertyChange(() => Comments);
+            }
+        }
 
-        public int Votes { get; set; }
+        public int CheckItems
+        {
+            get { return _checkItems; }
+            set
+            {
+                if (value == _checkItems) return;
+                _checkItems = value;
+                NotifyOfPropertyChange(() => CheckItems);
+            }
+        }
 
-        public int Comments { get; set; }
+        public int CheckItemsChecked
+        {
+            get { return _checkItemsChecked; }
+            set
+            {
+                if (value == _checkItemsChecked) return;
+                _checkItemsChecked = value;
+                NotifyOfPropertyChange(() => CheckItemsChecked);
+            }
+        }
 
-        public int CheckItems { get; set; }
+        public int Attachments
+        {
+            get { return _attachments; }
+            set
+            {
+                if (value == _attachments) return;
+                _attachments = value;
+                NotifyOfPropertyChange(() => Attachments);
+            }
+        }
 
-        public int CheckItemsChecked { get; set; }
+        public string CoverUri
+        {
+            get { return _coverUri; }
+            set
+            {
+                if (value == _coverUri) return;
+                _coverUri = value;
+                NotifyOfPropertyChange(() => CoverUri);
+            }
+        }
 
-        public int Attachments { get; set; }
+        public int CoverHeight
+        {
+            get { return _coverHeight; }
+            set
+            {
+                if (value == _coverHeight) return;
+                _coverHeight = value;
+                NotifyOfPropertyChange(() => CoverHeight);
+            }
+        }
 
-        public string CoverUri { get; set; }
-
-        public int CoverHeight { get; set; }
-
-        public int CoverWidth { get; set; }
+        public int CoverWidth
+        {
+            get { return _coverWidth; }
+            set
+            {
+                if (value == _coverWidth) return;
+                _coverWidth = value;
+                NotifyOfPropertyChange(() => CoverWidth);
+            }
+        }
 
         public IObservableCollection<MemberViewModel> Members { get; set; }
 
@@ -116,7 +246,7 @@ namespace trello.ViewModels
 
         public CardViewModel DisableInteractions()
         {
-            var view = (FrameworkElement)GetView();
+            var view = (FrameworkElement) GetView();
             _interactionManager.RemoveElement(view);
             return this;
         }
@@ -134,8 +264,8 @@ namespace trello.ViewModels
         public void Open()
         {
             _navigationService.UriFor<CardDetailPivotViewModel>()
-                .WithParam(x => x.Id, Id)
-                .Navigate();
+                              .WithParam(x => x.Id, Id)
+                              .Navigate();
         }
     }
 }

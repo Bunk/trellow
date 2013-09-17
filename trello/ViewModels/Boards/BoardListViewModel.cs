@@ -13,6 +13,7 @@ using trello.Interactions;
 using trello.Services.Messages;
 using trello.Views.Boards;
 using trellow.api;
+using trellow.api.Cards;
 using trellow.api.Lists;
 
 namespace trello.ViewModels.Boards
@@ -24,7 +25,11 @@ namespace trello.ViewModels.Boards
                                       IHandle<CardDeleted>,
                                       IHandle<CardMovedToList>,
                                       IHandle<CardMovedToBoard>,
-                                      IHandle<CardNameChanged>
+                                      IHandle<CardNameChanged>,
+                                      IHandle<CardDescriptionChanged>,
+                                      IHandle<CardDueDateChanged>,
+                                      IHandle<CardCommented>,
+                                      IHandle<CardDetailChecklistViewModel.AggregationsUpdated>
     {
         private readonly ITrello _api;
         private readonly INavigationService _navigation;
@@ -142,24 +147,32 @@ namespace trello.ViewModels.Boards
                                                                              NextId));
         }
 
+        private CardViewModel CreateCardViewModel(Card card)
+        {
+            var vm = _cardFactory()
+                .InitializeWith(card)
+                .EnableInteractions(_interactionManager);
+
+//            vm.ConductWith(this);
+//
+//            if (IsActive)
+//                ((IActivate)vm).Activate();
+
+            return vm;
+        }
+
+        private May<CardViewModel> FindCardViewModel(string id)
+        {
+            return Cards.Where(c => c.Id == id).MayFirst();
+        }
+
         private async void RefreshLists()
         {
             var cards = await _api.Cards.ForList(new ListId(Id));
-            var vms = cards.Select(card =>
-            {
-                var vm = _cardFactory()
-                    .InitializeWith(card)
-                    .EnableInteractions(_interactionManager);
-                return vm;
-            });
+            var vms = cards.Select(CreateCardViewModel);
 
             Cards.Clear();
             Cards.AddRange(vms);
-        }
-
-        private May<CardViewModel> FindCard(string id)
-        {
-            return Cards.Where(c => c.Id == id).MayFirst();
         }
 
         public BoardListViewModel InitializeWith(IEnumerable<List> allLists, List list)
@@ -196,10 +209,10 @@ namespace trello.ViewModels.Boards
 
         public void Handle(CardCreated message)
         {
-            // todo: Make this idempotent
-            var vm = _cardFactory()
-                .InitializeWith(message.Card)
-                .EnableInteractions(_interactionManager);
+            if (message.Card.IdBoard != BoardId || message.Card.IdList != Id)
+                return;
+
+            var vm = CreateCardViewModel(message.Card);
             Cards.Add(vm);
 
             _navigation.UriFor<CardDetailPivotViewModel>()
@@ -209,8 +222,8 @@ namespace trello.ViewModels.Boards
 
         public void Handle(CardDeleted message)
         {
-            var card = FindCard(message.CardId);
-            card.IfHasValueThenDo(c => Cards.Remove(c));
+            FindCardViewModel(message.CardId)
+                .IfHasValueThenDo(c => Cards.Remove(c));
         }
 
         public void Handle(CardMovedToList message)
@@ -241,7 +254,7 @@ namespace trello.ViewModels.Boards
 
         public void Handle(CardMovedToBoard message)
         {
-            FindCard(message.CardId)
+            FindCardViewModel(message.CardId)
                 .IfHasValueThenDo(card => Cards.Remove(card))
                 .ElseDo(async () =>
                 {
@@ -251,17 +264,43 @@ namespace trello.ViewModels.Boards
                     // we want to add a new card here
                     // todo: Could possibly make the card initialize itself
                     var card = await _api.Cards.WithId(message.CardId);
-                    var vm = _cardFactory()
-                        .InitializeWith(card)
-                        .EnableInteractions(_interactionManager);
-
+                    var vm = CreateCardViewModel(card);
                     Cards.Add(vm);
                 });
         }
 
         public void Handle(CardNameChanged message)
         {
-            FindCard(message.CardId).IfHasValueThenDo(c => c.Name = message.Name);
+            FindCardViewModel(message.CardId)
+                .IfHasValueThenDo(card => card.Name = message.Name);
+        }
+
+        public void Handle(CardDescriptionChanged message)
+        {
+            FindCardViewModel(message.CardId)
+                .IfHasValueThenDo(card => card.Desc = message.Description);
+        }
+
+        public void Handle(CardDueDateChanged message)
+        {
+            FindCardViewModel(message.CardId)
+                .IfHasValueThenDo(card => card.Due = message.DueDate);
+        }
+
+        public void Handle(CardCommented message)
+        {
+            FindCardViewModel(message.CardId)
+                .IfHasValueThenDo(card => card.Comments++);
+        }
+
+        public void Handle(CardDetailChecklistViewModel.AggregationsUpdated message)
+        {
+            FindCardViewModel(message.CardId)
+                .IfHasValueThenDo(card =>
+                {
+                    card.CheckItems = message.CheckItemsCount;
+                    card.CheckItemsChecked = message.CheckItemsCheckedCount;
+                });
         }
     }
 }
