@@ -16,6 +16,7 @@ using trello.Views.Boards;
 using trellow.api;
 using trellow.api.Cards;
 using trellow.api.Lists;
+using trellow.api.Members;
 
 namespace trello.ViewModels.Boards
 {
@@ -32,6 +33,8 @@ namespace trello.ViewModels.Boards
                                       IHandle<CardCommented>,
                                       IHandle<CardLabelAdded>,
                                       IHandle<CardLabelRemoved>,
+                                      IHandle<CardMemberAdded>,
+                                      IHandle<CardMemberRemoved>,
                                       IHandle<CardDetailChecklistViewModel.AggregationsUpdated>
     {
         private readonly ITrello _api;
@@ -156,11 +159,6 @@ namespace trello.ViewModels.Boards
                 .InitializeWith(card)
                 .EnableInteractions(_interactionManager);
 
-//            vm.ConductWith(this);
-//
-//            if (IsActive)
-//                ((IActivate)vm).Activate();
-
             return vm;
         }
 
@@ -231,28 +229,26 @@ namespace trello.ViewModels.Boards
 
         public void Handle(CardMovedToList message)
         {
-            if (message.DestinationListId == Id)
-            {
-                // this list has a new card assigned to it from a
-                // previous list
-                var vm = _cardFactory()
-                    .InitializeWith(message.Card)
-                    .EnableInteractions(_interactionManager);
+            FindCardViewModel(message.Card.Id)
+                .IfHasValueThenDo(card =>
+                {
+                    card.DisableInteractions();
 
-                Cards.Insert(0, vm);
-                Cards.Refresh();
-            }
-            else if (message.SourceListId == Id)
-            {
-                // this list has lost a card assigned to another
-                // list
-                var vm = Cards
-                    .Single(c => c.Id == message.Card.Id)
-                    .DisableInteractions();
+                    Cards.Remove(card);
+                    Cards.Refresh();
+                })
+                .ElseDo(() =>
+                {
+                    if (message.DestinationListId != Id)
+                        return; // Not moving to this list
 
-                //Cards.Remove(vm);
-                //Cards.Refresh();
-            }
+                    var vm = _cardFactory()
+                        .InitializeWith(message.Card)
+                        .EnableInteractions(_interactionManager);
+
+                    Cards.Insert(0, vm);
+                    Cards.Refresh();
+                });
         }
 
         public void Handle(CardMovedToBoard message)
@@ -320,6 +316,30 @@ namespace trello.ViewModels.Boards
                     var removing = card.Labels.Where(lbl => lbl.Color == message.Color.ToString());
                     card.Labels.RemoveRange(removing.ToArray());
                 });
+        }
+
+        public void Handle(CardMemberAdded message)
+        {
+            FindCardViewModel(message.CardId)
+                .IfHasValueThenDo(card =>
+                {
+                    var member = new Member
+                    {
+                        Id = message.MemberId,
+                        AvatarHash = message.AvatarHash,
+                        FullName = message.FullName,
+                        Username = message.Username
+                    };
+                    card.Members.Add(new MemberViewModel(member));
+                });
+        }
+
+        public void Handle(CardMemberRemoved message)
+        {
+            (from card in FindCardViewModel(message.CardId)
+             from member in card.FindMember(message.MemberId)
+             select new {Card = card, Member = member})
+                .IfHasValueThenDo(tuple => tuple.Card.Members.Remove(tuple.Member));
         }
     }
 }

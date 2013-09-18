@@ -118,7 +118,15 @@ namespace trello.ViewModels.Cards
                 _otherMembers.Remove(model);
                 _members.Add(model);
 
-                _eventAggregator.Publish(new CardMemberAdded {CardId = Id, MemberId = model.Id});
+                var evt = new CardMemberAdded
+                {
+                    CardId = Id,
+                    MemberId = model.Id,
+                    AvatarHash = model.AvatarHash,
+                    FullName = model.FullName,
+                    Username = model.Username
+                };
+                _eventAggregator.Publish(evt);
             }
             else
             {
@@ -126,7 +134,12 @@ namespace trello.ViewModels.Cards
                 _members.Remove(model);
                 _otherMembers.Insert(0, model);
 
-                _eventAggregator.Publish(new CardMemberRemoved {CardId = Id, MemberId = model.Id});
+                var evt = new CardMemberRemoved
+                {
+                    CardId = Id,
+                    MemberId = model.Id
+                };
+                _eventAggregator.Publish(evt);
             }
             _eventAggregator.Publish(new MemberAggregationsUpdated {AssignedMemberCount = _members.Count});
         }
@@ -148,6 +161,8 @@ namespace trello.ViewModels.Cards
 
             public string Username { get; set; }
 
+            public string AvatarHash { get; set; }
+
             public string AvatarUrl { get; set; }
 
             public bool Attached
@@ -167,6 +182,7 @@ namespace trello.ViewModels.Cards
                 FullName = member.FullName;
                 Username = member.Username;
                 Attached = attached;
+                AvatarHash = member.AvatarHash;
                 AvatarUrl = member.AvatarHash.ToAvatarUrl(AvatarSize.Portrait);
             }
 

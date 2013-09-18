@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
+using Strilanc.Value;
 using trello.Interactions;
 using trellow.api.Cards;
 
@@ -249,6 +250,16 @@ namespace trello.ViewModels.Cards
             var view = (FrameworkElement) GetView();
             _interactionManager.RemoveElement(view);
             return this;
+        }
+
+        public May<MemberViewModel> FindMember(string id)
+        {
+            return Members.Where(mem => mem.Id == id).MayFirst();
+        }
+
+        public May<LabelViewModel> FindLabel(string color)
+        {
+            return Labels.Where(lbl => lbl.Color == color).MayFirst();
         }
 
         protected override void OnViewLoaded(object view)
