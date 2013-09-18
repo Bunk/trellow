@@ -30,6 +30,8 @@ namespace trello.ViewModels.Boards
                                       IHandle<CardDescriptionChanged>,
                                       IHandle<CardDueDateChanged>,
                                       IHandle<CardCommented>,
+                                      IHandle<CardLabelAdded>,
+                                      IHandle<CardLabelRemoved>,
                                       IHandle<CardDetailChecklistViewModel.AggregationsUpdated>
     {
         private readonly ITrello _api;
@@ -301,6 +303,22 @@ namespace trello.ViewModels.Boards
                 {
                     card.CheckItems = message.CheckItemsCount;
                     card.CheckItemsChecked = message.CheckItemsCheckedCount;
+                });
+        }
+
+        public void Handle(CardLabelAdded message)
+        {
+            FindCardViewModel(message.CardId)
+                .IfHasValueThenDo(card => card.Labels.Add(new LabelViewModel(message.Color.ToString(), message.Name)));
+        }
+
+        public void Handle(CardLabelRemoved message)
+        {
+            FindCardViewModel(message.CardId)
+                .IfHasValueThenDo(card =>
+                {
+                    var removing = card.Labels.Where(lbl => lbl.Color == message.Color.ToString());
+                    card.Labels.RemoveRange(removing.ToArray());
                 });
         }
     }
