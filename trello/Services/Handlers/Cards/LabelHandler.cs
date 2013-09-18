@@ -1,5 +1,4 @@
-﻿using BugSense;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using trello.Services.Messages;
 using trellow.api;
 using trellow.api.Cards;
@@ -17,13 +16,13 @@ namespace trello.Services.Handlers.Cards
 
         public void Handle(CardLabelAdded message)
         {
-            BugSenseHandler.Instance.SendEvent("Add label to card");
+            Analytics.TagEvent("Update_Card_Label_Add");
             Handle(api => api.Cards.AddLabel(new CardId(message.CardId), message.Color));
         }
 
         public void Handle(CardLabelRemoved message)
         {
-            BugSenseHandler.Instance.SendEvent("Remove label from card");
+            Analytics.TagEvent("Update_Card_Label_Remove");
             Handle(api => api.Cards.RemoveLabel(new CardId(message.CardId), message.Color));
         }
     }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,12 +9,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Caliburn.Micro;
 using trello.Extensions;
-using trello.Services.Handlers;
 using trello.Services.Messages;
-using trello.ViewModels;
 using trello.ViewModels.Cards;
-using trello.Views;
 using trello.Views.Cards;
+using Strilanc.Value;
 
 namespace trello.Interactions
 {
@@ -65,23 +64,35 @@ namespace trello.Interactions
 
         public override void AddElement(FrameworkElement element)
         {
-            element.Hold += HoldStarted;
-            element.ManipulationDelta += HoldDelta;
-            element.ManipulationCompleted += HoldCompleted;
+            if (element == null)
+                return;
 
-            var vm = (CardViewModel) element.DataContext;
-            var item = PointIndex.Value.Create(vm.Id, element, _itemsControl);
-            _pointIndex.Add(item);
+            element.DataContext.MayCast<CardViewModel>()
+                   .IfHasValueThenDo(vm =>
+                   {
+                       element.Hold += HoldStarted;
+                       element.ManipulationDelta += HoldDelta;
+                       element.ManipulationCompleted += HoldCompleted;
+
+                       var item = PointIndex.Value.Create(vm.Id, element, _itemsControl);
+                       _pointIndex.Add(item);
+                   });
         }
 
         public override void RemoveElement(FrameworkElement element)
         {
-            element.Hold -= HoldStarted;
-            element.ManipulationDelta -= HoldDelta;
-            element.ManipulationCompleted -= HoldCompleted;
+            if (element == null)
+                return;
 
-            var vm = (CardViewModel)element.DataContext;
-            _pointIndex.Remove(vm.Id);
+            element.DataContext.MayCast<CardViewModel>()
+                   .IfHasValueThenDo(vm =>
+                   {
+                       element.Hold -= HoldStarted;
+                       element.ManipulationDelta -= HoldDelta;
+                       element.ManipulationCompleted -= HoldCompleted;
+
+                       _pointIndex.Remove(vm.Id);
+                   });
         }
 
         private void HoldStarted(object sender, GestureEventArgs e)

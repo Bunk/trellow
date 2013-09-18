@@ -1,4 +1,4 @@
-﻿using BugSense;
+﻿using System.Collections.Generic;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using trello.Services.Messages;
@@ -24,13 +24,13 @@ namespace trello.Services.Handlers.Cards
 
         public void Handle(CardArchived message)
         {
-            BugSenseHandler.Instance.SendEvent("Archive card");
+            Analytics.TagEvent("Archive_Card");
             Handle(api => api.Cards.Archive(new CardId(message.CardId)));
         }
 
         public void Handle(CardDeleted message)
         {
-            BugSenseHandler.Instance.SendEvent("Delete card");
+            Analytics.TagEvent("Deleted_Card");
             Handle(api => api.Cards.Delete(new CardId(message.CardId)));
         }
 
@@ -52,13 +52,19 @@ namespace trello.Services.Handlers.Cards
 
         public void Handle(CardMovedToList message)
         {
-            BugSenseHandler.Instance.SendEvent("Move card to list");
+            Analytics.TagEvent("Move_Card", new Dictionary<string, string>
+            {
+                { "Method", "Drag_and_Drop" }
+            });
             Handle(api => api.Cards.Move(new CardId(message.Card.Id), new ListId(message.DestinationListId)));
         }
 
         public void Handle(CardMovedToBoard message)
         {
-            BugSenseHandler.Instance.SendEvent("Move card to board");
+            Analytics.TagEvent("Move_Card", new Dictionary<string, string>
+            {
+                { "Method", "Action_Link" }
+            });
             Handle(api => api.Cards.Move(new CardId(message.CardId),
                                          new BoardId(message.BoardId),
                                          new ListId(message.ListId)));

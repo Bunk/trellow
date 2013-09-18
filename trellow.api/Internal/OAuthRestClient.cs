@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Net;
 using System.Threading.Tasks;
 using RestSharp;
@@ -137,7 +138,14 @@ namespace trellow.api.Internal
 
         private void ThrowIfRequestWasUnsuccessful(IRestRequest request, IRestResponse response)
         {
+            if (request == null)
+                throw new TrelloException("The request was malformed", HttpStatusCode.BadRequest);
+
             Debug.WriteLine(BuildUri(request));
+
+            if (response == null)
+                throw new TrelloException("The response was malformed or was not received", HttpStatusCode.ExpectationFailed);
+
             Debug.WriteLine(response.Content);
 
             // If PUT, POST or DELETE and not found, we'll throw, but for GET it's fine.

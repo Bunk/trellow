@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows;
-using BugSense;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Strilanc.Value;
@@ -111,11 +110,7 @@ namespace trello.ViewModels.Cards
             }
             catch (Exception ex)
             {
-                BugSenseHandler.Instance.LogException(ex, new Dictionary<string, string>
-                {
-                    {"cardId", CardId},
-                    {"boardId", _originalBoardId}
-                });
+                Analytics.LogException(ex);
                 MessageBox.Show("Your boards were unable to be loaded.  Please " +
                                 "ensure that you have an active internet connection.");
             }
@@ -140,11 +135,7 @@ namespace trello.ViewModels.Cards
             }
             catch (Exception ex)
             {
-                BugSenseHandler.Instance.LogException(ex, new Dictionary<string, string>
-                {
-                    {"cardId", CardId},
-                    {"boardId", board.Id}
-                });
+                Analytics.LogException(ex);
                 MessageBox.Show("The lists for that board were unable to be loaded.  Please " +
                                 "ensure that you have an active internet connection.");
             }

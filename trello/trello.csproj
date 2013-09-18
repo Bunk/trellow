@@ -123,6 +123,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Analytics.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -133,10 +134,12 @@
     <Compile Include="Caliburn.Micro\PhoneToolkitConventions.cs" />
     <Compile Include="Caliburn.Micro\TelerikConventions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\FrameworkElementExtensions.cs" />
     <Compile Include="Extensions\IntExtensions.cs" />
     <Compile Include="Extensions\ItemsControlExtensions.cs" />
     <Compile Include="Extensions\LinqToVisualTree.cs" />
+    <Compile Include="Extensions\MayExtensions.cs" />
     <Compile Include="Extensions\SimpleContainerExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UIElementExtensions.cs" />
@@ -549,9 +552,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="BugSense-WP8">
-      <HintPath>..\packages\BugSense.WP8.3.4\lib\wp80\BugSense-WP8.dll</HintPath>
-    </Reference>
     <Reference Include="Caliburn.Micro, Version=1.5.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\wp8\Caliburn.Micro.dll</HintPath>

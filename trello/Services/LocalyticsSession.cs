@@ -1,138 +1,141 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Ink;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.IO.IsolatedStorage;
+using System.Net;
 using System.Text;
+using System.Threading;
+using System.Windows;
+using System.Windows.Resources;
+using Microsoft.Phone.Info;
 
 public class LocalyticsSession
 {
     #region library constants
-    private const int maxStoredSessions = 10;
-    private const int maxNameLength = 100;
-    private const string libraryVersion = "windowsphone_2.2";
-    private const string directoryName = "localytics";
-    private const string sessionFilePrefix = "s_";
-    private const string uploadFilePrefix = "u_";
-    private const string metaFileName = "m_meta";
 
-    private const string serviceURLBase = "http://analytics.localytics.com/api/v2/applications/";
+    private const int MaxStoredSessions = 10;
+    private const int MaxNameLength = 100;
+    private const string LibraryVersion = "windowsphone_2.2";
+    private const string DirectoryName = "localytics";
+    private const string SessionFilePrefix = "s_";
+    private const string UploadFilePrefix = "u_";
+    private const string MetaFileName = "m_meta";
+
+    private const string ServiceUrlBase = "http://analytics.localytics.com/api/v2/applications/";
+
     #endregion
 
     #region private members
-    private string appKey;
-    private string sessionUuid;
-    private string sessionFilename;
-    private bool isSessionOpen = false;
-    private bool isSessionClosed = false;
-    private double sessionStartTime = 0;
+
+    private readonly string _appKey;
+    private bool _isSessionClosed;
+    private bool _isSessionOpen;
+    private string _sessionFilename;
+    private double _sessionStartTime;
+    private string _sessionUuid;
+
     #endregion
 
     #region static members
-    private static bool isUploading = false;
-    private static IsolatedStorageFile localStorage = null;
+
+    private static bool _isUploading;
+    private static IsolatedStorageFile _localStorage;
+
     #endregion
 
     #region private methods
 
     #region Storage
+
     /// <summary>
-    /// Caches the reference to the app's isolated storage
+    ///     Caches the reference to the app's isolated storage
     /// </summary>
-    private static IsolatedStorageFile getStore()
+    private static IsolatedStorageFile GetStore()
     {
-        if (localStorage == null)
+        if (_localStorage == null)
         {
-            localStorage = IsolatedStorageFile.GetUserStoreForApplication();
+            _localStorage = IsolatedStorageFile.GetUserStoreForApplication();
         }
 
-        return localStorage;
+        return _localStorage;
     }
 
     /// <summary>
-    /// Tallies up the number of files whose name starts w/ sessionFilePrefix in the localytics dir
+    ///     Tallies up the number of files whose name starts w/ sessionFilePrefix in the localytics dir
     /// </summary>
-    private static int getNumberOfStoredSessions()
+    private static int GetNumberOfStoredSessions()
     {
-        IsolatedStorageFile store = getStore();
-        if (store.DirectoryExists(LocalyticsSession.directoryName) == false)
+        IsolatedStorageFile store = GetStore();
+        if (store.DirectoryExists(DirectoryName) == false)
         {
             return 0;
         }
-        return store.GetFileNames(LocalyticsSession.directoryName + @"\" + LocalyticsSession.sessionFilePrefix + "*").Length;
+        return store.GetFileNames(DirectoryName + @"\" + SessionFilePrefix + "*").Length;
     }
 
     /// <summary>
-    /// Gets a stream pointing to the requested file.  If the file does not exist it is created. 
-    /// If the file does exist the stream points to the end of the file
+    ///     Gets a stream pointing to the requested file.  If the file does not exist it is created.
+    ///     If the file does exist the stream points to the end of the file
     /// </summary>
     /// <param name="filename">Name of the file (w/o directory) to create</param>
-    private static IsolatedStorageFileStream getStreamForFile(string filename)
+    private static IsolatedStorageFileStream GetStreamForFile(string filename)
     {
-        IsolatedStorageFile store = getStore();
-        store.CreateDirectory(LocalyticsSession.directoryName); // does nothing if dir exists
-        return new IsolatedStorageFileStream(LocalyticsSession.directoryName + @"\" + filename, FileMode.Append, store);
+        IsolatedStorageFile store = GetStore();
+        store.CreateDirectory(DirectoryName); // does nothing if dir exists
+        return new IsolatedStorageFileStream(DirectoryName + @"\" + filename, FileMode.Append, store);
     }
 
     /// <summary>
-    /// Appends a string to the end of a text file
+    ///     Appends a string to the end of a text file
     /// </summary>
     /// <param name="text">Text to append</param>
     /// <param name="filename">Name of file to append to</param>
-    private static void appendTextToFile(string text, string filename)
+    private static void AppendTextToFile(string text, string filename)
     {
-        IsolatedStorageFileStream file = getStreamForFile(filename);
-        TextWriter writer = new StreamWriter(file);        
+        IsolatedStorageFileStream file = GetStreamForFile(filename);
+        TextWriter writer = new StreamWriter(file);
         writer.Write(text);
         writer.Close();
         file.Close();
     }
 
     /// <summary>
-    /// Reads a file and returns its contents as a string
+    ///     Reads a file and returns its contents as a string
     /// </summary>
     /// <param name="filename">file to read (w/o directory prefix)</param>
     /// <returns>the contents of the file</returns>
     private static string GetFileContents(string filename)
     {
-        IsolatedStorageFile store = getStore();
-        var file = store.OpenFile(LocalyticsSession.directoryName + @"\" + filename, FileMode.Open);
+        IsolatedStorageFile store = GetStore();
+        IsolatedStorageFileStream file = store.OpenFile(DirectoryName + @"\" + filename, FileMode.Open);
         TextReader reader = new StreamReader(file);
         string contents = reader.ReadToEnd();
         reader.Close();
         file.Close();
         return contents;
     }
+
     #endregion
 
     #region upload
 
     /// <summary>
-    /// Goes through all the upload files and collects their contents for upload
+    ///     Goes through all the upload files and collects their contents for upload
     /// </summary>
     /// <returns>A string containing the concatenated </returns>
     private static string GetUploadContents()
     {
-        StringBuilder contents = new StringBuilder();
-        IsolatedStorageFile store = getStore();
+        var contents = new StringBuilder();
+        IsolatedStorageFile store = GetStore();
 
-        if (store.DirectoryExists(LocalyticsSession.directoryName))
+        if (store.DirectoryExists(DirectoryName))
         {
-            string[] files = store.GetFileNames(LocalyticsSession.directoryName + @"\" + LocalyticsSession.uploadFilePrefix + "*");
+            string[] files = store.GetFileNames(DirectoryName + @"\" + UploadFilePrefix + "*");
             foreach (string file in files)
             {
-                if (file.StartsWith(LocalyticsSession.uploadFilePrefix)) // workaround for GetFileNames bug
+                if (file.StartsWith(UploadFilePrefix)) // workaround for GetFileNames bug
                 {
                     contents.Append(GetFileContents(file));
                 }
@@ -142,57 +145,57 @@ public class LocalyticsSession
     }
 
     /// <summary>
-    /// loops through all the files in the directory deleting the upload files
+    ///     loops through all the files in the directory deleting the upload files
     /// </summary>
     private static void DeleteUploadFiles()
     {
-        IsolatedStorageFile store = getStore();
-        if (store.DirectoryExists(LocalyticsSession.directoryName))
+        IsolatedStorageFile store = GetStore();
+        if (store.DirectoryExists(DirectoryName))
         {
-            string[] files = store.GetFileNames(LocalyticsSession.directoryName + @"\" + LocalyticsSession.uploadFilePrefix + "*");
+            string[] files = store.GetFileNames(DirectoryName + @"\" + UploadFilePrefix + "*");
             foreach (string file in files)
             {
-                if (file.StartsWith(LocalyticsSession.uploadFilePrefix)) // workaround for GetfileNames returning extra files
+                if (file.StartsWith(UploadFilePrefix)) // workaround for GetfileNames returning extra files
                 {
-                    store.DeleteFile(LocalyticsSession.directoryName + @"\" + file);
+                    store.DeleteFile(DirectoryName + @"\" + file);
                 }
             }
         }
     }
 
     /// <summary>
-    /// Rename any open session files. This way events recorded during uploaded get written safely to disk
-    /// and threading difficulties are missed.
+    ///     Rename any open session files. This way events recorded during uploaded get written safely to disk
+    ///     and threading difficulties are missed.
     /// </summary>
-    private void renameOrAppendSessionFiles()
+    private void RenameOrAppendSessionFiles()
     {
-        IsolatedStorageFile store = getStore();
-        if (store.DirectoryExists(LocalyticsSession.directoryName))
+        IsolatedStorageFile store = GetStore();
+        if (store.DirectoryExists(DirectoryName))
         {
-            string[] files = store.GetFileNames(LocalyticsSession.directoryName + @"\" + LocalyticsSession.sessionFilePrefix + "*");
-            string destinationFilename = LocalyticsSession.uploadFilePrefix + Guid.NewGuid().ToString();
+            string[] files = store.GetFileNames(DirectoryName + @"\" + SessionFilePrefix + "*");
+            string destinationFilename = UploadFilePrefix + Guid.NewGuid().ToString();
 
             bool addedHeader = false;
             foreach (string file in files)
             {
-                if (file.StartsWith(LocalyticsSession.sessionFilePrefix)) // work around for GetFileNames returning extra files
+                if (file.StartsWith(SessionFilePrefix)) // work around for GetFileNames returning extra files
                 {
                     // Any time sessions are appended, an upload header should be added. But only one is needed regardless of number of files added
                     if (!addedHeader)
                     {
-                        appendTextToFile(GetBlobHeader(), destinationFilename);
+                        AppendTextToFile(GetBlobHeader(), destinationFilename);
                         addedHeader = true;
                     }
 
-                    appendTextToFile(GetFileContents(file), destinationFilename);                    
-                    store.DeleteFile(LocalyticsSession.directoryName + @"\" + file);
+                    AppendTextToFile(GetFileContents(file), destinationFilename);
+                    store.DeleteFile(DirectoryName + @"\" + file);
                 }
             }
         }
     }
 
     /// <summary>
-    /// Runs on a seperate thread and is responsible for renaming and uploading files as appropriate
+    ///     Runs on a seperate thread and is responsible for renaming and uploading files as appropriate
     /// </summary>
     private void BeginUpload()
     {
@@ -200,15 +203,15 @@ public class LocalyticsSession
 
         try
         {
-            renameOrAppendSessionFiles();
+            RenameOrAppendSessionFiles();
 
             // begin the upload
-            string url = LocalyticsSession.serviceURLBase + this.appKey + "/uploads";
+            string url = ServiceUrlBase + _appKey + "/uploads";
             LogMessage("Uploading to: " + url);
-            HttpWebRequest myRequest = (HttpWebRequest)WebRequest.Create(url);
+            var myRequest = (HttpWebRequest) WebRequest.Create(url);
             myRequest.Method = "POST";
             myRequest.ContentType = "application/json";
-            myRequest.BeginGetRequestStream(new AsyncCallback(httpRequestCallback), myRequest);
+            myRequest.BeginGetRequestStream(HttpRequestCallback, myRequest);
         }
         catch (Exception e)
         {
@@ -216,19 +219,19 @@ public class LocalyticsSession
         }
     }
 
-    private static void httpRequestCallback(IAsyncResult asynchronousResult)
+    private static void HttpRequestCallback(IAsyncResult asynchronousResult)
     {
         try
         {
-            HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
+            var request = (HttpWebRequest) asynchronousResult.AsyncState;
             Stream postStream = request.EndGetRequestStream(asynchronousResult);
-            
+
             String contents = GetUploadContents();
             byte[] byteArray = Encoding.UTF8.GetBytes(contents);
             postStream.Write(byteArray, 0, byteArray.Length);
             postStream.Close();
 
-            request.BeginGetResponse(new AsyncCallback(GetResponseCallback), request);
+            request.BeginGetResponse(GetResponseCallback, request);
         }
         catch (Exception e)
         {
@@ -240,11 +243,11 @@ public class LocalyticsSession
     {
         try
         {
-            HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
-            HttpWebResponse response = (HttpWebResponse)request.EndGetResponse(asynchronousResult);
+            var request = (HttpWebRequest) asynchronousResult.AsyncState;
+            var response = (HttpWebResponse) request.EndGetResponse(asynchronousResult);
 
             Stream streamResponse = response.GetResponseStream();
-            StreamReader streamRead = new StreamReader(streamResponse);
+            var streamRead = new StreamReader(streamResponse);
             string responseString = streamRead.ReadToEnd();
 
             LogMessage("Upload complete. Response: " + responseString);
@@ -267,38 +270,42 @@ public class LocalyticsSession
         }
         finally
         {
-            LocalyticsSession.isUploading = false;
+            _isUploading = false;
         }
     }
+
     #endregion
 
     #region Data Looklups
+
+    private static string _version;
+
     /// <summary>
-    /// Retreives a unique identifier for this device.  According to Microsoft, this identifier is
-    /// unique across all carriers and devices
+    ///     Retreives a unique identifier for this device.  According to Microsoft, this identifier is
+    ///     unique across all carriers and devices
     /// </summary>
     private static string GetDeviceId()
     {
-        byte[] id = (byte[])Microsoft.Phone.Info.DeviceExtendedProperties.GetValue("DeviceUniqueId");
+        var id = (byte[]) DeviceExtendedProperties.GetValue("DeviceUniqueId");
         return Convert.ToBase64String(id);
     }
 
     /// <summary>
-    /// Gets the sequence number for the next upload blob. 
+    ///     Gets the sequence number for the next upload blob.
     /// </summary>
     /// <returns>Sequence number as a string</returns>
     private static string GetSequenceNumber()
     {
         // open the meta file and read the next sequence number.
-        IsolatedStorageFile store = getStore();
-        string metaFile = LocalyticsSession.directoryName + @"\" + LocalyticsSession.metaFileName;
+        IsolatedStorageFile store = GetStore();
+        string metaFile = DirectoryName + @"\" + MetaFileName;
         if (!store.FileExists(metaFile))
         {
             SetNextSequenceNumber("1");
             return "1";
         }
 
-        var file = store.OpenFile(LocalyticsSession.directoryName + @"\" + LocalyticsSession.metaFileName, FileMode.Open);
+        IsolatedStorageFileStream file = store.OpenFile(DirectoryName + @"\" + MetaFileName, FileMode.Open);
         TextReader reader = new StreamReader(file);
         string installID = reader.ReadLine();
         string sequenceNumber = reader.ReadLine();
@@ -308,28 +315,28 @@ public class LocalyticsSession
     }
 
     /// <summary>
-    /// Sets the next sequence number in the metadata file. Creates the file if its not already there
+    ///     Sets the next sequence number in the metadata file. Creates the file if its not already there
     /// </summary>
     /// <param name="number">Next sequence number</param>
     private static void SetNextSequenceNumber(string number)
     {
-        IsolatedStorageFile store = getStore();
-        string metaFile = LocalyticsSession.directoryName + @"\" + LocalyticsSession.metaFileName;
+        IsolatedStorageFile store = GetStore();
+        string metaFile = DirectoryName + @"\" + MetaFileName;
         if (!store.FileExists(metaFile))
         {
             // Create a new metadata file consisting of a unique installation ID and a sequence number
-            appendTextToFile(Guid.NewGuid().ToString() + Environment.NewLine + number, LocalyticsSession.metaFileName);
+            AppendTextToFile(Guid.NewGuid().ToString() + Environment.NewLine + number, MetaFileName);
         }
         else
         {
-            var fileIn = store.OpenFile(metaFile, FileMode.Open);
+            IsolatedStorageFileStream fileIn = store.OpenFile(metaFile, FileMode.Open);
             TextReader reader = new StreamReader(fileIn);
             string installId = reader.ReadLine();
             reader.Close();
             fileIn.Close();
 
             // overwite the file w/ the old install ID and the new sequence number
-            var fileOut = store.OpenFile(metaFile, FileMode.Truncate);
+            IsolatedStorageFileStream fileOut = store.OpenFile(metaFile, FileMode.Truncate);
             TextWriter writer = new StreamWriter(fileOut);
             writer.WriteLine(installId);
             writer.Write(number);
@@ -339,31 +346,32 @@ public class LocalyticsSession
     }
 
     /// <summary>
-    /// Gets the timestamp of the storage file containing the sequence numbers. This allows processing to
-    /// ignore duplicates or identify missing uploads
+    ///     Gets the timestamp of the storage file containing the sequence numbers. This allows processing to
+    ///     ignore duplicates or identify missing uploads
     /// </summary>
     /// <returns>A string containing a Unixtime</returns>
     private static string GetPersistStoreCreateTime()
     {
-        IsolatedStorageFile store = getStore();
-        string metaFile = LocalyticsSession.directoryName + @"\" + LocalyticsSession.metaFileName;
+        IsolatedStorageFile store = GetStore();
+        string metaFile = DirectoryName + @"\" + MetaFileName;
         if (!store.FileExists(metaFile))
         {
             SetNextSequenceNumber("1");
         }
 
         DateTimeOffset dto = store.GetCreationTime(metaFile);
-        int secondsSinceUnixEpoch = (int)Math.Round((dto.DateTime - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds);
+        var secondsSinceUnixEpoch =
+            (int) Math.Round((dto.DateTime - new DateTime(1970, 1, 1).ToLocalTime()).TotalSeconds);
         return secondsSinceUnixEpoch.ToString();
     }
 
     /// <summary>
-    /// Gets the Installation ID out of the metadata file
+    ///     Gets the Installation ID out of the metadata file
     /// </summary>
     private static string GetInstallId()
     {
-        IsolatedStorageFile store = getStore();
-        var file = store.OpenFile(LocalyticsSession.directoryName + @"\" + LocalyticsSession.metaFileName, FileMode.Open);
+        IsolatedStorageFile store = GetStore();
+        IsolatedStorageFileStream file = store.OpenFile(DirectoryName + @"\" + MetaFileName, FileMode.Open);
         TextReader reader = new StreamReader(file);
         string installID = reader.ReadLine();
         reader.Close();
@@ -372,9 +380,8 @@ public class LocalyticsSession
         return installID;
     }
 
-    private static string _version;
     /// <summary>
-    /// Retreives the Application Version from teh WMAppManifest.xml file
+    ///     Retreives the Application Version from teh WMAppManifest.xml file
     /// </summary>
     /// <returns>User generated app version</returns>
     public static string GetAppVersion()
@@ -383,7 +390,7 @@ public class LocalyticsSession
             return _version;
 
         var manifest = new Uri("WMAppManifest.xml", UriKind.Relative);
-        var si = Application.GetResourceStream(manifest);
+        StreamResourceInfo si = Application.GetResourceStream(manifest);
         if (si != null)
         {
             using (var sr = new StreamReader(si.Stream))
@@ -425,7 +432,7 @@ public class LocalyticsSession
     }
 
     /// <summary>
-    /// Gets the current date/time as a string which can be inserted in the DB
+    ///     Gets the current date/time as a string which can be inserted in the DB
     /// </summary>
     /// <returns>A formatted string with date, time, and timezone information</returns>
     private static string GetDatestring()
@@ -434,7 +441,7 @@ public class LocalyticsSession
 
         // reformat the time to: YYYY-MM-DDTHH:MM:SS
         // use a StringBuilder to avoid creating multiple 
-        StringBuilder datestring = new StringBuilder();
+        var datestring = new StringBuilder();
         datestring.Append(dt.Year);
         datestring.Append("-");
         datestring.Append(dt.Month.ToString("D2"));
@@ -451,22 +458,23 @@ public class LocalyticsSession
     }
 
     /// <summary>
-    /// Gets the current time in unixtime
+    ///     Gets the current time in unixtime
     /// </summary>
     /// <returns>The current time in unixtime</returns>
     private static double GetTimeInUnixTime()
     {
         return Math.Round(((DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0)).TotalSeconds), 0);
     }
+
     #endregion
 
     /// <summary>
-    /// Constructs a blob header for uploading
+    ///     Constructs a blob header for uploading
     /// </summary>
     /// <returns>A string containing a blob header</returns>
     private string GetBlobHeader()
     {
-        StringBuilder blobString = new StringBuilder();
+        var blobString = new StringBuilder();
 
         //{ "dt":"h",  // data type, h for header
         //  "pa": int, // persistent store created at
@@ -509,14 +517,14 @@ public class LocalyticsSession
         blobString.Append("\"u\":\"" + Guid.NewGuid().ToString() + "\",");
         blobString.Append("\"attrs\":");
         blobString.Append("{\"dt\":\"a\",");
-        blobString.Append("\"au\":\"" + this.appKey + "\",");
+        blobString.Append("\"au\":\"" + _appKey + "\",");
         blobString.Append("\"du\":\"" + GetDeviceId() + "\",");
-        blobString.Append("\"lv\":\"" + LocalyticsSession.libraryVersion + "\",");
+        blobString.Append("\"lv\":\"" + LibraryVersion + "\",");
         blobString.Append("\"av\":\"" + GetAppVersion() + "\",");
         blobString.Append("\"dp\":\"Windows Phone\",");
         blobString.Append("\"dll\":\"" + CultureInfo.CurrentCulture.TwoLetterISOLanguageName + "\",");
-        blobString.Append("\"dma\":\"" + Microsoft.Phone.Info.DeviceStatus.DeviceManufacturer + "\",");
-        blobString.Append("\"dmo\":\"" + Microsoft.Phone.Info.DeviceStatus.DeviceName + "\",");
+        blobString.Append("\"dma\":\"" + DeviceStatus.DeviceManufacturer + "\",");
+        blobString.Append("\"dmo\":\"" + DeviceStatus.DeviceName + "\",");
         blobString.Append("\"dov\":\"" + Environment.OSVersion.Version.Build.ToString() + "\",");
         blobString.Append("\"iu\":\"" + GetInstallId() + "\"");
 
@@ -527,8 +535,8 @@ public class LocalyticsSession
     }
 
     /// <summary>
-    /// Formats an input string for YAML
-    /// </summary>       
+    ///     Formats an input string for YAML
+    /// </summary>
     /// <returns>string sorrounded in quotes, with dangerous characters escaped</returns>
     private static string EscapeString(string input)
     {
@@ -537,32 +545,34 @@ public class LocalyticsSession
     }
 
     /// <summary>
-    /// Outputs a message to the debug console
+    ///     Outputs a message to the debug console
     /// </summary>
     private static void LogMessage(string msg)
     {
         Debug.WriteLine("(localytics) " + msg);
     }
+
     #endregion
 
     #region public methods
+
     /// <summary>
-    /// Creates a Localytics Session object
+    ///     Creates a Localytics Session object
     /// </summary>
     /// <param name="appKey"> The key unique for each application generated at www.localytics.com</param>
     public LocalyticsSession(string appKey)
     {
-        this.appKey = appKey;
+        this._appKey = appKey;
 
         // Store the time and sequence number 
     }
 
     /// <summary>
-    /// Opens or resumes the Localytics session.
+    ///     Opens or resumes the Localytics session.
     /// </summary>
-    public void open()
+    public void Open()
     {
-        if (this.isSessionOpen || this.isSessionClosed)
+        if (_isSessionOpen || _isSessionClosed)
         {
             LogMessage("Session is already opened or closed.");
             return;
@@ -570,15 +580,15 @@ public class LocalyticsSession
 
         try
         {
-            if (getNumberOfStoredSessions() > LocalyticsSession.maxStoredSessions)
+            if (GetNumberOfStoredSessions() > MaxStoredSessions)
             {
                 LogMessage("Local stored session count exceeded.");
                 return;
             }
 
-            this.sessionUuid = Guid.NewGuid().ToString();
-            this.sessionFilename = LocalyticsSession.sessionFilePrefix + this.sessionUuid;
-            this.sessionStartTime = GetTimeInUnixTime();
+            _sessionUuid = Guid.NewGuid().ToString();
+            _sessionFilename = SessionFilePrefix + _sessionUuid;
+            _sessionStartTime = GetTimeInUnixTime();
 
             // Format of an open session:
             //{ "dt":"s",       // This is a session blob
@@ -594,16 +604,16 @@ public class LocalyticsSession
             //  "c2" : string,
             //  "c3" : string }
 
-            StringBuilder openstring = new StringBuilder();
+            var openstring = new StringBuilder();
             openstring.Append("{\"dt\":\"s\",");
             openstring.Append("\"ct\":" + GetTimeInUnixTime().ToString() + ",");
-            openstring.Append("\"u\":\"" + this.sessionUuid + "\"");
+            openstring.Append("\"u\":\"" + _sessionUuid + "\"");
             openstring.Append("}");
             openstring.Append(Environment.NewLine);
 
-            appendTextToFile(openstring.ToString(), this.sessionFilename);
+            AppendTextToFile(openstring.ToString(), _sessionFilename);
 
-            this.isSessionOpen = true;
+            _isSessionOpen = true;
             LogMessage("Session opened.");
         }
         catch (Exception e)
@@ -613,11 +623,11 @@ public class LocalyticsSession
     }
 
     /// <summary>
-    /// Closes the Localytics session.
+    ///     Closes the Localytics session.
     /// </summary>
-    public void close()
+    public void Close()
     {
-        if (this.isSessionOpen == false || this.isSessionClosed == true)
+        if (_isSessionOpen == false || _isSessionClosed)
         {
             LogMessage("Session not closed b/c it is either not open or already closed.");
             return;
@@ -640,18 +650,18 @@ public class LocalyticsSession
             //  "c2" : string,
             //  "c3" : string }
 
-            StringBuilder closeString = new StringBuilder();
+            var closeString = new StringBuilder();
             closeString.Append("{\"dt\":\"c\",");
             closeString.Append("\"u\":\"" + Guid.NewGuid().ToString() + "\",");
-            closeString.Append("\"ss\":" + this.sessionStartTime.ToString() + ",");
-            closeString.Append("\"su\":\"" + this.sessionUuid + "\",");
+            closeString.Append("\"ss\":" + _sessionStartTime.ToString() + ",");
+            closeString.Append("\"su\":\"" + _sessionUuid + "\",");
             closeString.Append("\"ct\":" + GetTimeInUnixTime().ToString());
             closeString.Append("}");
             closeString.Append(Environment.NewLine);
-            appendTextToFile(closeString.ToString(), this.sessionFilename); // the close blob
+            AppendTextToFile(closeString.ToString(), _sessionFilename); // the close blob
 
-            this.isSessionOpen = false;
-            this.isSessionClosed = true;
+            _isSessionOpen = false;
+            _isSessionClosed = true;
             LogMessage("Session closed.");
         }
         catch (Exception e)
@@ -661,23 +671,23 @@ public class LocalyticsSession
     }
 
     /// <summary>
-    /// Creates a new thread which collects any files and uploads them. Returns immediately if an upload
-    /// is already happenning.
+    ///     Creates a new thread which collects any files and uploads them. Returns immediately if an upload
+    ///     is already happenning.
     /// </summary>
-    public void upload()
+    public void Upload()
     {
-        if (isUploading)
+        if (_isUploading)
         {
             return;
         }
 
-        isUploading = true;
+        _isUploading = true;
 
         try
         {
             // Do all the upload work on a seperate thread.
-            System.Threading.ThreadStart uploadJob = new System.Threading.ThreadStart(BeginUpload);
-            System.Threading.Thread uploadThread = new System.Threading.Thread(uploadJob);
+            ThreadStart uploadJob = BeginUpload;
+            var uploadThread = new Thread(uploadJob);
             uploadThread.Start();
         }
         catch (Exception e)
@@ -687,15 +697,15 @@ public class LocalyticsSession
     }
 
     /// <summary>
-    /// Records a specific event as having occured and optionally records some attributes associated with this event.
-    /// This should not be called inside a loop. It should not be used to record personally identifiable information
-    /// and it is best to define all your event names rather than generate them programatically.
+    ///     Records a specific event as having occured and optionally records some attributes associated with this event.
+    ///     This should not be called inside a loop. It should not be used to record personally identifiable information
+    ///     and it is best to define all your event names rather than generate them programatically.
     /// </summary>
     /// <param name="eventName">The name of the event which occured. E.G. 'button pressed'</param>
     /// <param name="attributes">Key value pairs that record data relevant to the event.</param>
-    public void tagEvent(string eventName, Dictionary<string, string> attributes = null)
+    public void TagEvent(string eventName, Dictionary<string, string> attributes = null)
     {
-        if (this.isSessionOpen == false)
+        if (_isSessionOpen == false)
         {
             LogMessage("Event not tagged because session is not open.");
             return;
@@ -719,11 +729,11 @@ public class LocalyticsSession
 
         try
         {
-            StringBuilder eventString = new StringBuilder();
+            var eventString = new StringBuilder();
             eventString.Append("{\"dt\":\"e\",");
             eventString.Append("\"ct\":" + GetTimeInUnixTime().ToString() + ",");
             eventString.Append("\"u\":\"" + Guid.NewGuid().ToString() + "\",");
-            eventString.Append("\"su\":\"" + this.sessionUuid + "\",");
+            eventString.Append("\"su\":\"" + _sessionUuid + "\",");
             eventString.Append("\"n\":" + EscapeString(eventName));
 
             if (attributes != null)
@@ -732,7 +742,10 @@ public class LocalyticsSession
                 bool first = true;
                 foreach (string key in attributes.Keys)
                 {
-                    if (!first) { eventString.Append(","); }
+                    if (!first)
+                    {
+                        eventString.Append(",");
+                    }
                     eventString.Append(EscapeString(key) + ":" + EscapeString(attributes[key]));
                     first = false;
                 }
@@ -741,7 +754,7 @@ public class LocalyticsSession
             eventString.Append("}");
             eventString.Append(Environment.NewLine);
 
-            appendTextToFile(eventString.ToString(), this.sessionFilename); // the close blob
+            AppendTextToFile(eventString.ToString(), _sessionFilename); // the close blob
             LogMessage("Tagged event: " + EscapeString(eventName));
         }
         catch (Exception e)
@@ -749,5 +762,6 @@ public class LocalyticsSession
             LogMessage("Swallowing exception: " + e.Message);
         }
     }
+
     #endregion
 }
