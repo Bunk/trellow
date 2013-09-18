@@ -254,7 +254,13 @@ namespace trello.ViewModels.Boards
         public void Handle(CardMovedToBoard message)
         {
             FindCardViewModel(message.CardId)
-                .IfHasValueThenDo(card => Cards.Remove(card))
+                .IfHasValueThenDo(card =>
+                {
+                    if (message.ListId == Id && message.BoardId == BoardId)
+                        return;
+
+                    Cards.Remove(card);
+                })
                 .ElseDo(async () =>
                 {
                     if (message.ListId != Id || message.BoardId != BoardId)
