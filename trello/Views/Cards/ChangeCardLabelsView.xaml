@@ -48,8 +48,6 @@
 				</ItemsPanelTemplate>
 			</ItemsControl.ItemsPanel>
 		</ItemsControl>
-        
-        <Button x:Name="TryClose" Content="done" BorderBrush="{StaticResource PhoneAccentBrush}" />
 
     </StackPanel>
 </UserControl>

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
-using Microsoft.Phone.Shell;
 using trello.Assets;
 using trello.Extensions;
 using trello.Services;
@@ -18,8 +17,7 @@ using Action = System.Action;
 namespace trello.ViewModels.Cards
 {
     [UsedImplicitly]
-    public sealed class CardDetailOverviewViewModel : PivotItemViewModel,
-                                                      IConfigureTheAppBar,
+    public sealed class CardDetailOverviewViewModel : PivotItemViewModel<CardDetailOverviewViewModel>,
                                                       IHandle<CardDescriptionChanged>,
                                                       IHandle<CardDueDateChanged>,
                                                       IHandle<CardLabelAdded>,
@@ -322,16 +320,21 @@ namespace trello.ViewModels.Cards
             Comments.AddRange(vms);
         }
 
-        public ApplicationBar Configure(ApplicationBar existing)
+        protected override void OnActivate()
         {
-            existing.AddButton("archive card", new AssetUri("Icons/dark/appbar.delete.rest.png"), ArchiveCard);
+            ApplicationBar.UpdateWith(builder =>
+            {
+                builder.Setup(bar =>
+                {
+                    bar.AddButton("archive card", new AssetUri("Icons/dark/appbar.delete.rest.png"), ArchiveCard);
 
-            existing.AddMenuItem("set due", ChangeDueDate);
-            existing.AddMenuItem("change labels", ChangeLabels);
-            existing.AddMenuItem("move card", MoveToBoard);
-            existing.AddMenuItem("delete card", DeleteCard);
-
-            return existing;
+                    bar.AddMenuItem("set due", ChangeDueDate);
+                    bar.AddMenuItem("change labels", ChangeLabels);
+                    bar.AddMenuItem("move card", MoveToBoard);
+                    bar.AddMenuItem("delete card", DeleteCard);
+                });
+                builder.Defaults();
+            });
         }
 
         private void EnsureId(string id, Action action)
@@ -370,20 +373,24 @@ namespace trello.ViewModels.Cards
         [UsedImplicitly]
         public void ChangeDueDate()
         {
-            var model = new ChangeCardDueViewModel(GetView(), _eventAggregator, Id, Due);
-            _windowManager.ShowDialog(model);
+            var model = new ChangeCardDueViewModel(GetView())
+            {
+                CardId = Id,
+                Date = Due
+            };
+            _windowManager.ShowDialog(model.Bind(ApplicationBar));
         }
 
         [UsedImplicitly]
         public void ChangeDescription()
         {
-            var model = new ChangeCardDescriptionViewModel(GetView(), _eventAggregator)
+            var model = new ChangeCardDescriptionViewModel(GetView())
             {
                 CardId = Id,
                 Description = Desc
             };
 
-            _windowManager.ShowDialog(model);
+            _windowManager.ShowDialog(model.Bind(ApplicationBar));
         }
 
         [UsedImplicitly]
@@ -391,8 +398,9 @@ namespace trello.ViewModels.Cards
         {
             var selected = Labels.Select(lbl => (Color) Enum.Parse(typeof (Color), lbl.Color));
 
-            var model = new ChangeCardLabelsViewModel(GetView(), Id, _eventAggregator, _api, _progress)
-                .Initialize(selected);
+            var model = new ChangeCardLabelsViewModel(GetView()) {CardId = Id}
+                .Initialize(selected)
+                .Bind(ApplicationBar);
 
             _windowManager.ShowDialog(model);
         }
@@ -453,8 +461,9 @@ namespace trello.ViewModels.Cards
         [UsedImplicitly]
         public void MoveToBoard()
         {
-            var model = new MoveCardToBoardViewModel(GetView(), Id, _eventAggregator, _api, _progress)
-                .Initialize(_boardId, _listId);
+            var model = new MoveCardToBoardViewModel(GetView()) {CardId = Id}
+                .Initialize(_boardId, _listId)
+                .Bind(ApplicationBar);
 
             _windowManager.ShowDialog(model);
         }

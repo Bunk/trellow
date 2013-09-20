@@ -2,7 +2,6 @@
 using System.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
-using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
 using trello.Assets;
 using trello.Extensions;
@@ -12,7 +11,7 @@ using trellow.api.Boards;
 namespace trello.ViewModels
 {
     [UsedImplicitly]
-    public sealed class MyBoardsViewModel : PivotItemViewModel, IConfigureTheAppBar
+    public sealed class MyBoardsViewModel : PivotItemViewModel<MyBoardsViewModel>
     {
         private readonly ITrello _api;
         private readonly INavigationService _navigationService;
@@ -35,9 +34,15 @@ namespace trello.ViewModels
             RefreshBoards();
         }
 
-        public ApplicationBar Configure(ApplicationBar existing)
+        protected override void OnActivate()
         {
-            return existing.AddButton("refresh", new AssetUri("Icons/dark/appbar.refresh.rest.png"), RefreshBoards);
+            base.OnActivate();
+
+            ApplicationBar.UpdateWith(config =>
+            {
+                config.Setup(bar => bar.AddButton("refresh", new AssetUri("Icons/dark/appbar.refresh.rest.png"), RefreshBoards));
+                config.Defaults();
+            });
         }
 
         [UsedImplicitly]

@@ -15,7 +15,7 @@ using trellow.api.Notifications;
 
 namespace trello.ViewModels
 {
-    public sealed class MyNotificationsViewModel : PivotItemViewModel, IConfigureTheAppBar
+    public sealed class MyNotificationsViewModel : PivotItemViewModel<MyNotificationsViewModel>
     {
         private readonly INavigationService _navigation;
         private readonly ITrello _api;
@@ -34,13 +34,16 @@ namespace trello.ViewModels
 
         protected override void OnInitialize()
         {
-            RefreshNotifications();
+            Load();
         }
 
-        public ApplicationBar Configure(ApplicationBar existing)
+        protected override void OnActivate()
         {
-            return existing.AddButton("refresh", new AssetUri("Icons/dark/appbar.refresh.rest.png"),
-                                      RefreshNotifications);
+            ApplicationBar.UpdateWith(config =>
+            {
+                config.Setup(bar => bar.AddButton("refresh", new AssetUri("Icons/dark/appbar.refresh.rest.png"), Load));
+                config.Defaults();
+            });
         }
 
         [UsedImplicitly]
@@ -59,7 +62,7 @@ namespace trello.ViewModels
                        .Navigate();
         }
 
-        private async void RefreshNotifications()
+        private async void Load()
         {
             var types = new List<NotificationType>
             {

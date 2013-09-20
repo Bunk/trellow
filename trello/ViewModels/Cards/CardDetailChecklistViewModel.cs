@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
-using Microsoft.Phone.Shell;
 using Strilanc.Value;
 using trello.Assets;
 using trello.Extensions;
@@ -14,8 +13,7 @@ using trellow.api.Cards;
 namespace trello.ViewModels.Cards
 {
     [UsedImplicitly]
-    public sealed class CardDetailChecklistViewModel : PivotItemViewModel,
-                                                       IConfigureTheAppBar,
+    public sealed class CardDetailChecklistViewModel : PivotItemViewModel<CardDetailChecklistViewModel>,
                                                        IHandle<CheckItemChanged>,
                                                        IHandle<CheckItemCreated>,
                                                        IHandle<CheckItemRemoved>,
@@ -47,6 +45,12 @@ namespace trello.ViewModels.Cards
         protected override void OnActivate()
         {
             _eventAggregator.Subscribe(this);
+
+            ApplicationBar.UpdateWith(config =>
+            {
+                config.Setup(bar => bar.AddButton("add card", new AssetUri("Icons/dark/appbar.add.rest.png"), Add));
+                config.Defaults();
+            });
         }
 
         protected override void OnDeactivate(bool close)
@@ -64,11 +68,6 @@ namespace trello.ViewModels.Cards
             Checklists.AddRange(checks);
 
             return this;
-        }
-
-        public ApplicationBar Configure(ApplicationBar existing)
-        {
-            return existing.AddButton("add list", new AssetUri("/Icons/dark/appbar.add.rest.png"), Add);
         }
 
         [UsedImplicitly]
@@ -155,7 +154,7 @@ namespace trello.ViewModels.Cards
 
         public void Handle(ChecklistRemoved message)
         {
-            if (message.CardId != _cardId) 
+            if (message.CardId != _cardId)
                 return;
 
             var found = Checklists.Where(x => x.Id == message.ChecklistId).ToArray();

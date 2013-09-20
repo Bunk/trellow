@@ -14,7 +14,7 @@
     SupportedOrientations="Portrait"  Orientation="Portrait"
 	Style="{StaticResource TransitionPageStyle}"
 	shell:SystemTray.IsVisible="True" shell:SystemTray.Opacity="1"
-    ApplicationBar="{Binding AppBar}">
+    ApplicationBar="{Binding AppBar.Instance}">
 
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">

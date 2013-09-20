@@ -57,7 +57,8 @@ namespace trello
             // Event handlers
             _container.AllSingletonTypesOf<AbstractHandler>();
 
-            // Request handling
+            // Services
+            _container.PerRequest<Services.IApplicationBar, DefaultApplicationBar>();
             _container.Singleton<INetworkService, NetworkService>();
             _container.Singleton<IProgressService, ProgressService>();
             _container.Singleton<ITrelloApiSettings, TrelloSettings>();

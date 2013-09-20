@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
+using trello.Services;
 using trellow.api;
 using trellow.api.Boards;
 using trellow.api.Lists;
@@ -73,7 +74,8 @@ namespace trello.ViewModels.Boards
         public BoardViewModel(ITrelloApiSettings settings,
                               ITrello api,
                               INavigationService navigation,
-                              Func<BoardListViewModel> listFactory) : base(settings, navigation)
+                              IApplicationBar applicationBar,
+                              Func<BoardListViewModel> listFactory) : base(navigation, applicationBar)
         {
             _api = api;
             _listFactory = listFactory;
@@ -95,7 +97,7 @@ namespace trello.ViewModels.Boards
             ActivateItem(selectedItem);
         }
 
-        private static IScreen FindSelectedItem(IObservableCollection<IScreen> items, string selectedListId)
+        private static IScreen FindSelectedItem(IList<IScreen> items, string selectedListId)
         {
             var selectedIndex = 0;
             if (!string.IsNullOrEmpty(selectedListId))
@@ -106,24 +108,22 @@ namespace trello.ViewModels.Boards
             return items[selectedIndex];
         }
 
-        public BoardViewModel InitializeLists(List<List> lists)
+        private void InitializeLists(List<List> lists)
         {
-            var vms = lists.Select(list => _listFactory().InitializeWith(lists, list));
+            var vms = lists.Select(list => _listFactory()
+                                               .InitializeWith(lists, list)
+                                               .Bind(AppBar));
 
             Items.Clear();
             Items.AddRange(vms);
-
-            return this;
         }
 
-        public BoardViewModel InitializeBoard(Board board)
+        private void InitializeBoard(Board board)
         {
             Id = board.Id;
             Name = board.Name;
             Desc = board.Desc;
             IsPrivate = board.Prefs.PermissionLevel == PermissionLevel.Private;
-
-            return this;
         }
     }
 }

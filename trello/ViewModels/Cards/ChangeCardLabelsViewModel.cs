@@ -4,6 +4,8 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
+using trello.Assets;
+using trello.Extensions;
 using trello.Services;
 using trello.Services.Messages;
 using trellow.api;
@@ -22,13 +24,11 @@ namespace trello.ViewModels.Cards
 
         public IObservableCollection<Label> Labels { get; set; }
 
-        public ChangeCardLabelsViewModel(object root, string cardId, IEventAggregator eventAggregator, ITrello api, IProgressService progress) : base(root)
+        public ChangeCardLabelsViewModel(object root) : base(root)
         {
-            _eventAggregator = eventAggregator;
-            _api = api;
-            _progress = progress;
-
-            CardId = cardId;
+            _eventAggregator = IoC.Get<IEventAggregator>();
+            _api = IoC.Get<ITrello>();
+            _progress = IoC.Get<IProgressService>();
 
             Labels = new BindableCollection<Label>();
         }
@@ -55,6 +55,16 @@ namespace trello.ViewModels.Cards
             {
                 _progress.Hide();
             }
+        }
+
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+
+            UpdateApplicationBar(bar =>
+            {
+                bar.AddButton("done", new AssetUri("Icons/dark/appbar.check.rest.png"), TryClose);
+            });
         }
 
         public ChangeCardLabelsViewModel Initialize(IEnumerable<Color> selected)

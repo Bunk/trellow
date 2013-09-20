@@ -6,6 +6,8 @@ using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Strilanc.Value;
+using trello.Assets;
+using trello.Extensions;
 using trello.Services;
 using trello.Services.Messages;
 using trellow.api;
@@ -57,16 +59,12 @@ namespace trello.ViewModels.Cards
         [UsedImplicitly]
         public IObservableCollection<List> Lists { get; set; }
 
-        public MoveCardToBoardViewModel(object root, string cardId,
-                                        IEventAggregator eventAggregator,
-                                        ITrello api,
-                                        IProgressService progress) : base(root)
+        public MoveCardToBoardViewModel(object root) : base(root)
         {
-            _eventAggregator = eventAggregator;
-            _api = api;
-            _progress = progress;
+            _eventAggregator = IoC.Get<IEventAggregator>();
+            _api = IoC.Get<ITrello>();
+            _progress = IoC.Get<IProgressService>();
 
-            CardId = cardId;
             Boards = new BindableCollection<Board>();
             Lists = new BindableCollection<List>();
 
@@ -95,6 +93,17 @@ namespace trello.ViewModels.Cards
         protected override void OnInitialize()
         {
             LoadBoards(_originalBoardId);
+        }
+
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+
+            UpdateApplicationBar(bar =>
+            {
+                bar.AddButton("accept", new AssetUri("Icons/dark/appbar.check.rest.png"), Accept);
+                bar.AddButton("cancel", new AssetUri("Icons/dark/appbar.close.rest.png"), TryClose);
+            });
         }
 
         private async void LoadBoards(string selectedId)
@@ -145,7 +154,7 @@ namespace trello.ViewModels.Cards
             }
         }
 
-        public void Accept()
+        private void Accept()
         {
             _eventAggregator.Publish(new CardMovedToBoard
             {

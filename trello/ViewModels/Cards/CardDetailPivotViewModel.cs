@@ -2,6 +2,7 @@
 using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
+using trello.Services;
 using trello.Services.Messages;
 using trello.Views.Cards;
 using trellow.api;
@@ -46,13 +47,14 @@ namespace trello.ViewModels.Cards
         public CardDetailPivotViewModel(ITrello api,
                                         ITrelloApiSettings settings,
                                         INavigationService navigation,
+                                        IApplicationBar applicationBar,
                                         IEventAggregator eventAggregator,
                                         IWindowManager windowManager,
                                         Func<CardDetailOverviewViewModel> overview,
                                         Func<CardDetailChecklistViewModel> checklists,
                                         Func<CardDetailAttachmentsViewModel> attachments,
                                         Func<CardDetailMembersViewModel> members)
-            : base(settings, navigation)
+            : base(navigation, applicationBar)
         {
             _api = api;
             _navigation = navigation;
@@ -79,10 +81,10 @@ namespace trello.ViewModels.Cards
 
             Name = card.Name;
 
-            Items.Add(_overview().Initialize(card));
-            Items.Add(_checklists().Initialize(card));
-            Items.Add(_attachments().Initialize(card));
-            Items.Add(_members().Initialize(card));
+            Items.Add(_overview().Initialize(card).Bind(AppBar));
+            Items.Add(_checklists().Initialize(card).Bind(AppBar));
+            Items.Add(_attachments().Initialize(card).Bind(AppBar));
+            Items.Add(_members().Initialize(card).Bind(AppBar));
 
             ActivateItem(Items[0]);
         }

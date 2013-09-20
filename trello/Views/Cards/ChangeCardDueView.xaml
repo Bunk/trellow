@@ -29,13 +29,5 @@
         <TextBlock Style="{StaticResource PhoneTextNormalStyle}">Choose a time</TextBlock>
         <toolkit:TimePicker Value="{Binding Date, Mode=TwoWay}" />
         
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition Width=".5*" />
-            </Grid.ColumnDefinitions>
-            <Button x:Name="Confirm" Content="confirm" BorderBrush="{StaticResource PhoneAccentBrush}" />
-            <Button x:Name="TryClose" Content="cancel" Grid.Column="1" />
-        </Grid>
     </StackPanel>
 </UserControl>

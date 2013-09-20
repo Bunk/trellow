@@ -14,7 +14,7 @@ using trellow.api.Members;
 
 namespace trello.ViewModels.Cards
 {
-    public sealed class CardDetailMembersViewModel : PivotItemViewModel
+    public sealed class CardDetailMembersViewModel : PivotItemViewModel<CardDetailMembersViewModel>
     {
         private readonly ITrello _api;
         private readonly IProgressService _progress;

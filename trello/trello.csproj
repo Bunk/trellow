@@ -166,6 +166,8 @@
     <Compile Include="Services\Cache\CachingRestClient.cs" />
     <Compile Include="Services\Cache\ErrorHandlingRestClient.cs" />
     <Compile Include="Services\Cache\ProgressAwareRestClient.cs" />
+    <Compile Include="Services\DefaultApplicationBar.cs" />
+    <Compile Include="Services\IApplicationBar.cs" />
     <Compile Include="Services\Messages\CardArchived.cs" />
     <Compile Include="Services\Messages\CardCommented.cs" />
     <Compile Include="Services\Messages\CardCreated.cs" />

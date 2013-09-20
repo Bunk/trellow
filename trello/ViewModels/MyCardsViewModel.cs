@@ -2,7 +2,6 @@
 using System.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
-using Microsoft.Phone.Shell;
 using trello.Assets;
 using trello.Extensions;
 using trello.ViewModels.Cards;
@@ -11,7 +10,7 @@ using trellow.api;
 namespace trello.ViewModels
 {
     [UsedImplicitly]
-    public sealed class MyCardsViewModel : PivotItemViewModel, IConfigureTheAppBar
+    public sealed class MyCardsViewModel : PivotItemViewModel<MyCardsViewModel>
     {
         private readonly ITrello _api;
         private readonly Func<CardViewModel> _cardFactory;
@@ -32,6 +31,15 @@ namespace trello.ViewModels
         protected override void OnInitialize()
         {
             RefreshCards();
+        }
+
+        protected override void OnActivate()
+        {
+            ApplicationBar.UpdateWith(config =>
+            {
+                config.Setup(bar => bar.AddButton("refresh", new AssetUri("Icons/dark/appbar.refresh.rest.png"), RefreshCards));
+                config.Defaults();
+            });
         }
 
         private async void RefreshCards()
@@ -59,11 +67,6 @@ namespace trello.ViewModels
 
             Cards.Clear();
             Cards.AddRange(vms);
-        }
-
-        public ApplicationBar Configure(ApplicationBar existing)
-        {
-            return existing.AddButton("refresh", new AssetUri("Icons/dark/appbar.refresh.rest.png"), RefreshCards);
         }
     }
 }

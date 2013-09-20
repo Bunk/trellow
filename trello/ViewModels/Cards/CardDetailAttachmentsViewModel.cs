@@ -6,7 +6,7 @@ using trellow.api.Cards;
 namespace trello.ViewModels.Cards
 {
     [UsedImplicitly]
-    public sealed class CardDetailAttachmentsViewModel : PivotItemViewModel
+    public sealed class CardDetailAttachmentsViewModel : PivotItemViewModel<CardDetailAttachmentsViewModel>
     {
         public IObservableCollection<AttachmentViewModel> Attachments { get; set; }
 

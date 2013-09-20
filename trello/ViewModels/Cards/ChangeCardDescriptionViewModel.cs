@@ -1,4 +1,6 @@
 ﻿using Caliburn.Micro;
+using trello.Assets;
+using trello.Extensions;
 using trello.Services.Messages;
 
 namespace trello.ViewModels.Cards
@@ -21,9 +23,9 @@ namespace trello.ViewModels.Cards
             }
         }
 
-        public ChangeCardDescriptionViewModel(object root, IEventAggregator eventAggregator) : base(root)
+        public ChangeCardDescriptionViewModel(object root) : base(root)
         {
-            _eventAggregator = eventAggregator;
+            _eventAggregator = IoC.Get<IEventAggregator>();
         }
 
         public void Accept()
@@ -34,6 +36,17 @@ namespace trello.ViewModels.Cards
                 Description = Description.Replace("\r", "\n")
             });
             TryClose();
+        }
+
+        protected override void OnActivate()
+        {
+            base.OnActivate();
+
+            UpdateApplicationBar(bar =>
+            {
+                bar.AddButton("ok", new AssetUri("Icons/dark/appbar.check.rest.png"), Accept);
+                bar.AddButton("cancel", new AssetUri("Icons/dark/appbar.close.rest.png"), TryClose);
+            });
         }
     }
 }

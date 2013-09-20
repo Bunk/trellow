@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using LinqToVisualTree;
-using Microsoft.Phone.Shell;
 using Strilanc.Value;
 using trello.Assets;
 using trello.Extensions;
@@ -21,8 +20,7 @@ using trellow.api.Members;
 namespace trello.ViewModels.Boards
 {
     [UsedImplicitly]
-    public class BoardListViewModel : PivotItemViewModel,
-                                      IConfigureTheAppBar,
+    public class BoardListViewModel : PivotItemViewModel<BoardListViewModel>,
                                       IHandle<CardCreated>,
                                       IHandle<CardDeleted>,
                                       IHandle<CardMovedToList>,
@@ -153,6 +151,15 @@ namespace trello.ViewModels.Boards
                                                                              NextId));
         }
 
+        protected override void OnActivate()
+        {
+            ApplicationBar.UpdateWith(config =>
+            {
+                config.Setup(bar => bar.AddButton("add card", new AssetUri("Icons/dark/appbar.add.rest.png"), AddCard));
+                config.Defaults();
+            });
+        }
+
         private CardViewModel CreateCardViewModel(Card card)
         {
             var vm = _cardFactory()
@@ -189,13 +196,6 @@ namespace trello.ViewModels.Boards
             if (node != null) NextId = (node.Next ?? ll.First).Value.Id;
 
             return this;
-        }
-
-        public ApplicationBar Configure(ApplicationBar existing)
-        {
-            existing.AddButton("add card", new AssetUri("Icons/dark/appbar.add.rest.png"), AddCard);
-
-            return existing;
         }
 
         private void AddCard()
