@@ -1,7 +1,11 @@
-﻿using Caliburn.Micro;
+﻿using System.Windows.Controls;
+using Caliburn.Micro;
+using JetBrains.Annotations;
+using Strilanc.Value;
 using trello.Assets;
 using trello.Extensions;
 using trello.Services.Messages;
+using trello.Views.Cards;
 
 namespace trello.ViewModels.Cards
 {
@@ -28,14 +32,29 @@ namespace trello.ViewModels.Cards
             _eventAggregator = IoC.Get<IEventAggregator>();
         }
 
+        [UsedImplicitly]
         public void Accept()
         {
             _eventAggregator.Publish(new CardDescriptionChanged
             {
-                CardId = CardId, 
+                CardId = CardId,
                 Description = Description.Replace("\r", "\n")
             });
             TryClose();
+        }
+
+        [UsedImplicitly]
+        public void TextChanged(ContentControl content)
+        {
+            content.Content
+                   .MayCast<ChangeCardDescriptionView>()
+                   .IfHasValueThenDo(view =>
+                   {
+                       // Make sure to automatically scroll the bottom of the text into view
+                       // when we make a change to it.
+                       view.ScrollViewer.UpdateLayout();
+                       view.ScrollViewer.ScrollToVerticalOffset(view.Description.ActualHeight);
+                   });
         }
 
         protected override void OnActivate()
