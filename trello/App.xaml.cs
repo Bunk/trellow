@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using BugSense;
 
 namespace trello
 {
@@ -9,7 +8,7 @@ namespace trello
         {
             InitializeComponent();
 
-            BugSenseHandler.Instance.Init(this, "8b22f4e5");
+            //BugSenseHandler.Instance.Init(this, "8b22f4e5");
         }
     }
 }

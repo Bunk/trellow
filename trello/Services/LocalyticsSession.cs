@@ -513,7 +513,7 @@ public class LocalyticsSession
     /// <summary>
     /// Opens or resumes the Localytics session.
     /// </summary>
-    public void open()
+    public void Open()
     {
         if (this.isSessionOpen || this.isSessionClosed)
         {
@@ -568,7 +568,7 @@ public class LocalyticsSession
     /// <summary>
     /// Closes the Localytics session.
     /// </summary>
-    public void close()
+    public void Close()
     {
         if (this.isSessionOpen == false || this.isSessionClosed == true)
         {
@@ -617,7 +617,7 @@ public class LocalyticsSession
     /// Creates a new thread which collects any files and uploads them. Returns immediately if an upload
     /// is already happenning.
     /// </summary>
-    public void upload()
+    public void Upload()
     {
         if (isUploading)
         {
@@ -646,7 +646,7 @@ public class LocalyticsSession
     /// </summary>
     /// <param name="eventName">The name of the event which occured. E.G. 'button pressed'</param>
     /// <param name="attributes">Key value pairs that record data relevant to the event.</param>
-    public void tagEvent(string eventName, Dictionary<string, string> attributes = null)
+    public void TagEvent(string eventName, Dictionary<string, string> attributes = null)
     {
         if (this.isSessionOpen == false)
         {

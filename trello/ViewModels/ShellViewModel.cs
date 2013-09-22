@@ -1,5 +1,6 @@
 ﻿using Caliburn.Micro;
 using JetBrains.Annotations;
+using trello.Services;
 using trellow.api;
 
 namespace trello.ViewModels
@@ -39,14 +40,19 @@ namespace trello.ViewModels
 
         public ShellViewModel(ITrelloApiSettings settings,
                               INavigationService navigation,
+                              IApplicationBar applicationBar,
                               MyBoardsViewModel myBoards,
                               MyCardsViewModel myCards,
                               MyNotificationsViewModel myNotifications)
-            : base(settings, navigation)
+            : base(navigation, applicationBar)
         {
             _myBoards = myBoards;
             _myCards = myCards;
             _myNotifications = myNotifications;
+
+            _myBoards.Bind(applicationBar);
+            _myCards.Bind(applicationBar);
+            _myNotifications.Bind(applicationBar);
 
             Title = "TRELLOW";
             Subtitle = settings.Fullname;

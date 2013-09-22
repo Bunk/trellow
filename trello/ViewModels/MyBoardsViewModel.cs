@@ -2,16 +2,16 @@
 using System.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
-using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
 using trello.Assets;
+using trello.Extensions;
 using trellow.api;
 using trellow.api.Boards;
 
 namespace trello.ViewModels
 {
     [UsedImplicitly]
-    public sealed class MyBoardsViewModel : PivotItemViewModel, IConfigureTheAppBar
+    public sealed class MyBoardsViewModel : PivotItemViewModel<MyBoardsViewModel>
     {
         private readonly ITrello _api;
         private readonly INavigationService _navigationService;
@@ -34,13 +34,15 @@ namespace trello.ViewModels
             RefreshBoards();
         }
 
-        public ApplicationBar Configure(ApplicationBar existing)
+        protected override void OnActivate()
         {
-            var refresh = new ApplicationBarIconButton(new AssetUri("Icons/dark/appbar.refresh.rest.png")) { Text = "refresh" };
-            refresh.Click += (sender, args) => RefreshBoards();
-            existing.Buttons.Add(refresh);
+            base.OnActivate();
 
-            return existing;
+            ApplicationBar.UpdateWith(config =>
+            {
+                config.Setup(bar => bar.AddButton("refresh", new AssetUri("Icons/dark/appbar.refresh.rest.png"), RefreshBoards));
+                config.Defaults();
+            });
         }
 
         [UsedImplicitly]
@@ -51,8 +53,8 @@ namespace trello.ViewModels
                 return;
 
             _navigationService.UriFor<Boards.BoardViewModel>()
-                .WithParam(x => x.Id, context.Id)
-                .Navigate();
+                              .WithParam(x => x.Id, context.Id)
+                              .Navigate();
         }
 
         [UsedImplicitly]

@@ -123,6 +123,7 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Analytics.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -133,10 +134,12 @@
     <Compile Include="Caliburn.Micro\PhoneToolkitConventions.cs" />
     <Compile Include="Caliburn.Micro\TelerikConventions.cs" />
     <Compile Include="EnumerableExtensions.cs" />
+    <Compile Include="Extensions\DictionaryExtensions.cs" />
     <Compile Include="Extensions\FrameworkElementExtensions.cs" />
     <Compile Include="Extensions\IntExtensions.cs" />
     <Compile Include="Extensions\ItemsControlExtensions.cs" />
     <Compile Include="Extensions\LinqToVisualTree.cs" />
+    <Compile Include="Extensions\MayExtensions.cs" />
     <Compile Include="Extensions\SimpleContainerExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UIElementExtensions.cs" />
@@ -163,28 +166,34 @@
     <Compile Include="Services\Cache\CachingRestClient.cs" />
     <Compile Include="Services\Cache\ErrorHandlingRestClient.cs" />
     <Compile Include="Services\Cache\ProgressAwareRestClient.cs" />
-    <Compile Include="Services\Handlers\CardCreated.cs" />
-    <Compile Include="Services\Handlers\CardCreationRequested.cs" />
-    <Compile Include="Services\Handlers\CardDeleted.cs" />
-    <Compile Include="Services\Handlers\CardDueDateChanged.cs" />
-    <Compile Include="Services\Handlers\CardLabelAdded.cs" />
-    <Compile Include="Services\Handlers\CardLabelRemoved.cs" />
-    <Compile Include="Services\Handlers\CardMemberAdded.cs" />
-    <Compile Include="Services\Handlers\CardMovingFromList.cs" />
-    <Compile Include="Services\Handlers\CardPriorityChanged.cs" />
+    <Compile Include="Services\DefaultApplicationBar.cs" />
+    <Compile Include="Services\IApplicationBar.cs" />
+    <Compile Include="Services\Messages\CardArchived.cs" />
+    <Compile Include="Services\Messages\CardCommented.cs" />
+    <Compile Include="Services\Messages\CardCreated.cs" />
+    <Compile Include="Services\Messages\CardCreationRequested.cs" />
+    <Compile Include="Services\Messages\CardDeleted.cs" />
+    <Compile Include="Services\Messages\CardDueDateChanged.cs" />
+    <Compile Include="Services\Messages\CardLabelAdded.cs" />
+    <Compile Include="Services\Messages\CardLabelRemoved.cs" />
+    <Compile Include="Services\Messages\CardMemberAdded.cs" />
+    <Compile Include="Services\Messages\CardMemberRemoved.cs" />
+    <Compile Include="Services\Messages\CardMovedToBoard.cs" />
+    <Compile Include="Services\Messages\CardMovedToList.cs" />
+    <Compile Include="Services\Messages\CardPriorityChanged.cs" />
     <Compile Include="Services\Handlers\AbstractHandler.cs" />
     <Compile Include="Services\Handlers\Cards\ChecklistCommandHandler.cs" />
     <Compile Include="Services\Handlers\Cards\LabelHandler.cs" />
     <Compile Include="Services\Handlers\Cards\MemberHandler.cs" />
     <Compile Include="Services\Handlers\Cards\MovementHandler.cs" />
-    <Compile Include="Services\Handlers\CheckItemChanged.cs" />
-    <Compile Include="Services\Handlers\CheckItemCreationRequested.cs" />
-    <Compile Include="Services\Handlers\CheckItemRemoved.cs" />
-    <Compile Include="Services\Handlers\ChecklistCreated.cs" />
-    <Compile Include="Services\Handlers\ChecklistCreationRequested.cs" />
-    <Compile Include="Services\Handlers\ChecklistItemTapped.cs" />
-    <Compile Include="Services\Handlers\ChecklistNameChanged.cs" />
-    <Compile Include="Services\Handlers\ChecklistRemoved.cs" />
+    <Compile Include="Services\Messages\CheckItemChanged.cs" />
+    <Compile Include="Services\Messages\CheckItemCreated.cs" />
+    <Compile Include="Services\Messages\CheckItemCreationRequested.cs" />
+    <Compile Include="Services\Messages\CheckItemRemoved.cs" />
+    <Compile Include="Services\Messages\ChecklistCreated.cs" />
+    <Compile Include="Services\Messages\ChecklistCreationRequested.cs" />
+    <Compile Include="Services\Messages\ChecklistNameChanged.cs" />
+    <Compile Include="Services\Messages\ChecklistRemoved.cs" />
     <Compile Include="Services\Handlers\ProgressScope.cs" />
     <Compile Include="Services\JsonFileRestClient.cs" />
     <Compile Include="Services\LocalyticsSession.cs" />
@@ -198,16 +207,18 @@
     <Compile Include="SuppressNotificationScope.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\Activities\ActivityViewModel.cs" />
+    <Compile Include="Extensions\AppBarExtensions.cs" />
     <Compile Include="ViewModels\AttachmentViewModel.cs" />
     <Compile Include="ViewModels\Boards\AddCardViewModel.cs" />
     <Compile Include="ViewModels\Boards\BoardListViewModel.cs" />
-    <Compile Include="ViewModels\CardDetailAttachmentsViewModel.cs" />
-    <Compile Include="ViewModels\CardDetailChecklistViewModel.cs" />
-    <Compile Include="ViewModels\CardDetailMembersViewModel.cs" />
-    <Compile Include="ViewModels\CardDetailOverviewViewModel.cs" />
-    <Compile Include="ViewModels\CardDetailPivotViewModel.cs" />
+    <Compile Include="ViewModels\Cards\CardDetailAttachmentsViewModel.cs" />
+    <Compile Include="ViewModels\Cards\CardDetailChecklistViewModel.cs" />
+    <Compile Include="ViewModels\Cards\CardDetailMembersViewModel.cs" />
+    <Compile Include="ViewModels\Cards\CardDetailOverviewViewModel.cs" />
+    <Compile Include="ViewModels\Cards\CardDetailPivotViewModel.cs" />
     <Compile Include="ViewModels\Cards\AddChecklistViewModel.cs" />
-    <Compile Include="ViewModels\ChangeCardDescriptionViewModel.cs" />
+    <Compile Include="ViewModels\Cards\MoveCardToBoardViewModel.cs" />
+    <Compile Include="ViewModels\Cards\ChangeCardDescriptionViewModel.cs" />
     <Compile Include="ViewModels\Checklists\RenameChecklistViewModel.cs" />
     <Compile Include="ViewModels\LabelViewModel.cs" />
     <Compile Include="ViewModels\MyNotificationsViewModel.cs" />
@@ -215,17 +226,17 @@
     <Compile Include="ViewModels\Boards\BoardViewModel.cs" />
     <Compile Include="Services\Handlers\Cards\DetailCommandHandler.cs" />
     <Compile Include="ViewModels\MyCardsViewModel.cs" />
-    <Compile Include="ViewModels\CardViewModel.cs" />
+    <Compile Include="ViewModels\Cards\CardViewModel.cs" />
     <Compile Include="Services\IProgressService.cs" />
-    <Compile Include="ViewModels\ChangeCardDueViewModel.cs" />
-    <Compile Include="ViewModels\ChangeCardLabelsViewModel.cs" />
-    <Compile Include="ViewModels\ChangeCardNameViewModel.cs" />
-    <Compile Include="ViewModels\ChecklistItemViewModel.cs" />
-    <Compile Include="ViewModels\ChecklistViewModel.cs" />
-    <Compile Include="Services\Handlers\CardDescriptionChanged.cs" />
+    <Compile Include="ViewModels\Cards\ChangeCardDueViewModel.cs" />
+    <Compile Include="ViewModels\Cards\ChangeCardLabelsViewModel.cs" />
+    <Compile Include="ViewModels\Cards\ChangeCardNameViewModel.cs" />
+    <Compile Include="ViewModels\Checklists\ChecklistItemViewModel.cs" />
+    <Compile Include="ViewModels\Checklists\ChecklistViewModel.cs" />
+    <Compile Include="Services\Messages\CardDescriptionChanged.cs" />
     <Compile Include="ViewModels\DialogViewModel.cs" />
     <Compile Include="ViewModels\MemberViewModel.cs" />
-    <Compile Include="Services\Handlers\CardNameChanged.cs" />
+    <Compile Include="Services\Messages\CardNameChanged.cs" />
     <Compile Include="ViewModels\Notifications\NotificationViewModel.cs" />
     <Compile Include="ViewModels\Notifications\AddedToBoardNotificationViewModel.cs" />
     <Compile Include="ViewModels\Notifications\AddedToCardNotificationViewModel.cs" />
@@ -256,19 +267,19 @@
     <Compile Include="Views\Boards\AddCardView.xaml.cs">
       <DependentUpon>AddCardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CardDetailAttachmentsView.xaml.cs">
+    <Compile Include="Views\Cards\CardDetailAttachmentsView.xaml.cs">
       <DependentUpon>CardDetailAttachmentsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CardDetailChecklistView.xaml.cs">
+    <Compile Include="Views\Cards\CardDetailChecklistView.xaml.cs">
       <DependentUpon>CardDetailChecklistView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CardDetailMembersView.xaml.cs">
+    <Compile Include="Views\Cards\CardDetailMembersView.xaml.cs">
       <DependentUpon>CardDetailMembersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CardDetailOverviewView.xaml.cs">
+    <Compile Include="Views\Cards\CardDetailOverviewView.xaml.cs">
       <DependentUpon>CardDetailOverviewView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CardDetailPivotView.xaml.cs">
+    <Compile Include="Views\Cards\CardDetailPivotView.xaml.cs">
       <DependentUpon>CardDetailPivotView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Cards\AddChecklistView.xaml.cs">
@@ -277,7 +288,10 @@
     <Compile Include="Views\Cards\DragImage.xaml.cs">
       <DependentUpon>DragImage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ChangeCardDescriptionView.xaml.cs">
+    <Compile Include="Views\Cards\MoveCardToBoardView.xaml.cs">
+      <DependentUpon>MoveCardToBoardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\ChangeCardDescriptionView.xaml.cs">
       <DependentUpon>ChangeCardDescriptionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Checklists\RenameChecklistView.xaml.cs">
@@ -295,19 +309,19 @@
     <Compile Include="Views\MyCardsView.xaml.cs">
       <DependentUpon>MyCardsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\CardView.xaml.cs">
+    <Compile Include="Views\Cards\CardView.xaml.cs">
       <DependentUpon>CardView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ChangeCardDueView.xaml.cs">
+    <Compile Include="Views\Cards\ChangeCardDueView.xaml.cs">
       <DependentUpon>ChangeCardDueView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ChangeCardLabelsView.xaml.cs">
+    <Compile Include="Views\Cards\ChangeCardLabelsView.xaml.cs">
       <DependentUpon>ChangeCardLabelsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ChangeCardNameView.xaml.cs">
+    <Compile Include="Views\Cards\ChangeCardNameView.xaml.cs">
       <DependentUpon>ChangeCardNameView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ChecklistView.xaml.cs">
+    <Compile Include="Views\Checklists\ChecklistView.xaml.cs">
       <DependentUpon>ChecklistView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Controls\DropShadowTextBlock.xaml.cs">
@@ -540,9 +554,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="BugSense-WP8">
-      <HintPath>..\packages\BugSense.WP8.3.4\lib\wp80\BugSense-WP8.dll</HintPath>
-    </Reference>
     <Reference Include="Caliburn.Micro, Version=1.5.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\wp8\Caliburn.Micro.dll</HintPath>
@@ -624,23 +635,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CardDetailAttachmentsView.xaml">
+    <Page Include="Views\Cards\CardDetailAttachmentsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CardDetailChecklistView.xaml">
+    <Page Include="Views\Cards\CardDetailChecklistView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CardDetailMembersView.xaml">
+    <Page Include="Views\Cards\CardDetailMembersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CardDetailOverviewView.xaml">
+    <Page Include="Views\Cards\CardDetailOverviewView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\CardDetailPivotView.xaml">
+    <Page Include="Views\Cards\CardDetailPivotView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -652,7 +663,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ChangeCardDescriptionView.xaml">
+    <Page Include="Views\Cards\MoveCardToBoardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Cards\ChangeCardDescriptionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -676,23 +691,23 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\CardView.xaml">
+    <Page Include="Views\Cards\CardView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ChangeCardDueView.xaml">
+    <Page Include="Views\Cards\ChangeCardDueView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ChangeCardLabelsView.xaml">
+    <Page Include="Views\Cards\ChangeCardLabelsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ChangeCardNameView.xaml">
+    <Page Include="Views\Cards\ChangeCardNameView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ChecklistView.xaml">
+    <Page Include="Views\Checklists\ChecklistView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

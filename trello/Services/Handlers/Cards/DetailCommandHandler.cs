@@ -1,5 +1,5 @@
-using BugSense;
 using Caliburn.Micro;
+using trello.Services.Messages;
 using trellow.api;
 using trellow.api.Cards;
 using trellow.api.Lists;
@@ -20,34 +20,36 @@ namespace trello.Services.Handlers.Cards
 
         public void Handle(CardDescriptionChanged message)
         {
-            BugSenseHandler.Instance.SendEvent("Update card description");
+            Analytics.TagEvent("Update_Card_Description");
             Handle(api => api.Cards.ChangeDescription(new CardId(message.CardId), message.Description));
         }
 
         public void Handle(CardDueDateChanged message)
         {
-            BugSenseHandler.Instance.SendEvent("Update card due date");
+            Analytics.TagEvent("Update_Card_Due");
             Handle(api => api.Cards.ChangeDueDate(new CardId(message.CardId), message.DueDate));
         }
 
         public void Handle(CardNameChanged message)
         {
-            BugSenseHandler.Instance.SendEvent("Change card name");
+            Analytics.TagEvent("Update_Card_Name");
             Handle(api => api.Cards.ChangeName(new CardId(message.CardId), message.Name));
         }
 
         public void Handle(CardCommented message)
         {
-            BugSenseHandler.Instance.SendEvent("Comment on card");
+            Analytics.TagEvent("Comment_Card");
             Handle(api => api.Cards.AddComment(new CardId(message.CardId), message.Text));
         }
 
         public void Handle(CardCreationRequested message)
         {
-            BugSenseHandler.Instance.SendEvent("Create card");
+            Analytics.TagEvent("Create_Card");
             Handle(async api =>
             {
                 var created = await api.Cards.Add(new NewCard(message.Name, new ListId(message.ListId)));
+                Analytics.TagEvent("Created_Card");
+
                 Events.Publish(new CardCreated {Card = created});
             });
         }

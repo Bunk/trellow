@@ -1,5 +1,5 @@
-using BugSense;
 using Caliburn.Micro;
+using trello.Services.Messages;
 using trellow.api;
 using trellow.api.Boards;
 using trellow.api.Cards;
@@ -22,10 +22,12 @@ namespace trello.Services.Handlers.Cards
 
         public void Handle(CheckItemCreationRequested message)
         {
-            BugSenseHandler.Instance.SendEvent("Create checklist item");
+            Analytics.TagEvent("Create_Checklist_Item");
             Handle(async api =>
             {
                 var created = await api.Checklists.AddCheckItem(new ChecklistId(message.ChecklistId), message.Name);
+                Analytics.TagEvent("Created_Checklist_Item");
+
                 Events.Publish(new CheckItemCreated
                 {
                     ChecklistId = message.ChecklistId,
@@ -36,14 +38,16 @@ namespace trello.Services.Handlers.Cards
 
         public void Handle(CheckItemRemoved message)
         {
-            BugSenseHandler.Instance.SendEvent("Remove checklist item");
+            Analytics.TagEvent("Removed_Checklist_Item");
             Handle(api => api.Checklists.RemoveCheckItem(new ChecklistId(message.ChecklistId), message.CheckItemId));
         }
 
         public void Handle(CheckItemChanged message)
         {
-            //note: too much data... 
-            //BugSenseHandler.Instance.SendEvent("Toggle checklist item state");
+            //question: too much data?
+//            if (message.Value)
+//                Analytics.TagEvent("Checked_Checklist_Item");
+
             Handle(api => api.Cards.ChangeCheckItemState(new CardId(message.CardId),
                                                          new ChecklistId(message.ChecklistId),
                                                          new CheckItemId(message.CheckItemId),
@@ -52,11 +56,13 @@ namespace trello.Services.Handlers.Cards
 
         public void Handle(ChecklistCreationRequested message)
         {
-            BugSenseHandler.Instance.SendEvent("Create checklist item");
+            Analytics.TagEvent("Create_Checklist");
             Handle(async api =>
             {
                 var created = await api.Checklists.Add(message.Name, new BoardId(message.BoardId));
                 await api.Cards.AddChecklist(new CardId(message.CardId), created);
+                Analytics.TagEvent("Created_Checklist");
+
                 Events.Publish(new ChecklistCreated
                 {
                     CardId = message.CardId,
@@ -69,13 +75,13 @@ namespace trello.Services.Handlers.Cards
 
         public void Handle(ChecklistRemoved message)
         {
-            BugSenseHandler.Instance.SendEvent("Remove checklist from card");
+            Analytics.TagEvent("Removed_Checklist");
             Handle(api => api.Cards.RemoveChecklist(new CardId(message.CardId), new ChecklistId(message.ChecklistId)));
         }
 
         public void Handle(ChecklistNameChanged message)
         {
-            BugSenseHandler.Instance.SendEvent("Rename checklist");
+            Analytics.TagEvent("Renamed_Checklist");
             Handle(api => api.Checklists.ChangeName(new ChecklistId(message.ChecklistId), message.Name));
         }
     }

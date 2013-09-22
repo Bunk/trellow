@@ -4,7 +4,6 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
-using BugSense;
 using RestSharp;
 using trellow.api;
 
@@ -27,12 +26,12 @@ namespace trello.Services.Cache
             }
             catch (TrelloException ex)
             {
-                return TrelloError(new RestResponse(), ex);
+                return TrelloError(ex, new RestResponse());
             }
             catch (Exception ex)
             {
-                BugSenseHandler.Instance.LogException(ex, BuildKvp(request), "api");
-                return NoResults(new RestResponse());
+                Analytics.LogException(ex, BuildKvp(request));
+                return NoResults(ex, new RestResponse());
             }
         }
 
@@ -44,13 +43,11 @@ namespace trello.Services.Cache
             }
             catch (TrelloException ex)
             {
-                BugSenseHandler.Instance.LogException(ex, BuildKvp(request), "api");
-                return TrelloError(default(T), ex);
+                return TrelloError(ex, default(T));
             }
             catch (Exception ex)
             {
-                BugSenseHandler.Instance.LogException(ex, BuildKvp(request), "api");
-                return default(T);
+                return NoResults(ex, default(T));
             }
         }
 
@@ -59,17 +56,15 @@ namespace trello.Services.Cache
             try
             {
                 var value = await _client.RequestListAsync<T>(request);
-                return value ?? NoResults(Enumerable.Empty<T>());
+                return value ?? Enumerable.Empty<T>();
             }
             catch (TrelloException ex)
             {
-                BugSenseHandler.Instance.LogException(ex, BuildKvp(request), "api");
-                return TrelloError(Enumerable.Empty<T>(), ex);
+                return TrelloError(ex, Enumerable.Empty<T>());
             }
             catch (Exception ex)
             {
-                BugSenseHandler.Instance.LogException(ex, BuildKvp(request), "api");
-                return NoResults(Enumerable.Empty<T>());
+                return NoResults(ex, Enumerable.Empty<T>());
             }
         }
 
@@ -81,8 +76,7 @@ namespace trello.Services.Cache
             }
             catch (Exception ex)
             {
-                BugSenseHandler.Instance.LogException(ex, "resource", "auth-uri", "api");
-                return ApiError<Uri>();
+                return ApiError<Uri>(ex);
             }
         }
 
@@ -94,8 +88,7 @@ namespace trello.Services.Cache
             }
             catch (Exception ex)
             {
-                BugSenseHandler.Instance.LogException(ex, "resource", "verify", "api");
-                return ApiError<OAuthToken>();
+                return ApiError<OAuthToken>(ex);
             }
         }
 
@@ -107,7 +100,6 @@ namespace trello.Services.Cache
             }
             catch (Exception ex)
             {
-                BugSenseHandler.Instance.LogException(ex, "resource", "authorize", "api");
                 ApiError(ex);
             }
         }
@@ -120,31 +112,47 @@ namespace trello.Services.Cache
             }
             catch (Exception ex)
             {
-                BugSenseHandler.Instance.LogException(ex, "resource", "deauthorize", "api");
-                ApiError();
+                ApiError(ex);
             }
         }
 
-        private static T NoResults<T>(T value)
+        private static T NoResults<T>(Exception ex, T value)
         {
-            MessageBox.Show("There was an error making the request.  Please " +
-                            "ensure that you have an active internet connection.");
+            const string message = "There was an error making the request.  Please " +
+                                   "ensure that you have an active internet connection.";
+
+            Analytics.LogException(ex, new Dictionary<string, string>
+            {
+                { "Message", message },
+                { "Type", "API-" + typeof(T).Name }
+            });
+
+            MessageBox.Show(message);
+            
             return value;
         }
 
-        private static T ApiError<T>(T value = default(T))
+        private static T ApiError<T>(Exception ex, T value = default(T))
         {
-            ApiError();
+            ApiError(ex);
             return value;
         }
 
-        private static void ApiError()
+        private static void ApiError(Exception ex)
         {
-            MessageBox.Show("Could not contact the Trello API.  Please " +
-                            "ensure that you have an active internet connection.");
+            const string message = "Could not contact the Trello API.  Please " +
+                                   "ensure that you have an active internet connection.";
+
+            Analytics.LogWarning(ex, new Dictionary<string, string>
+            {
+                { "Message", message },
+                { "Type", "API" }
+            });
+
+            MessageBox.Show(message);
         }
 
-        private static T TrelloError<T>(T value, TrelloException ex)
+        private static T TrelloError<T>(TrelloException ex, T value)
         {
             var message = "There was an error contacting the Trello servers.  Please " +
                           "ensure that you have an active internet connection.";
@@ -164,7 +172,14 @@ namespace trello.Services.Cache
                 }
             }
 
+            Analytics.LogException(ex, new Dictionary<string, string>
+            {
+                { "Message", message },
+                { "Type", "API-" + typeof(T).Name }
+            });
+
             MessageBox.Show(message);
+
             return value;
         }
 
@@ -172,8 +187,8 @@ namespace trello.Services.Cache
         {
             var props = new Dictionary<string, string>
             {
-                {"uri", request.Resource},
-                {"method", request.Method.ToString()}
+                {"Uri", request.Resource},
+                {"Method", request.Method.ToString()}
             };
 
             AugmentParametersInProps(props, request.Parameters);

@@ -1,6 +1,8 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using System.Windows.Interactivity;
-using Microsoft.Phone.Controls;
+
+//using Microsoft.Phone.Controls;
 
 public enum Gesture
 {
@@ -17,8 +19,9 @@ namespace trello.Views.Triggers
 
         protected override void OnAttached()
         {
-            var listener = GestureService.GetGestureListener(AssociatedObject);
-
+            // note: Deprecated for WP8+... necessary for WP7-
+            //var listener = GestureService.GetGestureListener(AssociatedObject);
+            var listener = AssociatedObject;
             switch (Gesture)
             {
                 case Gesture.Tap:
@@ -35,7 +38,8 @@ namespace trello.Views.Triggers
 
         protected override void OnDetaching()
         {
-            var listener = GestureService.GetGestureListener(AssociatedObject);
+            //var listener = GestureService.GetGestureListener(AssociatedObject);
+            var listener = AssociatedObject;
             switch (Gesture)
             {
                 case Gesture.Tap:
