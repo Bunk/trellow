@@ -33,25 +33,30 @@ namespace trello
             _container.Singleton<ICache, FileSystemCache>();
             
             // View Models
-            _container.Singleton<SplashViewModel>();
-            _container.Singleton<AboutViewModel>();
-            _container.Singleton<ShellViewModel>();
-            _container.Singleton<MyBoardsViewModel>();
-            _container.Singleton<MyCardsViewModel>();
-            _container.Singleton<MyNotificationsViewModel>();
-            _container.Singleton<ProfileViewModel>();
+//            _container.Singleton<SplashViewModel>();
+//            _container.Singleton<AboutViewModel>();
+//            _container.Singleton<ShellViewModel>();
+//            _container.Singleton<MyBoardsViewModel>();
+//            _container.Singleton<MyCardsViewModel>();
+//            _container.Singleton<MyNotificationsViewModel>();
+//            _container.Singleton<ProfileViewModel>();
+//
+//            _container.PerRequest<BoardViewModel>();
+//            _container.PerRequest<BoardListViewModel>();
+//            _container.PerRequest<CardViewModel>();
+//            _container.PerRequest<CardDetailPivotViewModel>();
+//            _container.PerRequest<CardDetailOverviewViewModel>();
+//            _container.PerRequest<CardDetailChecklistViewModel>();
+//            _container.PerRequest<CardDetailAttachmentsViewModel>();
+//            _container.PerRequest<CardDetailMembersViewModel>();
+//            _container.PerRequest<ChecklistViewModel>();
+//            _container.PerRequest<ChecklistItemViewModel>();
+//            _container.PerRequest<AttachmentViewModel>();
 
-            _container.PerRequest<BoardViewModel>();
-            _container.PerRequest<BoardListViewModel>();
-            _container.PerRequest<CardViewModel>();
-            _container.PerRequest<CardDetailPivotViewModel>();
-            _container.PerRequest<CardDetailOverviewViewModel>();
-            _container.PerRequest<CardDetailChecklistViewModel>();
-            _container.PerRequest<CardDetailAttachmentsViewModel>();
-            _container.PerRequest<CardDetailMembersViewModel>();
-            _container.PerRequest<ChecklistViewModel>();
-            _container.PerRequest<ChecklistItemViewModel>();
-            _container.PerRequest<AttachmentViewModel>();
+
+            // Register normal models
+            _container.AllTypesWhere(type => type.Name.EndsWith("ViewModel") && !type.InNamespace("Notifications"),
+                                     type => _container.RegisterPerRequest(type, null, type));
             _container.AllTransientTypesOf<NotificationViewModel>();
 
             // Event handlers

@@ -2,6 +2,7 @@
 using System.Linq;
 using Caliburn.Micro;
 using JetBrains.Annotations;
+using trello.Services;
 using trello.Services.Messages;
 using trellow.api;
 using trellow.api.Cards;
@@ -75,11 +76,12 @@ namespace trello.ViewModels.Checklists
         public IObservableCollection<ChecklistItemViewModel> Items { get; private set; }
 
 
-        public ChecklistViewModel(ITrelloApiSettings settings,
+        public ChecklistViewModel(IApplicationBar applicationBar,
+                                  ITrelloApiSettings settings,
                                   INavigationService navigation,
                                   IEventAggregator eventAggregator,
                                   IWindowManager windows,
-                                  Func<ChecklistItemViewModel> itemFactory) : base(settings, navigation)
+                                  Func<ChecklistItemViewModel> itemFactory) : base(applicationBar)
         {
             _itemFactory = itemFactory;
             _eventAggregator = eventAggregator;

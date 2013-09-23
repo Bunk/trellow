@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Xml.Linq;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Tasks;
 using trello.ViewModels.Boards;
@@ -24,12 +22,7 @@ namespace trello.ViewModels
 
         private static string ReadFromAppManifest()
         {
-            var manifest = XElement.Load("WMAppManifest.xml");
-            var appNode = manifest.Elements("App").FirstOrDefault();
-            if (appNode == null) return null;
-
-            var attr = appNode.Attribute("Version");
-            return attr == null ? null : attr.Value;
+            return AppVersion.Current.Match(version => version.ToString(4), () => null);
         }
 
         [UsedImplicitly]

@@ -140,6 +140,7 @@
     <Compile Include="Extensions\ItemsControlExtensions.cs" />
     <Compile Include="Extensions\LinqToVisualTree.cs" />
     <Compile Include="Extensions\MayExtensions.cs" />
+    <Compile Include="Extensions\NavigationExtensions.cs" />
     <Compile Include="Extensions\SimpleContainerExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\UIElementExtensions.cs" />
@@ -205,6 +206,7 @@
     <Compile Include="Services\Cache\InMemoryCache.cs" />
     <Compile Include="Services\Stages\ProgressIndicatorStage.cs" />
     <Compile Include="SuppressNotificationScope.cs" />
+    <Compile Include="AppVersion.cs" />
     <Compile Include="ViewModels\AboutViewModel.cs" />
     <Compile Include="ViewModels\Activities\ActivityViewModel.cs" />
     <Compile Include="Extensions\AppBarExtensions.cs" />
@@ -220,6 +222,8 @@
     <Compile Include="ViewModels\Cards\MoveCardToBoardViewModel.cs" />
     <Compile Include="ViewModels\Cards\ChangeCardDescriptionViewModel.cs" />
     <Compile Include="ViewModels\Checklists\RenameChecklistViewModel.cs" />
+    <Compile Include="ViewModels\Help\ReleaseNoteViewModel.cs" />
+    <Compile Include="ViewModels\Help\ReleaseNotesViewModel.cs" />
     <Compile Include="ViewModels\LabelViewModel.cs" />
     <Compile Include="ViewModels\MyNotificationsViewModel.cs" />
     <Compile Include="ViewModels\MyBoardsViewModel.cs" />
@@ -296,6 +300,12 @@
     </Compile>
     <Compile Include="Views\Checklists\RenameChecklistView.xaml.cs">
       <DependentUpon>RenameChecklistView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Help\ReleaseNotesView.xaml.cs">
+      <DependentUpon>ReleaseNotesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Help\ReleaseNoteView.xaml.cs">
+      <DependentUpon>ReleaseNoteView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MyBoardsView.xaml.cs">
       <DependentUpon>MyBoardsView.xaml</DependentUpon>
@@ -422,6 +432,7 @@
     <Content Include="SampleData\members\me-boards.json" />
     <Content Include="SampleData\members\me-cards.json" />
     <Content Include="SampleData\members\me-notifications.json" />
+    <Content Include="ReleaseNotes.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\AlignmentGrid.png" />
@@ -674,6 +685,14 @@
     <Page Include="Views\Checklists\RenameChecklistView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Help\ReleaseNotesView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Help\ReleaseNoteView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MyBoardsView.xaml">
       <SubType>Designer</SubType>

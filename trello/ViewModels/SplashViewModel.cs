@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using JetBrains.Annotations;
 using Microsoft.Phone.Controls;
+using Strilanc.Value;
 using trello.Services;
+using trello.ViewModels.Help;
 using trello.Views;
 using trellow.api;
 using trellow.api.Data.Services;
@@ -19,6 +22,7 @@ namespace trello.ViewModels
         private readonly ITrello _api;
         private string _status;
 
+        [UsedImplicitly]
         public string Status
         {
             get { return _status; }
@@ -38,7 +42,30 @@ namespace trello.ViewModels
             _api = api;
         }
 
-        protected override async void OnViewLoaded(object view)
+        protected override async void OnActivate()
+        {
+            var previous = AppVersion.GetPreviousVersion();
+            var current = AppVersion.Current;
+            var versions = (from prev in previous
+                            from curr in current
+                            select new {prev, curr});
+
+            var shouldShowReleaseNotes = versions.Match(x => x.prev < x.curr, () => true);
+            if (shouldShowReleaseNotes)
+            {
+                _navigationService
+                    .UriFor<ReleaseNotesViewModel>()
+                    .WithParam(model => model.MinimumVersion, previous.Match(v => v.ToString(), () => null))
+                    .WithParam(model => model.MaximumVersion, current.Match(v => v.ToString(), () => null))
+                    .Navigate();
+            }
+            else
+            {
+                await HandleLogin();
+            }
+        }
+
+        private async Task HandleLogin()
         {
             Status = "Loading...";
 

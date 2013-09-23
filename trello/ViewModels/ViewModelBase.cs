@@ -1,80 +1,35 @@
-using System;
-using System.Windows;
+using System.ComponentModel;
 using Caliburn.Micro;
-using Microsoft.Phone.Shell;
-using trellow.api;
+using trello.Services;
 using JetBrains.Annotations;
 
 namespace trello.ViewModels
 {
     public abstract class ViewModelBase : Screen
     {
-        protected readonly ITrelloApiSettings Settings;
-        protected readonly INavigationService Navigation;
-        protected ApplicationBar _appBar;
-
         [UsedImplicitly]
-        public ApplicationBar AppBar
-        {
-            get { return _appBar; }
-            set
-            {
-                _appBar = value;
-                NotifyOfPropertyChange(() => AppBar);
-            }
-        }
+        public IApplicationBar AppBar { get; private set; }
 
-        protected ViewModelBase(ITrelloApiSettings settings, INavigationService navigation)
+        protected ViewModelBase(IApplicationBar applicationBar)
         {
-            Settings = settings;
-            Navigation = navigation;
+            AppBar = applicationBar;
         }
 
         protected override void OnActivate()
         {
+            AppBar.PropertyChanged += ApplicationBarUpdated;
             base.OnActivate();
-
-            var appbar = BuildDefaultAppBar();
-
-//            var screen = this as IConfigureTheAppBar;
-//            if (screen != null)
-//            {
-//                appbar = screen.Configure(appbar);
-//            }
-
-            AppBar = appbar;
         }
 
-        protected virtual ApplicationBar BuildDefaultAppBar()
+        protected override void OnDeactivate(bool close)
         {
-            var bar = new ApplicationBar {IsVisible = true, IsMenuEnabled = true, Opacity = 1};
-
-            var accountSettings = new ApplicationBarMenuItem("profile");
-            accountSettings.Click += (sender, args) => OpenProfile();
-            bar.MenuItems.Add(accountSettings);
-
-            var signout = new ApplicationBarMenuItem("sign out");
-            signout.Click += (sender, args) => SignOut();
-            bar.MenuItems.Add(signout);
-
-            return bar;
+            base.OnDeactivate(close);
+            AppBar.PropertyChanged -= ApplicationBarUpdated;
         }
 
-        private void OpenProfile()
+        private void ApplicationBarUpdated(object sender, PropertyChangedEventArgs args)
         {
-            Navigation.UriFor<ProfileViewModel>().Navigate();
-        }
-
-        private void SignOut()
-        {
-            var result = MessageBox.Show(
-                "All cached data will be removed from your phone and must be loaded again next time you sign in.\n\n" +
-                "Do you really want to sign out?",
-                "confirm sign out", MessageBoxButton.OKCancel);
-            if (result != MessageBoxResult.OK) return;
-
-            Settings.AccessToken = null;
-            Navigation.Navigate(new Uri("/Views/SplashView.xaml", UriKind.Relative));
+            NotifyOfPropertyChange(() => AppBar.Instance);
         }
     }
 }

@@ -21,26 +21,11 @@ namespace trello.Extensions
                                                                     Assembly assembly = null,
                                                                     Func<Type, bool> filter = null)
         {
-            if (assembly == null)
-                assembly = Assembly.GetExecutingAssembly();
-
-            if (filter == null)
-                filter = type => true;
-
-            var serviceType = typeof (TService);
-            var matching = assembly.GetTypes().Where(type =>
+            return AllTypesOf<TService>(container, type =>
             {
-                if (serviceType.IsAssignableFrom(type) && !type.IsAbstract && !type.IsInterface)
-                    return filter(type);
-
-                return false;
-            });
-            foreach (var implementation in matching)
-            {
-                container.RegisterPerRequest(typeof (TService), null, implementation);
-                container.RegisterPerRequest(implementation, null, implementation);
-            }
-            return container;
+                container.RegisterPerRequest(typeof (TService), null, type);
+                container.RegisterPerRequest(type, null, type);
+            }, filter, assembly);
         }
 
         public static SimpleContainer AllSingletonTypesOf<TService>(this SimpleContainer container,
@@ -51,7 +36,7 @@ namespace trello.Extensions
             {
                 container.RegisterSingleton(typeof (TService), null, type);
                 container.RegisterSingleton(type, null, type);
-            }, assembly, filter);
+            }, filter, assembly);
         }
 
         public static SimpleContainer InstantiateInstancesOf<TService>(this SimpleContainer container)
@@ -59,10 +44,27 @@ namespace trello.Extensions
             return AllTypesOf<TService>(container, type => container.GetInstance(type, null));
         }
 
-        private static SimpleContainer AllTypesOf<TService>(this SimpleContainer container,
+        public static SimpleContainer AllTypesOf<TService>(this SimpleContainer container,
                                                             Action<Type> register,
-                                                            Assembly assembly = null,
-                                                            Func<Type, bool> filter = null)
+            Func<Type, bool> filter = null,
+                                                            Assembly assembly = null)
+        {
+            var abstractType = typeof (TService);
+            var augmentedFilter = new Func<Type, bool>(type =>
+            {
+                if (abstractType.IsAssignableFrom(type))
+                {
+                    return filter == null || filter(type);
+                }
+                return false;
+            });
+            return AllTypesWhere(container, augmentedFilter, register, assembly);
+        }
+
+        public static SimpleContainer AllTypesWhere(this SimpleContainer container, 
+            Func<Type, bool> filter,
+            Action<Type> register, 
+            Assembly assembly = null)
         {
             if (assembly == null)
                 assembly = Assembly.GetExecutingAssembly();
@@ -70,10 +72,9 @@ namespace trello.Extensions
             if (filter == null)
                 filter = type => true;
 
-            var abstractType = typeof(TService);
             var matching = assembly.GetTypes().Where(type =>
             {
-                if (abstractType.IsAssignableFrom(type) && !type.IsAbstract && !type.IsInterface)
+                if (!type.IsAbstract && !type.IsInterface)
                     return filter(type);
 
                 return false;
@@ -83,6 +84,11 @@ namespace trello.Extensions
                 register(implementation);
             }
             return container;
+        }
+
+        public static bool InNamespace(this Type type, string name)
+        {
+            return type.Namespace != null && type.Namespace.StartsWith(name);
         }
     }
 }

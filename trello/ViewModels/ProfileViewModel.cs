@@ -2,6 +2,7 @@
 using JetBrains.Annotations;
 using Microsoft.Phone.Tasks;
 using trello.Extensions;
+using trello.Services;
 using trellow.api;
 using trellow.api.Members;
 
@@ -77,10 +78,7 @@ namespace trello.ViewModels
             }
         }
 
-        public ProfileViewModel(ITrello api,
-                                ITrelloApiSettings settings,
-                                INavigationService navigation,
-                                IEventAggregator eventAggregator) : base(settings, navigation)
+        public ProfileViewModel(IApplicationBar applicationBar, ITrello api, IEventAggregator eventAggregator) : base(applicationBar)
         {
             _api = api;
             _eventAggregator = eventAggregator;

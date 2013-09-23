@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using Microsoft.Phone.Shell;
 using trello.Extensions;
 using trello.ViewModels;
+using trello.ViewModels.Help;
 using trellow.api;
 
 namespace trello.Services
@@ -96,6 +97,7 @@ namespace trello.Services
                     bar.AddMenuItem("profile", OpenProfile);
                     bar.AddMenuItem("sign out", SignOut);
                     bar.AddMenuItem("about", About);
+                    bar.AddMenuItem("release notes", ReleaseNotes);
                 });
 
             action(builder);
@@ -124,5 +126,13 @@ namespace trello.Services
             _settings.AccessToken = null;
             _navigation.UriFor<SplashViewModel>().Navigate();
         } 
+
+        private void ReleaseNotes()
+        {
+            _navigation.UriFor<ReleaseNotesViewModel>()
+                .WithParam(model => model.MinimumVersion, null)
+                .WithParam(model => model.MaximumVersion, null)
+                .Navigate();
+        }
     }
 }

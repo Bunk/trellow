@@ -7,7 +7,7 @@ using trello.Services;
 
 namespace trello.ViewModels
 {
-    public interface INeedApplicationBar<T> where T : class
+    public interface INeedApplicationBar<out T> where T : class
     {
         /// <summary>
         /// Binds the given application bar to this screen instance.
