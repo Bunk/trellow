@@ -5,18 +5,18 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4211725E-1F26-45B3-8695-1124F065BCEA}</ProjectGuid>
+    <ProjectGuid>{64975F7F-AE96-441F-9332-8A48BFCCC537}</ProjectGuid>
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>trellow.api</RootNamespace>
-    <AssemblyName>trellow.api</AssemblyName>
-    <TargetFrameworkIdentifier>WindowsPhone</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
+    <RootNamespace>Trellow.Api</RootNamespace>
+    <AssemblyName>Trellow.Api</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <TargetFrameworkProfile>WindowsPhone71</TargetFrameworkProfile>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
     <SilverlightApplication>false</SilverlightApplication>
     <ValidateXaml>true</ValidateXaml>
-    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -42,78 +42,44 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>Bin\x86\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
-    <NoStdLib>true</NoStdLib>
-    <NoConfig>true</NoConfig>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>Bin\x86\Release</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
-    <NoStdLib>true</NoStdLib>
-    <NoConfig>true</NoConfig>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|ARM' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>Bin\ARM\Debug</OutputPath>
-    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
-    <NoStdLib>true</NoStdLib>
-    <NoConfig>true</NoConfig>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|ARM' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>Bin\ARM\Release</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
-    <NoStdLib>true</NoStdLib>
-    <NoConfig>true</NoConfig>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'local|AnyCPU'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\local\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'local|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\local\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'local|ARM'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\ARM\local\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
-    <NoStdLib>true</NoStdLib>
-    <DebugType>full</DebugType>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="JetBrains.Annotations">
+      <HintPath>..\packages\JetBrains.Annotations.7.0\lib\sl4-wp71\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="May">
+      <HintPath>..\packages\Strilanc.Value.May.1.0.2\lib\portable-net4+sl4+wp7+win8\May.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\sl4-windowsphone71\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\sl4-windowsphone71\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Phone">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\sl4-windowsphone71\Microsoft.Threading.Tasks.Extensions.Phone.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\portable-net40+sl4+wp7+win8\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp.WindowsPhone">
+      <HintPath>..\packages\RestSharp.104.1\lib\sl4-wp71\RestSharp.WindowsPhone.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.3\lib\sl4-windowsphone71\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.3\lib\sl4-windowsphone71\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.3\lib\sl4-windowsphone71\System.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Net" />
+    <Reference Include="mscorlib.extensions" />
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Actions\Action.cs" />
     <Compile Include="Actions\ActionType.cs" />
@@ -248,9 +214,9 @@
     <Compile Include="CheckItemWithState.cs" />
     <Compile Include="ChecklistName.cs" />
     <Compile Include="Checklists\CheckItem.cs" />
+    <Compile Include="Checklists\CheckItemId.cs" />
     <Compile Include="Checklists\Checklist.cs" />
     <Compile Include="Checklists\ChecklistId.cs" />
-    <Compile Include="Checklists\CheckItemId.cs" />
     <Compile Include="Checklists\IAsyncChecklists.cs" />
     <Compile Include="Checklists\ICheckItemId.cs" />
     <Compile Include="Checklists\IChecklistId.cs" />
@@ -267,11 +233,11 @@
     <Compile Include="Checklists\Internal\ChecklistsUpdateRequest.cs" />
     <Compile Include="Checklists\IUpdatableChecklist.cs" />
     <Compile Include="Data\INetworkService.cs" />
-    <Compile Include="Data\Services\TrelloCoordinator.cs" />
     <Compile Include="Data\IRequestPipeline.cs" />
     <Compile Include="Data\IRequestPipelineStage.cs" />
-    <Compile Include="Data\Stages\ResponseContext.cs" />
     <Compile Include="Data\Services\RestClientExtensions.cs" />
+    <Compile Include="Data\Services\TrelloCoordinator.cs" />
+    <Compile Include="Data\Stages\ResponseContext.cs" />
     <Compile Include="Expiration.cs" />
     <Compile Include="IAsyncTrello.cs" />
     <Compile Include="Internal\AsyncTrello.cs" />
@@ -279,10 +245,9 @@
     <Compile Include="Internal\EnumExtentions.cs" />
     <Compile Include="Internal\ExpirationExtentions.cs" />
     <Compile Include="Internal\Guard.cs" />
-    <Compile Include="Internal\OAuthRestClient.cs" />
-    <Compile Include="IRequestClient.cs" />
     <Compile Include="Internal\JsonCreationConverter.cs" />
     <Compile Include="Internal\MemberTokenAuthenticator.cs" />
+    <Compile Include="Internal\OAuthRestClient.cs" />
     <Compile Include="Internal\ReadFilter.cs" />
     <Compile Include="Internal\RestRequestExtensions.cs" />
     <Compile Include="Internal\ScopeExtensions.cs" />
@@ -290,6 +255,7 @@
     <Compile Include="Internal\TrelloEnumConverter.cs" />
     <Compile Include="Internal\TrelloRestClient.cs" />
     <Compile Include="IOAuth.cs" />
+    <Compile Include="IRequestClient.cs" />
     <Compile Include="ITrello.cs" />
     <Compile Include="ListName.cs" />
     <Compile Include="Lists\IAsyncLists.cs" />
@@ -386,28 +352,17 @@
     <Compile Include="TrelloUnauthorizedException.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="JetBrains.Annotations">
-      <HintPath>..\packages\JetBrains.Annotations.7.0\lib\sl3-wp\JetBrains.Annotations.dll</HintPath>
-    </Reference>
-    <Reference Include="May">
-      <HintPath>..\packages\Strilanc.Value.May.1.0.2\lib\portable-net4+sl4+wp7+win8\May.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Phone.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\portable-net45+wp80+win8\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="RestSharp.WindowsPhone">
-      <HintPath>..\packages\RestSharp.104.1\lib\sl4-wp71\RestSharp.WindowsPhone.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
   <ProjectExtensions />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

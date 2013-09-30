@@ -158,7 +158,7 @@ namespace trellow.api.Internal
                 throw new TrelloException(response.Content, response.StatusCode);
         }
 
-        private static OAuthToken BuildOAuthToken(IReadOnlyDictionary<string, string> response)
+        private static OAuthToken BuildOAuthToken(IDictionary<string, string> response)
         {
             string token;
             string secret;
