@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
+  <App xmlns="" ProductID="{04bdda2f-530c-4ad9-af10-ee8b3aab64c1}" Title="Trellow" RuntimeType="Silverlight" Version="1.7.0.0" Genre="apps.normal" Author="JD Courtoy" Description="Trellow is a modern Trello client designed for a Windows Phone device.  No matter how large your life is, Trello will help you keep it organized and on track." Publisher="Bunkinations">
+    <IconPath IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</IconPath>
+    <Capabilities>
+      <Capability Name="ID_CAP_IDENTITY_DEVICE" />
+      <Capability Name="ID_CAP_MEDIALIB" />
+      <Capability Name="ID_CAP_NETWORKING" />
+      <Capability Name="ID_CAP_SENSORS" />
+      <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
+    </Capabilities>
+    <Tasks>
+      <DefaultTask Name="_default" NavigationPage="Views/SplashView.xaml" />
+    </Tasks>
+    <Tokens>
+      <PrimaryToken TokenID="Trellow.WP71Token" TaskName="_default">
+        <TemplateType5>
+          <BackgroundImageURI IsRelative="true" IsResource="false">Assets\Tiles\FlipCycleTileMedium.png</BackgroundImageURI>
+          <Count>0</Count>
+          <Title>Trellow</Title>
+        </TemplateType5>
+      </PrimaryToken>
+    </Tokens>
+  </App>
+</Deployment>

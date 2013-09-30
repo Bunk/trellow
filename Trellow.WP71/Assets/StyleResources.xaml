@@ -1,0 +1,186 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit">
+	<Style x:Key="TransitionPageStyle" TargetType="phone:PhoneApplicationPage">
+		<Setter Property="toolkit:TransitionService.NavigationInTransition">
+            <Setter.Value>
+                <toolkit:NavigationInTransition>
+					<toolkit:NavigationInTransition.Backward>
+						<toolkit:TurnstileTransition Mode="BackwardIn"/>
+					</toolkit:NavigationInTransition.Backward>
+					<toolkit:NavigationInTransition.Forward>
+						<toolkit:TurnstileTransition Mode="ForwardIn"/>
+					</toolkit:NavigationInTransition.Forward>
+				</toolkit:NavigationInTransition>
+			</Setter.Value>
+        </Setter>
+        <Setter Property="toolkit:TransitionService.NavigationOutTransition">
+            <Setter.Value>
+                <toolkit:NavigationOutTransition>
+					<toolkit:NavigationOutTransition.Backward>
+						<toolkit:TurnstileTransition Mode="BackwardOut"/>
+					</toolkit:NavigationOutTransition.Backward>
+					<toolkit:NavigationOutTransition.Forward>
+						<toolkit:TurnstileTransition Mode="ForwardOut"/>
+					</toolkit:NavigationOutTransition.Forward>
+				</toolkit:NavigationOutTransition>
+			</Setter.Value>
+        </Setter>
+	</Style>
+	<Style x:Key="TransitionCardStyle" TargetType="phone:PhoneApplicationPage">
+		<Setter Property="toolkit:TransitionService.NavigationInTransition">
+            <Setter.Value>
+                <toolkit:NavigationInTransition>
+					<toolkit:NavigationInTransition.Backward>
+						<toolkit:SwivelTransition Mode="BackwardIn"/>
+					</toolkit:NavigationInTransition.Backward>
+					<toolkit:NavigationInTransition.Forward>
+						<toolkit:SwivelTransition Mode="ForwardIn"/>
+					</toolkit:NavigationInTransition.Forward>
+				</toolkit:NavigationInTransition>
+			</Setter.Value>
+        </Setter>
+        <Setter Property="toolkit:TransitionService.NavigationOutTransition">
+            <Setter.Value>
+                <toolkit:NavigationOutTransition>
+					<toolkit:NavigationOutTransition.Backward>
+						<toolkit:SwivelTransition Mode="BackwardOut"/>
+					</toolkit:NavigationOutTransition.Backward>
+					<toolkit:NavigationOutTransition.Forward>
+						<toolkit:SwivelTransition Mode="ForwardOut"/>
+					</toolkit:NavigationOutTransition.Forward>
+				</toolkit:NavigationOutTransition>
+			</Setter.Value>
+        </Setter>
+	</Style>
+	<Style x:Key="BadgeBorder" TargetType="Border">
+		<Setter Property="CornerRadius" Value="5"/>
+		<Setter Property="BorderThickness" Value="1"/>
+		<Setter Property="Padding" Value="0,0,5,0" />
+		<Setter Property="Margin" Value="0,0,10,10" />
+		<Setter Property="TextElement.FontSize" Value="15" />
+		<Setter Property="TextElement.Foreground" Value="{StaticResource PhoneForegroundBrush}" />
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="#19FFFFFF"></SolidColorBrush>
+            </Setter.Value>
+        </Setter>
+		<Setter Property="Height" Value="28" />
+	</Style>
+	<Style x:Key="ChecklistProgressBar" TargetType="ProgressBar">
+		<Setter Property="Foreground" Value="{StaticResource PhoneAccentBrush}"/>
+        <Setter Property="Background">
+            <Setter.Value>
+                <SolidColorBrush Color="#19FFFFFF"></SolidColorBrush>
+            </Setter.Value>
+        </Setter>
+		<Setter Property="Maximum" Value="100"/>
+		<Setter Property="IsHitTestVisible" Value="False"/>
+		<Setter Property="Padding" Value="{StaticResource PhoneHorizontalMargin}"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="ProgressBar">
+					<Grid>
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Determinate"/>
+								<VisualState x:Name="Indeterminate">
+									<Storyboard Duration="00:00:00" RepeatBehavior="Forever">
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="IndeterminateRoot">
+											<DiscreteObjectKeyFrame KeyTime="0">
+												<DiscreteObjectKeyFrame.Value>
+													<Visibility>Visible</Visibility>
+												</DiscreteObjectKeyFrame.Value>
+											</DiscreteObjectKeyFrame>
+										</ObjectAnimationUsingKeyFrames>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="DeterminateRoot">
+											<DiscreteObjectKeyFrame KeyTime="0">
+												<DiscreteObjectKeyFrame.Value>
+													<Visibility>Collapsed</Visibility>
+												</DiscreteObjectKeyFrame.Value>
+											</DiscreteObjectKeyFrame>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<Grid x:Name="DeterminateRoot" Margin="{TemplateBinding Padding}" Visibility="Visible">
+							<Rectangle x:Name="ProgressBarTrack" Fill="{TemplateBinding Background}" Height="7"/>
+							<Rectangle x:Name="ProgressBarIndicator" Fill="{TemplateBinding Foreground}" HorizontalAlignment="Left" Height="7"/>
+						</Grid>
+						<Border x:Name="IndeterminateRoot" Margin="{TemplateBinding Padding}" Visibility="Collapsed">
+							<Grid x:Name="SliderContainer" IsHitTestVisible="False">
+								<Rectangle x:Name="Slider0" CacheMode="BitmapCache" Fill="{TemplateBinding Foreground}" HorizontalAlignment="Left" Height="4" Width="4"/>
+								<Rectangle x:Name="Slider1" CacheMode="BitmapCache" Fill="{TemplateBinding Foreground}" HorizontalAlignment="Left" Height="4" Width="4"/>
+								<Rectangle x:Name="Slider2" CacheMode="BitmapCache" Fill="{TemplateBinding Foreground}" HorizontalAlignment="Left" Height="4" Width="4"/>
+								<Rectangle x:Name="Slider3" CacheMode="BitmapCache" Fill="{TemplateBinding Foreground}" HorizontalAlignment="Left" Height="4" Width="4"/>
+								<Rectangle x:Name="Slider4" CacheMode="BitmapCache" Fill="{TemplateBinding Foreground}" HorizontalAlignment="Left" Height="4" Width="4"/>
+							</Grid>
+						</Border>
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="CheckboxChecked" TargetType="TextBlock">
+		<Setter Property="Foreground" Value="{StaticResource PhoneSubtleBrush}" />
+	</Style>
+	<Style x:Key="ComponentBorder" TargetType="Border">
+		<Setter Property="BorderBrush" Value="{StaticResource PhoneBorderBrush}" />
+		<Setter Property="Background" Value="{StaticResource PhoneChromeBrush}" />
+		<Setter Property="BorderThickness" Value="0" />
+		<Setter Property="CornerRadius" Value="5" />
+		<Setter Property="Margin" Value="0,0,0,12" />
+		<Setter Property="Padding" Value="0,5" />
+	</Style>
+	<Style x:Key="SimpleHyperlinkButtonStyle" TargetType="HyperlinkButton">
+		<Setter Property="Foreground" Value="{StaticResource PhoneAccentBrush}"/>
+		<Setter Property="Background" Value="Transparent"/>
+		<Setter Property="Padding" Value="0"/>
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="HyperlinkButton">
+					<Border Background="Transparent">
+						<VisualStateManager.VisualStateGroups>
+							<VisualStateGroup x:Name="CommonStates">
+								<VisualState x:Name="Normal"/>
+								<VisualState x:Name="MouseOver"/>
+								<VisualState x:Name="Pressed">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="TextElement">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneAccentBrush}"/>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+								<VisualState x:Name="Disabled">
+									<Storyboard>
+										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground" Storyboard.TargetName="TextElement">
+											<DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource PhoneDisabledBrush}"/>
+										</ObjectAnimationUsingKeyFrames>
+									</Storyboard>
+								</VisualState>
+							</VisualStateGroup>
+						</VisualStateManager.VisualStateGroups>
+						<Border Background="{TemplateBinding Background}" Margin="{StaticResource PhoneHorizontalMargin}" Padding="{TemplateBinding Padding}">
+							<TextBlock x:Name="TextElement" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Text="{TemplateBinding Content}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+						</Border>
+					</Border>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+
+	<Style x:Key="CheckmarkPath" TargetType="Path">
+		<Setter Property="Data" Value="M-150.204,626.126C-152.317,626.126 -154.429,626.126 -156.541,626.126 -167.642,633.42 -180.629,646.047 -189.668,657.238 -190.916,658.782 -192.945,662.362 -193.701,662.422 -194.041,662.448 -198.024,659.719 -198.614,659.297 -202.818,656.279 -205.779,653.709 -209.257,650.899 -211.248,652.172 -212.879,653.805 -214.153,655.797 -206.627,665.074 -200.283,675.534 -193.124,685.18 -181.491,665.11 -168.473,644.683 -152.796,629.006 -151.735,627.946 -149.817,626.933 -150.204,626.126z" />
+		<Setter Property="Stretch" Value="Uniform" />
+		<Setter Property="Fill" Value="#FF27AE60" />
+		<Setter Property="Width" Value="68" />
+		<Setter Property="Height" Value="68" />
+		<Setter Property="Margin" Value="0,0,0,0" />
+		<Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+	</Style>
+
+</ResourceDictionary>

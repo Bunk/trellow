@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="Trellow.Views.Cards.CardDetailAttachmentsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+	xmlns:cm="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+	xmlns:interactions="clr-namespace:Trellow.Interactions"
+	mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="480" d:DesignWidth="480">
+    
+    <Grid x:Name="LayoutRoot" Background="Transparent" Margin="12,0">
+		<Grid.RowDefinitions>
+			<RowDefinition />
+		</Grid.RowDefinitions>
+
+		<ListBox Grid.Row="0" ItemsSource="{Binding Attachments}" Visibility="{Binding Attachments.Count, Converter={StaticResource VisibilityConverter}}">
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<Grid Margin="0,15">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="100" />
+							<ColumnDefinition />
+						</Grid.ColumnDefinitions>
+
+						<i:Interaction.Triggers>
+							<interactions:GestureServiceTrigger Gesture="Tap">
+								<cm:ActionMessage MethodName="Launch" />
+							</interactions:GestureServiceTrigger>
+						</i:Interaction.Triggers>
+
+						<Border Grid.Column="0" Width="90" Height="70" Background="TRANSPARENT" CornerRadius="5" BorderBrush="Transparent" BorderThickness="10" HorizontalAlignment="Left">
+							<StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+								<TextBlock Text="{Binding Extension}" HorizontalAlignment="Center" VerticalAlignment="Center" FontFamily="{StaticResource PhoneFontFamilySemiBold}" FontSize="{StaticResource PhoneFontSizeMedium}" Foreground="{StaticResource PhoneSubtleBrush}" Visibility="{Binding PreviewUri, Converter={StaticResource VisibilityConverter}, ConverterParameter='true'}" />
+								<Image Width="70" Height="50" Visibility="{Binding PreviewUri, Converter={StaticResource VisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center">
+									<Image.Source>
+										<BitmapImage UriSource="{Binding PreviewUri}" />
+									</Image.Source>
+								</Image>
+							</StackPanel>
+						</Border>
+
+						<Grid Grid.Column="1">
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto" />
+								<RowDefinition Height="Auto" />
+							</Grid.RowDefinitions>
+
+							<TextBlock Grid.Row="0" Text="{Binding Name}" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeMediumLarge}" TextWrapping="Wrap" Foreground="{StaticResource PhoneForegroundBrush}"  />
+
+							<TextBlock Grid.Row="1" Foreground="{StaticResource PhoneSubtleBrush}">
+								<TextBlock.Inlines>
+									<Run Text="{Binding Date, StringFormat='\{0:d MMMM\} at \{0:h\:mm tt\}'}" />
+									<Run Text=" - " />
+									<Run Text="{Binding Bytes, Converter={StaticResource BytesStringConverter}}" />
+								</TextBlock.Inlines>
+							</TextBlock>
+						</Grid>
+					</Grid>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+
+		<TextBlock Grid.Row="0" Visibility="{Binding Attachments.Count, Converter={StaticResource VisibilityConverter}, ConverterParameter='true'}" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center">
+			There are no attachments for this card, yet.
+		</TextBlock>
+
+    </Grid>
+</UserControl>

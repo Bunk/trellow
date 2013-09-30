@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="Trellow.Views.MyBoardsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+    xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
+	xmlns:micro="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+	xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+	mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="480" d:DesignWidth="480">
+    
+    <Grid x:Name="LayoutRoot" Background="Transparent" d:DataContext="{Binding Source={StaticResource SampleDataSource}}">
+        <telerikPrimitives:RadDataBoundListBox x:Name="Boards"
+                                               Margin="12,0"
+                                               telerikCore:InteractionEffectManager.IsInteractionEnabled="True" ItemsSource="{Binding Boards}"
+											   micro:Message.Attach="[Event ItemTap] = [Action Open($eventArgs)]">
+            <telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="0,0,0,0" BorderBrush="#3291C8" Margin="0,15" Padding="10" Background="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+								<ColumnDefinition Width="48" />
+                            </Grid.ColumnDefinitions>
+							
+							<StackPanel>
+								<TextBlock Text="{Binding Name}" FontSize="{StaticResource PhoneFontSizeLarge}" Foreground="{StaticResource PhoneForegroundBrush}" FontFamily="{StaticResource PhoneFontFamilyLight}" />
+								<TextBlock Text="{Binding Desc}" Foreground="{StaticResource PhoneAccentBrush}" Visibility="{Binding Desc, Converter={StaticResource VisibilityConverter}}" FontFamily="{StaticResource PhoneFontFamilySemiBold}"
+										   toolkit:SlideInEffect.LineIndex="1" />
+								<TextBlock Text="{Binding Prefs}" Foreground="{StaticResource PhoneSubtleBrush}" Visibility="{Binding Prefs, Converter={StaticResource VisibilityConverter}}"
+										   toolkit:SlideInEffect.LineIndex="2" />
+							</StackPanel>
+                            
+							<Grid Grid.Column="1" Visibility="{Binding IsPinned, Converter={StaticResource VisibilityConverter}}" VerticalAlignment="Top" HorizontalAlignment="Center">
+								<Image Width="48" Height="48" Source="/Assets/Icons/dark/icon-pin-med.png" Visibility="{Binding IsPinned, Converter={StaticResource VisibilityConverter}}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+							</Grid>
+							
+						</Grid>
+                    </Border>
+                </DataTemplate>
+            </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
+        </telerikPrimitives:RadDataBoundListBox>
+
+    </Grid>
+</UserControl>

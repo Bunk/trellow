@@ -1,0 +1,19 @@
+﻿<Application
+    x:Class="Trellow.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:trellow="clr-namespace:Trellow">
+
+    <!--Application Resources-->
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Assets\StyleResources.xaml"/>
+                <ResourceDictionary Source="Assets\Converters.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <trellow:ApplicationBootstrapper x:Key="Bootstrapper" />
+        </ResourceDictionary>
+    </Application.Resources>
+
+</Application>

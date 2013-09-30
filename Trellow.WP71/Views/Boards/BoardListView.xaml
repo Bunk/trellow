@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="Trellow.Views.Boards.BoardListView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+	xmlns:cm="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+             xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+    xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
+             xmlns:micro="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+             xmlns:local="clr-namespace:Trellow.Views.Cards"
+             xmlns:interactions="clr-namespace:Trellow.Interactions"
+             mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="480" d:DesignWidth="480">
+    
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+		
+		<ItemsControl Name="Cards" Margin="12,0,12,0">
+			<ItemsControl.ItemTemplate>
+				<DataTemplate>
+					<Grid>
+						<Grid Name="MoveCues" VerticalAlignment="Center" Margin="15,0">
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition />
+								<ColumnDefinition />
+							</Grid.ColumnDefinitions>
+
+							<!-- Left Checkmark -->
+							<Canvas Grid.Column="0" Opacity="0">
+								<Path Style="{StaticResource CheckmarkPath}" Data="M-150.204,626.126C-152.317,626.126 -154.429,626.126 -156.541,626.126 -167.642,633.42 -180.629,646.047 -189.668,657.238 -190.916,658.782 -192.945,662.362 -193.701,662.422 -194.041,662.448 -198.024,659.719 -198.614,659.297 -202.818,656.279 -205.779,653.709 -209.257,650.899 -211.248,652.172 -212.879,653.805 -214.153,655.797 -206.627,665.074 -200.283,675.534 -193.124,685.18 -181.491,665.11 -168.473,644.683 -152.796,629.006 -151.735,627.946 -149.817,626.933 -150.204,626.126z" Stretch="Uniform" Fill="#FF27AE60" Width="68" Height="68" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+									<Path.RenderTransform>
+										<TransformGroup>
+											<TransformGroup.Children>
+												<ScaleTransform ScaleX=".3" ScaleY=".3" />
+												<TranslateTransform X="-15" Y="-5" />
+											</TransformGroup.Children>
+										</TransformGroup>
+									</Path.RenderTransform>
+								</Path>
+							</Canvas>
+							<!-- Left Arrow -->
+							<TextBlock Grid.Column="0" Opacity="0" Text="→" FontWeight="Bold" FontSize="35" HorizontalAlignment="Left" />
+
+							<!-- Right Checkmark -->
+							<Canvas Grid.Column="1" Opacity="0" HorizontalAlignment="Right">
+								<Path Style="{StaticResource CheckmarkPath}" Data="M-150.204,626.126C-152.317,626.126 -154.429,626.126 -156.541,626.126 -167.642,633.42 -180.629,646.047 -189.668,657.238 -190.916,658.782 -192.945,662.362 -193.701,662.422 -194.041,662.448 -198.024,659.719 -198.614,659.297 -202.818,656.279 -205.779,653.709 -209.257,650.899 -211.248,652.172 -212.879,653.805 -214.153,655.797 -206.627,665.074 -200.283,675.534 -193.124,685.18 -181.491,665.11 -168.473,644.683 -152.796,629.006 -151.735,627.946 -149.817,626.933 -150.204,626.126z" Stretch="Uniform" Fill="#FF27AE60" Width="68" Height="68" Margin="0,0,0,0" RenderTransformOrigin="0.5,0.5">
+									<Path.RenderTransform>
+										<TransformGroup>
+											<TransformGroup.Children>
+												<ScaleTransform ScaleX=".3" ScaleY=".3" />
+												<TranslateTransform X="-50" Y="-5" />
+											</TransformGroup.Children>
+										</TransformGroup>
+									</Path.RenderTransform>
+								</Path>
+							</Canvas>
+							<!-- Right Arrow -->
+							<TextBlock Grid.Column="1" Opacity="0" Text="←" FontWeight="Bold" FontSize="35" HorizontalAlignment="Right" />
+						</Grid>
+
+						<ContentControl cm:View.Model="{Binding}" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
+							<i:Interaction.Triggers>
+								<interactions:GestureServiceTrigger Gesture="Tap">
+									<cm:ActionMessage MethodName="Open" />
+								</interactions:GestureServiceTrigger>
+							</i:Interaction.Triggers>
+						</ContentControl>
+					</Grid>
+				</DataTemplate>
+			</ItemsControl.ItemTemplate>
+			<ItemsControl.Template>
+				<ControlTemplate TargetType="ItemsControl">
+					<ScrollViewer Name="ScrollViewer" ManipulationMode="Control">
+						<ItemsPresenter />
+					</ScrollViewer>
+				</ControlTemplate>
+			</ItemsControl.Template>
+		</ItemsControl>
+
+		<local:DragImage Name="DragImage" VerticalAlignment="Top" Visibility="Collapsed" />
+		
+    </Grid>
+</UserControl>

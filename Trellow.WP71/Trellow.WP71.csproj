@@ -1,0 +1,683 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{04BDDA2F-530C-4AD9-AF10-EE8B3AAB64C1}</ProjectGuid>
+    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Trellow</RootNamespace>
+    <AssemblyName>Trellow</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <TargetFrameworkProfile>WindowsPhone71</TargetFrameworkProfile>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <SilverlightApplication>true</SilverlightApplication>
+    <SupportedCultures>
+    </SupportedCultures>
+    <XapOutputs>true</XapOutputs>
+    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+    <XapFilename>Trellow.WP71.xap</XapFilename>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <SilverlightAppEntry>Trellow.App</SilverlightAppEntry>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WINDOWS_PHONE;WP7</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Caliburn.Micro">
+      <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\wp71\Caliburn.Micro.dll</HintPath>
+    </Reference>
+    <Reference Include="Caliburn.Micro.Extensions">
+      <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\wp71\Caliburn.Micro.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="JetBrains.Annotations">
+      <HintPath>..\packages\JetBrains.Annotations.7.0\lib\sl4-wp71\JetBrains.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="May">
+      <HintPath>..\packages\Strilanc.Value.May.1.0.2\lib\portable-net4+sl4+wp7+win8\May.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Phone" />
+    <Reference Include="Microsoft.Phone.Controls, Version=7.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=7.0.1.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\sl4-windowsphone71\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Phone.Interop" />
+    <Reference Include="Microsoft.Phone.Reactive" />
+    <Reference Include="Microsoft.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\sl4-windowsphone71\Microsoft.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\sl4-windowsphone71\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Phone">
+      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.16\lib\sl4-windowsphone71\Microsoft.Threading.Tasks.Extensions.Phone.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.5.0.6\lib\portable-net40+sl4+wp7+win8\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp.WindowsPhone">
+      <HintPath>..\packages\RestSharp.104.1\lib\sl4-wp71\RestSharp.WindowsPhone.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.3\lib\sl4-windowsphone71\System.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.15\lib\sl4-windowsphone71\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.15\lib\sl4-windowsphone71\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.15\lib\sl4-windowsphone71\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Observable" />
+    <Reference Include="System.Runtime">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.3\lib\sl4-windowsphone71\System.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks">
+      <HintPath>..\packages\Microsoft.Bcl.1.1.3\lib\sl4-windowsphone71\System.Threading.Tasks.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Interactivity, Version=3.8.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\wp71\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="mscorlib.extensions" />
+    <Reference Include="Telerik.Windows.Controls.DataVisualization, Version=2013.2.718.2040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWP\2013.2.718.2040\Telerik.Windows.Controls.DataVisualization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Controls.Primitives, Version=2013.2.718.2040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWP\2013.2.718.2040\Telerik.Windows.Controls.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Telerik.Windows.Core, Version=2013.2.718.2040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <HintPath>..\lib\RCWP\2013.2.718.2040\Telerik.Windows.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ApplicationBootstrapper.cs" />
+    <Compile Include="Assets\AssetUri.cs" />
+    <Compile Include="Caliburn.Micro\ApiConfiguration.cs" />
+    <Compile Include="Caliburn.Micro\EventHandlers.cs" />
+    <Compile Include="Caliburn.Micro\PhoneToolkitConventions.cs" />
+    <Compile Include="Caliburn.Micro\SimpleContainerExtensions.cs" />
+    <Compile Include="Caliburn.Micro\TelerikConventions.cs" />
+    <Compile Include="Interactions\DragHorizontalInteraction.cs" />
+    <Compile Include="Interactions\DragVerticalInteraction.cs" />
+    <Compile Include="Interactions\HoldCardInteraction.cs" />
+    <Compile Include="Interactions\PointIndex.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\UI\DefaultApplicationBar.cs" />
+    <Compile Include="Services\NetworkService.cs" />
+    <Compile Include="Services\NetworkStatusChanged.cs" />
+    <Compile Include="Services\UI\ProgressService.cs" />
+    <Compile Include="ViewModels\AboutViewModel.cs" />
+    <Compile Include="ViewModels\Activities\ActivityViewModel.cs" />
+    <Compile Include="ViewModels\AttachmentViewModel.cs" />
+    <Compile Include="ViewModels\Boards\AddCardViewModel.cs" />
+    <Compile Include="ViewModels\Boards\BoardListViewModel.cs" />
+    <Compile Include="ViewModels\Boards\BoardViewModel.cs" />
+    <Compile Include="ViewModels\Cards\AddChecklistViewModel.cs" />
+    <Compile Include="ViewModels\Cards\CardDetailAttachmentsViewModel.cs" />
+    <Compile Include="ViewModels\Cards\CardDetailChecklistViewModel.cs" />
+    <Compile Include="ViewModels\Cards\CardDetailMembersViewModel.cs" />
+    <Compile Include="ViewModels\Cards\CardDetailOverviewViewModel.cs" />
+    <Compile Include="ViewModels\Cards\CardDetailPivotViewModel.cs" />
+    <Compile Include="ViewModels\Cards\CardViewModel.cs" />
+    <Compile Include="ViewModels\Cards\ChangeCardDescriptionViewModel.cs" />
+    <Compile Include="ViewModels\Cards\ChangeCardDueViewModel.cs" />
+    <Compile Include="ViewModels\Cards\ChangeCardLabelsViewModel.cs" />
+    <Compile Include="ViewModels\Cards\ChangeCardNameViewModel.cs" />
+    <Compile Include="ViewModels\Cards\MoveCardToBoardViewModel.cs" />
+    <Compile Include="ViewModels\Checklists\ChecklistItemViewModel.cs" />
+    <Compile Include="ViewModels\Checklists\ChecklistViewModel.cs" />
+    <Compile Include="ViewModels\Checklists\RenameChecklistViewModel.cs" />
+    <Compile Include="ViewModels\DialogViewModel.cs" />
+    <Compile Include="ViewModels\Help\ReleaseNotesViewModel.cs" />
+    <Compile Include="ViewModels\Help\ReleaseNoteViewModel.cs" />
+    <Compile Include="ViewModels\LabelViewModel.cs" />
+    <Compile Include="ViewModels\MemberViewModel.cs" />
+    <Compile Include="ViewModels\MyBoardsViewModel.cs" />
+    <Compile Include="ViewModels\MyCardsViewModel.cs" />
+    <Compile Include="ViewModels\MyNotificationsViewModel.cs" />
+    <Compile Include="ViewModels\Notifications\AddedToBoardNotificationViewModel.cs" />
+    <Compile Include="ViewModels\Notifications\AddedToCardNotificationViewModel.cs" />
+    <Compile Include="ViewModels\Notifications\ChangeCardNotificationViewModel.cs" />
+    <Compile Include="ViewModels\Notifications\CloseBoardNotificationViewModel.cs" />
+    <Compile Include="ViewModels\Notifications\CommentCardNotificationViewModel.cs" />
+    <Compile Include="ViewModels\Notifications\MentionedOnCardNotificationViewModel.cs" />
+    <Compile Include="ViewModels\Notifications\NotificationViewModel.cs" />
+    <Compile Include="ViewModels\PivotFix.cs" />
+    <Compile Include="ViewModels\PivotViewModel.cs" />
+    <Compile Include="ViewModels\ProfileViewModel.cs" />
+    <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\SplashViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="Views\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Activities\ActivityView.xaml.cs">
+      <DependentUpon>ActivityView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Activities\CommentActivityView.xaml.cs">
+      <DependentUpon>CommentActivityView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Activities\SimpleActivityView.xaml.cs">
+      <DependentUpon>SimpleActivityView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Boards\AddCardView.xaml.cs">
+      <DependentUpon>AddCardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Boards\BoardListView.xaml.cs">
+      <DependentUpon>BoardListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Boards\BoardView.xaml.cs">
+      <DependentUpon>BoardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\AddChecklistView.xaml.cs">
+      <DependentUpon>AddChecklistView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\CardDetailAttachmentsView.xaml.cs">
+      <DependentUpon>CardDetailAttachmentsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\CardDetailChecklistView.xaml.cs">
+      <DependentUpon>CardDetailChecklistView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\CardDetailMembersView.xaml.cs">
+      <DependentUpon>CardDetailMembersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\CardDetailOverviewView.xaml.cs">
+      <DependentUpon>CardDetailOverviewView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\CardDetailPivotView.xaml.cs">
+      <DependentUpon>CardDetailPivotView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\CardView.xaml.cs">
+      <DependentUpon>CardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\ChangeCardDescriptionView.xaml.cs">
+      <DependentUpon>ChangeCardDescriptionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\ChangeCardDueView.xaml.cs">
+      <DependentUpon>ChangeCardDueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\ChangeCardLabelsView.xaml.cs">
+      <DependentUpon>ChangeCardLabelsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\ChangeCardNameView.xaml.cs">
+      <DependentUpon>ChangeCardNameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\DragImage.xaml.cs">
+      <DependentUpon>DragImage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Cards\MoveCardToBoardView.xaml.cs">
+      <DependentUpon>MoveCardToBoardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Checklists\ChecklistView.xaml.cs">
+      <DependentUpon>ChecklistView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Checklists\RenameChecklistView.xaml.cs">
+      <DependentUpon>RenameChecklistView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\DropShadowTextBlock.xaml.cs">
+      <DependentUpon>DropShadowTextBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\EditableTextBlock.xaml.cs">
+      <DependentUpon>EditableTextBlock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Help\ReleaseNotesView.xaml.cs">
+      <DependentUpon>ReleaseNotesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Help\ReleaseNoteView.xaml.cs">
+      <DependentUpon>ReleaseNoteView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MessageListView.xaml.cs">
+      <DependentUpon>MessageListView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MyBoardsView.xaml.cs">
+      <DependentUpon>MyBoardsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MyCardsView.xaml.cs">
+      <DependentUpon>MyCardsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MyNotificationsView.xaml.cs">
+      <DependentUpon>MyNotificationsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notifications\AddedToBoardNotificationView.xaml.cs">
+      <DependentUpon>AddedToBoardNotificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notifications\AddedToCardNotificationView.xaml.cs">
+      <DependentUpon>AddedToCardNotificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notifications\CardMovedNotificationView.xaml.cs">
+      <DependentUpon>CardMovedNotificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notifications\ChangeCardNotificationView.xaml.cs">
+      <DependentUpon>ChangeCardNotificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notifications\CloseBoardNotificationView.xaml.cs">
+      <DependentUpon>CloseBoardNotificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notifications\CommentCardNotificationView.xaml.cs">
+      <DependentUpon>CommentCardNotificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Notifications\MentionedOnCardNotificationView.xaml.cs">
+      <DependentUpon>MentionedOnCardNotificationView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ProfileView.xaml.cs">
+      <DependentUpon>ProfileView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShellView.xaml.cs">
+      <DependentUpon>ShellView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SplashView.xaml.cs">
+      <DependentUpon>SplashView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Interactions\GestureServiceTrigger.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+    <Page Include="Assets\Converters.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Assets\ThemeResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SplashView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ShellView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SettingsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ProfileView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Assets\StyleResources.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Notifications\MentionedOnCardNotificationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Notifications\CommentCardNotificationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Notifications\CloseBoardNotificationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Notifications\ChangeCardNotificationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Notifications\CardMovedNotificationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Notifications\AddedToCardNotificationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Notifications\AddedToBoardNotificationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MyNotificationsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MyCardsView.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MyBoardsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MessageListView.xaml">
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Help\ReleaseNoteView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Help\ReleaseNotesView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Controls\EditableTextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Controls\DropShadowTextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Checklists\RenameChecklistView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Checklists\ChecklistView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cards\MoveCardToBoardView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cards\DragImage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cards\ChangeCardNameView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cards\ChangeCardLabelsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cards\ChangeCardDueView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cards\ChangeCardDescriptionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cards\CardView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cards\CardDetailPivotView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cards\CardDetailOverviewView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cards\CardDetailMembersView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cards\CardDetailChecklistView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cards\CardDetailAttachmentsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Cards\AddChecklistView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Boards\BoardView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Boards\BoardListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Boards\AddCardView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Activities\SimpleActivityView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Activities\CommentActivityView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Activities\ActivityView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AboutView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="README_FIRST.txt" />
+    <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
+    <None Include="packages.config" />
+    <None Include="Properties\AppManifest.xml" />
+    <None Include="Properties\WMAppManifest.xml" />
+    <Content Include="Assets\AlignmentGrid.png" />
+    <Content Include="Assets\ApplicationIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Icons\dark\appbar.add.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.back.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.basecircle.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.cancel.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.check.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.close.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.delete.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.download.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.edit.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.favs.addto.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.favs.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.feature.camera.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.feature.comment.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.feature.email.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.feature.search.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.feature.settings.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.feature.video.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.folder.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.minus.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.new.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.next.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.overflowdots.png" />
+    <Content Include="Assets\Icons\dark\appbar.questionmark.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.refresh.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.save.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.share.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.stop.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.sync.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.transport.ff.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.transport.pause.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.transport.play.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.transport.rew.rest.png" />
+    <Content Include="Assets\Icons\dark\appbar.upload.rest.png" />
+    <Content Include="Assets\Icons\dark\icon-alert.png" />
+    <Content Include="Assets\Icons\dark\icon-arrow.png" />
+    <Content Include="Assets\Icons\dark\icon-attachment-med.png" />
+    <Content Include="Assets\Icons\dark\icon-attachment.png" />
+    <Content Include="Assets\Icons\dark\icon-board.png" />
+    <Content Include="Assets\Icons\dark\icon-cancel-med.png" />
+    <Content Include="Assets\Icons\dark\icon-card.png" />
+    <Content Include="Assets\Icons\dark\icon-check-med.png" />
+    <Content Include="Assets\Icons\dark\icon-check.png" />
+    <Content Include="Assets\Icons\dark\icon-clock-med.png" />
+    <Content Include="Assets\Icons\dark\icon-clock.png" />
+    <Content Include="Assets\Icons\dark\icon-close.png" />
+    <Content Include="Assets\Icons\dark\icon-cog.png" />
+    <Content Include="Assets\Icons\dark\icon-comment-med.png" />
+    <Content Include="Assets\Icons\dark\icon-comment.png" />
+    <Content Include="Assets\Icons\dark\icon-dot.png" />
+    <Content Include="Assets\Icons\dark\icon-download.png" />
+    <Content Include="Assets\Icons\dark\icon-filecabinet.png" />
+    <Content Include="Assets\Icons\dark\icon-info.png" />
+    <Content Include="Assets\Icons\dark\icon-kiwi.png" />
+    <Content Include="Assets\Icons\dark\icon-list.png" />
+    <Content Include="Assets\Icons\dark\icon-lock-color.png" />
+    <Content Include="Assets\Icons\dark\icon-locked.png" />
+    <Content Include="Assets\Icons\dark\icon-magifier.png" />
+    <Content Include="Assets\Icons\dark\icon-minus.png" />
+    <Content Include="Assets\Icons\dark\icon-pencil-med.png" />
+    <Content Include="Assets\Icons\dark\icon-pencil.png" />
+    <Content Include="Assets\Icons\dark\icon-people.png" />
+    <Content Include="Assets\Icons\dark\icon-person-plus.png" />
+    <Content Include="Assets\Icons\dark\icon-person.png" />
+    <Content Include="Assets\Icons\dark\icon-pin-med.png" />
+    <Content Include="Assets\Icons\dark\icon-play.png" />
+    <Content Include="Assets\Icons\dark\icon-plus.png" />
+    <Content Include="Assets\Icons\dark\icon-proceed-med.png" />
+    <Content Include="Assets\Icons\dark\icon-pushpin.png" />
+    <Content Include="Assets\Icons\dark\icon-replay.png" />
+    <Content Include="Assets\Icons\dark\icon-reverse.png" />
+    <Content Include="Assets\Icons\dark\icon-rocket.png" />
+    <Content Include="Assets\Icons\dark\icon-rss.png" />
+    <Content Include="Assets\Icons\dark\icon-save-med.png" />
+    <Content Include="Assets\Icons\dark\icon-tag-med.png" />
+    <Content Include="Assets\Icons\dark\icon-tag.png" />
+    <Content Include="Assets\Icons\dark\icon-trello.png" />
+    <Content Include="Assets\Icons\dark\icon-trophy.png" />
+    <Content Include="Assets\Icons\dark\icon-user-med.png" />
+    <Content Include="Assets\Icons\dark\icon-vote-med.png" />
+    <Content Include="Assets\Icons\dark\icon-vote.png" />
+    <Content Include="Assets\Icons\dark\icon-watch.png" />
+    <Content Include="Assets\Icons\fugue\lock.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Icons\light\appbar.add.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.back.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.basecircle.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.cancel.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.check.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.close.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.delete.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.download.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.edit.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.favs.addto.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.favs.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.feature.camera.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.feature.email.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.feature.search.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.feature.settings.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.feature.video.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.folder.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.minus.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.new.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.next.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.overflowdots.png" />
+    <Content Include="Assets\Icons\light\appbar.questionmark.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.refresh.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.save.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.share.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.stop.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.sync.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.transport.ff.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.transport.pause.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.transport.play.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.transport.rew.rest.png" />
+    <Content Include="Assets\Icons\light\appbar.upload.rest.png" />
+    <Content Include="Assets\Icons\lock.png" />
+    <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Tiles\FlipCycleTileMedium.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Tiles\FlipCycleTileSmall.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Tiles\IconicTileMediumLarge.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Tiles\IconicTileSmall.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ReleaseNotes.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ApplicationIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Background.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SplashScreenImage.jpg" />
+    <Content Include="SplashScreenImage.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Trello.Core\Trello.Core.csproj">
+      <Project>{6B3774E8-362C-4B82-ADDF-C9D1CAED00DB}</Project>
+      <Name>Trello.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Trellow.Api\Trellow.Api.csproj">
+      <Project>{64975F7F-AE96-441F-9332-8A48BFCCC537}</Project>
+      <Name>Trellow.Api</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.10\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+</Project>

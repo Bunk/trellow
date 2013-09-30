@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="Trellow.Views.MyCardsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+	xmlns:cm="clr-namespace:Caliburn.Micro;assembly=Caliburn.Micro"
+	xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives"
+    xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core"
+    xmlns:interactions="clr-namespace:Trellow.Interactions"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    d:DesignHeight="480" d:DesignWidth="480">
+    
+    <Grid x:Name="LayoutRoot" d:DataContext="{Binding Source={StaticResource SampleDataSource}}">
+		
+		<ScrollViewer>
+			<ItemsControl Margin="12,0,12,0" ItemsSource="{Binding Cards}">
+				<ItemsControl.Background>
+					<ImageBrush Stretch="Fill"/>
+				</ItemsControl.Background>
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<StackPanel Margin="0,0,0,45">
+							
+							<TextBlock Text="{Binding Key}" FontSize="{StaticResource PhoneFontSizeExtraLarge}" FontFamily="{StaticResource PhoneFontFamilyLight}" Foreground="{StaticResource PhoneForegroundBrush}" />
+
+							<Border Margin="25,0,0,0" BorderThickness="0,0,0,0" BorderBrush="{StaticResource PhoneSubtleBrush}">
+							
+								<ItemsControl ItemsSource="{Binding}" Margin="10,0,0,0">
+									<ItemsControl.ItemTemplate>
+										<DataTemplate>
+											<StackPanel>
+												<ContentControl cm:View.Model="{Binding}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+													<i:Interaction.Triggers>
+														<interactions:GestureServiceTrigger Gesture="Tap">
+															<cm:ActionMessage MethodName="Open" />
+														</interactions:GestureServiceTrigger>
+													</i:Interaction.Triggers>
+												</ContentControl>
+											</StackPanel>
+										</DataTemplate>
+									</ItemsControl.ItemTemplate>
+								</ItemsControl>
+
+							</Border>
+						</StackPanel>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+
+    </Grid>
+</UserControl>
